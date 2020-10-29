@@ -48,8 +48,8 @@
 #include "geom.h"
 #include "ents.h"
 #include "command.h"
-#include "world/world.h"
-#include "world/octa.h"
+#include "world.h"
+#include "octa.h"
 
 #include "glexts.h"
 #include "glemu.h"
