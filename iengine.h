@@ -35,6 +35,10 @@ struct vslotmap;
 struct prefab;
 
 // control
+
+extern bool inbetweenframes = false,
+            renderedframe = true;
+
 extern void fatal(const char *s, ...) PRINTFARGS(1, 2);
 extern int getclockmillis();
 extern int initing;
