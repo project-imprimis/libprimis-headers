@@ -36,8 +36,8 @@ struct prefab;
 
 // control
 
-extern bool inbetweenframes = false,
-            renderedframe = true;
+extern bool inbetweenframes,
+            renderedframe;
 
 extern void fatal(const char *s, ...) PRINTFARGS(1, 2);
 extern int getclockmillis();
