@@ -388,6 +388,7 @@ extern int lasttexmillis;
 extern int curtexindex;
 extern int moving, orient;
 extern bool editmode;
+extern int entmoving;
 extern int entediting;
 extern selinfo sel, lastsel, savedsel;
 extern vector<vslotmap> unpackingvslots;
