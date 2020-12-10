@@ -6,10 +6,6 @@
  * header which should be included in the game code.
  */
 
-extern int curtime;                     // current frame time
-extern int lastmillis;                  // last time
-extern int elapsedtime;                 // elapsed frame time
-extern int totalmillis;                 // total elapsed time
 extern uint totalsecs;
 extern int gamespeed, paused;
 extern vector<int> entgroup;
@@ -21,8 +17,6 @@ extern bool settexture(const char *name, int clamp = 0);
 extern int xtraverts, xtravertsva;
 extern SDL_Window *screen;
 
-extern dynent *player;
-
 //forward object declarations (used in some functions below)
 struct DecalSlot;
 struct VSlot;
@@ -33,16 +27,6 @@ struct undolist;
 struct undoblock;
 struct vslotmap;
 struct prefab;
-
-// control
-
-extern bool inbetweenframes,
-            renderedframe;
-
-extern void fatal(const char *s, ...) PRINTFARGS(1, 2);
-extern int getclockmillis();
-extern int initing;
-extern int scr_w, scr_h;
 
 // ragdoll
 
@@ -62,6 +46,7 @@ extern void answerchallenge(const char *privstr, const char *challenge, vector<c
  *                                                                              *
  * command.cpp                                                                  *
  * console.cpp                                                                  *
+ * control.cpp                                                                  *
  * input.cpp                                                                    *
  * menus.cpp                                                                    *
  * sound.cpp                                                                    *
@@ -118,6 +103,22 @@ extern void conoutf(int type, const char *s, ...) PRINTFARGS(2, 3);
 extern void logoutf(const char *fmt, ...) PRINTFARGS(1, 2);
 extern void logoutfv(const char *fmt, va_list args);
 extern void clear_console();
+
+// control
+extern int curtime;                     // current frame time
+extern int lastmillis;                  // last time
+extern int elapsedtime;                 // elapsed frame time
+extern int totalmillis;                 // total elapsed time
+
+extern dynent *player;
+extern bool inbetweenframes,
+            renderedframe;
+
+extern void fatal(const char *s, ...) PRINTFARGS(1, 2);
+extern int getclockmillis();
+extern int initing;
+extern int scr_w, scr_h;
+
 
 // input
 
