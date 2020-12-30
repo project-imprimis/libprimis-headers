@@ -100,8 +100,6 @@ extern void clear_command();
 
 extern void conoutf(const char *s, ...) PRINTFARGS(1, 2);
 extern void conoutf(int type, const char *s, ...) PRINTFARGS(2, 3);
-extern void logoutf(const char *fmt, ...) PRINTFARGS(1, 2);
-extern void logoutfv(const char *fmt, va_list args);
 extern void clear_console();
 
 // control
@@ -109,6 +107,10 @@ extern int curtime;                     // current frame time
 extern int lastmillis;                  // last time
 extern int elapsedtime;                 // elapsed frame time
 extern int totalmillis;                 // total elapsed time
+extern FILE *logfile;
+
+FILE *getlogfile();
+void logoutf(const char *fmt, ...);
 
 extern dynent *player;
 extern bool inbetweenframes,
