@@ -232,12 +232,14 @@ extern void resethudshader();
 extern void recomputecamera();
 extern void initgbuffer();
 extern void computezoom();
+extern void enablepolygonoffset(GLenum type);
+extern void disablepolygonoffset(GLenum type);
 
 extern void gl_checkextensions();
 extern void gl_init();
 extern void gl_resize();
 extern void gl_setupframe(bool force = false);
-extern void gl_drawframe(int crosshairindex, void (*gamefxn)(), void (*hudfxn)());
+extern void gl_drawframe(int crosshairindex, void (*gamefxn)(), void (*hudfxn)(), void (*editfxn)());
 
 // renderlights
 
@@ -360,6 +362,7 @@ extern void clearlightcache(int id = -1);
 extern void calclight();
 
 // material
+extern int showmat;
 
 extern int findmaterial(const char *name);
 
@@ -377,6 +380,11 @@ extern cube &lookupcube(const ivec &to, int tsize = 0, ivec &ro = lu, int &rsize
 
 // octaedit
 
+namespace hmap
+{
+    extern bool isheightmap(int o, int d, bool empty, cube *c);
+}
+
 extern bool allowediting;
 extern bool multiplayer;
 extern editinfo *localedit;
@@ -387,7 +395,7 @@ extern int reptex;
 extern int lasttex;
 extern int lasttexmillis;
 extern int curtexindex;
-extern int moving, orient;
+extern int moving, orient, horient;
 extern bool editmode;
 extern int entmoving;
 extern int entediting;
@@ -401,6 +409,21 @@ extern bool havesel;
 extern vector<editinfo *> editinfos;
 extern int texpaneltimer;
 extern hashnameset<prefab> prefabs;
+extern ivec cor, cur, lastcur, lastcor;
+extern int gridsize, gridlookup;
+extern int passthroughcube, passthroughsel;
+extern int outline;
+extern int dragging;
+extern int selectcorners;
+extern bool boxoutline;
+
+extern void boxs3D(const vec &o, vec s, int g);
+extern void boxs(int orient, vec o, const vec &s);
+extern void boxsgrid(int orient, vec o, vec s, int g);
+extern bool editmoveplane(const vec &o, const vec &ray, int d, float off, vec &handle, vec &dest, bool first);
+extern void countselchild(cube *c, const ivec &cor, int size);
+extern void normalizelookupcube(const ivec &o);
+extern void updateselection();
 
 extern int shouldpacktex(int index);
 extern bool packeditinfo(editinfo *e, int &inlen, uchar *&outbuf, int &outlen);
@@ -448,6 +471,7 @@ extern float raycube   (const vec &o, const vec &ray,     float radius = 0, int 
 extern float raycubepos(const vec &o, const vec &ray, vec &hit, float radius = 0, int mode = Ray_ClipMat, int size = 0);
 extern float rayfloor  (const vec &o, vec &floor, int mode = 0, float radius = 0);
 extern bool  raycubelos(const vec &o, const vec &dest, vec &hitpos);
+extern float rayent(const vec &o, const vec &ray, float radius, int mode, int size, int &orient, int &ent);
 extern bool insideworld(const vec &o);
 
 // physics
