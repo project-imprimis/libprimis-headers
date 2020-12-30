@@ -1340,8 +1340,8 @@ struct vslotmap
 extern std::vector<int *> editingvslots;
 struct vslotref
 {
-    vslotref(int &index) { editingvslots.add(&index); }
-    ~vslotref() { editingvslots.pop(); }
+    vslotref(int &index) { editingvslots.push_back(&index); }
+    ~vslotref() { editingvslots.pop_back(); }
 };
 
 extern const texrotation texrotations[8];
