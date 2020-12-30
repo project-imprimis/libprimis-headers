@@ -1337,7 +1337,7 @@ struct vslotmap
     vslotmap(int index, VSlot *vslot) : index(index), vslot(vslot) {}
 };
 
-extern vector<int *> editingvslots;
+extern std::vector<int *> editingvslots;
 struct vslotref
 {
     vslotref(int &index) { editingvslots.add(&index); }

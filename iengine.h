@@ -273,7 +273,7 @@ extern void clear_models();
 
 extern std::vector<std::string> entnames;
 
-extern char * getentname(int i);
+extern const char * getentname(int i);
 extern void regular_particle_splash(int type, int num, int fade, const vec &p, int color = 0xFFFFFF, float size = 1.0f, int radius = 150, int gravity = 2, int delay = 0);
 extern void regular_particle_flame(int type, const vec &p, float radius, float height, int color, int density = 3, float scale = 2.0f, float speed = 200.0f, float fade = 600.0f, int gravity = -15);
 extern void particle_splash(int type, int num, int fade, const vec &p, int color = 0xFFFFFF, float size = 1.0f, int radius = 150, int gravity = 2);
@@ -408,7 +408,7 @@ extern undolist undos, redos;
 extern int nompedit;
 extern int hmapedit;
 extern bool havesel;
-extern vector<editinfo *> editinfos;
+extern std::vector<editinfo *> editinfos;
 extern int texpaneltimer;
 extern hashnameset<prefab> prefabs;
 extern ivec cor, cur, lastcur, lastcor;
