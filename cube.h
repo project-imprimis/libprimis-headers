@@ -13,6 +13,7 @@
 #include <cstdarg>
 #include <climits>
 #include <cfloat>
+#include <cmath>
 #include <cassert>
 #include <cstring>
 #include <ctime>
