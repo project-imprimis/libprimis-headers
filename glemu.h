@@ -13,7 +13,7 @@ namespace gle
         Attribute_NumAttributes = 8
     };
 
-    extern const char * const attribnames[Attribute_NumAttributes];
+    inline const char * const attribnames[Attribute_NumAttributes] = { "vvertex", "vcolor", "vtexcoord0", "vtexcoord1", "vnormal", "vtangent", "vboneweight", "vboneindex" };
     extern ucharbuf attribbuf;
 
     extern int enabled;
