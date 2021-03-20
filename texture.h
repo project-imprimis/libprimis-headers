@@ -1,3 +1,6 @@
+#ifndef TEXTURE_H_
+#define TEXTURE_H_
+
 struct GlobalShaderParamState
 {
     const char *name;
@@ -185,14 +188,14 @@ struct UniformLoc
     const char *name, *blockname;
     int loc, version, binding, stride, offset, size;
     void *data;
-    UniformLoc(const char *name = NULL, const char *blockname = NULL, int binding = -1, int stride = -1) : name(name), blockname(blockname), loc(-1), version(-1), binding(binding), stride(stride), offset(-1), size(-1), data(NULL) {}
+    UniformLoc(const char *name = nullptr, const char *blockname = nullptr, int binding = -1, int stride = -1) : name(name), blockname(blockname), loc(-1), version(-1), binding(binding), stride(stride), offset(-1), size(-1), data(nullptr) {}
 };
 
 struct AttribLoc
 {
     const char *name;
     int loc;
-    AttribLoc(const char *name = NULL, int loc = -1) : name(name), loc(loc) {}
+    AttribLoc(const char *name = nullptr, int loc = -1) : name(name), loc(loc) {}
 };
 
 struct FragDataLoc
@@ -201,7 +204,7 @@ struct FragDataLoc
     int loc;
     GLenum format;
     int index;
-    FragDataLoc(const char *name = NULL, int loc = -1, GLenum format = GL_FALSE, int index = 0) : name(name), loc(loc), format(format), index(index) {}
+    FragDataLoc(const char *name = nullptr, int loc = -1, GLenum format = GL_FALSE, int index = 0) : name(name), loc(loc), format(format), index(index) {}
 };
 
 struct Shader
@@ -225,7 +228,7 @@ struct Shader
     vector<FragDataLoc> fragdatalocs;
     const void *owner;
 
-    Shader() : name(NULL), vsstr(NULL), psstr(NULL), defer(NULL), type(Shader_Default), program(0), vsobj(0), psobj(0), variantshader(NULL), variantrows(NULL), standard(false), forced(false), used(false), reusevs(NULL), reuseps(NULL), owner(NULL)
+    Shader() : name(nullptr), vsstr(nullptr), psstr(nullptr), defer(nullptr), type(Shader_Default), program(0), vsobj(0), psobj(0), variantshader(nullptr), variantrows(nullptr), standard(false), forced(false), used(false), reusevs(nullptr), reuseps(nullptr), owner(nullptr)
     {
     }
 
@@ -238,12 +241,12 @@ struct Shader
         DELETEA(variantrows);
     }
 
-    void allocparams(Slot *slot = NULL);
+    void allocparams(Slot *slot = nullptr);
     void setslotparams(Slot &slot);
     void setslotparams(Slot &slot, VSlot &vslot);
     void bindprograms();
 
-    void flushparams(Slot *slot = NULL)
+    void flushparams(Slot *slot = nullptr)
     {
         if(!used)
         {
@@ -304,11 +307,11 @@ struct Shader
     {
         if(row < 0 || row >= maxvariantrows || col < 0 || !variantrows)
         {
-            return NULL;
+            return nullptr;
         }
         int start = variantrows[row],
             end = variantrows[row+1];
-        return col < end - start ? variants[start + col] : NULL;
+        return col < end - start ? variants[start + col] : nullptr;
     }
 
     void addvariant(int row, Shader *s)
@@ -336,7 +339,7 @@ struct Shader
         {
             int start = variantrows[row],
                 end   = variantrows[row+1];
-            for(col = min(start + col, end-1); col >= start; --col)
+            for(col = std::min(start + col, end-1); col >= start; --col)
             {
                 if(!variants[col]->invalid())
                 {
@@ -434,7 +437,7 @@ struct GlobalShaderParam
     const char *name;
     GlobalShaderParamState *param;
 
-    GlobalShaderParam(const char *name) : name(name), param(NULL) {}
+    GlobalShaderParam(const char *name) : name(name), param(nullptr) {}
 
     GlobalShaderParamState *resolve()
     {
@@ -548,7 +551,7 @@ struct LocalShaderParam
         Shader *s = Shader::lastshader;
         if(!s)
         {
-            return NULL;
+            return nullptr;
         }
         if(!s->localparamremap.inrange(loc))
         {
@@ -559,11 +562,11 @@ struct LocalShaderParam
             }
             if(!s->localparamremap.inrange(loc))
             {
-                return NULL;
+                return nullptr;
             }
         }
         uchar remap = s->localparamremap[loc];
-        return s->localparams.inrange(remap) ? &s->localparams[remap] : NULL;
+        return s->localparams.inrange(remap) ? &s->localparams[remap] : nullptr;
     }
 
     void setf(float x = 0, float y = 0, float z = 0, float w = 0)
@@ -891,13 +894,13 @@ struct LocalShaderParam
 
 #define SETSHADER(name, ...) \
     do { \
-        static Shader *name##shader = NULL; \
+        static Shader *name##shader = nullptr; \
         if(!name##shader) name##shader = lookupshaderbyname(#name); \
         name##shader->set(__VA_ARGS__); \
     } while(0)
 #define SETVARIANT(name, ...) \
     do { \
-        static Shader *name##shader = NULL; \
+        static Shader *name##shader = nullptr; \
         if(!name##shader) name##shader = lookupshaderbyname(#name); \
         name##shader->setvariant(__VA_ARGS__); \
     } while(0)
@@ -911,17 +914,17 @@ struct ImageData
     void (*freefunc)(void *);
 
     ImageData()
-        : data(NULL), owner(NULL), freefunc(NULL)
+        : data(nullptr), owner(nullptr), freefunc(nullptr)
     {}
 
 
     ImageData(int nw, int nh, int nbpp, int nlevels = 1, int nalign = 0, GLenum ncompressed = GL_FALSE)
     {
-        setdata(NULL, nw, nh, nbpp, nlevels, nalign, ncompressed);
+        setdata(nullptr, nw, nh, nbpp, nlevels, nalign, ncompressed);
     }
 
     ImageData(int nw, int nh, int nbpp, uchar *data)
-        : owner(NULL), freefunc(NULL)
+        : owner(nullptr), freefunc(nullptr)
     {
         setdata(data, nw, nh, nbpp);
     }
@@ -942,13 +945,13 @@ struct ImageData
         if(!ndata)
         {
             owner = this;
-            freefunc = NULL;
+            freefunc = nullptr;
         }
     }
 
     int calclevelsize(int level) const
     {
-        return ((max(w>>level, 1)+align-1)/align)*((max(h>>level, 1)+align-1)/align)*bpp;
+        return ((std::max(w>>level, 1)+align-1)/align)*((std::max(h>>level, 1)+align-1)/align)*bpp;
     }
 
     int calcsize() const
@@ -983,9 +986,9 @@ struct ImageData
 
     void disown()
     {
-        data = NULL;
-        owner = NULL;
-        freefunc = NULL;
+        data = nullptr;
+        owner = nullptr;
+        freefunc = nullptr;
     }
 
     void cleanup()
@@ -1048,7 +1051,7 @@ struct Texture
     GLuint id;
     uchar *alphamask;
 
-    Texture() : alphamask(NULL) {}
+    Texture() : alphamask(nullptr) {}
 };
 
 enum
@@ -1099,7 +1102,7 @@ struct VSlot
     float refractscale;
     vec refractcolor;
 
-    VSlot(Slot *slot = NULL, int index = -1) : slot(slot), next(NULL), index(index), changed(0)
+    VSlot(Slot *slot = nullptr, int index = -1) : slot(slot), next(nullptr), index(index), changed(0)
     {
         reset();
         if(slot)
@@ -1140,9 +1143,9 @@ struct Slot
 {
     enum
     {
-        OCTA,
-        MATERIAL,
-        DECAL
+        SlotType_Octa,
+        SlotType_Material,
+        SlotType_Decal
     };
 
     struct Tex
@@ -1152,7 +1155,7 @@ struct Slot
         string name;
         int combined;
 
-        Tex() : t(NULL), combined(-1) {}
+        Tex() : t(nullptr), combined(-1) {}
     };
 
     int index, smooth;
@@ -1165,12 +1168,12 @@ struct Slot
     char *grass;
     Texture *grasstex, *thumbnail;
 
-    Slot(int index = -1) : index(index), variants(NULL), grass(NULL) { reset(); }
+    Slot(int index = -1) : index(index), variants(nullptr), grass(nullptr) { reset(); }
     virtual ~Slot() {}
 
     virtual int type() const
     {
-        return OCTA;
+        return SlotType_Octa;
     }
 
     virtual const char *name() const;
@@ -1198,24 +1201,24 @@ struct Slot
     {
         smooth = -1;
         sts.setsize(0);
-        shader = NULL;
+        shader = nullptr;
         params.setsize(0);
         loaded = false;
         texmask = 0;
         DELETEA(grass);
-        grasstex = NULL;
-        thumbnail = NULL;
+        grasstex = nullptr;
+        thumbnail = nullptr;
     }
 
     void cleanup()
     {
         loaded = false;
-        grasstex = NULL;
-        thumbnail = NULL;
+        grasstex = nullptr;
+        thumbnail = nullptr;
         for(int i = 0; i < sts.length(); i++)
         {
             Tex &t = sts[i];
-            t.t = NULL;
+            t.t = nullptr;
             t.combined = -1;
         }
     }
@@ -1249,7 +1252,7 @@ struct MatSlot : Slot, VSlot
 
     int type() const
     {
-        return MATERIAL;
+        return SlotType_Material;
     }
     const char *name() const;
 
@@ -1284,7 +1287,7 @@ struct DecalSlot : Slot, VSlot
 
     int type() const
     {
-        return DECAL;
+        return SlotType_Decal;
     }
 
     const char *name() const;
@@ -1392,3 +1395,4 @@ extern DecalSlot dummydecalslot;
 extern vector<Slot *> slots;
 extern vector<VSlot *> vslots;
 
+#endif
