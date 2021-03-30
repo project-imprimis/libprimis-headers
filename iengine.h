@@ -415,6 +415,7 @@ extern cube &lookupcube(const ivec &to, int tsize = 0, ivec &ro = lu, int &rsize
 namespace hmap
 {
     extern bool isheightmap(int o, int d, bool empty, cube *c);
+    extern void run(int dir, int mode);
 }
 
 extern bool allowediting;
@@ -491,11 +492,6 @@ extern void pasteundoblock(block3 *b, uchar *g);
 extern bool uncompresseditinfo(const uchar *inbuf, int inlen, uchar *&outbuf, int &outlen);
 extern void unpackundocube(ucharbuf buf, uchar *outbuf);
 extern void multiplayerwarn();
-
-namespace hmap
-{
-    extern void run(int dir, int mode);
-}
 
 // raycube
 
