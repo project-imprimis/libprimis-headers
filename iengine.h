@@ -30,11 +30,41 @@ struct prefab;
 
 // ragdoll
 
+/**
+ * moveragdoll: update a ragdoll's physics
+ *
+ * moveragdoll takes a dynent pointer as an argument and updates its position & physics
+ * if the dynent pointed to does not have a valid ragdoll object as a member,
+ * nothing happens
+ */
 extern void moveragdoll(dynent *d);
+
+/**
+ * cleanragdoll: deletes the ragdoll associated with the passed dynent
+ *
+ * cleanragdoll takes a dynent pointer as an argument and removes the ragdoll
+ * if present
+ * if the dynent pointed to is not a ragdoll (no ragdoll object), nothing happens
+ */
 extern void cleanragdoll(dynent *d);
 
 // crypto
+
+/**
+ * genprivkey: given a seed value, creates a priv/pub key pair
+ *
+ * given a pair of references to the desired priv/pub key locations, and a seed,
+ * genprivkey() returns (in the form of changing the two references passed as arguments)
+ * a matching private/public key pair
+ */
 extern void genprivkey(const char *seed, vector<char> &privstr, vector<char> &pubstr);
+
+/**
+ * calcpubkey: verify a public key against a private key
+ *
+ * given a public key and private key, verify that the two keys make a matching pair
+ * returns true if the keys match, false otherwise
+ */
 extern bool calcpubkey(const char *privstr, vector<char> &pubstr);
 extern bool hashstring(const char *str, char *result, int maxlen);
 extern void answerchallenge(const char *privstr, const char *challenge, vector<char> &answerstr);
