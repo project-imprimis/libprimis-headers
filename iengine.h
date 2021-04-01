@@ -422,7 +422,7 @@ extern bool allowediting;
 extern bool multiplayer;
 extern editinfo *localedit;
 extern selinfo sel;
-extern vector<ushort> texmru;
+extern std::vector<ushort> texmru;
 extern selinfo repsel;
 extern int reptex;
 extern int lasttex;
