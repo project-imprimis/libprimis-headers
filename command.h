@@ -300,42 +300,42 @@ struct ident
 
     ident() {}
     // Id_Var
-    ident(int t, const char *n, int m, int x, int *s, void *f = NULL, int flags = 0)
+    ident(int t, const char *n, int m, int x, int *s, void *f = nullptr, int flags = 0)
         : type(t), flags(flags | (m > x ? Idf_ReadOnly : 0)), name(n), minval(m), maxval(x), fun((identfun)f)
     { storage.i = s; }
 
     // Id_FloatVar
-    ident(int t, const char *n, float m, float x, float *s, void *f = NULL, int flags = 0)
+    ident(int t, const char *n, float m, float x, float *s, void *f = nullptr, int flags = 0)
         : type(t), flags(flags | (m > x ? Idf_ReadOnly : 0)), name(n), minvalf(m), maxvalf(x), fun((identfun)f)
     { storage.f = s; }
 
     // Id_StringVar
-    ident(int t, const char *n, char **s, void *f = NULL, int flags = 0)
+    ident(int t, const char *n, char **s, void *f = nullptr, int flags = 0)
         : type(t), flags(flags), name(n), fun((identfun)f)
     { storage.s = s; }
 
     // Id_Alias
     ident(int t, const char *n, char *a, int flags)
-        : type(t), valtype(Value_String), flags(flags), name(n), code(NULL), stack(NULL)
+        : type(t), valtype(Value_String), flags(flags), name(n), code(nullptr), stack(nullptr)
     { val.s = a; }
 
     ident(int t, const char *n, int a, int flags)
-        : type(t), valtype(Value_Integer), flags(flags), name(n), code(NULL), stack(NULL)
+        : type(t), valtype(Value_Integer), flags(flags), name(n), code(nullptr), stack(nullptr)
     { val.i = a; }
 
     ident(int t, const char *n, float a, int flags)
-        : type(t), valtype(Value_Float), flags(flags), name(n), code(NULL), stack(NULL)
+        : type(t), valtype(Value_Float), flags(flags), name(n), code(nullptr), stack(nullptr)
     { val.f = a; }
 
     ident(int t, const char *n, int flags)
-        : type(t), valtype(Value_Null), flags(flags), name(n), code(NULL), stack(NULL)
+        : type(t), valtype(Value_Null), flags(flags), name(n), code(nullptr), stack(nullptr)
     {}
     ident(int t, const char *n, const tagval &v, int flags)
-        : type(t), valtype(v.type), flags(flags), name(n), code(NULL), stack(NULL)
+        : type(t), valtype(v.type), flags(flags), name(n), code(nullptr), stack(nullptr)
     { val = v; }
 
     // Id_Command
-    ident(int t, const char *n, const char *args, uint argmask, int numargs, void *f = NULL, int flags = 0)
+    ident(int t, const char *n, const char *args, uint argmask, int numargs, void *f = nullptr, int flags = 0)
         : type(t), numargs(numargs), flags(flags), name(n), args(args), argmask(argmask), fun((identfun)f)
     {}
 
@@ -418,7 +418,7 @@ extern const char *parseword(const char *p);
 
 inline int parseint(const char *s)
 {
-    return static_cast<int>(strtoul(s, NULL, 0));
+    return static_cast<int>(strtoul(s, nullptr, 0));
 }
 const int undoflag = 1<<Max_Args;
 
@@ -688,7 +688,7 @@ inline void ident::getcval(tagval &v) const
  */
 
 //command macros
-#define KEYWORD(name, type) static bool dummy_##type = addcommand(#name, (identfun)NULL, NULL, type)
+#define KEYWORD(name, type) static bool dummy_##type = addcommand(#name, (identfun)nullptr, nullptr, type)
 #define COMMANDKN(name, type, fun, nargs) static bool dummy_##fun = addcommand(#name, (identfun)fun, nargs, type)
 #define COMMANDK(name, type, nargs) COMMANDKN(name, type, name, nargs)
 #define COMMANDN(name, fun, nargs) COMMANDKN(name, Id_Command, fun, nargs)
@@ -696,7 +696,7 @@ inline void ident::getcval(tagval &v) const
 
 //integer var macros
 //VAR_, _VARF, VARM_ are templates for "normal" macros that do not execute an inline function
-#define VAR_(name, global, min, cur, max, persist)  int global = variable(#name, min, cur, max, &global, NULL, persist)
+#define VAR_(name, global, min, cur, max, persist)  int global = variable(#name, min, cur, max, &global, nullptr, persist)
 #define VARN(name, global, min, cur, max) VAR_(name, global, min, cur, max, 0)
 #define VARNP(name, global, min, cur, max) VAR_(name, global, min, cur, max, Idf_Persist)
 #define VARNR(name, global, min, cur, max) VAR_(name, global, min, cur, max, Idf_Override)
@@ -722,7 +722,7 @@ inline void ident::getcval(tagval &v) const
 #define VARMP(name, min, cur, max, scale) VARM_(name, min, cur, max, scale, Idf_Persist)
 
 //hexadecimal var macros
-#define HVAR_(name, global, min, cur, max, persist)  int global = variable(#name, min, cur, max, &global, NULL, persist | Idf_Hex)
+#define HVAR_(name, global, min, cur, max, persist)  int global = variable(#name, min, cur, max, &global, nullptr, persist | Idf_Hex)
 #define HVARP(name, min, cur, max) HVAR_(name, name, min, cur, max, Idf_Persist)
 
 //hex variable with function to be executed on change (Hexadecimal VARiable with Function = HVARF)
@@ -747,7 +747,7 @@ inline void ident::getcval(tagval &v) const
 #define CVAR1FR(name, cur, body) CVAR1_(name, cur, body, Idf_Override)
 
 //float var macros
-#define FVAR_(name, global, min, cur, max, persist) float global = fvariable(#name, min, cur, max, &global, NULL, persist)
+#define FVAR_(name, global, min, cur, max, persist) float global = fvariable(#name, min, cur, max, &global, nullptr, persist)
 #define FVARNP(name, global, min, cur, max) FVAR_(name, global, min, cur, max, Idf_Persist)
 #define FVAR(name, min, cur, max) FVAR_(name, name, min, cur, max, 0)
 #define FVARP(name, min, cur, max) FVAR_(name, name, min, cur, max, Idf_Persist)
@@ -767,7 +767,7 @@ inline void ident::getcval(tagval &v) const
 #define FVARFR(name, min, cur, max, body) FVARF_(name, name, min, cur, max, body, Idf_Override)
 
 //string var macros
-#define SVAR_(name, global, cur, persist) char *global = svariable(#name, cur, &global, NULL, persist)
+#define SVAR_(name, global, cur, persist) char *global = svariable(#name, cur, &global, nullptr, persist)
 #define SVAR(name, cur) SVAR_(name, name, cur, 0)
 #define SVARP(name, cur) SVAR_(name, name, cur, Idf_Persist)
 #define SVARR(name, cur) SVAR_(name, name, cur, Idf_Override)
