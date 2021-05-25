@@ -509,7 +509,7 @@ extern const float slopez, wallz, floorz, stairheight;
 extern vec collidewall;
 extern int collideinside;
 extern physent *collideplayer;
-extern const float gravity, jumpvel;
+extern const float gravity;
 extern int numdynents;
 extern vector<dynent *> dynents;
 
