@@ -326,10 +326,6 @@ extern void text_boundsf(const char *str, float &width, float &height, int maxwi
 
 extern bool setfont(const char *name);
 
-// renderva
-
-extern int octaentsize;
-
 // renderwindow
 
 extern void swapbuffers(bool overlay = true);
@@ -539,6 +535,8 @@ extern block3 *blockcopy(const block3 &s, int rgrid);
 extern ushort getmaterial(cube &c);
 
 // world
+
+extern int octaentsize;
 
 extern bool emptymap(int factor, bool force, const char *mname = "", bool usecfg = true);
 extern bool enlargemap(bool force);
