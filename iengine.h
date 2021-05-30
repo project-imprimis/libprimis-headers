@@ -430,7 +430,7 @@ extern int entmoving;
 extern int entediting;
 extern selinfo sel, lastsel, savedsel;
 extern vector<vslotmap> unpackingvslots;
-extern vector<vslotmap> remappedvslots;
+extern std::vector<vslotmap> remappedvslots;
 extern undolist undos, redos;
 extern int nompedit;
 extern int hmapedit;
