@@ -239,7 +239,7 @@ struct animinterpinfo // used for animation blending of animated characters
 const int maxanimparts = 3;
 
 struct occludequery;
-struct ragdolldata;
+class ragdolldata;
 
 struct dynent : physent                         // animated characters, or characters that can receive input
 {
