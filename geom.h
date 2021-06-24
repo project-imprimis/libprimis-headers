@@ -2179,8 +2179,16 @@ struct GenericVec3
     GenericVec3(T x, T y, T z) : x(x), y(y), z(z) {}
     GenericVec3(const vec &v) : x(v.x), y(v.y), z(v.z) {}
 
-    bool operator==(const GenericVec3 &h) const { return x == h.x && y == h.y && z == h.z; }
-    bool operator!=(const GenericVec3 &h) const { return x != h.x || y != h.y || z != h.z; }
+    GenericVec3<T> operator+(const GenericVec3<T> &h) const { return GenericVec3<T>(x+h.x, y+h.y,z+h.z); }
+    GenericVec3<T> operator-(const GenericVec3<T> &h) const { return GenericVec3<T>(x-h.x, y-h.y, z-h.z); }
+
+    //comparison
+    bool operator==(const GenericVec3<T> &h) const { return x == h.x && y == h.y && z == h.z; }
+    bool operator!=(const GenericVec3<T> &h) const { return x != h.x || y != h.y || z != h.z; }
+    bool operator>(const GenericVec3<T> &h) const { return x > h.x && y > h.y && z > h.z; }
+    bool operator<(const GenericVec3<T> &h) const { return x < h.x && y < h.y && z < h.z; }
+    bool operator>=(const GenericVec3<T> &h) const { return x >= h.x && y >= h.y && z >= h.z; }
+    bool operator<=(const GenericVec3<T> &h) const { return x <= h.x && y <= h.y && z <= h.z; }
 };
 
 template<class T>
