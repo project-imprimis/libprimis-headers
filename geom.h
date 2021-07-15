@@ -63,7 +63,7 @@ struct vec2
     vec2 &msub(const vec2 &a, const B &b) { return sub(vec2(a).mul(b)); }
 
     vec2 &rotate_around_z(float c, float s) { float rx = x, ry = y; x = c*rx-s*ry; y = c*ry+s*rx; return *this; }
-    vec2 &rotate_around_z(float angle) { return rotate_around_z(cosf(angle), sinf(angle)); }
+    vec2 &rotate_around_z(float angle) { return rotate_around_z(cosf(angle), std::sin(angle)); }
     vec2 &rotate_around_z(const vec2 &sc) { return rotate_around_z(sc.x, sc.y); }
 };
 
@@ -117,7 +117,7 @@ struct vec
     explicit vec(const ivec &v);
     explicit vec(const svec &v);
 
-    vec(float yaw, float pitch) : x(-sinf(yaw)*cosf(pitch)), y(cosf(yaw)*cosf(pitch)), z(sinf(pitch)) {}
+    vec(float yaw, float pitch) : x(-std::sin(yaw)*cosf(pitch)), y(cosf(yaw)*cosf(pitch)), z(std::sin(pitch)) {}
     vec &set(int i, float f) { v[i] = f; return *this; }
 
     //operator overloads
@@ -230,9 +230,9 @@ struct vec
     vec &rotate_around_x(float c, float s) { float ry = y, rz = z; y = c*ry-s*rz; z = c*rz+s*ry; return *this; }
     vec &rotate_around_y(float c, float s) { float rx = x, rz = z; x = c*rx+s*rz; z = c*rz-s*rx; return *this; }
 
-    vec &rotate_around_z(float angle) { return rotate_around_z(cosf(angle), sinf(angle)); }
-    vec &rotate_around_x(float angle) { return rotate_around_x(cosf(angle), sinf(angle)); }
-    vec &rotate_around_y(float angle) { return rotate_around_y(cosf(angle), sinf(angle)); }
+    vec &rotate_around_z(float angle) { return rotate_around_z(cosf(angle), std::sin(angle)); }
+    vec &rotate_around_x(float angle) { return rotate_around_x(cosf(angle), std::sin(angle)); }
+    vec &rotate_around_y(float angle) { return rotate_around_y(cosf(angle), std::sin(angle)); }
 
     vec &rotate_around_z(const vec2 &sc) { return rotate_around_z(sc.x, sc.y); }
     vec &rotate_around_x(const vec2 &sc) { return rotate_around_x(sc.x, sc.y); }
@@ -245,7 +245,7 @@ struct vec
                     x*(d.x*d.z*(1-c)-d.y*s) + y*(d.y*d.z*(1-c)+d.x*s) + z*(d.z*d.z*(1-c)+c));
         return *this;
     }
-    vec &rotate(float angle, const vec &d) { return rotate(cosf(angle), sinf(angle), d); }
+    vec &rotate(float angle, const vec &d) { return rotate(cosf(angle), std::sin(angle), d); }
     vec &rotate(const vec2 &sc, const vec &d) { return rotate(sc.x, sc.y, d); }
 
     void orthogonal(const vec &d)
@@ -438,9 +438,9 @@ struct vec4
     vec4 &rotate_around_x(float c, float s) { float ry = y, rz = z; y = c*ry-s*rz; z = c*rz+s*ry; return *this; }
     vec4 &rotate_around_y(float c, float s) { float rx = x, rz = z; x = c*rx-s*rz; z = c*rz+s*rx; return *this; }
 
-    vec4 &rotate_around_z(float angle) { return rotate_around_z(cosf(angle), sinf(angle)); }
-    vec4 &rotate_around_x(float angle) { return rotate_around_x(cosf(angle), sinf(angle)); }
-    vec4 &rotate_around_y(float angle) { return rotate_around_y(cosf(angle), sinf(angle)); }
+    vec4 &rotate_around_z(float angle) { return rotate_around_z(cosf(angle), std::sin(angle)); }
+    vec4 &rotate_around_x(float angle) { return rotate_around_x(cosf(angle), std::sin(angle)); }
+    vec4 &rotate_around_y(float angle) { return rotate_around_y(cosf(angle), std::sin(angle)); }
 
     vec4 &rotate_around_z(const vec2 &sc) { return rotate_around_z(sc.x, sc.y); }
     vec4 &rotate_around_x(const vec2 &sc) { return rotate_around_x(sc.x, sc.y); }
@@ -463,7 +463,7 @@ struct quat : vec4
     quat(const vec &axis, float angle)
     {
         w = cosf(angle/2);
-        float s = sinf(angle/2);
+        float s = std::sin(angle/2);
         x = s*axis.x;
         y = s*axis.y;
         z = s*axis.z;
@@ -815,7 +815,7 @@ struct matrix3
 
     void rotate(float angle, const vec &axis)
     {
-        rotate(cosf(angle), sinf(angle), axis);
+        rotate(cosf(angle), std::sin(angle), axis);
     }
 
     void rotate(float ck, float sk, const vec &axis)
@@ -834,7 +834,7 @@ struct matrix3
 
     void setyaw(float angle)
     {
-        setyaw(cosf(angle), sinf(angle));
+        setyaw(cosf(angle), std::sin(angle));
     }
 
     float trace() const { return a.x + b.y + c.z; }
@@ -930,7 +930,7 @@ struct matrix3
         b = rb;
         c = rc;
     }
-    void rotate_around_x(float angle) { rotate_around_x(cosf(angle), sinf(angle)); }
+    void rotate_around_x(float angle) { rotate_around_x(cosf(angle), std::sin(angle)); }
     void rotate_around_x(const vec2 &sc) { rotate_around_x(sc.x, sc.y); }
 
     void rotate_around_y(float ck, float sk)
@@ -940,7 +940,7 @@ struct matrix3
         c = rc;
         a = ra;
     }
-    void rotate_around_y(float angle) { rotate_around_y(cosf(angle), sinf(angle)); }
+    void rotate_around_y(float angle) { rotate_around_y(cosf(angle), std::sin(angle)); }
     void rotate_around_y(const vec2 &sc) { rotate_around_y(sc.x, sc.y); }
 
     void rotate_around_z(float ck, float sk)
@@ -950,7 +950,7 @@ struct matrix3
         a = ra;
         b = rb;
     }
-    void rotate_around_z(float angle) { rotate_around_z(cosf(angle), sinf(angle)); }
+    void rotate_around_z(float angle) { rotate_around_z(cosf(angle), std::sin(angle)); }
     void rotate_around_z(const vec2 &sc) { rotate_around_z(sc.x, sc.y); }
 
     vec transform(const vec2 &o) { return vec(a).mul(o.x).madd(b, o.y); }
@@ -1166,7 +1166,7 @@ struct matrix4x3
 
     void rotate(float angle, const vec &d)
     {
-        rotate(cosf(angle), sinf(angle), d);
+        rotate(cosf(angle), std::sin(angle), d);
     }
 
     void rotate(float ck, float sk, const vec &axis)
@@ -1185,7 +1185,7 @@ struct matrix4x3
     }
     void rotate_around_x(float angle)
     {
-        rotate_around_x(cosf(angle), sinf(angle));
+        rotate_around_x(cosf(angle), std::sin(angle));
     }
 
     void rotate_around_x(const vec2 &sc)
@@ -1202,7 +1202,7 @@ struct matrix4x3
     }
     void rotate_around_y(float angle)
     {
-        rotate_around_y(cosf(angle), sinf(angle));
+        rotate_around_y(cosf(angle), std::sin(angle));
     }
 
     void rotate_around_y(const vec2 &sc)
@@ -1217,7 +1217,7 @@ struct matrix4x3
         a = ra;
         b = rb;
     }
-    void rotate_around_z(float angle) { rotate_around_z(cosf(angle), sinf(angle)); }
+    void rotate_around_z(float angle) { rotate_around_z(cosf(angle), std::sin(angle)); }
     void rotate_around_z(const vec2 &sc) { rotate_around_z(sc.x, sc.y); }
 
     vec transform(const vec &o) const { return vec(d).madd(a, o.x).madd(b, o.y).madd(c, o.z); }
@@ -1853,7 +1853,7 @@ struct matrix4
         b = rb;
         c = rc;
     }
-    void rotate_around_x(float angle) { rotate_around_x(cosf(angle), sinf(angle)); }
+    void rotate_around_x(float angle) { rotate_around_x(cosf(angle), std::sin(angle)); }
     void rotate_around_x(const vec2 &sc) { rotate_around_x(sc.x, sc.y); }
 
     void rotate_around_y(float ck, float sk)
@@ -1863,7 +1863,7 @@ struct matrix4
         c = rc;
         a = ra;
     }
-    void rotate_around_y(float angle) { rotate_around_y(cosf(angle), sinf(angle)); }
+    void rotate_around_y(float angle) { rotate_around_y(cosf(angle), std::sin(angle)); }
     void rotate_around_y(const vec2 &sc) { rotate_around_y(sc.x, sc.y); }
 
     void rotate_around_z(float ck, float sk)
@@ -1873,7 +1873,7 @@ struct matrix4
         a = ra;
         b = rb;
     }
-    void rotate_around_z(float angle) { rotate_around_z(cosf(angle), sinf(angle)); }
+    void rotate_around_z(float angle) { rotate_around_z(cosf(angle), std::sin(angle)); }
     void rotate_around_z(const vec2 &sc) { rotate_around_z(sc.x, sc.y); }
 
     void rotate(float ck, float sk, const vec &axis)
@@ -1882,7 +1882,7 @@ struct matrix4
         m.rotate(ck, sk, axis);
         mul(m);
     }
-    void rotate(float angle, const vec &dir) { rotate(cosf(angle), sinf(angle), dir); }
+    void rotate(float angle, const vec &dir) { rotate(cosf(angle), std::sin(angle), dir); }
     void rotate(const vec2 &sc, const vec &dir) { rotate(sc.x, sc.y, dir); }
 
     void identity()
