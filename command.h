@@ -718,8 +718,6 @@ inline void ident::getcval(tagval &v) const
 #define VARFP(name, min, cur, max, body) VARF_(name, name, min, cur, max, body, Idf_Persist)
 #define VARFR(name, min, cur, max, body) VARF_(name, name, min, cur, max, body, Idf_Override)
 #define VARFNP(name, global, min, cur, max, body) VARF_(name, global, min, cur, max, body, Idf_Persist)
-#define VARM_(name, min, cur, max, scale, persist) int name = cur * scale; VARF_(name, _##name, min, cur, max, { name = _##name * scale; }, persist)
-#define VARMP(name, min, cur, max, scale) VARM_(name, min, cur, max, scale, Idf_Persist)
 
 //hexadecimal var macros
 #define HVAR_(name, global, min, cur, max, persist)  int global = variable(#name, min, cur, max, &global, nullptr, persist | Idf_Hex)
