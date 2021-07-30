@@ -1553,7 +1553,7 @@ extern int listzipfiles(const char *dir, const char *ext, vector<char *> &files)
 
 
 template<class T>
-static inline void putint_(T &p, int n)
+inline void putint_(T &p, int n)
 {
     if(n<128 && n>-127)
     {
@@ -1576,7 +1576,7 @@ static inline void putint_(T &p, int n)
 }
 
 template<class T>
-static inline void putuint_(T &p, int n)
+inline void putuint_(T &p, int n)
 {
     if(n < 0 || n >= (1<<21))
     {
@@ -1604,7 +1604,7 @@ static inline void putuint_(T &p, int n)
 
 
 template<class T>
-static inline void sendstring_(const char *t, T &p)
+inline void sendstring_(const char *t, T &p)
 {
     while(*t)
     {
@@ -1614,7 +1614,7 @@ static inline void sendstring_(const char *t, T &p)
 }
 
 template<class T>
-static inline void putfloat_(T &p, float f)
+inline void putfloat_(T &p, float f)
 {
     p.put((uchar *)&f, sizeof(float));
 }
