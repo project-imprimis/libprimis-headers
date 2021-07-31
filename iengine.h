@@ -266,6 +266,7 @@ extern void initgbuffer();
 extern void computezoom();
 extern void enablepolygonoffset(GLenum type);
 extern void disablepolygonoffset(GLenum type);
+extern void vectoryawpitch(const vec &v, float &yaw, float &pitch);
 
 extern void gl_checkextensions();
 extern void gl_init();
@@ -521,7 +522,6 @@ extern bool droptofloor(vec &o, float radius, float height);
 extern void rotatebb(vec &center, vec &radius, int yaw, int pitch, int roll = 0);
 
 extern void vecfromyawpitch(float yaw, float pitch, int move, int strafe, vec &m);
-extern void vectoyawpitch(const vec &v, float &yaw, float &pitch);
 extern void updatephysstate(physent *d);
 extern void cleardynentcache();
 extern void updatedynentcache(physent *d);
