@@ -706,12 +706,7 @@ inline void ident::getcval(tagval &v) const
 
 //variable with inline function to be executed on change (VARiable with Function = VARF)
 #define VARF_(name, global, min, cur, max, body, persist) \
-    void var_##name(ident *); /* prototype the function to be executed */ \
-    int global = variable(#name, min, cur, max, &global, var_##name, persist); /* assign variable, needs fxn prototype declared above */ \
-    void var_##name(ident *) /* function to be executed */ \
-    { \
-        body; \
-    }
+    int global = variable(#name, min, cur, max, &global, [] (ident *) { body; }, persist); /* assign variable, needs fxn prototype declared above */
 
 #define VARFN(name, global, min, cur, max, body) VARF_(name, global, min, cur, max, body, 0)
 #define VARF(name, min, cur, max, body) VARF_(name, name, min, cur, max, body, 0)
@@ -726,12 +721,7 @@ inline void ident::getcval(tagval &v) const
 //hex variable with function to be executed on change (Hexadecimal VARiable with Function = HVARF)
 //the CVAR series of macros borrows the HVARF macro as it deals with hex colors
 #define HVARF_(name, global, min, cur, max, body, persist) \
-    void var_##name(ident *id); /* prototype the function to be executed */ \
-    int global = variable(#name, min, cur, max, &global, var_##name, persist | Idf_Hex); /* assign variable, needs fxn prototype declared above */ \
-    void var_##name(ident *) /* function to be executed */ \
-    { \
-        body; \
-    }
+    int global = variable(#name, min, cur, max, &global, [] (ident *) { body; }, persist | Idf_Hex); /* assign variable, needs fxn prototype declared above */
 
 //color var macros
 #define CVAR_(name, cur, init, body, persist) bvec name = bvec::hexcolor(cur); HVARF_(name, _##name, 0, cur, 0xFFFFFF, { init; name = bvec::hexcolor(_##name); body; }, persist)
@@ -753,12 +743,7 @@ inline void ident::getcval(tagval &v) const
 
 //float variable with function to be executed on change (Float VARiable with Function = FVARF)
 #define FVARF_(name, global, min, cur, max, body, persist) \
-    void var_##name(ident *id); /* prototype the function to be executed */ \
-    float global = fvariable(#name, min, cur, max, &global, var_##name, persist); /* assign variable, needs fxn prototype declared above */ \
-    void var_##name(ident *) /* function to be executed */ \
-    { \
-        body; \
-    }
+    float global = fvariable(#name, min, cur, max, &global, [] (ident *) { body; }, persist); /* assign variable, needs fxn prototype declared above */ \
 
 #define FVARF(name, min, cur, max, body) FVARF_(name, name, min, cur, max, body, 0)
 #define FVARFP(name, min, cur, max, body) FVARF_(name, name, min, cur, max, body, Idf_Persist)
@@ -772,12 +757,7 @@ inline void ident::getcval(tagval &v) const
 
 //string variable with function to be executed on change (Float VARiable with Function = FVARF)
 #define SVARF_(name, global, cur, body, persist) \
-    void var_##name(ident *id); /* prototype the function to be executed */ \
-    char *global = svariable(#name, cur, &global, var_##name, persist); /* assign variable, needs fxn prototype declared above */ \
-    void var_##name(ident *) /* function to be executed */ \
-    { \
-        body; \
-    }
+    char *global = svariable(#name, cur, &global, [] (ident *) { body; }, persist); /* assign variable, needs fxn prototype declared above */
 
 #define SVARF(name, cur, body) SVARF_(name, name, cur, body, 0)
 #define SVARFR(name, cur, body) SVARF_(name, name, cur, body, Idf_Override)
