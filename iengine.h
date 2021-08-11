@@ -22,7 +22,7 @@ struct DecalSlot;
 struct VSlot;
 struct Texture;
 struct editinfo;
-struct model;
+class model;
 struct undolist;
 struct undoblock;
 struct vslotmap;

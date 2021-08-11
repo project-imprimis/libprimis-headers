@@ -33,7 +33,7 @@ struct servinfo
     }
 };
 
-struct model;
+class model;
 
 struct modelattach
 {
