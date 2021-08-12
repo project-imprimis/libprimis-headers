@@ -151,6 +151,8 @@ extern int getclockmillis();
 extern int initing;
 extern int scr_w, scr_h;
 
+extern std::string enginebuilddate();
+extern std::string enginestr();
 
 // input
 
