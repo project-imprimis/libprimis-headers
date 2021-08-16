@@ -150,6 +150,7 @@ extern void fatal(const char *s, ...) PRINTFARGS(1, 2);
 extern int getclockmillis();
 extern int initing;
 extern int scr_w, scr_h;
+extern int desktopw, desktoph;
 
 extern std::string enginebuilddate();
 extern std::string enginestr();
