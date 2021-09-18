@@ -762,23 +762,14 @@ inline void ident::getcval(tagval &v) const
 #define SVARF(name, cur, body) SVARF_(name, name, cur, body, 0)
 #define SVARFR(name, cur, body) SVARF_(name, name, cur, body, Idf_Override)
 
-// anonymous inline commands, uses nasty template trick with line numbers to keep names unique
+
+//inline command macros
 #define ICOMMANDNAME(name) _icmd_##name
 #define ICOMMANDSNAME _icmds_
 
+//create lambda and use as function pointer, then dereference it to cast as identfun
 #define ICOMMANDKNS(name, type, cmdname, nargs, proto, b) \
-    template<int N> struct cmdname; /* prototype the cmdname object */ \
-    template<> struct cmdname<__LINE__> /* create a generic template for the above cmdname obj */ \
-    { \
-        static bool init; \
-        static void run proto; \
-    }; \
-    /* register command "prototype" so script parser knows how many args (and of what type) to parse */ \
-    bool cmdname<__LINE__>::init = addcommand(name, (identfun)cmdname<__LINE__>::run, nargs, type); \
-    void cmdname<__LINE__>::run proto /* contents `b` (body) to be executed when called by script engine */ \
-    { \
-        b; /* b */ \
-    }
+    bool cmdname = addcommand(name, (identfun)(*([] proto { b; })), nargs, type); \
 
 #define ICOMMANDKN(name, type, cmdname, nargs, proto, b) ICOMMANDKNS(#name, type, cmdname, nargs, proto, b)
 #define ICOMMANDK(name, type, nargs, proto, b) ICOMMANDKN(name, type, ICOMMANDNAME(name), nargs, proto, b)
