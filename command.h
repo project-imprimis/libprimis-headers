@@ -769,7 +769,7 @@ inline void ident::getcval(tagval &v) const
 
 //create lambda and use as function pointer, then dereference it to cast as identfun
 #define ICOMMANDKNS(name, type, cmdname, nargs, proto, b) \
-    bool cmdname = addcommand(name, (identfun)(*([] proto { b; })), nargs, type); \
+    bool cmdname = addcommand(name, reinterpret_cast<identfun>([] proto { b; }), nargs, type); \
 
 #define ICOMMANDKN(name, type, cmdname, nargs, proto, b) ICOMMANDKNS(#name, type, cmdname, nargs, proto, b)
 #define ICOMMANDK(name, type, nargs, proto, b) ICOMMANDKN(name, type, ICOMMANDNAME(name), nargs, proto, b)
