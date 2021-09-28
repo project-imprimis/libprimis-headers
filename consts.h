@@ -21,18 +21,6 @@ enum
     SCR_DEFAULTH = 768,
 };
 
-struct servinfo
-{
-    string name, map, desc;
-    int protocol, numplayers, maxplayers, ping;
-    vector<int> attr;
-
-    servinfo() : protocol(INT_MIN), numplayers(0), maxplayers(0)
-    {
-        name[0] = map[0] = desc[0] = '\0';
-    }
-};
-
 class model;
 
 struct modelattach
