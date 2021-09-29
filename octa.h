@@ -224,24 +224,34 @@ struct cubeext
     }
 };
 
-struct cube
+constexpr uint faceempty = 0;             // all edges in the range (0,0)
+
+class cube
 {
-    cube *children;          // points to 8 cube structures which are its children, or nullptr. -Z first, then -Y, -X
-    cubeext *ext;            // extended info for the cube
-    union
-    {
-        uchar edges[12];     // edges of the cube, each uchar is 2 4bit values denoting the range.
-                             // see documentation jpgs for more info.
-        uint faces[3];       // 4 edges of each dimension together representing 2 perpendicular faces
-    };
-    ushort texture[6];       // one for each face. same order as orient.
-    ushort material;         // empty-space material
-    uchar merged;            // merged faces of the cube
-    union
-    {
-        uchar escaped;       // mask of which children have escaped merges
-        uchar visible;       // visibility info for faces
-    };
+    public:
+        cube *children;          // points to 8 cube structures which are its children, or nullptr. -Z first, then -Y, -X
+        cubeext *ext;            // extended info for the cube
+        union
+        {
+            uchar edges[12];     // edges of the cube, each uchar is 2 4bit values denoting the range.
+                                 // see documentation jpgs for more info.
+            uint faces[3];       // 4 edges of each dimension together representing 2 perpendicular faces
+        };
+        ushort texture[6];       // one for each face. same order as orient.
+        ushort material;         // empty-space material
+        uchar merged;            // merged faces of the cube
+        union
+        {
+            uchar escaped;       // mask of which children have escaped merges
+            uchar visible;       // visibility info for faces
+        };
+        //returns if the cube is empty (face 0 does not exist)
+        //note that a non-empty (but distorted) cube missing faces for an axis is impossible
+        //unless there are no faces at all (impossible to construct a 3d cube otherwise)
+        bool isempty() const
+        {
+            return faces[0]==faceempty;
+        }
 };
 
 struct selinfo
@@ -365,16 +375,7 @@ extern int wtris, wverts,
            rplanes;
 extern int allocnodes, allocva, selchildcount, selchildmat;
 
-const uint faceempty = 0;             // all edges in the range (0,0)
 const uint facesolid = 0x80808080;    // all edges in the range (0,8)
-
-//returns if the cube is empty (face 0 does not exist)
-//note that a non-empty (but distorted) cube missing faces for an axis is impossible
-//unless there are no faces at all (impossible to construct a 3d cube otherwise)
-inline bool iscubeempty(cube c)
-{
-    return c.faces[0]==faceempty;
-}
 
 //returns if the cube passed is entirely solid (no distortions)
 inline bool iscubesolid(cube c)
