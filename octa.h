@@ -261,6 +261,10 @@ class cube
                    faces[1]==facesolid &&
                    faces[2]==facesolid; //check all three
         }
+
+        void setmat(ushort mat, ushort matmask, ushort filtermat, ushort filtermask, int filtergeom);
+        void discardchildren(bool fixtex = false, int depth = 0);
+
 };
 
 struct selinfo
