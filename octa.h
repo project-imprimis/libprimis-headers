@@ -225,6 +225,7 @@ struct cubeext
 };
 
 constexpr uint faceempty = 0;             // all edges in the range (0,0)
+constexpr uint facesolid = 0x80808080;    // all edges in the range (0,8)
 
 class cube
 {
@@ -251,6 +252,14 @@ class cube
         bool isempty() const
         {
             return faces[0]==faceempty;
+        }
+
+        //returns if the cube passed is entirely solid (no distortions)
+        bool issolid() const
+        {
+            return faces[0]==facesolid &&
+                   faces[1]==facesolid &&
+                   faces[2]==facesolid; //check all three
         }
 };
 
@@ -374,16 +383,6 @@ extern int wtris, wverts,
            glde, gbatches,
            rplanes;
 extern int allocnodes, allocva, selchildcount, selchildmat;
-
-const uint facesolid = 0x80808080;    // all edges in the range (0,8)
-
-//returns if the cube passed is entirely solid (no distortions)
-inline bool iscubesolid(cube c)
-{
-    return (c).faces[0]==facesolid &&
-           (c).faces[1]==facesolid &&
-           (c).faces[2]==facesolid; //check all three
-}
 
 //sets the faces to a given value `face` given
 inline void setcubefaces(cube &c, uint face)
