@@ -227,48 +227,6 @@ struct cubeext
 constexpr uint faceempty = 0;             // all edges in the range (0,0)
 constexpr uint facesolid = 0x80808080;    // all edges in the range (0,8)
 
-struct pvert
-{
-    ushort x, y;
-
-    pvert() {}
-    pvert(ushort x, ushort y) : x(x), y(y) {}
-
-    bool operator==(const pvert &o) const
-    {
-        return x == o.x && y == o.y;
-    }
-    bool operator!=(const pvert &o) const
-    {
-        return x != o.x || y != o.y;
-    }
-};
-
-struct pedge
-{
-    pvert from, to;
-
-    pedge() {}
-    pedge(const pvert &from, const pvert &to) : from(from), to(to) {}
-
-    bool operator==(const pedge &o) const
-    {
-        return from == o.from && to == o.to;
-    }
-    bool operator!=(const pedge &o) const
-    {
-        return from != o.from || to != o.to;
-    }
-};
-
-struct poly
-{
-    cube *c;
-    int numverts;
-    bool merged;
-    pvert verts[Face_MaxVerts];
-};
-
 class cube
 {
     public:
@@ -307,10 +265,104 @@ class cube
         void setmat(ushort mat, ushort matmask, ushort filtermat, ushort filtermask, int filtergeom);
         void discardchildren(bool fixtex = false, int depth = 0);
         void calcmerges();
+
     private:
+
+        struct pvert
+        {
+            ushort x, y;
+
+            pvert() {}
+            pvert(ushort x, ushort y) : x(x), y(y) {}
+
+            bool operator==(const pvert &o) const
+            {
+                return x == o.x && y == o.y;
+            }
+            bool operator!=(const pvert &o) const
+            {
+                return x != o.x || y != o.y;
+            }
+        };
+
+        struct pedge
+        {
+            pvert from, to;
+
+            pedge() {}
+            pedge(const pvert &from, const pvert &to) : from(from), to(to) {}
+
+            bool operator==(const pedge &o) const
+            {
+                return from == o.from && to == o.to;
+            }
+            bool operator!=(const pedge &o) const
+            {
+                return from != o.from || to != o.to;
+            }
+        };
+
+        class plink : public pedge
+        {
+            public:
+                int polys[2];
+
+                plink()
+                {
+                    clear();
+                }
+
+                plink(const pedge &p) : pedge(p)
+                {
+                    clear();
+                }
+            private:
+                void clear()
+                {
+                    polys[0] = polys[1] = -1;
+                }
+        };
+
+        struct poly
+        {
+            cube *c;
+            int numverts;
+            bool merged;
+            pvert verts[Face_MaxVerts];
+
+            bool clippoly(const facebounds &b);
+            bool mergepolys(int orient, hashset<plink> &links, std::vector<plink *> &queue, int owner, poly &q, const pedge &e);
+        };
+
         void genmerges(const ivec &o = ivec(0, 0, 0), int size = 9);
         bool genpoly(int orient, const ivec &o, int size, int vis, ivec &n, int &offset, poly &p);
+        void clearmerge(int orient);
+        void addmerge(int orient, const ivec &co, const ivec &n, int offset, poly &p);
+        void addmerges(int orient, const ivec &co, const ivec &n, int offset, std::vector<poly> &polys);
+        void mergepolys(int orient, const ivec &co, const ivec &n, int offset, std::vector<poly> &polys);
 
+        struct cfpolys
+        {
+            std::vector<poly> polys;
+        };
+
+        struct cfkey
+        {
+            uchar orient;
+            ushort material, tex;
+            ivec n;
+            int offset;
+        };
+
+        static hashtable<cube::cfkey, cube::cfpolys> cpolys;
+
+        //need htcmp to be free functions to work with tools.h
+        //but nothing else needs it
+        friend bool htcmp(const cube::cfkey &x, const cube::cfkey &y);
+        friend uint hthash(const cube::cfkey &k);
+
+        friend uint hthash(const cube::pedge &x);
+        friend bool htcmp(const cube::pedge &x, const cube::pedge &y);
 };
 
 struct selinfo
