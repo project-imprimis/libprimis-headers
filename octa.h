@@ -227,6 +227,48 @@ struct cubeext
 constexpr uint faceempty = 0;             // all edges in the range (0,0)
 constexpr uint facesolid = 0x80808080;    // all edges in the range (0,8)
 
+struct pvert
+{
+    ushort x, y;
+
+    pvert() {}
+    pvert(ushort x, ushort y) : x(x), y(y) {}
+
+    bool operator==(const pvert &o) const
+    {
+        return x == o.x && y == o.y;
+    }
+    bool operator!=(const pvert &o) const
+    {
+        return x != o.x || y != o.y;
+    }
+};
+
+struct pedge
+{
+    pvert from, to;
+
+    pedge() {}
+    pedge(const pvert &from, const pvert &to) : from(from), to(to) {}
+
+    bool operator==(const pedge &o) const
+    {
+        return from == o.from && to == o.to;
+    }
+    bool operator!=(const pedge &o) const
+    {
+        return from != o.from || to != o.to;
+    }
+};
+
+struct poly
+{
+    cube *c;
+    int numverts;
+    bool merged;
+    pvert verts[Face_MaxVerts];
+};
+
 class cube
 {
     public:
@@ -264,6 +306,10 @@ class cube
 
         void setmat(ushort mat, ushort matmask, ushort filtermat, ushort filtermask, int filtergeom);
         void discardchildren(bool fixtex = false, int depth = 0);
+        void calcmerges();
+    private:
+        void genmerges(const ivec &o = ivec(0, 0, 0), int size = 9);
+        bool genpoly(int orient, const ivec &o, int size, int vis, ivec &n, int &offset, poly &p);
 
 };
 
