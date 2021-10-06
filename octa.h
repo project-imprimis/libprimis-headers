@@ -265,6 +265,7 @@ class cube
         void setmat(ushort mat, ushort matmask, ushort filtermat, ushort filtermask, int filtergeom);
         void discardchildren(bool fixtex = false, int depth = 0);
         void calcmerges();
+        bool isvalidcube();
 
     private:
 
