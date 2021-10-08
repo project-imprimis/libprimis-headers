@@ -335,6 +335,7 @@ class cube
             bool mergepolys(int orient, hashset<plink> &links, std::vector<plink *> &queue, int owner, poly &q, const pedge &e);
         };
 
+        void freecubeext(cube &c);
         void genmerges(const ivec &o = ivec(0, 0, 0), int size = 9);
         bool genpoly(int orient, const ivec &o, int size, int vis, ivec &n, int &offset, poly &p);
         void clearmerge(int orient);
