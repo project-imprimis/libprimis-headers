@@ -1525,8 +1525,8 @@ extern size_t encodeutf8(uchar *dstbuf, size_t dstlen, const uchar *srcbuf, size
 extern string homedir;
 
 extern char *makerelpath(const char *dir, const char *file, const char *prefix = nullptr, const char *cmd = nullptr);
-extern char *path(char *s);
-extern char *path(const char *s, bool copy);
+extern char *pathhelper(char *s);
+extern char *path(const char *s);
 extern const char *parentdir(const char *directory);
 extern bool fileexists(const char *path, const char *mode);
 extern bool createdir(const char *path);
