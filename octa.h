@@ -143,7 +143,7 @@ enum
     Merge_Use    = 1<<2
 };
 
-struct cube;
+class cube;
 
 struct clipplanes
 {
