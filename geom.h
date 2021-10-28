@@ -165,39 +165,39 @@ struct vec
 
     vec operator+(const vec &v2)
     {
-        return vec(x+v2.x, y+v2.y);
+        return vec(x+v2.x, y+v2.y, z+v2.z);
     }
 
     vec operator-(const vec &v2)
     {
-        return vec(x-v2.x, y-v2.y);
+        return vec(x-v2.x, y-v2.y, z-v2.z);
     }
 
     vec operator-()
     {
-        return vec(-x, -y);
+        return vec(-x, -y, -z);
     }
 
     template<typename T>
     vec operator*(const T &n)
     {
-        return vec(n*x, n*y);
+        return vec(n*x, n*y, n*z);
     }
 
     vec operator*(const vec &v2)
     {
-        return vec(x*v2.x, y*v2.y);
+        return vec(x*v2.x, y*v2.y, z*v2.z);
     }
 
     template<typename T>
     vec operator/(const T &n)
     {
-        return vec(x/n, y/n);
+        return vec(x/n, y/n, z/n);
     }
 
     vec operator/(const vec &v2)
     {
-        return vec(x/v2.x, y/v2.y);
+        return vec(x/v2.x, y/v2.y, z/v2.z);
     }
 
 
