@@ -71,6 +71,17 @@ struct vec2
         return vec2(-x, -y);
     }
 
+    template<typename T>
+    vec2 operator*(const T &n)
+    {
+        return vec2(n*x, n*y);
+    }
+
+    vec2 operator*(const vec2 &v2)
+    {
+        return vec2(x*v2.x, y*v2.y);
+    }
+
     template<class B>
     vec2 &madd(const vec2 &a, const B &b) { return add(vec2(a).mul(b)); }
 
