@@ -56,6 +56,16 @@ struct vec2
     vec2 &lerp(const vec2 &a, const vec2 &b, float t) { x = a.x + (b.x-a.x)*t; y = a.y + (b.y-a.y)*t; return *this; }
     vec2 &avg(const vec2 &b) { add(b); mul(0.5f); return *this; }
 
+    vec2 operator+(const vec2 &v2)
+    {
+        return vec2(x+v2.x, y+v2.y);
+    }
+
+    vec2 operator-(const vec2 &v2)
+    {
+        return vec2(x-v2.x, y-v2.y);
+    }
+
     template<class B>
     vec2 &madd(const vec2 &a, const B &b) { return add(vec2(a).mul(b)); }
 
