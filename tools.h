@@ -94,8 +94,8 @@ inline float detrnd(uint s, int x)
 #define DELETEP(p) if(p) { delete   p; p = 0; }
 #define DELETEA(p) if(p) { delete[] p; p = 0; }
 
-#define SQRT2 (1.4142135623731f)
-#define SQRT3 (1.73205080756888f)
+constexpr double SQRT2 = 1.4142135623731;
+constexpr double SQRT3 = 1.73205080756888;
 
 #ifdef WIN32
     #ifndef M_PI
