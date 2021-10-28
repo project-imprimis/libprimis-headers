@@ -502,6 +502,45 @@ struct vec4
     vec4 &neg()              { neg3(); w = -w; return *this; }
     vec4 &clamp(float l, float h) { x = ::std::clamp(x, l, h); y = ::std::clamp(y, l, h); z = ::std::clamp(z, l, h); w = ::std::clamp(w, l, h); return *this; }
 
+
+    vec4 operator+(const vec4 &v2)
+    {
+        return vec4(x+v2.x, y+v2.y, z+v2.z, w+v2.w);
+    }
+
+    vec4 operator-(const vec4 &v2)
+    {
+        return vec4(x-v2.x, y-v2.y, z-v2.z, w+v2.w);
+    }
+
+    vec4 operator-()
+    {
+        return vec4(-x, -y, -z, -w);
+    }
+
+    template<typename T>
+    vec4 operator*(const T &n)
+    {
+        return vec4(n*x, n*y, n*z, n*w);
+    }
+
+    vec4 operator*(const vec4 &v2)
+    {
+        return vec4(x*v2.x, y*v2.y, z*v2.z, w*v2.w);
+    }
+
+    template<typename T>
+    vec4 operator/(const T &n)
+    {
+        return vec4(x/n, y/n, z/n, w/n);
+    }
+
+    vec4 operator/(const vec4 &v2)
+    {
+        return vec4(x/v2.x, y/v2.y, z/v2.z, w/v2.w);
+    }
+
+
     template<class A, class B>
     vec4 &cross(const A &a, const B &b) { x = a.y*b.z-a.z*b.y; y = a.z*b.x-a.x*b.z; z = a.x*b.y-a.y*b.x; return *this; }
 
