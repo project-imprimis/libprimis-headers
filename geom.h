@@ -66,6 +66,11 @@ struct vec2
         return vec2(x-v2.x, y-v2.y);
     }
 
+    vec2 operator-()
+    {
+        return vec2(-x, -y);
+    }
+
     template<class B>
     vec2 &madd(const vec2 &a, const B &b) { return add(vec2(a).mul(b)); }
 
