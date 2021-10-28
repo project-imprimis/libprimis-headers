@@ -99,10 +99,10 @@ constexpr double SQRT3 = 1.73205080756888;
 
 #ifdef WIN32
     #ifndef M_PI
-        #define M_PI 3.14159265358979323846
+        constexpr double M_PI = 3.14159265358979323846;
     #endif
     #ifndef M_LN2
-        #define M_LN2 0.693147180559945309417
+        constexpr double M_LN2 = 0.693147180559945309417;
     #endif
 
     #ifndef __GNUC__
