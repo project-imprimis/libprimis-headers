@@ -163,12 +163,50 @@ struct vec
     bool operator==(const vec &o) const { return x == o.x && y == o.y && z == o.z; }
     bool operator!=(const vec &o) const { return x != o.x || y != o.y || z != o.z; }
 
+    vec operator+(const vec &v2)
+    {
+        return vec(x+v2.x, y+v2.y);
+    }
+
+    vec operator-(const vec &v2)
+    {
+        return vec(x-v2.x, y-v2.y);
+    }
+
+    vec operator-()
+    {
+        return vec(-x, -y);
+    }
+
+    template<typename T>
+    vec operator*(const T &n)
+    {
+        return vec(n*x, n*y);
+    }
+
+    vec operator*(const vec &v2)
+    {
+        return vec(x*v2.x, y*v2.y);
+    }
+
+    template<typename T>
+    vec operator/(const T &n)
+    {
+        return vec(x/n, y/n);
+    }
+
+    vec operator/(const vec &v2)
+    {
+        return vec(x/v2.x, y/v2.y);
+    }
+
+
     //unary operators
     bool iszero() const { return x==0 && y==0 && z==0; }
     float squaredlen() const { return x*x + y*y + z*z; }
     vec &square()            { mul(*this); return *this; }
     vec &neg2()              { x = -x; y = -y; return *this; } //unused
-    vec &neg()               { x = -x; y = -y; z = -z; return *this; }
+    vec &neg()               { x = -x; y = -y; z = -z; return *this; } //overloaded by operator-()
     vec &abs() { x = fabs(x); y = fabs(y); z = fabs(z); return *this; }
     vec &recip()             { x = 1/x; y = 1/y; z = 1/z; return *this; } //used twice
     float magnitude2() const { return sqrtf(dot2(*this)); }
