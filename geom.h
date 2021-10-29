@@ -56,6 +56,43 @@ struct vec2
     vec2 &lerp(const vec2 &a, const vec2 &b, float t) { x = a.x + (b.x-a.x)*t; y = a.y + (b.y-a.y)*t; return *this; }
     vec2 &avg(const vec2 &b) { add(b); mul(0.5f); return *this; }
 
+    vec2 operator+(const vec2 &v2)
+    {
+        return vec2(x+v2.x, y+v2.y);
+    }
+
+    vec2 operator-(const vec2 &v2)
+    {
+        return vec2(x-v2.x, y-v2.y);
+    }
+
+    vec2 operator-()
+    {
+        return vec2(-x, -y);
+    }
+
+    template<typename T>
+    vec2 operator*(const T &n)
+    {
+        return vec2(n*x, n*y);
+    }
+
+    vec2 operator*(const vec2 &v2)
+    {
+        return vec2(x*v2.x, y*v2.y);
+    }
+
+    template<typename T>
+    vec2 operator/(const T &n)
+    {
+        return vec2(x/n, y/n);
+    }
+
+    vec2 operator/(const vec2 &v2)
+    {
+        return vec2(x/v2.x, y/v2.y);
+    }
+
     template<class B>
     vec2 &madd(const vec2 &a, const B &b) { return add(vec2(a).mul(b)); }
 
@@ -126,12 +163,50 @@ struct vec
     bool operator==(const vec &o) const { return x == o.x && y == o.y && z == o.z; }
     bool operator!=(const vec &o) const { return x != o.x || y != o.y || z != o.z; }
 
+    vec operator+(const vec &v2)
+    {
+        return vec(x+v2.x, y+v2.y, z+v2.z);
+    }
+
+    vec operator-(const vec &v2)
+    {
+        return vec(x-v2.x, y-v2.y, z-v2.z);
+    }
+
+    vec operator-()
+    {
+        return vec(-x, -y, -z);
+    }
+
+    template<typename T>
+    vec operator*(const T &n)
+    {
+        return vec(n*x, n*y, n*z);
+    }
+
+    vec operator*(const vec &v2)
+    {
+        return vec(x*v2.x, y*v2.y, z*v2.z);
+    }
+
+    template<typename T>
+    vec operator/(const T &n)
+    {
+        return vec(x/n, y/n, z/n);
+    }
+
+    vec operator/(const vec &v2)
+    {
+        return vec(x/v2.x, y/v2.y, z/v2.z);
+    }
+
+
     //unary operators
     bool iszero() const { return x==0 && y==0 && z==0; }
     float squaredlen() const { return x*x + y*y + z*z; }
     vec &square()            { mul(*this); return *this; }
     vec &neg2()              { x = -x; y = -y; return *this; } //unused
-    vec &neg()               { x = -x; y = -y; z = -z; return *this; }
+    vec &neg()               { x = -x; y = -y; z = -z; return *this; } //overloaded by operator-()
     vec &abs() { x = fabs(x); y = fabs(y); z = fabs(z); return *this; }
     vec &recip()             { x = 1/x; y = 1/y; z = 1/z; return *this; } //used twice
     float magnitude2() const { return sqrtf(dot2(*this)); }
@@ -426,6 +501,45 @@ struct vec4
     vec4 &neg3()             { x = -x; y = -y; z = -z; return *this; }
     vec4 &neg()              { neg3(); w = -w; return *this; }
     vec4 &clamp(float l, float h) { x = ::std::clamp(x, l, h); y = ::std::clamp(y, l, h); z = ::std::clamp(z, l, h); w = ::std::clamp(w, l, h); return *this; }
+
+
+    vec4 operator+(const vec4 &v2)
+    {
+        return vec4(x+v2.x, y+v2.y, z+v2.z, w+v2.w);
+    }
+
+    vec4 operator-(const vec4 &v2)
+    {
+        return vec4(x-v2.x, y-v2.y, z-v2.z, w+v2.w);
+    }
+
+    vec4 operator-()
+    {
+        return vec4(-x, -y, -z, -w);
+    }
+
+    template<typename T>
+    vec4 operator*(const T &n)
+    {
+        return vec4(n*x, n*y, n*z, n*w);
+    }
+
+    vec4 operator*(const vec4 &v2)
+    {
+        return vec4(x*v2.x, y*v2.y, z*v2.z, w*v2.w);
+    }
+
+    template<typename T>
+    vec4 operator/(const T &n)
+    {
+        return vec4(x/n, y/n, z/n, w/n);
+    }
+
+    vec4 operator/(const vec4 &v2)
+    {
+        return vec4(x/v2.x, y/v2.y, z/v2.z, w/v2.w);
+    }
+
 
     template<class A, class B>
     vec4 &cross(const A &a, const B &b) { x = a.y*b.z-a.z*b.y; y = a.z*b.x-a.x*b.z; z = a.x*b.y-a.y*b.x; return *this; }
