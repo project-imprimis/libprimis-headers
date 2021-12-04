@@ -1490,7 +1490,7 @@ enum
     CubeType_Upper   = 1 << 5,
     CubeType_Unicode = 1 << 6
 };
-extern constexpr uchar cubectype[256];
+extern const uchar cubectype[256];
 inline int iscubeprint(uchar c) { return cubectype[c] & CubeType_Print; }
 inline int iscubespace(uchar c) { return cubectype[c] & CubeType_Space; }
 inline int iscubealpha(uchar c) { return cubectype[c] & CubeType_Alpha; }
