@@ -2089,7 +2089,8 @@ struct matrix4
 
     void perspective(float fovy, float aspect, float znear, float zfar)
     {
-        float ydist = znear * tan(fovy/2*RAD), xdist = ydist * aspect;
+        float ydist = znear * std::tan(fovy/2*RAD),
+              xdist = ydist * aspect;
         frustum(-xdist, xdist, -ydist, ydist, znear, zfar);
     }
 
