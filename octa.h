@@ -14,15 +14,6 @@ struct elementset
     ushort length, minvert, maxvert;
 };
 
-struct materialsurface
-{
-    ivec o;
-    ushort csize, rsize;
-    ushort material, skip;
-    uchar orient, visible;
-    uchar ends;
-};
-
 struct vertinfo
 {
     ushort x, y, z, norm;
