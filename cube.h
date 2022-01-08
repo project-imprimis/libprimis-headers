@@ -43,8 +43,8 @@
     #define ZLIB_DLL
 #endif
 
-#include <SDL.h>
-#include <SDL_opengl.h>
+#include "3rdparty/headers/SDL.h"
+#include "3rdparty/headers/SDL_opengl.h"
 
 #include <zlib.h>
 
