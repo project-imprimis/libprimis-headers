@@ -146,6 +146,7 @@ extern dynent *player;
 extern bool inbetweenframes,
             renderedframe;
 
+extern bool initsdl();
 extern void fatal(const char *s, ...) PRINTFARGS(1, 2);
 extern int getclockmillis();
 extern int initing;
