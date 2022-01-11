@@ -543,7 +543,7 @@ extern ushort getmaterial(cube &c);
 
 extern int octaentsize;
 
-extern bool emptymap(int factor, bool force, const char *mname = "", bool usecfg = true);
+extern bool emptymap(int factor, bool force, bool usecfg = true);
 extern bool enlargemap(bool force);
 extern vec getselpos();
 extern int getworldsize();
