@@ -54,6 +54,7 @@
 #include "command.h"
 #include "world.h"
 #include "octa.h"
+#include "slot.h"
 
 #include "glexts.h"
 #include "glemu.h"
