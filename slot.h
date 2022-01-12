@@ -1,3 +1,11 @@
+/**
+ * @file slot.h
+ * @brief 
+ */
+
+#ifndef SLOT_H_
+#define SLOT_H_
+
 enum
 {
     VSlot_ShParam = 0,
@@ -240,3 +248,5 @@ extern Slot &lookupslot(int slot, bool load = true);
 extern VSlot &lookupvslot(int slot, bool load = true);
 extern bool unpackvslot(ucharbuf &buf, VSlot &dst, bool delta);
 extern DecalSlot &lookupdecalslot(int slot, bool load = true);
+
+#endif /* SLOT_H_ */

@@ -1,7 +1,16 @@
-// this file defines static map entities ("entity") and dynamic entities (players/monsters, "dynent")
-// the gamecode extends these types to add game specific functionality
+/**
+ * @file ents.h
+ * @brief Static map entities and dynamic entities.
+ *
+ * The file defines static map entities of type "entity" and dynamic entities of
+ * type "dynent" like players or monsters. The gamecode extends these types to
+ * add game specific functionality. Note that enties with the infix "Ent_" are
+ * the only static entity types dictated by the engine. The rest are gamecode
+ * dependent.
+ */
 
-// Ent_*: the only static entity types dictated by the engine... rest are gamecode dependent
+#ifndef ENTS_H_
+#define ENTS_H_
 
 enum
 {
@@ -285,3 +294,5 @@ struct dynent : physent                         // animated characters, or chara
         return vec(o).addz(aboveeye+4);
     }
 };
+
+#endif /* ENTS_H_ */

@@ -1,3 +1,11 @@
+/**
+ * @file cube.h
+ * @brief Needed for making games, along with iengine.h and consts.h.
+ *
+ * This header file, along with iengine.h and consts.h should be included when
+ * making games.
+ */
+
 #ifndef CUBE_H_
 #define CUBE_H_
 
@@ -52,12 +60,13 @@
 #include "geom.h"
 #include "ents.h"
 #include "command.h"
+#include "world.h"
 #include "octa.h"
-#include "slot.h"
 
 #include "glexts.h"
 #include "glemu.h"
 
 #include "consts.h"
-#endif
+
+#endif /* CUBE_H_ */
 

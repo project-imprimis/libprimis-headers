@@ -1,4 +1,7 @@
-// generic useful stuff for any C++ program
+/**
+ * @file tools.h
+ * @brief Generic and useful functions, constants, macros, etc., for any C++ program.
+ */
 
 #ifndef TOOLS_H_
 #define TOOLS_H_
@@ -1635,5 +1638,4 @@ extern void filtertext(char *dst, const char *src, bool whitespace, bool forcesp
 template<size_t N>
 inline void filtertext(char (&dst)[N], const char *src, bool whitespace = true, bool forcespace = false) { filtertext(dst, src, whitespace, forcespace, N-1); }
 
-#endif
-
+#endif /* TOOLS_H_ */
