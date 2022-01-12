@@ -52,7 +52,6 @@
 #include "geom.h"
 #include "ents.h"
 #include "command.h"
-#include "world.h"
 #include "octa.h"
 #include "slot.h"
 

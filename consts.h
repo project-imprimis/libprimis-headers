@@ -11,6 +11,14 @@
 #define IS_CLIPPED(mat) ((mat)==Mat_Glass) //materials that are obligate clipping (always also get clipped)
 #define LOOP_START(id, stack) if((id)->type != Id_Alias) return; identstack stack;
 
+
+enum                            // hardcoded texture numbers
+{
+    Default_Sky = 0,
+    Default_Geom,
+    Default_NumDefaults
+};
+
 enum
 {
     SCR_MINW     = 320, //minimum screen resolution
