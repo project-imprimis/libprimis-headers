@@ -1,3 +1,11 @@
+/**
+ * @file glexts.h
+ * @brief 
+ */
+
+#ifndef GLEXTS_H_
+#define GLEXTS_H_
+
 #ifndef APIENTRY
 #define APIENTRY
 #endif
@@ -726,3 +734,4 @@ extern PFNGLGETDEBUGMESSAGELOGPROC glGetDebugMessageLog_;
 // GL_ARB_copy_image
 extern PFNGLCOPYIMAGESUBDATAPROC glCopyImageSubData_;
 
+#endif /* GLEXTS_H_ */

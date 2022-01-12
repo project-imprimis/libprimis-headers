@@ -1,3 +1,11 @@
+/**
+ * @file glemu.h
+ * @brief 
+ */
+
+#ifndef GLEMU_H_
+#define GLEMU_H_
+
 namespace gle
 {
     enum
@@ -178,3 +186,4 @@ namespace gle
     extern void cleanup();
 }
 
+#endif /* GLEMU_H_ */

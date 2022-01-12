@@ -1,3 +1,11 @@
+/**
+ * @file octa.h
+ * @brief 
+ */
+
+#ifndef OCTA_H_
+#define OCTA_H_
+
 // 6-directional octree heightfield map format
 
 struct elementset
@@ -12,6 +20,15 @@ struct elementset
         ushort reuse;
     };
     ushort length, minvert, maxvert;
+};
+
+struct materialsurface
+{
+    ivec o;
+    ushort csize, rsize;
+    ushort material, skip;
+    uchar orient, visible;
+    uchar ends;
 };
 
 struct vertinfo
@@ -607,3 +624,5 @@ struct undolist
         return u;
     }
 };
+
+#endif /* OCTA_H_ */

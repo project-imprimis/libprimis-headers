@@ -1,3 +1,11 @@
+/**
+ * @file geom.h
+ * @brief 
+ */
+
+#ifndef GEOM_H_
+#define GEOM_H_
+
 struct vec;
 struct vec4;
 
@@ -2368,3 +2376,4 @@ inline float sin360(int angle) { return sincos360[angle].y; }
 inline float tan360(int angle) { const vec2 &sc = sincos360[angle]; return sc.y/sc.x; }
 inline float cotan360(int angle) { const vec2 &sc = sincos360[angle]; return sc.x/sc.y; }
 
+#endif /* GEOM_H_ */

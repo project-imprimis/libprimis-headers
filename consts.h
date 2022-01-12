@@ -1,23 +1,19 @@
+/**
+ * @file consts.h
+ * @brief Useful egnine constants.
+ *
+ * This is a header filled with constants that are useful to pass appropriate
+ * information from the game to the engine; howerver, it is only for those
+ * constants which are directly useful for the engine-game interface and not for
+ * constants which solely lie in the engine or game.
+ */
+
 #ifndef CONSTS_H_
 #define CONSTS_H_
-/* consts.h
- *
- * This is a header filled with constants that are useful to pass appropriate information
- * from the game to the engine; it is only for those constants which are directly useful for
- * the engine-game interface and not for constants which solely lie in the engine or game
- */
 
 #define IS_LIQUID(mat) ((mat)==Mat_Water)
 #define IS_CLIPPED(mat) ((mat)==Mat_Glass) //materials that are obligate clipping (always also get clipped)
 #define LOOP_START(id, stack) if((id)->type != Id_Alias) return; identstack stack;
-
-
-enum                            // hardcoded texture numbers
-{
-    Default_Sky = 0,
-    Default_Geom,
-    Default_NumDefaults
-};
 
 enum
 {
@@ -237,4 +233,4 @@ enum
     Init_Reset,
 };
 
-#endif
+#endif /* CONSTS_H_ */

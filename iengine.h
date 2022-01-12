@@ -1,10 +1,14 @@
-/* iengine.h
+/**
+ * @file iengine.h
+ * @brief The interface the game uses to access the engine.
  *
- * the interface the game uses to access the engine
- * this file contains those functions which comprise the API with which to write
- * a game against; this header is not called by the game internally and is the
- * header which should be included in the game code.
+ * The file contains functions which comprise the API for writing games. This
+ * header file is not called by the game internally but should be included in
+ * the game code to expose functions to the game.
  */
+
+#ifndef IENGINE_H_
+#define IENGINE_H_
 
 extern uint totalsecs;
 extern int gamespeed, paused;
@@ -30,40 +34,47 @@ struct prefab;
 
 // ragdoll
 
-/**
- * moveragdoll: update a ragdoll's physics
- *
- * moveragdoll takes a dynent pointer as an argument and updates its position & physics
- * if the dynent pointed to does not have a valid ragdoll object as a member,
- * nothing happens
- */
+ /**
+  * @brief Update a ragdoll's position and physics.
+  *
+  * If the dynent pointed to does not have a valid ragdoll object as a member,
+  * nothing happens.
+  * @param d a dynent pointer.
+  */
 extern void moveragdoll(dynent *d);
 
 /**
- * cleanragdoll: deletes the ragdoll associated with the passed dynent
+ * @brief Deletes the ragdoll associated with the passed dynent.
  *
- * cleanragdoll takes a dynent pointer as an argument and removes the ragdoll
- * if present
- * if the dynent pointed to is not a ragdoll (no ragdoll object), nothing happens
+ * The function does nothinf if the dynent does not point to a ragdoll object.
+ * Also, the function does nothing if the dynent is a ragdoll that is not
+ * present.
+ * @param d a dynent pointer.
  */
 extern void cleanragdoll(dynent *d);
 
 // crypto
 
 /**
- * genprivkey: given a seed value, creates a priv/pub key pair
+ * @brief Creates a private-public key pair from a given seed value.
  *
- * given a pair of references to the desired priv/pub key locations, and a seed,
- * genprivkey() returns (in the form of changing the two references passed as arguments)
- * a matching private/public key pair
+ * The function takes a reference to the desired private and public keys, and
+ * then modifies the contents of both strings using the seed. The modified
+ * strings are the matching private-public key pair.
+ * @param seed The seed value for generating random private-public key pairs.
+ * @param privstr The private string to modify.
+ * @param pubstr The public string to modify.
  */
 extern void genprivkey(const char *seed, vector<char> &privstr, vector<char> &pubstr);
 
 /**
- * calcpubkey: verify a public key against a private key
+ * @brief Verify a public key against a private key.
  *
- * given a public key and private key, verify that the two keys make a matching pair
- * returns true if the keys match, false otherwise
+ * Verify that the given public key and the given private key make a matching pair.
+ * @param privstr The private key that was generated as part of a private-public key pair.
+ * @param pubstr The public key that was generated as part of a private-public key pair.
+ * @return true If the strings match and make a private-public key pair.
+ * @return false If the strings do not match and do not make a private-public key pair.
  */
 extern bool calcpubkey(const char *privstr, vector<char> &pubstr);
 extern bool hashstring(const char *str, char *result, int maxlen);
@@ -146,7 +157,6 @@ extern dynent *player;
 extern bool inbetweenframes,
             renderedframe;
 
-extern bool initsdl();
 extern void fatal(const char *s, ...) PRINTFARGS(1, 2);
 extern int getclockmillis();
 extern int initing;
@@ -543,7 +553,7 @@ extern ushort getmaterial(cube &c);
 
 extern int octaentsize;
 
-extern bool emptymap(int factor, bool force, bool usecfg = true);
+extern bool emptymap(int factor, bool force, const char *mname = "", bool usecfg = true);
 extern bool enlargemap(bool force);
 extern vec getselpos();
 extern int getworldsize();
@@ -579,3 +589,4 @@ extern uint getmapcrc();
 extern void clearmapcrc();
 extern bool loadents(const char *fname, const char *gameident, vector<entity> &ents, uint *crc = nullptr);
 
+#endif /* IENGINE_H_ */
