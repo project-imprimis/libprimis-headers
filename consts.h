@@ -25,6 +25,13 @@ enum
     SCR_DEFAULTH = 768,
 };
 
+enum                            // hardcoded texture numbers
+{
+    Default_Sky = 0,
+    Default_Geom,
+    Default_NumDefaults
+};
+
 class model;
 
 struct modelattach

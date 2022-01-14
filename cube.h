@@ -61,6 +61,7 @@
 #include "ents.h"
 #include "command.h"
 #include "octa.h"
+#include "slot.h"
 
 #include "glexts.h"
 #include "glemu.h"

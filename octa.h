@@ -1,6 +1,6 @@
 /**
  * @file octa.h
- * @brief 
+ * @brief
  */
 
 #ifndef OCTA_H_
@@ -20,15 +20,6 @@ struct elementset
         ushort reuse;
     };
     ushort length, minvert, maxvert;
-};
-
-struct materialsurface
-{
-    ivec o;
-    ushort csize, rsize;
-    ushort material, skip;
-    uchar orient, visible;
-    uchar ends;
 };
 
 struct vertinfo
