@@ -284,9 +284,6 @@ struct ident
     void getcval(tagval &v) const;
 };
 
-extern void addident(ident *id);
-
-extern tagval *commandret;
 extern const char *intstr(int v);
 extern void intret(int v);
 extern const char *floatstr(float v);
@@ -310,9 +307,6 @@ extern void setfvar(const char *name, float f, bool dofunc = true, bool doclamp 
 extern void setsvar(const char *name, const char *str, bool dofunc = true);
 extern bool addcommand(const char *name, identfun fun, const char *narg, int type = Id_Command);
 
-extern void executeret(const uint *code, tagval &result = *commandret);
-extern void executeret(const char *p, tagval &result = *commandret);
-extern void executeret(ident *id, tagval *args, int numargs, bool lookup = false, tagval &result = *commandret);
 extern std::queue<ident *> triggerqueue;
 extern bool identexists(const char *name);
 extern ident *getident(const char *name);
