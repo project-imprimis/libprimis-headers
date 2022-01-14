@@ -96,46 +96,7 @@ extern void answerchallenge(const char *privstr, const char *challenge, vector<c
 
 // command
 
-extern std::queue<ident *> triggerqueue;
-extern int variable(const char *name, int min, int cur, int max, int *storage, identfun fun, int flags);
-extern float fvariable(const char *name, float min, float cur, float max, float *storage, identfun fun, int flags);
-extern char *svariable(const char *name, const char *cur, char **storage, identfun fun, int flags);
-extern void setvar(const char *name, int i, bool dofunc = true, bool doclamp = true);
-extern void setfvar(const char *name, float f, bool dofunc = true, bool doclamp = true);
-extern void setsvar(const char *name, const char *str, bool dofunc = true);
-extern bool identexists(const char *name);
-extern ident *getident(const char *name);
-extern ident *newident(const char *name, int flags = 0);
-extern ident *readident(const char *name);
-extern ident *writeident(const char *name, int flags = 0);
-extern bool addcommand(const char *name, identfun fun, const char *narg, int type = Id_Command);
-extern uint *compilecode(const char *p);
-extern void keepcode(uint *p);
-extern void freecode(uint *p);
-extern int execute(const uint *code);
-extern int execute(const char *p);
-extern int execute(ident *id, tagval *args, int numargs, bool lookup = false);
-extern int execident(const char *name, int noid = 0, bool lookup = false);
-extern bool executebool(const uint *code);
-extern bool executebool(const char *p);
-extern bool executebool(ident *id, tagval *args, int numargs, bool lookup = false);
-extern bool execidentbool(const char *name, bool noid = false, bool lookup = false);
-extern bool execfile(const char *cfgfile, bool msg = true);
-extern void alias(const char *name, const char *action);
-extern const char *escapestring(const char *s);
-extern void explodelist(const char *s, vector<char *> &elems, int limit = -1);
-extern void printvar(ident *id, int i);
-extern int clampvar(ident *id, int i, int minval, int maxval);
-extern void loopiter(ident *id, identstack &stack, int i);
-extern void loopend(ident *id, identstack &stack);
-const char *escapeid(const char *s);
-extern void writecfg(const char *savedconfig, const char *autoexec = nullptr, const char *defaultconfig = nullptr, const char *name = nullptr);
-extern void checksleep(int millis);
-extern bool initidents();
-
-extern int identflags;
-
-extern void clear_command();
+/* see command.h */
 
 // console
 
@@ -157,6 +118,7 @@ extern dynent *player;
 extern bool inbetweenframes,
             renderedframe;
 
+extern bool initsdl();
 extern void fatal(const char *s, ...) PRINTFARGS(1, 2);
 extern int getclockmillis();
 extern int initing;
@@ -553,7 +515,7 @@ extern ushort getmaterial(cube &c);
 
 extern int octaentsize;
 
-extern bool emptymap(int factor, bool force, const char *mname = "", bool usecfg = true);
+extern bool emptymap(int factor, bool force, bool usecfg = true);
 extern bool enlargemap(bool force);
 extern vec getselpos();
 extern int getworldsize();
