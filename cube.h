@@ -63,7 +63,6 @@
 #include "octa.h"
 #include "slot.h"
 
-#include "glexts.h"
 #include "glemu.h"
 
 #include "consts.h"
