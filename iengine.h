@@ -119,13 +119,42 @@ extern bool inbetweenframes,
             renderedframe;
 
 extern bool initsdl();
+
+/**
+ * @brief Immediately shuts down the game and prints error message(s)
+ *
+ * Shuts down SDL and closes the game immediately. Up to two error messages are
+ * printed in a SDL message box after exiting the game.
+ *
+ * @param s a series of C strings corresponding to error messages
+ */
 extern void fatal(const char *s, ...) PRINTFARGS(1, 2);
 extern int getclockmillis();
 extern int initing;
 extern int scr_w, scr_h;
 extern int desktopw, desktoph;
 
+/**
+ * @brief Returns the engine library's build date.
+ *
+ * Returns the value of __DATE__ macro at the time the engine was built; this
+ * value is in the format MMM DD YYYY (e.g. Jan 01 1970). The purpose of the
+ * function is to quickly disambiguate how old a (development) build of the engine
+ * is.
+ *
+ * @return a std::string corresponding to the engine's build date
+ */
 extern std::string enginebuilddate();
+
+/**
+ * @brief Returns the engine library's name string
+ *
+ * Returns the version string for the engine library, which is a compiled-in
+ * constant inside the engine library. The purpose of the function is to quickly
+ * disambiguate different versions of the library.
+ *
+ * @return a std::string corresponding to the engine's name string
+ */
 extern std::string enginestr();
 
 // input
@@ -162,9 +191,49 @@ extern void clear_sound();
 
 namespace UI
 {
+    /**
+     * @brief Queries UI windows' cursor input ability.
+     *
+     * Returns whether the UI system is accepting cursor input; if any windows in
+     * the UI system accept cursor input, returns True.
+     *
+     * @return true if any UI window is accepting cursor input
+     * @return false if no windows exist that accept cursor input
+     */
     bool hascursor();
+
+    /**
+     * @brief Queries current UI cursor location.
+     *
+     * Returns to the parameters passed by reference the location of the UI cursor.
+     * This location ranges from 0 to 1.f in x and y, with 0,0 being the bottom
+     * left part of the screen, and 0.5 0.5 being the middle of the screen.
+     * The x and y parameters do not scale by aspect ratio, and 1,1 is always the
+     * top right corner of the screen
+     *
+     * @param x variable to assign x-coordinate of the cursor's location to
+     * @param y variable to assign y-coordinate of the cursor's location to
+     */
     void getcursorpos(float &x, float &y);
+
+    /**
+     * @brief Sets the cursor to the middle of the screen.
+     *
+     * Sets the location of the UI cursor to the middle of the screen; that is,
+     * the cursor's x and y values are both set to 0.5.
+     */
     void resetcursor();
+
+    /**
+     * @brief Moves the UI cursor by the amount perscribed.
+     *
+     * Moves the UI cursor by the amount described (positive or negative), scaled
+     * by the UI sensitivity variable. Values are capped in both dimensions between
+     * 0 and 1, thereby preventing the cursor from completely leaving the screen.
+     *
+     * @param dx amount to move the cursor in the x direction
+     * @param dy amount to move the cursor in the y direction
+     */
     bool movecursor(int dx, int dy);
     bool keypress(int code, bool isdown);
     bool textinput(const char *str, int len);
@@ -214,10 +283,10 @@ extern void allchanged(bool load = false);
 
 // rendergl
 
-extern physent *camera1;
+extern physent *camera1; /**< Camera location for the renderer to render at */
 extern vec worldpos, camdir, camright, camup;
 extern float curfov, fovy, aspect;
-extern bool detachedcamera;
+extern bool detachedcamera; /**< read only variable corresponding to camera at ent location (1p) or away from it (3p) */
 
 extern void disablezoom();
 
@@ -242,8 +311,26 @@ extern void initgbuffer();
 extern void computezoom();
 extern void enablepolygonoffset(GLenum type);
 extern void disablepolygonoffset(GLenum type);
+
+/**
+ * @brief Returns 2 Euler angles for a given vector.
+ *
+ * Given a vector v, yaw and pitch are assigned to the orientation of the vector
+ * in 3D space. Roll is not assigned, as it is ambiguous for a vector.
+ *
+ * @param v     vector to be used to calc yaw & pitch
+ * @param yaw   output parameter v's yaw is assigned to
+ * @param pitch output parameter v's pitch is assigned to
+ */
 extern void vectoryawpitch(const vec &v, float &yaw, float &pitch);
 
+/**
+ * @brief Ensures computer environment can run the engine.
+ *
+ * This function checks for the OpenGL contexts, GLSL version information, and
+ * other graphics capabilities required to run the engine. This function will
+ * call fatal() and exit the game if any of its conditions are not met.
+ */
 extern void gl_checkextensions();
 extern void gl_init();
 extern void gl_resize();
@@ -255,7 +342,7 @@ extern void drawminimap(int yaw, int pitch, vec loc);
 
 extern void clearshadowcache();
 
-extern int spotlights;
+extern int spotlights; /**< Toggles spotlights, behaves like bool; 0 for no spotlights and 1 for spotlights */
 extern int volumetriclights;
 extern int nospeclights;
 
@@ -269,8 +356,37 @@ extern void abovemodel(vec &o, const char *mdl);
 extern void renderclient(dynent *d, const char *mdlname, modelattach *attachments, int hold, int attack, int attackdelay, int lastaction, int lastpain, float scale = 1, bool ragdoll = false, float trans = 1);
 extern void interpolateorientation(dynent *d, float &interpyaw, float &interppitch);
 extern void setbbfrommodel(dynent *d, const char *mdl);
+
+/**
+ * @brief Returns the mapmodel name at the given index.
+ *
+ * If the passed index corresponds to a valid mapmodel, the function returns a C
+ * string with its name; if not, the function returns a nullptr.
+ *
+ * @return a C string with the name of the model
+ */
 extern const char *mapmodelname(int i);
+
+/**
+ * @brief Adds a model to the cache of models to load.
+ *
+ * When flushpreloadedmodels() is called, the entries added to the preloadedmodels
+ * vector by this function are loaded. Silently fails and does nothing if the model
+ * name passed is not valid or already exists in the vector.
+ */
 extern void preloadmodel(const char *name);
+
+/**
+ * @brief Loads the mapmodel assigned to the specified index.
+ *
+ * Loads the mapmodel assigned to the specified model index into a model object.
+ * If a model object already exists, a new model is not created and a pointer to
+ * that model is returned instead; otherwise, returns a pointer to the new model
+ * object.
+ * If the index is out of bounds, nullptr is returned.
+ *
+ * @return a pointer to the model object
+ */
 extern model *loadmapmodel(int n);
 extern model *loadmodel(const char *name, int i = -1, bool msg = false);
 extern void flushpreloadedmodels(bool msg = true);
@@ -281,6 +397,15 @@ extern void clear_models();
 
 extern std::vector<std::string> entnames;
 
+/**
+ * @brief returns the entity name of of a given entity type index
+ *
+ * For the given entity type index (light, model, etc.) returns the
+ * human readable name of the entity type.
+ * Returns an empty string if index out of bounds.
+ *
+ * @return a C string corresponding to the ent type's name
+ */
 extern const char * getentname(int i);
 extern void regular_particle_splash(int type, int num, int fade, const vec &p, int color = 0xFFFFFF, float size = 1.0f, int radius = 150, int gravity = 2, int delay = 0);
 extern void regular_particle_flame(int type, const vec &p, float radius, float height, int color, int density = 3, float scale = 2.0f, float speed = 200.0f, float fade = 600.0f, int gravity = -15);
@@ -293,6 +418,14 @@ extern void particle_meter(const vec &s, float val, int type, int fade = 1, int 
 extern void particle_flare(const vec &p, const vec &dest, int fade, int type, int color = 0xFFFFFF, float size = 0.28f, physent *owner = nullptr);
 extern void particle_fireball(const vec &dest, float max, int type, int fade = -1, int color = 0xFFFFFF, float size = 4.0f);
 extern void removetrackedparticles(physent *owner = nullptr);
+
+/**
+ * @brief Loads the shaders/renderer objects to render particles.
+ *
+ * Loads a series of particle related shader (particle, particlenotexture,
+ * particlesoft, particletext) as well as initializing particlerenderer objects
+ * as necessary to begin particle rendering.
+ */
 extern void initparticles();
 extern void updateparticles();
 
@@ -307,12 +440,23 @@ extern bool setfont(const char *name);
 // renderwindow
 
 extern void swapbuffers(bool overlay = true);
-extern int fullscreen;
+extern int fullscreen; /**< Toggles fullscreen, behaves like bool; 0 for windowed and 1 for fullscreen */
 extern void setupscreen();
 extern void restoregamma();
 extern void restorevsync();
 extern void resetfpshistory();
 extern void limitfps(int &millis, int curmillis);
+
+/**
+ * @brief delays rendering of a frame
+ *
+ * Uses SDL_Delay to delay a frame, given the time the last frame was
+ * rendered and the current time. The amount of delay is calculated from the
+ * global maxfps and menufps variables.
+ *
+ * @param millis the time (in ms) since program started
+ * @param curmillis the last registered frame time
+ */
 extern void updatefpshistory(int millis);
 extern void cleargamma();
 
@@ -365,17 +509,44 @@ extern void removetrackeddynlights(physent *owner = nullptr);
 // light
 
 extern void clearlightcache(int id = -1);
+
+/**
+ * @brief Calculates normals and re-calculates geometry.
+ *
+ * Re-mips the cube structure of the level to remove unnecessary nodes, then
+ * calculates normal maps for corners.
+ */
 extern void calclight();
 
 // material
 extern int showmat;
 
+/**
+ * @brief Returns the bitmask for the given material name.
+ *
+ * Given a material name (water, clip, noclip, etc.), returns the bitmask value
+ * the material is associated with in the octree world.
+ *
+ * @param name a C string with the name of the material to look up
+ *
+ * @return an integer corresponding to the bitmask value of the material
+ */
 extern int findmaterial(const char *name);
 
 // octa
 extern ivec lu;
 extern int lusize;
 
+/**
+ * @brief Returns the material bitmask value at the given location.
+ *
+ * Given a world location, returns the material bitmask at the specified location.
+ * This bitmask may be the sum of multiple materials if present.
+ * Returns 0 (air) if the location specified has no material or is outside the
+ * world.
+ *
+ * @return an integer corresponding to the material(s) at the specified location
+ */
 extern int lookupmaterial(const vec &o);
 extern void freeocta(cube *c);
 extern void getcubevector(cube &c, int d, int x, int y, int z, ivec &p);
@@ -414,7 +585,7 @@ extern int nompedit;
 extern int hmapedit;
 extern bool havesel;
 extern std::vector<editinfo *> editinfos;
-extern int texpaneltimer;
+extern int texpaneltimer; /**< sets the length before the texture scroll panel turns off */
 extern hashnameset<prefab> prefabs;
 extern ivec cor, cur, lastcur, lastcor;
 extern int gridsize;
@@ -440,7 +611,27 @@ extern bool packundo(int op, int &inlen, uchar *&outbuf, int &outlen);
 extern bool unpackundo(const uchar *inbuf, int inlen, int outlen);
 extern bool noedit(bool view = false, bool msg = true);
 extern void commitchanges(bool force = false);
+
+/**
+ * @brief Determines whether selection contains location at specified location.
+ *
+ * Returns whether the location of the vector passed falls within the selection
+ * information object's volume. If the passed vector is exactly along the boundary,
+ * the function still returns true.
+ *
+ * @param sel selinfo object corresponding to a world volume
+ * @param origin vector corresponding to a world location
+ *
+ * @return true if the vector is inside the selinfo object
+ * @return false if the vector is outside the selinfo object
+ */
 extern bool pointinsel(const selinfo &sel, const vec &o);
+
+/**
+ * @brief Deselects edit selection.
+ *
+ * This function deselects the cubes and entities currently selected.
+ */
 extern void cancelsel();
 extern void addundo(undoblock *u);
 extern cube &blockcube(int x, int y, int z, const block3 &b, int rgrid);
@@ -465,15 +656,60 @@ extern void pastecube(const cube &src, cube &dst);
 extern void pasteundoblock(block3 *b, uchar *g);
 extern bool uncompresseditinfo(const uchar *inbuf, int inlen, uchar *&outbuf, int &outlen);
 extern void unpackundocube(ucharbuf buf, uchar *outbuf);
+
+/**
+ * @brief Prints a warning message to the console.
+ *
+ * This function prints a message warning the user that the operation is not
+ * possible in multiplayer. It does nothing else.
+ */
 extern void multiplayerwarn();
 
 // raycube
 
+/**
+ * @brief Returns the distance before a ray hits a cube.
+ *
+ * @param o      the starting location of the ray to be drawn
+ * @param ray    normalized direction vector for the ray to point
+ * @param radius region around ray that counts as a hit
+ * @param mode   flags which determine what counts as a hit
+ * @param size   size of cube which registers a hit
+ * @param t      entity to check against
+ */
 extern float raycube   (const vec &o, const vec &ray, float radius = 0, int mode = Ray_ClipMat, int size = 0, extentity *t = 0);
+
+/**
+ * @brief Returns the distance before a ray hits a cube.
+ *
+ * This function behaves the same as raycube() execept also returning the location
+ * where the hit happened.
+ *
+ * @param o      the starting location of the ray to be drawn
+ * @param ray    normalized direction vector for the ray to point
+ * @param hit    output parameter for the vector location the hit happened at
+ * @param radius region around ray that counts as a hit
+ * @param mode   flags which determine what counts as a hit
+ * @param size   size of cube which registers a hit
+ * @param t      entity to check against
+ */
 extern float raycubepos(const vec &o, const vec &ray, vec &hit, float radius = 0, int mode = Ray_ClipMat, int size = 0);
 extern float rayfloor  (const vec &o, vec &floor, int mode = 0, float radius = 0);
 extern bool  raycubelos(const vec &o, const vec &dest, vec &hitpos);
 extern float rayent(const vec &o, const vec &ray, float radius, int mode, int size, int &orient, int &ent);
+
+/**
+ * @brief Queries whether the given vector lies inside the octree world.
+ *
+ * Returns truth value for whether the vector given has coordinates which lie
+ * within the space occupied by the worldroot cube. If the dimension passed is
+ * exactly equal to a boundary, the function returns true (this is considered as
+ * being inside the world).
+ *
+ * @return true if the vector is inside the world boundaries
+ * @return false if the vector is outside the world
+ *
+ */
 extern bool insideworld(const vec &o);
 
 // physics
@@ -509,22 +745,86 @@ extern void recalcdir(physent *d, const vec &oldvel, vec &dir);
 extern void slideagainst(physent *d, vec &dir, const vec &obstacle, bool foundfloor, bool slidecollide);
 extern void freeblock(block3 *b, bool alloced = true);
 extern block3 *blockcopy(const block3 &s, int rgrid);
+
+/**
+ * @brief Returns the material bitmask for the given cube.
+ *
+ * Returns the bitmask for the cube passed, which corresponds to the sum of all
+ * materials occupying the cube. Every sum is unique due to the basis selection,
+ * and therefore any combination of materials can be represented in the output.
+ * Returns 0 (air) if there is no valid material that describes the entire cube.
+ *
+ * @return An unsigned short integer corresponding to the material bitmask
+ */
 extern ushort getmaterial(cube &c);
 
 // world
 
 extern int octaentsize;
 
+/**
+ * @brief Grows the map to an additional gridsize.
+ *
+ * Expands the map by placing the old map in the corner nearest the origin and
+ * adding 7 old-map sized cubes to create a new largest cube.
+ *
+ * This moves the worldroot cube to the new parent cube of the old map.
+ */
 extern bool emptymap(int factor, bool force, bool usecfg = true);
 extern bool enlargemap(bool force);
 extern vec getselpos();
+
+/**
+ * @brief Returns the size of the world.
+ *
+ * This function returns the size of the currently loaded world in terms of gridpower
+ * 0 cubes (the smallest possible size). A size 10 map will be 2^10 = 1024 cubes
+ * in size.
+ *
+ * @return the size of the world, in size 0 cubes
+ */
 extern int getworldsize();
+
+/**
+ * @brief Cancels selection of selected entities.
+ *
+ * Clears the selection of any entities in edit mode. Has no effect if no entities
+ * are selected.
+ */
 extern void entcancel();
 
+/**
+ * @brief Attempts to attach the given entity to another entity.
+ *
+ * Attempts to attach the entity passed to another entity that it can be attached
+ * to, as long as it is within the attach radius.
+ *
+ * Fails silently if the given entity has no close by entities to link to or the
+ * entity type is ineligible to be linked
+ *
+ * @param e the extentity to attempt to link
+ */
 extern void attachentity(extentity &e);
+
+/**
+ * @brief Attempts to attach all entities in selection.
+ *
+ * For all eligible entities in the current selection, the engine attempts to link
+ * it with its nearest entity it can link with; silently fails and does nothing if
+ * no entities in selection are eligible or selected.
+ */
 extern void attachentities();
 extern void removeentityedit(int id);
 extern void addentityedit(int id);
+
+/**
+ * @brief Attempts to dettach the given entity.
+ *
+ * Attempts to detach the entity from any entity it may be attached to. Fails
+ * silently if the entity is not attached.
+ *
+ * @param e the extentity to attempt to de-link
+ */
 extern void detachentity(extentity &e);
 extern void entselectionbox(const entity &e, vec &eo, vec &es);
 extern void mmboundbox(const entity &e, model *m, vec &center, vec &radius);
@@ -546,7 +846,27 @@ extern string clientmap;
 
 extern bool load_world(const char *mname, const char *gameident, const char *gameinfo = nullptr, const char *cname = nullptr);
 extern bool save_world(const char *mname, const char *gameident);
+
+/**
+ * @brief Changes the passed string to conform to valid map names.
+ *
+ * This function modifies the input parameter, passed by pointer, to comply with
+ * the requirements for Cube map names. This ensures it can be rendered with the
+ * engine's text library.
+ *
+ * @param name The name of the string to modify to compliance
+ */
 extern void fixmapname(char *name);
+
+/**
+ * @brief returns the CRC code for the map currently loaded
+ *
+ * Returns the cyclic redundancy checksum for the file currently loaded. This
+ * value is unique for every revision of a map binary, and is useful to make
+ * sure multiple clients have the same binary.
+ *
+ * @return the cyclic redundancy code of the map file currently loaded
+ */
 extern uint getmapcrc();
 extern void clearmapcrc();
 extern bool loadents(const char *fname, const char *gameident, vector<entity> &ents, uint *crc = nullptr);
