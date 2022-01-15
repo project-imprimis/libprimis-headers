@@ -350,6 +350,26 @@ extern int nospeclights;
 extern int numanims;
 extern std::vector<std::string> animnames;
 
+/**
+ * @brief Renders a world model
+ *
+ * This function renders a model inside the world, given the following parameters.
+ * If the model is not found, the function fails silently.
+ *
+ * @param mdl         name of the model to load
+ * @param anim        index of the animation to use
+ * @param o           location of the model
+ * @param yaw         yaw orientation
+ * @param pitch       pitch orientation
+ * @param roll        roll orientation
+ * @param cull        occlusion culling flags
+ * @param d           dynent to associate model with
+ * @param a           attached models to load
+ * @param basetime    animation interpolation factor
+ * @param basetime2   animation interpolation factor
+ * @param size        scale factor for model
+ * @param color       rgba color of the model
+ */
 extern void rendermodel(const char *mdl, int anim, const vec &o, float yaw = 0, float pitch = 0, float roll = 0, int cull = Model_CullVFC | Model_CullDist | Model_CullOccluded, dynent *d = nullptr, modelattach *a = nullptr, int basetime = 0, int basetime2 = 0, float size = 1, const vec4 &color = vec4(1, 1, 1, 1));
 extern int intersectmodel(const char *mdl, int anim, const vec &pos, float yaw, float pitch, float roll, const vec &o, const vec &ray, float &dist, int mode = 0, dynent *d = nullptr, modelattach *a = nullptr, int basetime = 0, int basetime2 = 0, float size = 1);
 extern void abovemodel(vec &o, const char *mdl);
@@ -435,12 +455,22 @@ extern void draw_text(const char *str, float left, float top, int r = 255, int g
 extern void draw_textf(const char *fstr, float left, float top, ...) PRINTFARGS(1, 4);
 extern void text_boundsf(const char *str, float &width, float &height, int maxwidth = -1);
 
+/**
+ * @brief Sets the currently used font.
+ *
+ * This function sets the current font to use to the one associated with the name
+ * passed. If the function does not find the font requestion, the function returns
+ * false.
+ *
+ * @return true  if the font was found and changed
+ * @return false if the font was not found and not changed
+ */
 extern bool setfont(const char *name);
 
 // renderwindow
 
 extern void swapbuffers(bool overlay = true);
-extern int fullscreen; /**< Toggles fullscreen, behaves like bool; 0 for windowed and 1 for fullscreen */
+extern int fullscreen; /**< Toggles fullscreen, behaves like bool; 0 for windowed and 1 for fullscreen. */
 extern void setupscreen();
 extern void restoregamma();
 extern void restorevsync();
@@ -456,6 +486,16 @@ extern void limitfps(int &millis, int curmillis);
  *
  * @param millis the time (in ms) since program started
  * @param curmillis the last registered frame time
+ */
+extern void limitfps(int &millis, int curmillis);
+
+/**
+ * @brief Adds an entry to the fps history.
+ *
+ * The value millis passed is added to the fps history array, at a position greater
+ * one greater than the previous entry.
+ *
+ * @param millis the timestamp to add to the fps history
  */
 extern void updatefpshistory(int millis);
 extern void cleargamma();
@@ -548,8 +588,26 @@ extern int lusize;
  * @return an integer corresponding to the material(s) at the specified location
  */
 extern int lookupmaterial(const vec &o);
+
+/**
+ * @brief Deletes a cube and its children.
+ *
+ * Recursively deletes child members of the cube passed, then deletes the cube
+ * itself. The node allocation counter is also decreased to correspond to the
+ * removed cubes.
+ *
+ * @param c the cube object to be deleted
+ */
 extern void freeocta(cube *c);
 extern void getcubevector(cube &c, int d, int x, int y, int z, ivec &p);
+
+/**
+ * @brief Reduces the number of cubes on the level losslessly.
+ *
+ * Loops through all cube objects, dissolving child nodes where it is possible
+ * to convert them to their parent nodes. The largest gridpower that can be
+ * optimizied can be controlled by the maxmerge variable.
+ */
 extern void remip();
 extern void optiface(uchar *p, cube &c);
 extern bool isvalidcube(const cube &c);
@@ -585,7 +643,7 @@ extern int nompedit;
 extern int hmapedit;
 extern bool havesel;
 extern std::vector<editinfo *> editinfos;
-extern int texpaneltimer; /**< sets the length before the texture scroll panel turns off */
+extern int texpaneltimer; /**< Sets the length before the texture scroll panel turns off. */
 extern hashnameset<prefab> prefabs;
 extern ivec cor, cur, lastcur, lastcor;
 extern int gridsize;
@@ -723,6 +781,15 @@ extern const float gravity;
 extern int numdynents;
 extern vector<dynent *> dynents;
 
+/**
+ * @brief Returns the dynent at index i.
+ *
+ * Returns a pointer to the dynent object stored at index i of the dynents
+ * vector. Returns nullptr if index i is out of bounds.
+ *
+ * @param i the index to get the dynent at
+ * @return a pointer to the dynent object at index i
+ */
 extern dynent *iterdynents(int i);
 extern void crouchplayer(physent *pl, int moveres, bool local);
 extern bool collide(physent *d, const vec &dir = vec(0, 0, 0), float cutoff = 0.0f, bool playercol = true, bool insideplayercol = false);
@@ -733,6 +800,20 @@ extern void dropenttofloor(entity *e);
 extern bool droptofloor(vec &o, float radius, float height);
 extern void rotatebb(vec &center, vec &radius, int yaw, int pitch, int roll = 0);
 
+/**
+ * @brief Modifies a vector based on passed movement modifiers.
+ *
+ * Given a vector and a series of movement parameters, the passed vector is modified
+ * by the values of move (forward and backward) and strafe (side to side). These
+ * axes are independent of the vec to be modified, and are oriented relative to
+ * the yaw and pitch parameters passed.
+ *
+ * @param yaw    the angle the player is pointing
+ * @param pitch  the angle at which the player is ascending
+ * @param move   the quantity of forwards to backwards motion to add
+ * @param strafe the quantity of side to side motion to add
+ * @param m      the vector to modify
+ */
 extern void vecfromyawpitch(float yaw, float pitch, int move, int strafe, vec &m);
 extern void updatephysstate(physent *d);
 extern void cleardynentcache();
@@ -761,6 +842,19 @@ extern ushort getmaterial(cube &c);
 // world
 
 extern int octaentsize;
+
+/**
+ * @brief Clears the old level and creates a new one.
+ *
+ * This function unloads the old map, including textures, and creates a new level
+ * of the size specified.
+ *
+ * @param factor sets the gridscale (power of 2 size) of the map; limit 10 to 15
+ * @param force if true, creates map regardless of check variables
+ * @param usecfg if true, uses the default map config path
+ *
+ */
+extern bool emptymap(int factor, bool force, bool usecfg = true);
 
 /**
  * @brief Grows the map to an additional gridsize.
@@ -828,6 +922,16 @@ extern void addentityedit(int id);
 extern void detachentity(extentity &e);
 extern void entselectionbox(const entity &e, vec &eo, vec &es);
 extern void mmboundbox(const entity &e, model *m, vec &center, vec &radius);
+
+/**
+ * @brief Gets the depth of a decal slot.
+ *
+ * Returns the depth value for a decal slot. The depth value determines the distance
+ * between a decal and a piece of geometry where the decal will still render.
+ *
+ * @param s the decalslot to query
+ * @return a floating point value indicating the slot's depth
+ */
 extern float getdecalslotdepth(DecalSlot &s);
 extern void entitiesinoctanodes();
 
