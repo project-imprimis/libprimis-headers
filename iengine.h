@@ -398,7 +398,7 @@ extern void clear_models();
 extern std::vector<std::string> entnames;
 
 /**
- * @brief returns the entity name of of a given entity type index
+ * @brief Returns the entity name of of a given entity type index.
  *
  * For the given entity type index (light, model, etc.) returns the
  * human readable name of the entity type.
@@ -448,7 +448,7 @@ extern void resetfpshistory();
 extern void limitfps(int &millis, int curmillis);
 
 /**
- * @brief delays rendering of a frame
+ * @brief Delays rendering of a frame.
  *
  * Uses SDL_Delay to delay a frame, given the time the last frame was
  * rendered and the current time. The amount of delay is calculated from the
@@ -859,7 +859,7 @@ extern bool save_world(const char *mname, const char *gameident);
 extern void fixmapname(char *name);
 
 /**
- * @brief returns the CRC code for the map currently loaded
+ * @brief Returns the CRC code for the map currently loaded.
  *
  * Returns the cyclic redundancy checksum for the file currently loaded. This
  * value is unique for every revision of a map binary, and is useful to make
