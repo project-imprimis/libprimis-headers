@@ -469,6 +469,13 @@ extern bool setfont(const char *name);
 
 // renderwindow
 
+/**
+ * @brief Refreshes the rendered screenbuffer.
+ *
+ * This function refreshes the display buffer. The paramater has no effect.
+ *
+ * @param overlay Has no effect.
+ */
 extern void swapbuffers(bool overlay = true);
 extern int fullscreen; /**< Toggles fullscreen, behaves like bool; 0 for windowed and 1 for fullscreen. */
 extern void setupscreen();
