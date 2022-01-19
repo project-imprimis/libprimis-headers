@@ -609,20 +609,41 @@ inline bool htcmp(GLuint x, GLuint y)
 template <class T>
 struct vector
 {
-    static const int MINSIZE = 8;
+    static const int MINSIZE = 8; /**< The minimum number of elements a vector can be created with. */
 
-    T *buf;
-    int alen, ulen;
+    T *buf; /**< The array of data values making up the vector's data.*/
+    int alen, /**< The allocated length of the vector, including unused space in the buffer. */
+        ulen; /**< The used length of the vector, only counting the part of the buffer which has a vector index */
 
+    /**
+     * @brief Creates a new vector object.
+     *
+     * Creates a new vector object of length 0 and an allocated length of 0; the
+     * buffer storing the data is not initialized.
+     */
     vector() : buf(nullptr), alen(0), ulen(0)
     {
     }
 
+    /**
+     * @brief Assigns the vector to another vector by reference.
+     *
+     * Points `this` vector to another vector passed by reference.
+     * The initialized parameters are replaced by the pointer assignment.
+     *
+     * @param v The vector for this vector to point to.
+     */
     vector(const vector &v) : buf(nullptr), alen(0), ulen(0)
     {
         *this = v;
     }
 
+    /**
+     * @brief Destroys the vector object.
+     *
+     * Deletes the vector and frees the space on the heap allocated to store the
+     * vector's data.
+     */
     ~vector() { shrink(0); if(buf) delete[] (uchar *)buf; }
 
     /**
@@ -970,6 +991,17 @@ struct vector
      */
     bool inbuf(const T *e) const { return e >= buf && e < &buf[ulen]; }
 
+    /**
+     * @brief Sorts using the passed function between passed indices.
+     *
+     * Calls quicksort on `this` array, using the comparison function passed as
+     * its first argument. If n = -1, the last element to be sorted is the last
+     * element of the array. Other wise, the array is sorted between `i` and `n`.
+     *
+     * @param fun the function to sort elements with
+     * @param i the first element to sort from
+     * @param n the last element to sort until
+     */
     template<class F>
     void sort(F fun, int i = 0, int n = -1)
     {
@@ -1076,6 +1108,16 @@ struct vector
         addbuf(buf);
     }
 
+    /**
+     * @brief Removes n elements starting at index i.
+     *
+     * Removes elements (one-indexed) starting with the element after i and continuing
+     * for n entries. Shifts entries beyond those removed by copying to lower array
+     * indices.
+     *
+     * @param i the index after which elements are removed
+     * @param n the number of elements to remove
+     */
     void remove(int i, int n)
     {
         for(int p = i+n; p<ulen; p++)
@@ -1133,6 +1175,16 @@ struct vector
         return e;
     }
 
+    /**
+     * @brief Finds the argument inside this array.
+     *
+     * Returns the index of the vector where the argument is first found.
+     * If the object is not found, -1 is returned for the index.
+     *
+     * @param o the object to find in the array
+     *
+     * @return the index of the object found int the array
+     */
     template<class U>
     int find(const U &o)
     {
