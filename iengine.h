@@ -871,7 +871,6 @@ extern bool emptymap(int factor, bool force, bool usecfg = true);
  *
  * This moves the worldroot cube to the new parent cube of the old map.
  */
-extern bool emptymap(int factor, bool force, bool usecfg = true);
 extern bool enlargemap(bool force);
 extern vec getselpos();
 
