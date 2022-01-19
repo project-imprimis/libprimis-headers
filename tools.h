@@ -594,6 +594,18 @@ inline bool htcmp(GLuint x, GLuint y)
     return x==y;
 }
 
+/**
+ * @brief A container template for storing variable lists of items.
+ *
+ * This template implements a generic container class, consisting of a databuf
+ * object holding the data which changes size as the container has elements added
+ * to it. This container is similar in principle to std::vector<> but has a few
+ * notable differences in semantics.
+ *
+ * The vector container does not support iterators, and therefore std library functions
+ * depending on them (such as sort()) will not work. Instead, the builtin functions
+ * for some such features are included in the class.
+ */
 template <class T>
 struct vector
 {
@@ -613,6 +625,17 @@ struct vector
 
     ~vector() { shrink(0); if(buf) delete[] (uchar *)buf; }
 
+    /**
+     * @brief Sets this vector equal to the passed one.
+     *
+     * Returns this vector, after copying the values from the passed vector to
+     * it. The allocated length of the two vectors are not necessarily equal after
+     * copying; however the assigned values will be equal.
+     *
+     * @param v the vector to copy to this vector
+     *
+     * @return a vector of type T with the values of v
+     */
     vector<T> &operator=(const vector<T> &v)
     {
         shrink(0);
@@ -627,6 +650,23 @@ struct vector
         return *this;
     }
 
+    /**
+     * @brief Adds a reference to the back of the array, with assigned value.
+     *
+     * Adds a reference to a new element located at the back of the vector.
+     * Dynamically constructs a new object on the heap (using the value passed
+     * to construct it) and returns the reference to the newly created element.
+     *
+     * This function's closest equivalents in std::vector<> are push_back() and
+     * emplace_back(). However, these functions do not return a reference to the
+     * newly created value. Manually allocating the pointer on the heap and pushing
+     * it into an array of pointers or references, or using iterators, can work
+     * around this difference in architecture.
+     *
+     * @param x the value to assign to the newly created value
+     *
+     * @return a reference to the newly created object
+     */
     T &add(const T &x)
     {
         if(ulen==alen)
@@ -637,6 +677,22 @@ struct vector
         return buf[ulen++];
     }
 
+    /**
+     * @brief Adds a reference to the back of the array.
+     *
+     * Adds a reference to a new element located at the back of the vector.
+     * Dynamically allocates an object of type T on the heap (which will be
+     * constructed if necessary) and returns the reference to the newly created
+     * element.
+     *
+     * This function has no equivalent in the std::vector<> methods, since iterators
+     * are used to represent addresses of values inside standard template library
+     * containers. The closest equivalent is manually allocating the pointer on
+     * the heap yourself, then pushing it back to a vector containing pointers or
+     * references using push_back().
+     *
+     * @return a reference to the newly created object
+     */
     T &add()
     {
         if(ulen==alen)
@@ -647,6 +703,15 @@ struct vector
         return buf[ulen++];
     }
 
+    /**
+     * @brief Duplicates the last element in the array.
+     *
+     * Copies and assigns to a new element at the end of the vector the value that
+     * the previous last member of the vector has. Expands the allocated length
+     * of the vector as necessary if there is no room left.
+     *
+     * @return the value of the entry which was duplicated.
+     */
     T &dup()
     {
         if(ulen==alen)
@@ -657,6 +722,14 @@ struct vector
         return buf[ulen++];
     }
 
+    /**
+     * @brief Moves this vector into the passed vector and vise versa.
+     *
+     * Moves the values of *this into the vector pointed to by v, and moves the
+     * values inside v into *this.
+     *
+     * @param v the vector to swap with
+     */
     void move(vector<T> &v)
     {
         if(!ulen)
@@ -677,21 +750,134 @@ struct vector
         }
     }
 
+    /**
+     * @brief Returns whether the index passed is valid for this vector.
+     *
+     * Compares the size of the vector to the size_t given
+     *
+     * The std::vector equivalent is to compare the desired value to the size()
+     * of the vector.
+     *
+     * @param i the index to validate
+     *
+     * @return true if the index is in range
+     * @return false if the index is out of range
+     */
     bool inrange(size_t i) const { return i<size_t(ulen); }
+
+    /**
+     * @brief Returns whether the index passed is valid for this vector.
+     *
+     * Compares the size of the vector to the integer given.
+     *
+     * The std::vector equivalent is to compare the desired value to the size()
+     * of the vector.
+     *
+     * @param i the index to validate
+     *
+     * @return true if the index is in range
+     * @return false if the index is out of range
+     */
     bool inrange(int i) const { return i>=0 && i<ulen; }
 
+    /**
+     * @brief Removes and returns the last value.
+     *
+     * Shortens the end of the array by one and returns the value previously
+     * stored at that location.
+     *
+     * @return the element that was popped off the end
+     */
     T &pop() { return buf[--ulen]; }
+
+    /**
+     * @brief Returns the last value in the array.
+     *
+     * The std::vector<> equivalent of this method is back().
+     *
+     * @return the last element in the array
+     */
     T &last() { return buf[ulen-1]; }
+
+    /**
+     * @brief Removes the last element from the vector.
+     *
+     * Deletes the last element of the vector, de-allocating it from the heap.
+     *
+     * The std::vector<> equivalent of this method is pop_back().
+     *
+     * @param
+     */
     void drop() { ulen--; buf[ulen].~T(); }
+
+    /**
+     * @brief Queries whether the vector has no elements.
+     *
+     * Even if the vector has a large allocated memory size, this function returns
+     * true unless there are accessible elements.
+     *
+     * The std::vector<> equivalent of this method is also called empty().
+     *
+     * @return true if the vector has no elements
+     * @return false if the vector has elements
+     */
     bool empty() const { return ulen==0; }
 
+    /**
+     * @brief Returns the number of objects the vector can hold.
+     *
+     * Returns the total allocated size of the vector, in terms of the size of
+     * the object it is storing. This is equal to the maximum number of elements
+     * the vector can hold without having to expand its allocated space and copy
+     * its contents to a new array.
+     *
+     * The std::vector<> equivalent of this method is also called capacity().
+     * @return the number of objects the vector can hold
+     */
     int capacity() const { return alen; }
+
+    /**
+     * @brief Returns the size of the array.
+     *
+     * Returns the number of entries in the array.
+     *
+     * @return the length of the array
+     */
     int length() const { return ulen; }
+
+    /**
+     * @brief Returns the element at index i.
+     *
+     * Gets the ith element in the vector. Does not protect against the boundaries
+     * of the vector, either below or above.
+     *
+     * @param i the index to get the element for
+     *
+     * @return the element at index i
+     */
     T &operator[](int i) { return buf[i]; }
     const T &operator[](int i) const { return buf[i]; }
 
+    /**
+     * @brief Transfers ownership of array to return value.
+     *
+     * The vector's return array is de-assigned from the vector object and passed
+     * to the output.
+     *
+     * **This function will cause a memory leak if the return value is not assigned
+     * to a variable. You must then call delete[] on this returned pointer to avoid
+     * the memory leak.**
+     */
     T *disown() { T *r = buf; buf = nullptr; alen = ulen = 0; return r; }
 
+    /**
+     * @brief Removes elements until i are left.
+     *
+     * The vector's values beyond i are all dropped. leaving a vector of size i
+     * as the remainder.
+     *
+     * @param i the last index in the array to keep
+     */
     void shrink(int i)
     {
         if(isclass<T>::no)
@@ -706,8 +892,24 @@ struct vector
             }
         }
     }
+
+    /**
+     * @brief Sets the used size of the array to i
+     *
+     * Sets the used size of the array to i, even if it is negative or larger than
+     * the allocated length.
+     */
     void setsize(int i) { ulen = i; }
 
+    /**
+     * @brief Deletes contents beyond the passed argument.
+     *
+     * The elements of the vector with an index above n are deleted. This method
+     * is intended for vectors with non-array types; use deletearrays() instead
+     * for vectors of arrays.
+     *
+     * @param n the last parameter to keep in the array
+     */
     void deletecontents(int n = 0)
     {
         while(ulen > n)
@@ -715,6 +917,16 @@ struct vector
             delete pop();
         }
     }
+
+    /**
+     * @brief Deletes array contents beyond the passed argument.
+     *
+     * The elements of the vector with an index above n are deleted. This method
+     * is intended for vectors with array types; use deletcontents() instead
+     * for vectors of non-arrays.
+     *
+     * @param n the last parameter to keep in the array
+     */
     void deletearrays(int n = 0)
     {
         while(ulen > n)
@@ -723,8 +935,39 @@ struct vector
         }
     }
 
+    /**
+     * @brief Returns a pointer to the vector's internal array.
+     *
+     * Returns the address of the vector's internal array. If the vector's size
+     * changes, this pointer will become invalidated.
+     *
+     * @return A pointer to the vector's internal array.
+     */
     T *getbuf() { return buf; }
+
+    /**
+     * @brief Returns a pointer to const for the vector's internal array.
+     *
+     * Returns the address of the vector's internal array. If the vector's size
+     * changes, this pointer will become invalidated. This vector points to const,
+     * so it cannot change the values it sees.
+     *
+     * @return A pointer to const for the vector's internal array.
+     */
     const T *getbuf() const { return buf; }
+
+    /**
+     * @brief returns whether the pointer is inside the vector's internal array
+     *
+     * Returns whether the pointer passed has an address that falls within
+     * the used addresses of the vector. It will return false if the address is
+     * only in the allocated buffer, or is not inside the address range at all.
+     *
+     * @param e the pointer to determine the status of
+     *
+     * @return true if the address is inside the vector's array
+     * @return false if the address is outside the vector's array
+     */
     bool inbuf(const T *e) const { return e >= buf && e < &buf[ulen]; }
 
     template<class F>
@@ -733,7 +976,30 @@ struct vector
         quicksort(&buf[i], n < 0 ? ulen-i : n, fun);
     }
 
+    /**
+     * @brief Sorts the values of the array in ascending order.
+     *
+     * Runs the quicksort algorithm to sort the values in the vector in ascending
+     * order. The std::vector<> equivalent of this operation is
+     * std::sort(vector.begin(), vector.end()).
+     *
+     * This operation has a time complexity of n*log(n) on average and n^2 in the
+     * worst-case scenario.
+     */
     void sort() { sort(sortless()); }
+
+    /**
+     * @brief Sorts the values of the array in ascending order.
+     *
+     * Runs the quicksort algorithm to sort the values in the vector in ascending
+     * order. This function calls sortnameless() which calls sortless(), so the
+     * behavior is the same as sort()
+     * The std::vector<> equivalent of this operation is
+     * std::sort(vector.begin(), vector.end()).
+     *
+     * This operation has a time complexity of n*log(n) on average and n^2 in the
+     * worst-case scenario.
+     */
     void sortname() { sort(sortnameless()); }
 
     void growbuf(int sz)
@@ -792,6 +1058,15 @@ struct vector
         return buf;
     }
 
+    /**
+     * @brief Adds an element to the vector.
+     *
+     * This function is a wrapper around add() and has no other behavior.
+     * The std::vector<> equivalent is either push_back() or emplace_back().
+     *
+     * @param v the element to add to the vector
+     *
+     */
     void put(const T &v) { add(v); }
 
     void put(const T *v, int n)
@@ -810,6 +1085,21 @@ struct vector
         ulen -= n;
     }
 
+    /**
+     * @brief Removes an element from the vector.
+     *
+     * Removes the ith element of the vector. If i is greater than the size of the
+     * vector, the array is accessed out-of-bounds. The elements beyond the index
+     * selected are all moved forward one space, and the element removed is returned
+     * by value.
+     *
+     * The equivalent std::vector<> expression is to get the element's value with
+     * operator[] or at() and then to remove the element with erase().
+     *
+     * @param i the index of the element to remove
+     *
+     * @return the value of the element removed
+     */
     T remove(int i)
     {
         T e = buf[i];
@@ -821,6 +1111,17 @@ struct vector
         return e;
     }
 
+    /**
+     * @brief Removes the element at index i, non-order preserving.
+     *
+     * Removes the ith element of the vector, copying the last element into its
+     * location. This changes the resulting order of the vector, while avoiding
+     * a more costly shift of vector entries from i upwards.
+     *
+     * @param i the index of the value to remove
+     *
+     * @return the value of the element removed
+     */
     T removeunordered(int i)
     {
         T e = buf[i];
@@ -845,11 +1146,32 @@ struct vector
         return -1;
     }
 
+    /**
+     * @brief Adds an element iff it is not in the list.
+     *
+     * This method searches for an element with the same value, and adds a new
+     * element containing the value passed iff there is no identical element already
+     * present. Fails silently if the element already exists in the vector.
+     *
+     * @param o The object to attempt to add.
+     */
     void addunique(const T &o)
     {
-        if(find(o) < 0) add(o);
+        if(find(o) < 0)
+        {
+            add(o);
+        }
     }
 
+    /**
+     * @brief Removes element by searching.
+     *
+     * Attempts to remove an element that compares equal to the argument passed.
+     * Only removes the first element found, if multiple identical entries to
+     * the argument are found.
+     *
+     * @param o The object to search for to delete.
+     */
     void removeobj(const T &o)
     {
         for(int i = 0; i < static_cast<int>(ulen); ++i)
@@ -870,55 +1192,99 @@ struct vector
         }
     }
 
+    /**
+     * @brief Removes element by searching, non order-preserving.
+     *
+     * Attempts to remove an element that compares equal to the argument passed,
+     * replacing it with the last element. If multiple identical entries to the
+     * argument are found, only the first element is removed.
+     *
+     * This function acts similarly to removeobj() but does not preserve the order
+     * of the resulting vector; it is faster however by not having to shift elements
+     * i and upward to preserve the order.
+     *
+     * @param o THe object to search for to delete
+     */
     void replacewithlast(const T &o)
     {
-        if(!ulen)
+        if(!ulen) //do not operate on empty vector
         {
             return;
         }
-        for(int i = 0; i < static_cast<int>(ulen-1); ++i)
+        for(int i = 0; i < static_cast<int>(ulen-1); ++i) //loop through
         {
-            if(buf[i]==o)
+            if(buf[i]==o) //compare to passed item
             {
-                buf[i] = buf[ulen-1];
+                buf[i] = buf[ulen-1]; //move last element
                 break;
             }
-            ulen--;
+            ulen--; //move index down one
         }
     }
 
+    /**
+     * @brief Inserts an element at the specified index.
+     *
+     * Adds an element to the vector at the specified location. The std::vector<>
+     * equivalent is also called insert() and has essentially the same semantics,
+     * except that std::vector<> returns an iterator and this function returns a
+     * copy of the data.
+     *
+     * @param i index to insert at
+     * @param e element to insert
+     *
+     * @return the value that was inserted into the array
+     */
     T &insert(int i, const T &e)
     {
-        add(T());
-        for(int p = ulen-1; p>i; p--)
+        add(T()); //add to end of vector
+        for(int p = ulen-1; p>i; p--) //from end to index, shift elements forwards one
         {
             buf[p] = buf[p-1];
         }
-        buf[i] = e;
-        return buf[i];
+        buf[i] = e; //insert at ith location in buffer
+        return buf[i]; //return the value assigned
     }
 
+    /**
+     * @brief Inserts n elements at the specified index.
+     *
+     * Adds n elements to the vector at the specified index. Equivalent to calling
+     * insert(int, const T) multiple times with i, i+1, i+2... i+n, except slightly
+     * more efficient. The same value e is assigned to all n entries created.
+     *
+     * @param i index to insert at
+     * @param e element to insert
+     * @param n number of elements to add
+     *
+     */
     T *insert(int i, const T *e, int n)
     {
-        if(alen-ulen < n)
+        if(alen-ulen < n) //expand buffer if needed
         {
             growbuf(ulen+n);
         }
-        for(int j = 0; j < n; ++j)
+        for(int j = 0; j < n; ++j) //add n elements to end
         {
             add(T());
         }
-        for(int p = ulen-1; p>=i+n; p--)
+        for(int p = ulen-1; p>=i+n; p--) //for descending elements after i+n (new elements) move upwards by n
         {
             buf[p] = buf[p-n];
         }
-        for(int j = 0; j < n; ++j)
+        for(int j = 0; j < n; ++j) //set value of n elements to e
         {
             buf[i+j] = e[j];
         }
-        return &buf[i];
+        return &buf[i]; //return first newly allocated
     }
 
+    /**
+     * @brief Reverses the order of the vector.
+     *
+     * Flips the first n/2 (rounded down) elements with the back n/2 elements,
+     * changing the vector's array so that it is in reverse.
+     */
     void reverse()
     {
         for(int i = 0; i < static_cast<int>(ulen/2); ++i)
