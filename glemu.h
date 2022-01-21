@@ -50,7 +50,7 @@ namespace gle
     extern void vertex(const vec &v);
     extern void vertex(const vec &v, float w);
     extern void vertex(const vec2 &v);
-    extern void vertex(const vec4 &v);
+    extern void vertex(const vec4<float> &v);
 
     extern void colorf(float x);
     extern void colorf(float x, float y);
@@ -60,11 +60,11 @@ namespace gle
     extern void color(const vec &v);
     extern void color(const vec &v, float w);
     extern void color(const vec2 &v);
-    extern void color(const vec4 &v);
+    extern void color(const vec4<float> &v);
 
     extern void colorub(uchar x, uchar y, uchar z, uchar w = 255);
     extern void color(const bvec &v, uchar alpha = 255);
-    extern void color(const bvec4 &v);
+    extern void color(const vec4<uchar> &v);
     extern void texcoord0f(float x);
     extern void texcoord0f(float x, float y);
     extern void texcoord0f(float x, float y, float z);
@@ -73,7 +73,7 @@ namespace gle
     extern void texcoord0(const vec &v);
     extern void texcoord0(const vec &v, float w);
     extern void texcoord0(const vec2 &v);
-    extern void texcoord0(const vec4 &v);
+    extern void texcoord0(const vec4<float> &v);
     extern void texcoord1f(float x);
     extern void texcoord1f(float x, float y);
     extern void texcoord1f(float x, float y, float z);
@@ -81,12 +81,12 @@ namespace gle
     extern void texcoord1(const vec &v);
     extern void texcoord1(const vec &v, float w);
     extern void texcoord1(const vec2 &v);
-    extern void texcoord1(const vec4 &v);
+    extern void texcoord1(const vec4<float> &v);
     extern void normal(float x, float y, float z);
     extern void normal(const vec &v);
     extern void tangent(float x, float y, float z, float w = 1.0f);
     extern void tangent(const vec &v, float w = 1.0f);
-    extern void tangent(const vec4 &v);
+    extern void tangent(const vec4<float> &v);
 
     extern void enableattrib(int index);
     extern void disableattrib(int index);
@@ -156,14 +156,14 @@ namespace gle
     extern void attrib(const vec &v);
     extern void attrib(const vec &v, float w);
     extern void attrib(const vec2 &v);
-    extern void attrib(const vec4 &v);
+    extern void attrib(const vec4<float> &v);
     extern void attrib(const ivec &v);
     extern void attrib(const ivec &v, int w);
     extern void attrib(const ivec2 &v);
-    extern void attrib(const ivec4 &v);
+    extern void attrib(const vec4<int> &v);
     extern void attrib(const bvec &b);
     extern void attrib(const bvec &b, uchar w);
-    extern void attrib(const bvec4 &b);
+    extern void attrib(const vec4<uchar> &b);
 
     extern int end();
 
