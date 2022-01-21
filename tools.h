@@ -1417,6 +1417,19 @@ struct vector
         return e;
     }
 
+    /** 
+     * @brief finds the key from a hashtable in the vector.
+     * 
+     * the implementation takes advantage of the numerous overloads 
+     * of the htcmp() function. Note that this means the generic parameter
+     * can be one of the following:
+     * const char *
+     * const stringslice  
+     * int
+     * GLuint
+     * 
+     * @returns the index of the element if it exists; -1 otherwise
+     */
     template<class K>
     int htfind(const K &key)
     {
