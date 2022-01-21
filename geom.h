@@ -1902,7 +1902,7 @@ struct matrix4
         c = rc;
     }
     void rotate_around_x(float angle) { rotate_around_x(std::cos(angle), std::sin(angle)); }
-    void rotate_around_x(const vec2 &sc) { rotate_around_x(sc.x, sc.y); }
+    void rotate_around_x(const vec2<float> &sc) { rotate_around_x(sc.x, sc.y); }
 
     void rotate_around_y(float ck, float sk)
     {
@@ -1912,7 +1912,7 @@ struct matrix4
         a = ra;
     }
     void rotate_around_y(float angle) { rotate_around_y(std::cos(angle), std::sin(angle)); }
-    void rotate_around_y(const vec2 &sc) { rotate_around_y(sc.x, sc.y); }
+    void rotate_around_y(const vec2<float> &sc) { rotate_around_y(sc.x, sc.y); }
 
     void rotate_around_z(float ck, float sk)
     {
@@ -1922,7 +1922,7 @@ struct matrix4
         b = rb;
     }
     void rotate_around_z(float angle) { rotate_around_z(std::cos(angle), std::sin(angle)); }
-    void rotate_around_z(const vec2 &sc) { rotate_around_z(sc.x, sc.y); }
+    void rotate_around_z(const vec2<float> &sc) { rotate_around_z(sc.x, sc.y); }
 
     void rotate(float ck, float sk, const vec &axis)
     {
@@ -1931,7 +1931,7 @@ struct matrix4
         mul(m);
     }
     void rotate(float angle, const vec &dir) { rotate(std::cos(angle), std::sin(angle), dir); }
-    void rotate(const vec2 &sc, const vec &dir) { rotate(sc.x, sc.y, dir); }
+    void rotate(const vec2<float> &sc, const vec &dir) { rotate(sc.x, sc.y, dir); }
 
     void identity()
     {
@@ -2145,7 +2145,7 @@ struct matrix4
 
     bool invert(const matrix4 &m, double mindet = 1.0e-12);
 
-    vec2 lineardepthscale() const
+    vec2<float> lineardepthscale() const
     {
         return vec2(d.w, -d.z).div(c.z*d.w - d.z*c.w);
     }
@@ -2159,12 +2159,13 @@ inline matrix4x3::matrix4x3(const matrix4 &m)
     : a(m.a), b(m.b), c(m.c), d(m.d)
 {}
 
+template<typename T>
 struct matrix2
 {
-    vec2 a, b;
+    vec2<T> a, b;
 
     matrix2() {}
-    matrix2(const vec2 &a, const vec2 &b) : a(a), b(b) {}
+    matrix2(const vec2<T> &a, const vec2<T> &b) : a(a), b(b) {}
     explicit matrix2(const matrix4 &m) : a(m.a), b(m.b) {}
     explicit matrix2(const matrix3 &m) : a(m.a), b(m.b) {}
 };
@@ -2269,7 +2270,7 @@ extern bool rayboxintersect(const vec &b, const vec &s, const vec &o, const vec 
 extern bool linecylinderintersect(const vec &from, const vec &to, const vec &start, const vec &end, float radius, float &dist);
 extern int polyclip(const vec *in, int numin, const vec &dir, float below, float above, vec *out);
 
-extern const vec2 sincos360[];
+extern const vec2<float> sincos360[];
 inline int mod360(int angle)
 {
     if(angle < 0)
@@ -2282,10 +2283,10 @@ inline int mod360(int angle)
     }
     return angle;
 }
-inline const vec2 &sincosmod360(int angle) { return sincos360[mod360(angle)]; }
+inline const vec2<float> &sincosmod360(int angle) { return sincos360[mod360(angle)]; }
 inline float cos360(int angle) { return sincos360[angle].x; }
 inline float sin360(int angle) { return sincos360[angle].y; }
-inline float tan360(int angle) { const vec2 &sc = sincos360[angle]; return sc.y/sc.x; }
-inline float cotan360(int angle) { const vec2 &sc = sincos360[angle]; return sc.x/sc.y; }
+inline float tan360(int angle) { const vec2<float> &sc = sincos360[angle]; return sc.y/sc.x; }
+inline float cotan360(int angle) { const vec2<float> &sc = sincos360[angle]; return sc.x/sc.y; }
 
 #endif /* GEOM_H_ */
