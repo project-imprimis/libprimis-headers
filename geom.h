@@ -45,12 +45,12 @@ struct vec2
     bool iszero() const { return x==0 && y==0; }
     T dot(const vec2 &o) const  { return x*o.x + y*o.y; }
     T squaredlen() const { return dot(*this); }
-    T magnitude() const  { return sqrtf(squaredlen()); }
+    T magnitude() const  { return std::sqrt(squaredlen()); }
     vec2 &normalize() { mul(1/magnitude()); return *this; }
     vec2 &safenormalize() { float m = magnitude(); if(m) mul(1/m); return *this; }
     T cross(const vec2 &o) const { return x*o.y - y*o.x; }
     T squaredist(const vec2 &e) const { return vec2(*this).sub(e).squaredlen(); }
-    T dist(const vec2 &e) const { return sqrtf(squaredist(e)); }
+    T dist(const vec2 &e) const { return std::sqrt(squaredist(e)); }
 
     vec2 &mul(T f)       { x *= f; y *= f; return *this; }
     vec2 &mul(const vec2 &o) { x *= o.x; y *= o.y; return *this; }
@@ -234,10 +234,10 @@ struct vec
     vec &square()            { mul(*this); return *this; }
     vec &neg2()              { x = -x; y = -y; return *this; } //unused
     vec &neg()               { x = -x; y = -y; z = -z; return *this; } //overloaded by operator-()
-    vec &abs() { x = abs(x); y = fabs(y); z = fabs(z); return *this; }
+    vec &abs() { x = std::abs(x); y = std::abs(y); z = std::abs(z); return *this; }
     vec &recip()             { x = 1/x; y = 1/y; z = 1/z; return *this; } //used twice
-    float magnitude2() const { return sqrtf(dot2(*this)); }
-    float magnitude() const  { return sqrtf(squaredlen()); }
+    float magnitude2() const { return std::sqrt(dot2(*this)); }
+    float magnitude() const  { return std::sqrt(squaredlen()); }
     vec &normalize()         { div(magnitude()); return *this; }
     vec &safenormalize()     { float m = magnitude(); if(m) div(m); return *this; }
     bool isnormalized() const { float m = squaredlen(); return (m>0.99f && m<1.01f); }
@@ -270,14 +270,14 @@ struct vec
     float dot2(const vec &o) const { return x*o.x + y*o.y; }
     float dot(const vec &o) const { return x*o.x + y*o.y + z*o.z; }
     float squaredot(const vec &o) const { float k = dot(o); return k*k; } //unused
-    float absdot(const vec &o) const { return fabs(x*o.x) + fabs(y*o.y) + fabs(z*o.z); } //used once
+    float absdot(const vec &o) const { return std::abs(x*o.x) + std::abs(y*o.y) + std::abs(z*o.z); } //used once
     float zdot(const vec &o) const { return z*o.z; } //unused
 
     //distances
     float squaredist(const vec &e) const { return vec(*this).sub(e).squaredlen(); }
-    float dist(const vec &e) const { return sqrtf(squaredist(e)); }
+    float dist(const vec &e) const { return std::sqrt(squaredist(e)); }
     float dist(const vec &e, vec &t) const { t = *this; t.sub(e); return t.magnitude(); }
-    float dist2(const vec &o) const { float dx = x-o.x, dy = y-o.y; return sqrtf(dx*dx + dy*dy); }
+    float dist2(const vec &o) const { float dx = x-o.x, dy = y-o.y; return std::sqrt(dx*dx + dy*dy); }
 
     //cross products
     template<class T>
@@ -301,14 +301,14 @@ struct vec
     {
         float m = squaredlen(), k = dot(n);
         projectxydir(n);
-        rescale(sqrtf(::max(m - k*k, 0.0f)));
+        rescale(std::sqrt(::max(m - k*k, 0.0f)));
         return *this;
     } //used once
     vec &projectxy(const vec &n, float threshold)
     {
         float m = squaredlen(), k = ::min(dot(n), threshold);
         projectxydir(n);
-        rescale(sqrtf(::max(m - k*k, 0.0f)));
+        rescale(std::sqrt(::max(m - k*k, 0.0f)));
         return *this;
     } //used once
     vec &lerp(const vec &b, float t) { x += (b.x-x)*t; y += (b.y-y)*t; z += (b.z-z)*t; return *this; }
@@ -352,7 +352,7 @@ struct vec
 
     void orthogonal(const vec &d)
     {
-        *this = fabs(d.x) > fabs(d.z) ? vec(-d.y, d.x, 0) : vec(0, -d.z, d.y);
+        *this = std::abs(d.x) > std::abs(d.z) ? vec(-d.y, d.x, 0) : vec(0, -d.z, d.y);
     }
 
     void orthonormalize(vec &s, vec &t) const
@@ -403,7 +403,7 @@ struct vec
                 sqrdist += delta*delta;
             }
         }
-        return sqrtf(sqrdist);
+        return std::sqrt(sqrdist);
     }
 
     template<class T, class S>
@@ -612,8 +612,8 @@ struct vec4
     T dot(const vec4 &o) const { return dot3(o) + w*o.w; }
     T dot(const vec &o) const  { return x*o.x + y*o.y + z*o.z + w; }
     T squaredlen() const { return dot(*this); }
-    T magnitude() const  { return sqrtf(squaredlen()); }
-    T magnitude3() const { return sqrtf(dot3(*this)); }
+    T magnitude() const  { return std::sqrt(squaredlen()); }
+    T magnitude3() const { return std::sqrt(dot3(*this)); }
     vec4 &normalize() { mul(1/magnitude()); return *this; }
     vec4 &safenormalize() { T m = magnitude(); if(m) mul(1/m); return *this; }
 
@@ -745,9 +745,9 @@ struct vec4
     vec4 &rotate_around_x(T angle) { return rotate_around_x(std::cos(angle), std::sin(angle)); }
     vec4 &rotate_around_y(T angle) { return rotate_around_y(std::cos(angle), std::sin(angle)); }
 
-    vec4 &rotate_around_z(const vec2 &sc) { return rotate_around_z(sc.x, sc.y); }
-    vec4 &rotate_around_x(const vec2 &sc) { return rotate_around_x(sc.x, sc.y); }
-    vec4 &rotate_around_y(const vec2 &sc) { return rotate_around_y(sc.x, sc.y); }
+    vec4 &rotate_around_z(const vec2<T> &sc) { return rotate_around_z(sc.x, sc.y); }
+    vec4 &rotate_around_x(const vec2<T> &sc) { return rotate_around_x(sc.x, sc.y); }
+    vec4 &rotate_around_y(const vec2<T> &sc) { return rotate_around_y(sc.x, sc.y); }
 
     vec tonormal() const { return vec(x*(2.0f/255.0f)-1.0f, y*(2.0f/255.0f)-1.0f, z*(2.0f/255.0f)-1.0f); }
 
@@ -777,7 +777,7 @@ struct quat : vec4<float>
     }
     quat(const vec &u, const vec &v)
     {
-        w = sqrtf(u.squaredlen() * v.squaredlen()) + u.dot(v);
+        w = std::sqrt(u.squaredlen() * v.squaredlen()) + u.dot(v);
         cross(u, v);
         normalize();
     }
@@ -792,7 +792,7 @@ struct quat : vec4<float>
     explicit quat(const matrix4x3 &m) { convertmatrix(m); }
     explicit quat(const matrix4 &m) { convertmatrix(m); }
 
-    void restorew() { w = 1.0f-x*x-y*y-z*z; w = w<0 ? 0 : -sqrtf(w); }
+    void restorew() { w = 1.0f-x*x-y*y-z*z; w = w<0 ? 0 : -std::sqrt(w); }
 
     quat &add(const vec4<float> &o) { vec4<float>::add(o); return *this; }
     quat &sub(const vec4<float> &o) { vec4<float>::sub(o); return *this; }
@@ -822,7 +822,7 @@ struct quat : vec4<float>
         float rr = dot3(*this);
         if(rr>0)
         {
-            angle = 2*astd::cos(w);
+            angle = 2*std::cos(w);
             axis = vec(x, y, z).mul(1/rr);
         }
         else { angle = 0; axis = vec(0, 0, 1); }
@@ -833,13 +833,13 @@ struct quat : vec4<float>
         vec4<float> qq = vec4<float>(*this).square();
         float rr = qq.x + qq.y + qq.z + qq.w,
               t = x*y + z*w;
-        if(fabs(t) > 0.49999f*rr)
+        if(std::abs(t) > 0.49999f*rr)
         {
-            return t < 0 ? vec(-2*atan2f(x, w), -M_PI/2, 0) : vec(2*atan2f(x, w), M_PI/2, 0);
+            return t < 0 ? vec(-2*std::atan2(x, w), -M_PI/2, 0) : vec(2*std::atan2(x, w), M_PI/2, 0);
         }
-        return vec(atan2f(2*(y*w - x*z), qq.x - qq.y - qq.z + qq.w),
-                   asinf(2*t/rr),
-                   atan2f(2*(x*w - y*z), -qq.x + qq.y - qq.z + qq.w));
+        return vec(std::atan2(2*(y*w - x*z), qq.x - qq.y - qq.z + qq.w),
+                   std::sin(2*t/rr),
+                   std::atan2(2*(x*w - y*z), -qq.x + qq.y - qq.z + qq.w));
     }
 
     vec rotate(const vec &v) const
@@ -858,7 +858,7 @@ struct quat : vec4<float>
         float trace = m.a.x + m.b.y + m.c.z;
         if(trace>0)
         {
-            float r = sqrtf(1 + trace), inv = 0.5f/r;
+            float r = std::sqrt(1 + trace), inv = 0.5f/r;
             w = 0.5f*r;
             x = (m.b.z - m.c.y)*inv;
             y = (m.c.x - m.a.z)*inv;
@@ -866,7 +866,7 @@ struct quat : vec4<float>
         }
         else if(m.a.x > m.b.y && m.a.x > m.c.z)
         {
-            float r = sqrtf(1 + m.a.x - m.b.y - m.c.z), inv = 0.5f/r;
+            float r = std::sqrt(1 + m.a.x - m.b.y - m.c.z), inv = 0.5f/r;
             x = 0.5f*r;
             y = (m.a.y + m.b.x)*inv;
             z = (m.c.x + m.a.z)*inv;
@@ -874,7 +874,7 @@ struct quat : vec4<float>
         }
         else if(m.b.y > m.c.z)
         {
-            float r = sqrtf(1 + m.b.y - m.a.x - m.c.z), inv = 0.5f/r;
+            float r = std::sqrt(1 + m.b.y - m.a.x - m.c.z), inv = 0.5f/r;
             x = (m.a.y + m.b.x)*inv;
             y = 0.5f*r;
             z = (m.b.z + m.c.y)*inv;
@@ -882,7 +882,7 @@ struct quat : vec4<float>
         }
         else
         {
-            float r = sqrtf(1 + m.c.z - m.a.x - m.b.y), inv = 0.5f/r;
+            float r = std::sqrt(1 + m.c.z - m.a.x - m.b.y), inv = 0.5f/r;
             x = (m.c.x + m.a.z)*inv;
             y = (m.b.z + m.c.y)*inv;
             z = 0.5f*r;
@@ -1157,7 +1157,7 @@ struct matrix3
                 {
                     return false;
                 }
-                r = sqrtf(r);
+                r = std::sqrt(r);
                 axis.x = 0.5f*r;
                 axis.y = b.x/r;
                 axis.z = c.x/r;
@@ -1169,7 +1169,7 @@ struct matrix3
                 {
                     return false;
                 }
-                r = sqrtf(r);
+                r = std::sqrt(r);
                 axis.y = 0.5f*r;
                 axis.x = b.x/r;
                 axis.z = c.y/r;
@@ -1181,7 +1181,7 @@ struct matrix3
                 {
                     return false;
                 }
-                r = sqrtf(r);
+                r = std::sqrt(r);
                 axis.z = 0.5f*r;
                 axis.x = c.x/r;
                 axis.y = c.y/r;
@@ -1201,8 +1201,8 @@ struct matrix3
             {
                 return false;
             }
-            axis.mul(1/sqrtf(r));
-            angle = astd::cos(0.5f*(tr - 1));
+            axis.mul(1/std::sqrt(r));
+            angle = std::cos(0.5f*(tr - 1));
         }
         return true;
     }
@@ -1238,7 +1238,7 @@ struct matrix3
         c = rc;
     }
     void rotate_around_x(float angle) { rotate_around_x(std::cos(angle), std::sin(angle)); }
-    void rotate_around_x(const vec2 &sc) { rotate_around_x(sc.x, sc.y); }
+    void rotate_around_x(const vec2<float> &sc) { rotate_around_x(sc.x, sc.y); }
 
     void rotate_around_y(float ck, float sk)
     {
@@ -1248,7 +1248,7 @@ struct matrix3
         a = ra;
     }
     void rotate_around_y(float angle) { rotate_around_y(std::cos(angle), std::sin(angle)); }
-    void rotate_around_y(const vec2 &sc) { rotate_around_y(sc.x, sc.y); }
+    void rotate_around_y(const vec2<float> &sc) { rotate_around_y(sc.x, sc.y); }
 
     void rotate_around_z(float ck, float sk)
     {
@@ -1258,10 +1258,10 @@ struct matrix3
         b = rb;
     }
     void rotate_around_z(float angle) { rotate_around_z(std::cos(angle), std::sin(angle)); }
-    void rotate_around_z(const vec2 &sc) { rotate_around_z(sc.x, sc.y); }
+    void rotate_around_z(const vec2<float> &sc) { rotate_around_z(sc.x, sc.y); }
 
-    vec transform(const vec2 &o) { return vec(a).mul(o.x).madd(b, o.y); }
-    vec transposedtransform(const vec2 &o) const { return vec(a.dot2(o), b.dot2(o), c.dot2(o)); }
+    vec transform(const vec2<float>  &o) { return vec(a).mul(o.x).madd(b, o.y); }
+    vec transposedtransform(const vec2<float>  &o) const { return vec(a.dot2(o), b.dot2(o), c.dot2(o)); }
 
     vec rowx() const { return vec(a.x, b.x, c.x); }
     vec rowy() const { return vec(a.y, b.y, c.y); }
@@ -1495,7 +1495,7 @@ struct matrix4x3
         rotate_around_x(std::cos(angle), std::sin(angle));
     }
 
-    void rotate_around_x(const vec2 &sc)
+    void rotate_around_x(const vec2<float>  &sc)
     {
         rotate_around_x(sc.x, sc.y);
     }
@@ -1512,7 +1512,7 @@ struct matrix4x3
         rotate_around_y(std::cos(angle), std::sin(angle));
     }
 
-    void rotate_around_y(const vec2 &sc)
+    void rotate_around_y(const vec2<float>  &sc)
     {
         rotate_around_y(sc.x, sc.y);
     }
@@ -1525,13 +1525,13 @@ struct matrix4x3
         b = rb;
     }
     void rotate_around_z(float angle) { rotate_around_z(std::cos(angle), std::sin(angle)); }
-    void rotate_around_z(const vec2 &sc) { rotate_around_z(sc.x, sc.y); }
+    void rotate_around_z(const vec2<float>  &sc) { rotate_around_z(sc.x, sc.y); }
 
     vec transform(const vec &o) const { return vec(d).madd(a, o.x).madd(b, o.y).madd(c, o.z); }
     vec transposedtransform(const vec &o) const { vec p = vec(o).sub(d); return vec(a.dot(p), b.dot(p), c.dot(p)); }
     vec transformnormal(const vec &o) const { return vec(a).mul(o.x).madd(b, o.y).madd(c, o.z); }
     vec transposedtransformnormal(const vec &o) const { return vec(a.dot(o), b.dot(o), c.dot(o)); }
-    vec transform(const vec2 &o) const { return vec(d).madd(a, o.x).madd(b, o.y); }
+    vec transform(const vec2<float>  &o) const { return vec(d).madd(a, o.x).madd(b, o.y); }
 
     vec4<float> rowx() const { return vec4<float>(a.x, b.x, c.x, d.x); }
     vec4<float> rowy() const { return vec4<float>(a.y, b.y, c.y, d.y); }
@@ -1790,7 +1790,8 @@ struct ivec2
 
     ivec2() {}
     ivec2(int x, int y) : x(x), y(y) {}
-    explicit ivec2(const vec2 &v) : x(static_cast<int>(v.x)), y(static_cast<int>(v.y)) {}
+    template<typename T>
+    explicit ivec2(const vec2<float>  &v) : x(static_cast<int>(v.x)), y(static_cast<int>(v.y)) {}
     explicit ivec2(const ivec &v) : x(v.x), y(v.y) {}
 
     int &operator[](int i)       { return v[i]; }
@@ -2139,7 +2140,7 @@ struct matrix4
 
     float getscale() const
     {
-        return sqrtf(a.x*a.y + b.x*b.x + c.x*c.x);
+        return std::sqrt(a.x*a.y + b.x*b.x + c.x*c.x);
     }
 
     vec gettranslation() const
@@ -2154,7 +2155,8 @@ struct matrix4
 
     bool invert(const matrix4 &m, double mindet = 1.0e-12);
 
-    vec2<float> lineardepthscale() const
+    template <typename T>
+    vec2<T> lineardepthscale() const
     {
         return vec2(d.w, -d.z).div(c.z*d.w - d.z*c.w);
     }
