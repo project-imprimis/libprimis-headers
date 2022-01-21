@@ -27,7 +27,14 @@ struct vec2
     vec2() {}
     vec2(T x, T y) : x(x), y(y) {}
     explicit vec2(const vec &v);
-    explicit vec2(const vec4<float> &v);
+    explicit vec2(const vec4<T> &v);
+
+    template<class U>
+    operator vec2<U>()
+    {
+        return vec2<U>(static_cast<U>(this->x),
+                       static_cast<U>(this->y));
+    }
 
     float &operator[](int i)       { return v[i]; }
     float  operator[](int i) const { return v[i]; }
@@ -745,7 +752,9 @@ struct vec4
     vec tonormal() const { return vec(x*(2.0f/255.0f)-1.0f, y*(2.0f/255.0f)-1.0f, z*(2.0f/255.0f)-1.0f); }
 
 };
-inline vec2::vec2(const vec4<float> &v) : x(v.x), y(v.y) {}
+
+template <typename T>
+inline vec2<T>::vec2(const vec4<T> &v) : x(v.x), y(v.y) {}
 inline vec::vec(const vec4<float> &v) : x(v.x), y(v.y), z(v.z) {}
 
 struct matrix3;
