@@ -1423,10 +1423,10 @@ struct vector
      * the implementation takes advantage of the numerous overloads 
      * of the htcmp() function. Note that this means the generic parameter
      * can be one of the following:
-     * const char *
-     * const stringslice  
-     * int
-     * GLuint
+     * - const char *
+     * - const stringslice  
+     * - int
+     * - GLuint
      * 
      * @returns the index of the element if it exists; -1 otherwise
      */
@@ -1459,6 +1459,15 @@ struct vector
                 cleanup; \
                 break; \
             }
+
+    /**
+     * @brief removes every duplicate value from the vector.
+     * 
+     * Contents must be initally sorted; the vector gets resized
+     * afterwards.
+     * **It may leak memory if used 
+     * 
+    */
     void unique() // contents must be initially sorted
     {
         UNIQUE(buf[n] = buf[i], setsize(n));
