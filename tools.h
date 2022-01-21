@@ -1461,13 +1461,13 @@ struct vector
             }
 
     /**
-     * @brief removes every duplicate, stack allocated value from the vector.
+     * @brief removes every duplicate **stack allocated value** from the vector.
      * 
      * Contents must be initally sorted.
      * Duplicated items get deleted via a call to setsize().
      * 
-     * **It may leak memory if used with heap allocated and array items.
-     * see uniquedeletecontents() and uniquedeletearrays() for that case**
+     * **It may leak memory if used with heap allocated and array items.**
+     * **see uniquedeletecontents() and uniquedeletearrays() for that case**
      * 
     */
     void unique() // contents must be initially sorted
@@ -1476,7 +1476,7 @@ struct vector
     }
 
     /**
-     * @brief removes every duplicate, heap-allocated value from the vector.
+     * @brief removes every duplicate **heap-allocated value** from the vector.
      * 
      * Duplicated items get deleted via deletecontents().
      * for the equivalent function for stack values see unique().
@@ -1488,11 +1488,11 @@ struct vector
     }
 
     /**
-     * @brief removes every duplicate, array value from the vector.
+     * @brief removes every duplicate **array value** from the vector.
      * 
      * Duplicated items get deleted via deletearrays().
      * for the equivalent function for stack values see unique().
-     * for the equivalent function for array values see uniquedeletecontents().
+     * for the equivalent function for heap-allocated values see uniquedeletecontents().
      */
     void uniquedeletearrays()
     {
