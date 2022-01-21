@@ -1467,7 +1467,7 @@ struct vector
      * Duplicated items get deleted via a call to setsize().
      * 
      * **It may leak memory if used with heap allocated and array items.
-     * see uniquedeletecontents() and uniquedeletearrays()**
+     * see uniquedeletecontents() and uniquedeletearrays() for that case**
      * 
     */
     void unique() // contents must be initially sorted
