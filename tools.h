@@ -861,6 +861,7 @@ struct vector
      * @brief Returns the size of the array.
      *
      * Returns the number of entries in the array.
+     * The std::vector<> equivalent of this method is called size()
      *
      * @return the length of the array
      */
