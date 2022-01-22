@@ -25,11 +25,11 @@ enum
     EngineEnt_GameSpecific,
 };
 
-struct entity                                   // persistent map entity
+struct entity                                   /**< persistent map entity */
 {
-    vec o;                                      // position
-    short attr1, attr2, attr3, attr4, attr5;    // attributes
-    uchar type;                                 // type is one of the above
+    vec o;                                      /**< position */
+    short attr1, attr2, attr3, attr4, attr5;    /**< attributes */
+    uchar type;                                 /**< type is one of the above */
     uchar reserved;
 };
 
@@ -47,7 +47,7 @@ enum
 
 };
 
-struct extentity : entity                       // part of the entity that doesn't get saved to disk
+struct extentity : entity                       /**< part of the entity that doesn't get saved to disk */
 {
     int flags;
     extentity *attached;
@@ -126,27 +126,27 @@ enum
 const int   crouchtime   = 200;
 const float crouchheight = 0.75f;
 
-struct physent                                  // base entity type, can be affected by physics
+struct physent                                  /**< base entity type, can be affected by physics */
 {
-    vec o, vel, falling;                        // origin, velocity
-    vec deltapos, newpos;                       // movement interpolation
+    vec o, vel, falling;                        /**< origin, velocity */
+    vec deltapos, newpos;                       /**< movement interpolation */
     float yaw, pitch, roll;
-    float maxspeed;                             // cubes per second, 50 for player
+    float maxspeed;                             /**< cubes per second, 50 for player */
     int timeinair;
-    float radius, eyeheight, maxheight, aboveeye; // bounding box size
+    float radius, eyeheight, maxheight, aboveeye; /**< bounding box size */
     float xradius, yradius, zmargin;
-    vec floor;                                  // the normal of floor the dynent is on
+    vec floor;                                  /**< the normal of floor the dynent is on */
 
     int inwater;
     bool jumping;
     char move, strafe, crouching;
 
-    uchar physstate;                            // one of PHYS_* above
-    uchar state, editstate;                     // one of CS_* above
-    uchar type;                                 // one of ENT_* above
-    uchar collidetype;                          // one of COLLIDE_* above
+    uchar physstate;                            /**< one of PHYS_* above */
+    uchar state, editstate;                     /**< one of CS_* above */
+    uchar type;                                 /**< one of ENT_* above */
+    uchar collidetype;                          /**< one of COLLIDE_* above */
 
-    bool blocked;                               // used by physics to signal ai
+    bool blocked;                               /**< used by physics to signal ai */
 
     physent() : o(0, 0, 0), deltapos(0, 0, 0), newpos(0, 0, 0), yaw(0), pitch(0), roll(0), maxspeed(35),
                radius(4.0f), eyeheight(14), maxheight(15), aboveeye(2), xradius(4.1f), yradius(4.1f), zmargin(0),
@@ -230,7 +230,7 @@ enum
         Anim_Flags      = 0xFF000000,
 };
 
-struct animinfo // description of a character's animation
+struct animinfo /**< description of a character's animation */
 {
     int anim, frame, range, basetime;
     float speed;
@@ -248,7 +248,7 @@ struct animinfo // description of a character's animation
     }
 };
 
-struct animinterpinfo // used for animation blending of animated characters
+struct animinterpinfo /**< used for animation blending of animated characters */
 {
     animinfo prev, cur;
     int lastswitch;
@@ -264,9 +264,9 @@ const int maxanimparts = 3;
 struct occludequery;
 class ragdolldata;
 
-struct dynent : physent                         // animated characters, or characters that can receive input
+struct dynent : physent                         /**< animated characters, or characters that can receive input */
 {
-    bool k_left, k_right, k_up, k_down;         // see input code
+    bool k_left, k_right, k_up, k_down;         /**< see input code */
 
     animinterpinfo animinterp[maxanimparts];
     ragdolldata *ragdoll;

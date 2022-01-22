@@ -1,6 +1,6 @@
 /**
  * @file geom.h
- * @brief 
+ * @brief
  */
 
 #ifndef GEOM_H_
@@ -11,7 +11,11 @@ struct vec;
 template<typename T>
 struct vec4;
 
-//2 dimensional vector object with relevant operators
+/**
+ * @brief 2 dimensional vector object
+ *
+ * with relevant operators
+ */
 struct vec2
 {
     union
@@ -135,9 +139,12 @@ inline uint hthash(const vec2 &k)
 struct ivec;
 struct svec;
 
-//vector3: three dimensional vector object
-//this object finds uses in nearly every part of the engine,
-//including world geometry, mapmodels, particles, projectiles, actors, ai
+/**
+ * @brief three dimensional vector object
+ *
+ * this object finds uses in nearly every part of the engine,
+ * including world geometry, mapmodels, particles, projectiles, colors, etc
+ */
 struct vec
 {
     union
@@ -271,7 +278,9 @@ struct vec
 
     vec &cross(const vec &o, const vec &a, const vec &b) { return cross(vec(a).sub(o), vec(b).sub(o)); }
 
-    //scalar triple product A*(BxC)
+    /**
+     * @brief scalar triple product A*(BxC)
+     */
     float scalartriple(const vec &a, const vec &b) const { return x*(a.y*b.z-a.z*b.y) + y*(a.z*b.x-a.x*b.z) + z*(a.x*b.y-a.y*b.x); }
     float zscalartriple(const vec &a, const vec &b) const { return z*(a.x*b.y-a.y*b.x); } //unused
 
@@ -432,7 +441,9 @@ inline uint hthash(const vec &k)
 }
 
 
-//color vector3 (r,g,b)
+/**
+ * @brief color vector3 (r,g,b)
+ */
 struct bvec
 {
     union
@@ -541,8 +552,11 @@ struct bvec
         return (static_cast<int>(r)<<16)|(static_cast<int>(g)<<8)|static_cast<int>(b);
     }
 };
-//vector4: four dimensional vector
-//mostly used for rendering: gi, aa, rendergl, renderlights, and elsewhere
+
+/**
+ * @brief four dimensional vector template
+ * intented to be specialized for any arithmetic type
+ */
 template<typename T>
 struct vec4
 {
@@ -741,8 +755,11 @@ struct matrix3;
 struct matrix4x3;
 struct matrix4;
 
-//quaternion object: four component "vector" with three imaginary components
-//used for object rotations (quats have 3 DoF)
+/**
+ * @brief quaternion object:
+ * four component "vector" with three imaginary components
+ * used for object rotations (quats have 3 DoF)
+ */
 struct quat : vec4<float>
 {
     quat() {}
@@ -871,8 +888,12 @@ struct quat : vec4<float>
     }
 };
 
-//dual quaternions: 8 dimensional numbers that are the product of dual numbers and quaternions
-//used for rigid body transformations (like animations) (dualquats have 6 DoF)
+/**
+ * @brief dual quaternion object
+ *
+ * 8 dimensional numbers that are the product of dual numbers and quaternions
+ * used for rigid body transformations (like animations) (dualquats have 6 DoF)
+ */
 struct dualquat
 {
     quat real, dual;
@@ -1008,8 +1029,9 @@ struct dualquat
     }
 };
 
-// matrix3: 3x3 matrix
-/* comprised of three vec3 vectors
+/**
+ * @brief matrix3: 3x3 matrix
+ * comprised of three vec3 vectors
  * arranged as follows:
  * [ a1 b1 c1
  *   a2 b2 c2
@@ -1248,7 +1270,8 @@ struct matrix3
     vec rowz() const { return vec(a.z, b.z, c.z); }
 };
 
-/* matrix4x3, 4x3 matrix
+/**
+ * @brief floating point 4x3 matrix object
  * defined as four column vectors, a-d
  * takes the form as follows:
  * [ a1 b1 c1 d1
@@ -1660,7 +1683,7 @@ struct triangle
     }
 };
 
-/**
+/*
 
 The engine uses 3 different linear coordinate systems
 which are oriented around each of the axis dimensions.
@@ -1675,12 +1698,12 @@ z is the coordinate of the reference dimension (DEPTH)
 typically, if d is not used, then it is implicitly the Z dimension.
 ie: d=z => x=x, y=y, z=z
 
-**/
+*/
 
 // DIM: X=0 Y=1 Z=2.
-const int R[3]  = {1, 2, 0}; // row
-const int C[3]  = {2, 0, 1}; // col
-const int D[3]  = {0, 1, 2}; // depth
+const int R[3]  = {1, 2, 0}; /**< row */
+const int C[3]  = {2, 0, 1}; /**< col */
+const int D[3]  = {0, 1, 2}; /**< depth */
 
 struct ivec2;
 
@@ -1759,7 +1782,9 @@ inline uint hthash(const ivec &k)
     return k.x^k.y^k.z;
 }
 
-//integer vector2
+/**
+ * @brief integer vector2
+ */
 struct ivec2
 {
     union
@@ -1815,7 +1840,9 @@ inline uint hthash(const ivec2 &k)
 
 inline bvec::bvec(const vec4<uchar> &v) : x(v.x), y(v.y), z(v.z) {}
 
-//short integer three-vector object
+/**
+ * @brief short integer three-vector object
+ */
 struct svec
 {
     union
@@ -1835,7 +1862,9 @@ struct svec
 inline vec::vec(const svec &v) : x(v.x), y(v.y), z(v.z) {}
 inline ivec::ivec(const svec &v) : x(v.x), y(v.y), z(v.z) {}
 
-//four dimensional floating point vector object
+/**
+ * @brief floating point 4x4 array object
+ */
 struct matrix4
 {
     vec4<float> a, b, c, d;
@@ -2158,7 +2187,9 @@ struct matrix2
     explicit matrix2(const matrix3 &m) : a(m.a), b(m.b) {}
 };
 
-//half precision floating point object, similar to `float` but with less data bits
+/**
+ * @brief half precision floating point object, similar to `float` but with less data bits
+ */
 struct half
 {
     ushort val;
