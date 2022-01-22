@@ -49,7 +49,7 @@ namespace gle
     extern void vertexf(float x, float y, float z, float w);
     extern void vertex(const vec &v);
     extern void vertex(const vec &v, float w);
-    extern void vertex(const vec2 &v);
+    extern void vertex(const vec2<float> &v);
 
     extern void colorf(float x);
     extern void colorf(float x, float y);
@@ -58,7 +58,7 @@ namespace gle
 
     extern void color(const vec &v);
     extern void color(const vec &v, float w);
-    extern void color(const vec2 &v);
+    extern void color(const vec2<float> &v);
 
     extern void colorub(uchar x, uchar y, uchar z, uchar w = 255);
     extern void color(const bvec &v, uchar alpha = 255);
@@ -69,7 +69,7 @@ namespace gle
 
     extern void texcoord0(const vec &v);
     extern void texcoord0(const vec &v, float w);
-    extern void texcoord0(const vec2 &v);
+    extern void texcoord0(const vec2<float> &v);
     extern void texcoord0(const vec4<float> &v);
     extern void texcoord1f(float x);
     extern void texcoord1f(float x, float y);
@@ -77,7 +77,7 @@ namespace gle
     extern void texcoord1f(float x, float y, float z, float w);
     extern void texcoord1(const vec &v);
     extern void texcoord1(const vec &v, float w);
-    extern void texcoord1(const vec2 &v);
+    extern void texcoord1(const vec2<float> &v);
     extern void normal(float x, float y, float z);
     extern void normal(const vec &v);
     extern void tangent(float x, float y, float z, float w = 1.0f);
@@ -150,7 +150,7 @@ namespace gle
 
     extern void attrib(const vec &v);
     extern void attrib(const vec &v, float w);
-    extern void attrib(const vec2 &v);
+    extern void attrib(const vec2<float> &v);
     extern void attrib(const ivec &v);
     extern void attrib(const ivec &v, int w);
     extern void attrib(const ivec2 &v);

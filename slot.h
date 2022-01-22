@@ -135,7 +135,7 @@ struct VSlot
     int rotation;
     vec angle;
     ivec2 offset;
-    vec2 scroll;
+    vec2<float> scroll;
     int layer;
     float alphafront, alphaback;
     vec colorscale;
@@ -162,7 +162,7 @@ struct VSlot
         rotation = 0;
         angle = vec(0, sinf(0), cosf(0));
         offset = ivec2(0, 0);
-        scroll = vec2(0, 0);
+        scroll = vec2(0., 0.);
         layer = 0;
         alphafront = 0.5f;
         alphaback = 0;
