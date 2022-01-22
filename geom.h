@@ -40,8 +40,8 @@ struct vec2
                        static_cast<U>(this->y));
     }
 
-    float &operator[](int i)       { return v[i]; }
-    float  operator[](int i) const { return v[i]; }
+    T &operator[](int i)       { return v[i]; }
+    T  operator[](int i) const { return v[i]; }
 
     bool operator==(const vec2 &o) const { return x == o.x && y == o.y; }
     bool operator!=(const vec2 &o) const { return x != o.x || y != o.y; }
