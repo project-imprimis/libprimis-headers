@@ -1049,7 +1049,7 @@ struct dualquat
 };
 
 /**
- * #brief matrix3: 3x3 matrix
+ * @brief matrix3: 3x3 matrix
  * comprised of three vec3 vectors
  * arranged as follows:
  * [ a1 b1 c1
