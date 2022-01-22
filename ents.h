@@ -188,6 +188,20 @@ struct physent                                  // base entity type, can be affe
     }
 };
 
+class model;
+
+struct modelattach
+{
+    const char *tag, *name;
+    int anim, basetime;
+    vec *pos;
+    model *m;
+
+    modelattach() : tag(nullptr), name(nullptr), anim(-1), basetime(0), pos(nullptr), m(nullptr) {}
+    modelattach(const char *tag, const char *name, int anim = -1, int basetime = 0) : tag(tag), name(name), anim(anim), basetime(basetime), pos(nullptr), m(nullptr) {}
+    modelattach(const char *tag, vec *pos) : tag(tag), name(nullptr), anim(-1), basetime(0), pos(pos), m(nullptr) {}
+};
+
 enum
 {
     Anim_Mapmodel = 0,
