@@ -175,17 +175,99 @@ extern int mainmenu;
 
 // sound
 
+/**
+ * @brief Plays a sound with the given attributes.
+ *
+ * @param n index of the sound to play
+ * @param loc world location to play at
+ * @param ent entity to associate with (overwrites location)
+ * @param flags music option flags
+ * @param loops number of times to loop
+ * @param fade ms to fade in over
+ * @param chanid music channel index to use
+ * @param radius distance over which sound is audible (in size 0 cubes)
+ * @param expire maximum time before the sound stops playing
+ */
 extern int playsound(int n, const vec *loc = nullptr, extentity *ent = nullptr, int flags = 0, int loops = 0, int fade = 0, int chanid = -1, int radius = 0, int expire = -1);
-extern int playsoundname(const char *s, const vec *loc = nullptr, int vol = 0, int flags = 0, int loops = 0, int fade = 0, int chanid = -1, int radius = 0, int expire = -1);
-extern void preloadsound(int n);
-extern void preloadmapsound(int n);
-extern void preloadmapsounds();
-extern bool stopsound(int n, int chanid, int fade = 0);
-extern void stopsounds();
-extern void initsound();
-extern void updatesounds();
-extern void clear_sound();
 
+/**
+ * @brief Plays a sound with the given attributes.
+ *
+ * @param s name of the sound to play
+ * @param loc world location to play at
+ * @param ent entity to associate with (overwrites location)
+ * @param flags music option flags
+ * @param loops number of times to loop
+ * @param fade ms to fade in over
+ * @param chanid music channel index to use
+ * @param radius distance over which sound is audible (in size 0 cubes)
+ * @param expire maximum time before the sound stops playing
+ */
+extern int playsoundname(const char *s, const vec *loc = nullptr, int vol = 0, int flags = 0, int loops = 0, int fade = 0, int chanid = -1, int radius = 0, int expire = -1);
+
+/**
+ * @brief Loads the approriate sound file at the given index
+ *
+ * Fails silently if index is invalid.
+ *
+ * @param n the sound index to use
+ */
+extern void preloadsound(int n);
+
+/**
+ * @brief Loads the approriate map sound file at the given index
+ *
+ * Fails silently if index is invalid.
+ *
+ * @param n the sound index to use
+ */
+extern void preloadmapsound(int n);
+
+/**
+ * @brief Loads the sounds for every element in the map sounds vector.
+ *
+ * Loads the related sound file for every valid map sound index (map entity sounds).
+ */
+extern void preloadmapsounds();
+
+/**
+ * @brief Stops playing a sound of index n in the specificied channel.
+ *
+ * @param n the sound index to stop playing
+ * @param chanid the channel id to use
+ * @param fade milliseconds to spend fading out the sound
+ */
+extern bool stopsound(int n, int chanid, int fade = 0);
+
+/**
+ * @brief Immediately kills all active sounds.
+ *
+ * Halts all sound channels in use and frees them.
+ */
+extern void stopsounds();
+
+/**
+ * @brief Starts SDL_Mixer and initializes startup sound channels.
+ *
+ * Fails and disables sound output if SDL is v2.0.6.
+ */
+extern void initsound();
+
+/**
+ * @brief Restarts and updates all sound indices.
+ *
+ * Pauses, reloads, and resumes playback of all active sounds. Does not play
+ * sounds if on the main menu.
+ */
+extern void updatesounds();
+
+/**
+ * @brief Shuts down sound system.
+ *
+ * Stops playing any active music, cleans up game and map sound vectors, and shuts
+ * down SDL_Mixer.
+ */
+extern void clear_sound();
 
 // UI
 
@@ -288,6 +370,12 @@ extern vec worldpos, camdir, camright, camup;
 extern float curfov, fovy, aspect;
 extern bool detachedcamera; /**< read only variable corresponding to camera at ent location (1p) or away from it (3p) */
 
+/**
+ * @brief Unsets any zoom progress and disables zooming.
+ *
+ * Sets the zoom variable to 0 (disabled) and removes any zoom progress that may
+ * be occuring.
+ */
 extern void disablezoom();
 
 extern vec calcavatarpos(const vec &pos, float dist);
@@ -304,7 +392,6 @@ extern void resethudmatrix();
 extern void pushhudmatrix();
 extern void flushhudmatrix(bool flushparams = true);
 extern void pophudmatrix(bool flush = true, bool flushparams = true);
-extern void pushhudscale(float sx, float sy = 0);
 extern void resethudshader();
 extern void recomputecamera();
 extern void initgbuffer();
@@ -336,6 +423,13 @@ extern void gl_init();
 extern void gl_resize();
 extern void gl_setupframe(bool force = false);
 extern void gl_drawframe(int crosshairindex, void (*gamefxn)(), void (*hudfxn)(), void (*editfxn)(), void (*hud2d)());
+
+/**
+ * @brief Draws a minimap texture.
+ *
+ * Draws a minimap buffer at the specified orientation and location on the map.
+ * Does not render it to the screen, instead rendering it to the minimaptex buffer.
+ */
 extern void drawminimap(int yaw, int pitch, vec loc);
 
 // renderlights
@@ -376,7 +470,6 @@ extern int intersectmodel(const char *mdl, int anim, const vec &pos, float yaw, 
 extern void abovemodel(vec &o, const char *mdl);
 extern void renderclient(dynent *d, const char *mdlname, modelattach *attachments, int hold, int attack, int attackdelay, int lastaction, int lastpain, float scale = 1, bool ragdoll = false, float trans = 1);
 extern void interpolateorientation(dynent *d, float &interpyaw, float &interppitch);
-extern void setbbfrommodel(dynent *d, const char *mdl);
 
 /**
  * @brief Returns the mapmodel name at the given index.
@@ -516,6 +609,15 @@ extern void renderprogress(float bar, const char *text, bool background = false)
 extern void loadshaders();
 
 // stain
+
+/**
+ * @brief Loads stains into the global stains array.
+ *
+ * Sets up each entry in the stains global variable array using init() method
+ * and then preloads them.
+ *
+ * Fails to do anything if initing is set (early game loading time).
+ */
 extern void initstains();
 extern void addstain(int type, const vec &center, const vec &surface, float radius, const bvec &color = bvec(0xFF, 0xFF, 0xFF), int info = 0);
 
@@ -665,6 +767,13 @@ extern void boxs3D(const vec &o, vec s, int g);
 extern void boxs(int orient, vec o, const vec &s);
 extern void boxsgrid(int orient, vec o, vec s, int g);
 extern bool editmoveplane(const vec &o, const vec &ray, int d, float off, vec &handle, vec &dest, bool first);
+
+/**
+ * @brief Assigns selchildcount the number of cubes in selection.
+ *
+ * Recursively counts the number of cubes being selected in the current selection,
+ * and assigns this value to selchildcount
+ */
 extern void countselchild(cube *c, const ivec &cor, int size);
 extern void normalizelookupcube(const ivec &o);
 extern void updateselection();
@@ -699,12 +808,33 @@ extern bool pointinsel(const selinfo &sel, const vec &o);
  * This function deselects the cubes and entities currently selected.
  */
 extern void cancelsel();
+
+/**
+ * @brief Adds an undo entry to the global undos vector.
+ *
+ * @param the undo object to add
+ */
 extern void addundo(undoblock *u);
 extern cube &blockcube(int x, int y, int z, const block3 &b, int rgrid);
 extern void changed(const ivec &bbmin, const ivec &bbmax, bool commit);
 extern void changed(const block3 &sel, bool commit = true);
 extern void discardchildren(cube &c, bool fixtex = false, int depth = 0);
+
+/**
+ * @brief Adds an undo entry to the undos vector given the passed selection.
+ *
+ * Uses the passed selection to add a new undo object to the global undos vector.
+ *
+ * @param the selection to use
+ */
 extern void makeundo(selinfo &s);
+
+/**
+ * @brief Adds an undo entry to the undos vector given the current selection.
+ *
+ * Uses the current global selection to add a new undo object to the global
+ * undos vector.
+ */
 extern void makeundo();
 extern void reorient();
 extern int countblock(block3 *b);
@@ -715,9 +845,27 @@ extern void pasteblock(block3 &b, selinfo &sel, bool local);
 extern void pasteundo(undoblock *u);
 extern undoblock *newundocube(const selinfo &s);
 extern void remapvslots(cube &c, bool delta, const VSlot &ds, int orient, bool &findrep, VSlot *&findedit);
-extern void setmat(cube &c, ushort mat, ushort matmask, ushort filtermat, ushort filtermask, int filtergeom);
 extern void edittexcube(cube &c, int tex, int orient, bool &findrep);
+
+/**
+ * @brief Queries whether the current selection has entities selected.
+ *
+ * @return true if there are entities selected
+ * @return false if no entities selected
+ */
 extern bool haveselent();
+
+/**
+ * @brief Copies and pastes a single cube (with its children).
+ *
+ * Copies the cube located at `src`, along with its child cubes, and
+ * pastes it into the cube node located at `dst`. If the `dst` cube is
+ * of a smaller grid size than the source cube, the extra child levels are
+ * truncated.
+ *
+ * @param src a reference to the source cube to copy
+ * @param dst a reference to the destination cube where the selection is pasted
+ */
 extern void pastecube(const cube &src, cube &dst);
 extern void pasteundoblock(block3 *b, uchar *g);
 extern bool uncompresseditinfo(const uchar *inbuf, int inlen, uchar *&outbuf, int &outlen);
@@ -804,8 +952,17 @@ extern bool collide(physent *d, const vec &dir = vec(0, 0, 0), float cutoff = 0.
 extern bool bounce(physent *d, float secs, float elasticity, float waterfric, float grav);
 extern void avoidcollision(physent *d, const vec &dir, physent *obstacle, float space);
 extern bool movecamera(physent *pl, const vec &dir, float dist, float stepdist);
+
+/**
+ * @brief Drops the map entity to a set distance above the floor.
+ *
+ * Drops the entity passed such that it is 4 cube units above the floor, unless
+ * the map entity is of the type "particles", whereupon it is dropped to be at
+ * the same height as the floor.
+ *
+ * @param e the entity to drop towards the floor.
+ */
 extern void dropenttofloor(entity *e);
-extern bool droptofloor(vec &o, float radius, float height);
 extern void rotatebb(vec &center, vec &radius, int yaw, int pitch, int roll = 0);
 
 /**
@@ -827,7 +984,6 @@ extern void updatephysstate(physent *d);
 extern void cleardynentcache();
 extern void updatedynentcache(physent *d);
 extern bool entinmap(dynent *d, bool avoidplayers = false);
-extern void findplayerspawn(dynent *d, int forceent = -1, int tag = 0);
 
 extern void modifyvelocity(physent *pl, bool local, bool water, bool floating, int curtime);
 extern void recalcdir(physent *d, const vec &oldvel, vec &dir);
@@ -873,7 +1029,6 @@ extern bool emptymap(int factor, bool force, bool usecfg = true);
  * This moves the worldroot cube to the new parent cube of the old map.
  */
 extern bool enlargemap(bool force);
-extern vec getselpos();
 
 /**
  * @brief Returns the size of the world.
