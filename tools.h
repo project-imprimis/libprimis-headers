@@ -878,6 +878,17 @@ struct vector
      * @return the element at index i
      */
     T &operator[](int i) { return buf[i]; }
+
+    /**
+     * @brief Returns a const reference to the element at index i.
+     *
+     * Gets the ith element in the vector. Does not protect against the boundaries
+     * of the vector, either below or above.
+     *
+     * @param i the index to get the element for
+     *
+     * @return a const reference to the element at index i
+     */
     const T &operator[](int i) const { return buf[i]; }
 
     /**
@@ -1035,6 +1046,15 @@ struct vector
      */
     void sortname() { sort(sortnameless()); }
 
+    /**
+     * @brief Expands the array to the requested size.
+     *
+     * If successful, the pointer to the new data array will be changed, invalidating
+     * any existing pointers. Fails silently if the requested size is smaller than the
+     * current allocated size.
+     *
+     * @param sz the new requested size of the array.
+     */
     void growbuf(int sz)
     {
         int olen = alen;
@@ -1065,6 +1085,15 @@ struct vector
         buf = (T *)newbuf;
     }
 
+    /**
+     * @brief Expands the array by the amount requested.
+     *
+     * Expands the data array by the amount requested. Silently fails to expand
+     * the array if it is already long enough. If this operation succeeds, the
+     * pointers to the old array will become invalidated.
+     *
+     * @return the buffer starting at the old used length for sz entries
+     */
     databuf<T> reserve(int sz)
     {
         if(alen-ulen < sz)
@@ -1074,16 +1103,34 @@ struct vector
         return databuf<T>(&buf[ulen], sz);
     }
 
+    /**
+     * @brief Expands the array's used length by the amount given.
+     *
+     * @param sz the amount to increase the size of the array by
+     */
     void advance(int sz)
     {
         ulen += sz;
     }
 
+    /**
+     * @brief Expands the array given the size of a buffer.
+     *
+     * @param p the buffer to get the length to expand by
+     */
     void addbuf(const databuf<T> &p)
     {
         advance(p.length());
     }
 
+    /**
+     * @brief Adds n empty entries to the array.
+     *
+     * If this operation extends the vector beyond its original allocated length,
+     * old array pointers will become invalidated.
+     *
+     * @param n the number of empty entries to add.
+     */
     T *pad(int n)
     {
         T *buf = reserve(n).buf;
@@ -1102,6 +1149,12 @@ struct vector
      */
     void put(const T &v) { add(v); }
 
+    /**
+     * @brief Adds n-1 empty entries after adding v.
+     *
+     * @param v the value to assign to the
+     * @param n the number of total entries to add
+     */
     void put(const T *v, int n)
     {
         databuf<T> buf = reserve(n);
@@ -1346,14 +1399,46 @@ struct vector
         }
     }
 
+    /**
+     * @brief Returns the binary heap parent of the index
+     *
+     * For this result to make sense, the vector must be put in heap mode using
+     * buildheap().
+     *
+     * @param i the index to query
+     */
     static int heapparent(int i) { return (i - 1) >> 1; }
+
+    /**
+     * @brief returns the first binary heap child of the index
+     *
+     * For this result to make sense, the vector must be put in heap mode using
+     * buildheap().
+     *
+     * The second heap child is located at the return value plus one.
+     *
+     * @param i the index to query
+     */
     static int heapchild(int i) { return (i << 1) + 1; }
 
+    /**
+     * @brief Puts the vector in heap mode.
+     */
     void buildheap()
     {
         for(int i = ulen/2; i >= 0; i--) downheap(i);
     }
 
+    /**
+     * @brief Compares up the vector heap.
+     *
+     * Used when adding a member to the heap. Ensures that upstream members all
+     * satisfy the binary heap condition and moves members accordingly.
+     *
+     * @param i the index to evaluate
+     *
+     * @return the index representing the same data as the input index
+     */
     int upheap(int i)
     {
         float score = heapscore(buf[i]);
@@ -1370,12 +1455,29 @@ struct vector
         return i;
     }
 
+    /**
+     * @brief Adds a number to the heap.
+     *
+     * Adds a new member at the end of the heap, and then compares it with its
+     * parents to place it in the correct part of the heap.
+     *
+     * @param x the object to add to the heap
+     */
     T &addheap(const T &x)
     {
         add(x);
         return buf[upheap(ulen-1)];
     }
 
+    /**
+     * @brief Checks down the heap for valid children.
+     *
+     * Moves elements around the heap beneath the given index.
+     *
+     * @param i index to evaluate
+     *
+     * @return the index representing the same data as the input index
+     */
     int downheap(int i)
     {
         float score = heapscore(buf[i]);
@@ -1407,6 +1509,14 @@ struct vector
         return i;
     }
 
+    /**
+     * @brief Removes the first element from the heap.
+     *
+     * Removes the element at the top of the heap. Recalculates the heap structure
+     * after removing the top element.
+     *
+     * @return the value that was removed
+     */
     T removeheap()
     {
         T e = removeunordered(0);
@@ -1417,17 +1527,17 @@ struct vector
         return e;
     }
 
-    /** 
+    /**
      * @brief finds the key from a hashtable in the vector.
-     * 
-     * the implementation takes advantage of the numerous overloads 
+     *
+     * the implementation takes advantage of the numerous overloads
      * of the htcmp() function. Note that this means the generic parameter
      * can be one of the following:
      * - const char *
-     * - const stringslice  
+     * - const stringslice
      * - int
      * - GLuint
-     * 
+     *
      * @returns the index of the element if it exists; -1 otherwise
      */
     template<class K>
@@ -1462,13 +1572,13 @@ struct vector
 
     /**
      * @brief removes every duplicate **stack allocated value** from the vector.
-     * 
+     *
      * Contents must be initally sorted.
      * Duplicated items get deleted via a call to setsize().
-     * 
+     *
      * **It may leak memory if used with heap allocated and array items.**
      * **see uniquedeletecontents() and uniquedeletearrays() for that case**
-     * 
+     *
     */
     void unique() // contents must be initially sorted
     {
@@ -1477,7 +1587,7 @@ struct vector
 
     /**
      * @brief removes every duplicate **heap-allocated value** from the vector.
-     * 
+     *
      * Duplicated items get deleted via deletecontents().
      * for the equivalent function for stack values see unique().
      * for the equivalent function for array values see uniquedeletearrays().
@@ -1489,7 +1599,7 @@ struct vector
 
     /**
      * @brief removes every duplicate **array value** from the vector.
-     * 
+     *
      * Duplicated items get deleted via deletearrays().
      * for the equivalent function for stack values see unique().
      * for the equivalent function for heap-allocated values see uniquedeletecontents().

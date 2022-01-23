@@ -565,6 +565,7 @@ struct vec4
         struct { T x, y, z, w; };
         struct { T r, g, b, a; };
         T v[4];
+        uint mask;
     };
 
     vec4() {}
@@ -637,7 +638,7 @@ struct vec4
         w = static_cast<uchar>(a.w*ta + b.w*tb + c.w*tc);
     }
 
-    void flip() {}
+    void flip() { mask ^= 0x80808080; }
 
     vec4 &lerp(const vec4 &b, T t)
     {
@@ -1896,21 +1897,17 @@ struct matrix4
     template<class T>
     void mult(const matrix4 &x, const matrix4 &y)
     {
-        vec4<float> a2 = x.a,
-                    b2 = x.b,
-                    c2 = x.c,
-                    d2 = x.d;
-        a = vec4<T>(a2).mul(y.a.x).madd(b2, y.a.y).madd(c2, y.a.z).madd(d2, y.a.w);
-        b = vec4<T>(b2).mul(y.b.x).madd(b2, y.b.y).madd(c2, y.b.z).madd(d2, y.b.w);
-        c = vec4<T>(c2).mul(y.c.x).madd(b2, y.c.y).madd(c2, y.c.z).madd(d2, y.c.w);
-        d = vec4<T>(d2).mul(y.d.x).madd(b2, y.d.y).madd(c2, y.d.z).madd(d2, y.d.w);
+        a = T(x.a).mul(y.a.x).madd(x.b, y.a.y).madd(x.c, y.a.z).madd(x.d, y.a.w);
+        b = T(x.a).mul(y.b.x).madd(x.b, y.b.y).madd(x.c, y.b.z).madd(x.d, y.b.w);
+        c = T(x.a).mul(y.c.x).madd(x.b, y.c.y).madd(x.c, y.c.z).madd(x.d, y.c.w);
+        d = T(x.a).mul(y.d.x).madd(x.b, y.d.y).madd(x.c, y.d.z).madd(x.d, y.d.w);
     }
 
-    void mul(const matrix4 &x, const matrix4 &y) { mult<float>(x, y); }
-    void mul(const matrix4 &y) { mult<float>(matrix4(*this), y); }
+    void mul(const matrix4 &x, const matrix4 &y) { mult<vec4<float>>(x, y); }
+    void mul(const matrix4 &y) { mult<vec4<float>>(matrix4(*this), y); }
 
-    void muld(const matrix4 &x, const matrix4 &y) { mult<double>(x, y); }
-    void muld(const matrix4 &y) { mult<double>(matrix4(*this), y); }
+    void muld(const matrix4 &x, const matrix4 &y) { mult<vec4<float>>(x, y); }
+    void muld(const matrix4 &y) { mult<vec4<float>>(matrix4(*this), y); }
 
     void rotate_around_x(float ck, float sk)
     {
