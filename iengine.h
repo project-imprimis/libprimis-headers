@@ -129,6 +129,12 @@ extern bool initsdl();
  * @param s a series of C strings corresponding to error messages
  */
 extern void fatal(const char *s, ...) PRINTFARGS(1, 2);
+
+/**
+ * @brief Returns the number of milliseconds since the game started.
+ *
+ * Uses SDL to retrieve the amount of time since the game started.
+ */
 extern int getclockmillis();
 extern int initing;
 extern int scr_w, scr_h;
@@ -164,6 +170,15 @@ extern bool grabinput, minimized;
 extern bool interceptkey(int sym);
 extern void inputgrab(bool on);
 extern void checkinput();
+
+/**
+ * @brief Flushes all queued mouse events.
+ *
+ * For all SDL_MOUSEMOTION events currently queued in SDL's event queue, this
+ * function dumps them one by one while doing nothing. This is used to clear
+ * any mouse events which may happen while the game is starting up, to ensure
+ * the cursor spawns in the middle of the screen.
+ */
 extern void ignoremousemotion();
 extern void keyrepeat(bool on, int mask = ~0);
 
@@ -333,6 +348,7 @@ namespace UI
     bool uivisible(const char *name);
 }
 
+//menus
 
 extern void addchange(const char *desc, int type);
 /*==============================================================================*\
@@ -379,12 +395,18 @@ extern bool detachedcamera; /**< read only variable corresponding to camera at e
 extern void disablezoom();
 
 extern vec calcavatarpos(const vec &pos, float dist);
-extern vec calcmodelpreviewpos(const vec &radius, float &yaw);
 
 extern void damageblend(int n);
 extern void damagecompass(int n, const vec &loc);
 
 extern vec minimapcenter, minimapradius, minimapscale;
+
+/**
+ * @brief Binds a GL texture to the minimaptex global object.
+ *
+ * The global variable minimap texture, minimaptex, has a GL buffer bound to it.
+ * Before this is called, no texture is associated with it.
+ */
 extern void bindminimap();
 
 extern matrix4 hudmatrix;
@@ -393,7 +415,6 @@ extern void pushhudmatrix();
 extern void flushhudmatrix(bool flushparams = true);
 extern void pophudmatrix(bool flush = true, bool flushparams = true);
 extern void resethudshader();
-extern void recomputecamera();
 extern void initgbuffer();
 extern void computezoom();
 extern void enablepolygonoffset(GLenum type);
