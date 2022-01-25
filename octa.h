@@ -41,7 +41,7 @@ class cube
         };
         /**
          * @brief returns if the cube is empty (face 0 does not exist)
-         * 
+         *
          * note that a non-empty (but distorted) cube missing faces for an axis is impossible
          * unless there are no faces at all (impossible to construct a 3d cube otherwise)
          */
@@ -62,7 +62,7 @@ class cube
 
         void setmat(ushort mat, ushort matmask, ushort filtermat, ushort filtermask, int filtergeom);
         void discardchildren(bool fixtex = false, int depth = 0);
-        void calcmerges();
+        void calcmerges(cube * root);
         bool isvalidcube();
 
     private:
@@ -134,7 +134,7 @@ class cube
         };
 
         void freecubeext(cube &c);
-        void genmerges(const ivec &o = ivec(0, 0, 0), int size = 9);
+        void genmerges(cube * root, const ivec &o = ivec(0, 0, 0), int size = 9);
         bool genpoly(int orient, const ivec &o, int size, int vis, ivec &n, int &offset, poly &p);
         void clearmerge(int orient);
         void addmerge(int orient, const ivec &co, const ivec &n, int offset, poly &p);
@@ -274,8 +274,6 @@ struct undoblock /**< undo header, all data sits in payload */
     }
 };
 
-extern cube *worldroot;             /**< the world data. only a ptr to 8 cubes (ie: like cube.children above) */
-
 extern int selchildcount, selchildmat;
 
 /**
@@ -299,7 +297,7 @@ inline int octadim(int d)
 //note that these macros actually loop in the opposite order: e.g. loopxy runs a for loop of x inside y
 #define LOOP_XY(b)        for(int y = 0; y < (b).s[C[DIMENSION((b).orient)]]; ++y) for(int x = 0; x < (b).s[R[DIMENSION((b).orient)]]; ++x)
 #define LOOP_XYZ(b, r, f) { for(int z = 0; z < (b).s[D[DIMENSION((b).orient)]]; ++z) LOOP_XY((b)) { cube &c = blockcube(x,y,z,b,r); f; } }
-#define LOOP_SEL_XYZ(f)    { if(local) makeundo(); LOOP_XYZ(sel, sel.grid, f); changed(sel); }
+#define LOOP_SEL_XYZ(f)    { if(local) makeundo(); LOOP_XYZ(sel, sel.grid, f); rootworld.changed(sel); }
 #define SELECT_CUBE(x, y, z) blockcube(x, y, z, sel, sel.grid)
 
 // guard against subdivision
@@ -308,6 +306,45 @@ inline int octadim(int d)
 #define DIMENSION(orient)  ((orient)>>1)
 #define DIM_COORD(orient)  ((orient)&1)
 #define OPPOSITE(orient)   ((orient)^1)
+
+extern ivec lu;
+extern int lusize;
+struct prefab;
+struct clipplanes;
+
+struct cubeworld
+{
+    public:
+        cube *worldroot = nullptr;
+
+        int lookupmaterial(const vec &v);
+        bool emptymap(int scale, bool force, bool usecfg);    // main empty world creation routine
+        bool enlargemap(bool force);
+        bool modifyoctaent(int flags, int id, extentity &e);
+        void shrinkmap();
+        bool save_world(const char *mname, const char *gameident);
+        bool load_world(const char *mname, const char *gameident, const char *gameinfo, const char *cname);
+        int compactvslots(bool cull = false);
+        void genprefabmesh(prefab &p);
+        void octarender();
+        void cleanupva();
+        float raycube   (const vec &o, const vec &ray,     float radius = 0, int mode = 3, int size = 0, extentity *t = 0);
+        bool octacollide(physent *d, const vec &dir, float cutoff, const ivec &bo, const ivec &bs);
+        cube &lookupcube(const ivec &to, int tsize = 0, ivec &ro = lu, int &rsize = lusize);
+        bool bboccluded(const ivec &bo, const ivec &br);
+        void findtjoints();
+        void allchanged(bool load = false);
+        const cube &neighborcube(const cube &c, int orient, const ivec &co, int size, ivec &ro, int &rsize);
+        void calclight();
+        float shadowray(const vec &o, const vec &ray, float radius, int mode, extentity *t = nullptr);
+        void changed(const ivec &bbmin, const ivec &bbmax, bool commit = true);
+        void changed(const block3 &sel, bool commit = true);
+        clipplanes &getclipbounds(const cube &c, const ivec &o, int size, int offset);
+        void calcnormals(bool lerptjoints);
+        void remip();
+};
+
+extern cubeworld rootworld;
 
 struct undolist
 {
