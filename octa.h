@@ -317,30 +317,87 @@ struct cubeworld
     public:
         cube *worldroot = nullptr;
 
+        /**
+         * @brief Returns the material bitmask value at the given location.
+         *
+         * Given a world location, returns the material bitmask at the specified location.
+         * This bitmask may be the sum of multiple materials if present.
+         * Returns 0 (air) if the location specified has no material or is outside the
+         * world.
+         *
+         * @return an integer corresponding to the material(s) at the specified location
+         */
         int lookupmaterial(const vec &v);
-        bool emptymap(int scale, bool force, bool usecfg);    // main empty world creation routine
+
+        /**
+         * @brief Clears the old level and creates a new one.
+         *
+         * This function unloads the old map, including textures, and creates a new level
+         * of the size specified.
+         *
+         * @param factor sets the gridscale (power of 2 size) of the map; limit 10 to 15
+         * @param force if true, creates map regardless of check variables
+         * @param usecfg if true, uses the default map config path
+         *
+         */
+        bool emptymap(int factor, bool force, bool usecfg = true);
+
+        /**
+         * @brief Grows the map to an additional gridsize.
+         *
+         * Expands the map by placing the old map in the corner nearest the origin and
+         * adding 7 old-map sized cubes to create a new largest cube.
+         *
+         * This moves the worldroot cube to the new parent cube of the old map.
+         */
         bool enlargemap(bool force);
         bool modifyoctaent(int flags, int id, extentity &e);
         void shrinkmap();
+        bool load_world(const char *mname, const char *gameident, const char *gameinfo = nullptr, const char *cname = nullptr);
         bool save_world(const char *mname, const char *gameident);
-        bool load_world(const char *mname, const char *gameident, const char *gameinfo, const char *cname);
         int compactvslots(bool cull = false);
         void genprefabmesh(prefab &p);
         void octarender();
         void cleanupva();
-        float raycube   (const vec &o, const vec &ray,     float radius = 0, int mode = 3, int size = 0, extentity *t = 0);
+
+        /**
+         * @brief Returns the distance before a ray hits a cube.
+         *
+         * @param o      the starting location of the ray to be drawn
+         * @param ray    normalized direction vector for the ray to point
+         * @param radius region around ray that counts as a hit
+         * @param mode   flags which determine what counts as a hit
+         * @param size   size of cube which registers a hit
+         * @param t      entity to check against
+         */
+        float raycube   (const vec &o, const vec &ray, float radius = 0, int mode = 3, int size = 0, extentity *t = 0);
         bool octacollide(physent *d, const vec &dir, float cutoff, const ivec &bo, const ivec &bs);
         cube &lookupcube(const ivec &to, int tsize = 0, ivec &ro = lu, int &rsize = lusize);
         bool bboccluded(const ivec &bo, const ivec &br);
         void findtjoints();
         void allchanged(bool load = false);
         const cube &neighborcube(const cube &c, int orient, const ivec &co, int size, ivec &ro, int &rsize);
+
+        /**
+         * @brief Calculates normals and re-calculates geometry.
+         *
+         * Re-mips the cube structure of the level to remove unnecessary nodes, then
+         * calculates normal maps for corners.
+         */
         void calclight();
         float shadowray(const vec &o, const vec &ray, float radius, int mode, extentity *t = nullptr);
         void changed(const ivec &bbmin, const ivec &bbmax, bool commit = true);
         void changed(const block3 &sel, bool commit = true);
         clipplanes &getclipbounds(const cube &c, const ivec &o, int size, int offset);
         void calcnormals(bool lerptjoints);
+
+        /**
+         * @brief Reduces the number of cubes on the level losslessly.
+         *
+         * Loops through all cube objects, dissolving child nodes where it is possible
+         * to convert them to their parent nodes. The largest gridpower that can be
+         * optimizied can be controlled by the maxmerge variable.
+         */
         void remip();
 };
 
