@@ -723,7 +723,30 @@ struct vec4
      * @return a reference to `this` object following the operation
      */
     vec4 &square()           { mul(*this); return *this; }
+
+    /**
+     * @brief Calculates the elementwise quotient.
+     *
+     * Calculates the quotient of the first three values in `this` with the value
+     * passed to `f`. This means that the original vector is not preserved.
+     *
+     * @param f the value to divide by
+     *
+     * @return a reference to `this` object following the operation
+     *
+     */
     vec4 &div3(T f)      { x /= f; y /= f; z /= f; return *this; }
+
+    /**
+     * @brief Calculates the elementwise quotient.
+     *
+     * Calculates the quotient of the four values in `this` with the value passed
+     * to `f`. This means that the original vector is not preserved.
+     *
+     * @param f the value to divide by
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &div(T f)       { div3(f); w /= f; return *this; }
     vec4 &div(const vec4 &o) { x /= o.x; y /= o.y; z /= o.z; w /= o.w; return *this; }
     vec4 &div(const vec &o)  { x /= o.x; y /= o.y; z /= o.z; return *this; }
