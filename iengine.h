@@ -53,6 +53,20 @@ extern void moveragdoll(dynent *d);
  */
 extern void cleanragdoll(dynent *d);
 
+// glemu
+
+namespace gle
+{
+    extern void begin(GLenum mode);
+    extern void begin(GLenum mode, int numverts);
+    extern void attrib(const vec &v);
+    extern void attribf(float x, float y);
+    extern void colorf(float x, float y, float z);
+    extern void colorf(float x, float y, float z, float w);
+    extern void colorub(uchar x, uchar y, uchar z, uchar w = 255);
+    extern void deftexcoord0(int size = 2, int format = GL_FLOAT);
+    extern void defvertex(int size = 3, int format = GL_FLOAT);
+}
 /*==============================================================================*\
  * Interface Functions & Values                                                 *
  *                                                                              *
