@@ -53,33 +53,21 @@ extern void moveragdoll(dynent *d);
  */
 extern void cleanragdoll(dynent *d);
 
-// crypto
+// glemu
 
-/**
- * @brief Creates a private-public key pair from a given seed value.
- *
- * The function takes a reference to the desired private and public keys, and
- * then modifies the contents of both strings using the seed. The modified
- * strings are the matching private-public key pair.
- * @param seed The seed value for generating random private-public key pairs.
- * @param privstr The private string to modify.
- * @param pubstr The public string to modify.
- */
-extern void genprivkey(const char *seed, vector<char> &privstr, vector<char> &pubstr);
-
-/**
- * @brief Verify a public key against a private key.
- *
- * Verify that the given public key and the given private key make a matching pair.
- * @param privstr The private key that was generated as part of a private-public key pair.
- * @param pubstr The public key that was generated as part of a private-public key pair.
- * @return true If the strings match and make a private-public key pair.
- * @return false If the strings do not match and do not make a private-public key pair.
- */
-extern bool calcpubkey(const char *privstr, vector<char> &pubstr);
-extern bool hashstring(const char *str, char *result, int maxlen);
-extern void answerchallenge(const char *privstr, const char *challenge, vector<char> &answerstr);
-
+namespace gle
+{
+    extern void begin(GLenum mode);
+    extern void begin(GLenum mode, int numverts);
+    extern void attrib(const vec &v);
+    extern void attribf(float x, float y);
+    extern void colorf(float x, float y, float z);
+    extern void colorf(float x, float y, float z, float w);
+    extern void colorub(uchar x, uchar y, uchar z, uchar w = 255);
+    extern void deftexcoord0(int size = 2, int format = GL_FLOAT);
+    extern void defvertex(int size = 3, int format = GL_FLOAT);
+    extern void end();
+}
 /*==============================================================================*\
  * Interface Functions & Values                                                 *
  *                                                                              *

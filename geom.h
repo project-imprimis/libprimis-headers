@@ -681,12 +681,89 @@ struct vec4
     template<class B>
     vec4 &msub(const vec4 &a, const B &b) { return sub(vec4(a).mul(b)); }
 
+    /**
+     * @brief Calculates the elementwise product.
+     *
+     * Calculates the elementwise product of `f` with the first three entries
+     * in `this`. This means that the original vector is not preserved.
+     *
+     * @param f the value to multiply by
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &mul3(T f)      { x *= f; y *= f; z *= f; return *this; }
+
+    /**
+     * @brief Calculates the elementwise product.
+     *
+     * Calculates the elementwise product of `f` with all four entries
+     * in `this`. This means that the original vector is not preserved.
+     *
+     * @param f the value to multiply by
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &mul(T f)       { mul3(f); w *= f; return *this; }
+
+    /**
+     * @brief Calculates the elementwise product.
+     *
+     * Calculates the elementwise product of the four parameters in `this` with
+     * the four parameters in `o`. This measn that the original vector is not
+     * preserved.
+     *
+     * @param o the vec4 to multiply by
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &mul(const vec4 &o) { x *= o.x; y *= o.y; z *= o.z; w *= o.w; return *this; }
+
+    /**
+     * @brief Calculates the elementwise product.
+     *
+     * Calculates the elementwise product of the first three parameters in `this`
+     * with the three parameters in `o`. This means that the original vector is
+     * not preserved.
+     *
+     * @param o the vec3 to multiply by
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &mul(const vec &o)  { x *= o.x; y *= o.y; z *= o.z; return *this; }
+
+    /**
+     * @brief Calculates the elementwise square.
+     *
+     * Calculates the elementwise product of `this` with itself. This means that
+     * the original vector is not preserved.
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &square()           { mul(*this); return *this; }
+
+    /**
+     * @brief Calculates the elementwise quotient.
+     *
+     * Calculates the quotient of the first three values in `this` with the value
+     * passed to `f`. This means that the original vector is not preserved.
+     *
+     * @param f the value to divide by
+     *
+     * @return a reference to `this` object following the operation
+     *
+     */
     vec4 &div3(T f)      { x /= f; y /= f; z /= f; return *this; }
+
+    /**
+     * @brief Calculates the elementwise quotient.
+     *
+     * Calculates the quotient of the four values in `this` with the value passed
+     * to `f`. This means that the original vector is not preserved.
+     *
+     * @param f the value to divide by
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &div(T f)       { div3(f); w /= f; return *this; }
     vec4 &div(const vec4 &o) { x /= o.x; y /= o.y; z /= o.z; w /= o.w; return *this; }
     vec4 &div(const vec &o)  { x /= o.x; y /= o.y; z /= o.z; return *this; }

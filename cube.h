@@ -63,8 +63,6 @@
 #include "octa.h"
 #include "slot.h"
 
-#include "glemu.h"
-
 #include "consts.h"
 
 #endif /* CUBE_H_ */
