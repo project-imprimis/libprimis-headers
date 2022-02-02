@@ -66,6 +66,7 @@ namespace gle
     extern void colorub(uchar x, uchar y, uchar z, uchar w = 255);
     extern void deftexcoord0(int size = 2, int format = GL_FLOAT);
     extern void defvertex(int size = 3, int format = GL_FLOAT);
+    extern void end();
 }
 /*==============================================================================*\
  * Interface Functions & Values                                                 *
