@@ -14,6 +14,7 @@
 #endif
 #include <math.h>
 
+#include <type_traits>
 #include <string>
 #include <cstdio>
 #include <cstdlib>

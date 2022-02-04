@@ -498,21 +498,6 @@ inline void quicksort(T *buf, int n)
     quicksort(buf, buf+n, sortless());
 }
 
-template<class T>
-struct isclass
-{
-    template<class C>
-    static char test(void (C::*)(void));
-
-    template<class C>
-    static int test(...);
-    enum
-    {
-        yes = sizeof(test<T>(0)) == 1 ? 1 : 0,
-        no = yes^1
-    };
-};
-
 inline uint hthash(const char *key)
 {
     uint h = 5381;
@@ -913,7 +898,7 @@ struct vector
      */
     void shrink(int i)
     {
-        if(isclass<T>::no)
+        if(!std::is_class<T>::value)
         {
             ulen = i;
         }
