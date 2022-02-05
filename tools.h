@@ -1,6 +1,10 @@
 /**
  * @file tools.h
- * @brief Generic and useful functions, constants, macros, etc., for any C++ program.
+ * @brief Legacy tooling inherited from the Cube engine.
+ *
+ * This file contains a collection of deprecated, standalone tooling that replicates
+ * some standard library functionality. It is highly recommended that the std library
+ * equivalents of these utilities are used in their place.
  */
 
 #ifndef TOOLS_H_

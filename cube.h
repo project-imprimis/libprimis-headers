@@ -1,9 +1,11 @@
 /**
  * @file cube.h
- * @brief Needed for making games, along with iengine.h and consts.h.
+ * @brief Needed for making games, along with iengine.h
  *
- * This header file, along with iengine.h and consts.h should be included when
- * making games.
+ * This header file, along with iengine.h and should be included when
+ * making games. This file is used by both the game and the engine, and includes
+ * all of the dependencies required to use the engine, such as STL and stdlib
+ * headers and SDL/zlib dependencies.
  */
 
 #ifndef CUBE_H_
