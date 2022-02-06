@@ -1,6 +1,16 @@
 /**
  * @file slot.h
- * @brief 
+ * @brief Texture slot objects
+ *
+ * The texture slot objects expose the data structures used to organize geometry
+ * texture information and encode it in a level. A vector containing a series of
+ * slot objects is associated with every cube object, allowing every cube face
+ * to reference a slot "palette" containing many texture + shader combinations
+ * without requiring much data stored on the client.
+ *
+ * Furthermore, a `VSlot` object is defined, which defines a virtual texture slot.
+ * These are derived from a "real" texture slot, and can have one or more shader
+ * modifiers applied to it: color, scale, rotation etc.
  */
 
 #ifndef SLOT_H_
