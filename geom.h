@@ -554,18 +554,22 @@ struct bvec
 };
 
 /**
- * @brief four dimensional vector template
- * intented to be specialized for any arithmetic type
+ * @brief A four dimensional Cartesian-space vector template.
+ *
+ * This object defines a location in four dimensional Cartesian space, in whatever
+ * arithmetic type it is specialized to be. All four values are of the type T
+ * specialized, and all operators (unless explicitly specified, require types
+ * trivially convertable to T (or preferably of type T).
  */
 template<typename T>
 struct vec4
 {
     union
     {
-        struct { T x, y, z, w; };
-        struct { T r, g, b, a; };
-        T v[4];
-        uint mask;
+        struct { T x, y, z, w; }; /** geometric space representation */
+        struct { T r, g, b, a; }; /** color space representation (red, green, blue, alpha)*/
+        T v[4]; /** four-entry array representation*/
+        uint mask; /** used for uchar (color) specific operations*/
     };
 
     vec4() {}
@@ -748,11 +752,76 @@ struct vec4
      * @return a reference to `this` object following the operation
      */
     vec4 &div(T f)       { div3(f); w /= f; return *this; }
+
+    /**
+     * @brief Calculates the elementwise quotient.
+     *
+     * Calculates the quotient of the four values in `this` with the four values in
+     * `o`, element-by-element. This means that the original vector is not preserved.
+     *
+     * @param o the vector to divide by
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &div(const vec4 &o) { x /= o.x; y /= o.y; z /= o.z; w /= o.w; return *this; }
+
+    /**
+     * @brief Calculates the elementwise quotient.
+     *
+     * Calculates the quotient of the three values in `this` with the four values in
+     * `o`, element-by-element. This means that the original vector is not preserved.
+     *
+     * @param o the vector to divide by
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &div(const vec &o)  { x /= o.x; y /= o.y; z /= o.z; return *this; }
+
+    /**
+     * @brief Calculates the elementwise reciprocal.
+     *
+     * Calculates the value 1/x for each of the four values in the vector, and assigns
+     * them to `this`. This means that the original vector is not preserved
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &recip()            { x = 1/x; y = 1/y; z = 1/z; w = 1/w; return *this; }
+
+    /**
+     * @brief Calculates the elementwise sum.
+     *
+     * Calculates the sum of the four elements in `this` with the four values in
+     * `o`, element-by-element. This means that the original vector is not preserved.
+     *
+     * @param o the vector to add with
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &add(const vec4 &o) { x += o.x; y += o.y; z += o.z; w += o.w; return *this; }
+
+    /**
+     * @brief Calculates the elementwise sum.
+     *
+     * Calculates the sum of the first three elements in `this` with the first
+     * three values in `o`, element-by-element. This means that the original
+     * vector is not preserved.
+     *
+     * @param o the vector to add with
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &add(const vec &o)  { x += o.x; y += o.y; z += o.z; return *this; }
+
+    /**
+     * @brief Calculates the elementwise sum.
+     *
+     * Calculates the sum of the first three elements in `this` with the value
+     * passed to `f`. This means that the original vector is not preserved.
+     *
+     * @param o the value to add with
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &add3(T f)      { x += f; y += f; z += f; return *this; }
     vec4 &add(T f)       { add3(f); w += f; return *this; }
     vec4 &addw(T f)      { w += f; return *this; }
