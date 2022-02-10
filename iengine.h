@@ -334,6 +334,205 @@ namespace UI
     bool toggleui(const char *name);
     void holdui(const char *name, bool on);
     bool uivisible(const char *name);
+
+    /**
+     * @brief Binds the UI commands to the command parser.
+     *
+     * Places into the CubeScript interpreter a series of UI commands, required
+     * before it is possible to use CubeScript to create UI elements.
+     *
+     * Commands defined:
+     *
+     * ui!hover
+     * uihover
+     * ui!hover?
+     * uihover?
+     * ui!hover+
+     * uihover+
+     * ui!hover+?
+     * uihover+?
+     *
+     * ui!press
+     * uipress
+     * ui!press?
+     * uipress?
+     * ui!press+
+     * uipress+
+     * ui!press+?
+     * uipress+?
+     *
+     * ui!hold
+     * uihold
+     * ui!hold?
+     * uihold?
+     * ui!hold+
+     * uihold+
+     * ui!hold+?
+     * uihold+?
+     *
+     * ui!release
+     * uirelease
+     * ui!release?
+     * uirelease?
+     * ui!release+
+     * uirelease+
+     * ui!release+?
+     * uirelease+?
+     *
+     * ui!althold
+     * uialthold
+     * ui!althold?
+     * uialthold?
+     * ui!althold+
+     * uialthold+
+     * ui!althold+?
+     * uialthold+?
+     *
+     * ui!altpress
+     * uialtpress
+     * ui!altpress?
+     * uialtpress?
+     * ui!altpress+
+     * uialtpress+
+     * ui!altpress+?
+     * uialtpress+?
+     *
+     * ui!altrelease
+     * uialtrelease
+     * ui!altrelease?
+     * uialtrelease?
+     * ui!altrelease+
+     * uialtrelease+
+     * ui!altrelease+?
+     * uialtrelease+?
+     *
+     * ui!eschold
+     * uieschold
+     * ui!eschold?
+     * uieschold?
+     * ui!eschold+
+     * uieschold+
+     * ui!eschold+?
+     * uieschold+?
+     *
+     * ui!escpress
+     * uiescpress
+     * ui!escpress?
+     * uiescpress?
+     * ui!escpress+
+     * uiescpress+
+     * ui!escpress+?
+     * uiescpress+?
+     *
+     * ui!escrelease
+     * uiescrelease
+     * ui!escrelease?
+     * uiescrelease?
+     * ui!escrelease+
+     * uiescrelease+
+     * ui!escrelease+?
+     * uiescrelease+?
+     *
+     * ui!scrollup
+     * uiscrollup
+     * ui!scrollup?
+     * uiscrollup?
+     * ui!scrollup+
+     * uiscrollup+
+     * ui!scrollup+?
+     * uiscrollup+?
+     *
+     * ui!scrolldown
+     * uiscrolldown
+     * ui!scrolldown?
+     * uiscrolldown?
+     * ui!scrolldown+
+     * uiscrolldown+
+     * ui!scrolldown+?
+     * uiscrolldown+?
+     *
+     * uifocus
+     * uifocus?
+     * uifocus+
+     * uifocus+?
+     * uialign
+     * uialign-
+     * uialign*
+     * uiclamp
+     * uiclamp-
+     * uiclamp*
+     *
+     * uigroup
+     * uihlist
+     * uivlist
+     * uilist
+     * uigrid
+     * uitableheader
+     * uitablerow
+     * uitable
+     * uispace
+     * uioffset
+     * uifill
+     * uitarget
+     * uiclip
+     *
+     * uiscroll
+     * uihscrolloffset
+     * uivscrolloffset
+     * uihscrollbar
+     * uivscrollbar
+     * uiscrollarrow
+     * uiscrollbutton
+     * uihslider
+     * uivslider
+     * uisliderarrow
+     * uisliderbutton
+     *
+     * uicolor
+     * uimodcolor
+     * uivgradient
+     * uimodvgradient
+     * uihgradient
+     * uimodhgradient
+     *
+     * uioutline
+     * uiline
+     * uitriangle
+     * uitriangleoutline
+     * uimodtriangle
+     * uicircle
+     * uicircleoutline
+     * uimodcircle
+     *
+     * uicolortext
+     * uitext
+     * uitextfill
+     * uiwrapcolortext
+     * uiwraptext
+     * uicolorcontext
+     * uicontext
+     * uicontextfill
+     * uiwrapcolorcontext
+     * uiwrapcontext
+     * uitexteditor
+     * uifont
+     * uiabovehud
+     * uiconsole
+     * uifield
+     * uikeyfield
+     *
+     * uiimage
+     * uistretchedimage
+     * uicroppedimage
+     * uiborderedimage
+     * uitiledimage
+     *
+     * uimodelpreview
+     * uiprefabpreview
+     * uislotview
+     * uivslotview
+     */
+    void inituicmds();
 }
 
 //menus
