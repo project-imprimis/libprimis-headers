@@ -343,194 +343,343 @@ namespace UI
      *
      * Commands defined:
      *
-     * ui!hover
-     * uihover
-     * ui!hover?
-     * uihover?
-     * ui!hover+
-     * uihover+
-     * ui!hover+?
-     * uihover+?
+     * `ui!hover`
      *
-     * ui!press
-     * uipress
-     * ui!press?
-     * uipress?
-     * ui!press+
-     * uipress+
-     * ui!press+?
-     * uipress+?
+     * `uihover`
      *
-     * ui!hold
-     * uihold
-     * ui!hold?
-     * uihold?
-     * ui!hold+
-     * uihold+
-     * ui!hold+?
-     * uihold+?
+     * `ui!hover?`
      *
-     * ui!release
-     * uirelease
-     * ui!release?
-     * uirelease?
-     * ui!release+
-     * uirelease+
-     * ui!release+?
-     * uirelease+?
+     * `uihover?`
      *
-     * ui!althold
-     * uialthold
-     * ui!althold?
-     * uialthold?
-     * ui!althold+
-     * uialthold+
-     * ui!althold+?
-     * uialthold+?
+     * `ui!hover+`
      *
-     * ui!altpress
-     * uialtpress
-     * ui!altpress?
-     * uialtpress?
-     * ui!altpress+
-     * uialtpress+
-     * ui!altpress+?
-     * uialtpress+?
+     * `uihover+`
      *
-     * ui!altrelease
-     * uialtrelease
-     * ui!altrelease?
-     * uialtrelease?
-     * ui!altrelease+
-     * uialtrelease+
-     * ui!altrelease+?
-     * uialtrelease+?
+     * `ui!hover+?`
      *
-     * ui!eschold
-     * uieschold
-     * ui!eschold?
-     * uieschold?
-     * ui!eschold+
-     * uieschold+
-     * ui!eschold+?
-     * uieschold+?
+     * `uihover+?`
      *
-     * ui!escpress
-     * uiescpress
-     * ui!escpress?
-     * uiescpress?
-     * ui!escpress+
-     * uiescpress+
-     * ui!escpress+?
-     * uiescpress+?
+     * `ui!press`
      *
-     * ui!escrelease
-     * uiescrelease
-     * ui!escrelease?
-     * uiescrelease?
-     * ui!escrelease+
-     * uiescrelease+
-     * ui!escrelease+?
-     * uiescrelease+?
+     * `uipress`
      *
-     * ui!scrollup
-     * uiscrollup
-     * ui!scrollup?
-     * uiscrollup?
-     * ui!scrollup+
-     * uiscrollup+
-     * ui!scrollup+?
-     * uiscrollup+?
+     * `ui!press?`
      *
-     * ui!scrolldown
-     * uiscrolldown
-     * ui!scrolldown?
-     * uiscrolldown?
-     * ui!scrolldown+
-     * uiscrolldown+
-     * ui!scrolldown+?
-     * uiscrolldown+?
+     * `uipress?`
      *
-     * uifocus
-     * uifocus?
-     * uifocus+
-     * uifocus+?
-     * uialign
-     * uialign-
-     * uialign*
-     * uiclamp
-     * uiclamp-
-     * uiclamp*
+     * `ui!press+`
      *
-     * uigroup
-     * uihlist
-     * uivlist
-     * uilist
-     * uigrid
-     * uitableheader
-     * uitablerow
-     * uitable
-     * uispace
-     * uioffset
-     * uifill
-     * uitarget
-     * uiclip
+     * `uipress+`
      *
-     * uiscroll
-     * uihscrolloffset
-     * uivscrolloffset
-     * uihscrollbar
-     * uivscrollbar
-     * uiscrollarrow
-     * uiscrollbutton
-     * uihslider
-     * uivslider
-     * uisliderarrow
-     * uisliderbutton
+     * `ui!press+?`
      *
-     * uicolor
-     * uimodcolor
-     * uivgradient
-     * uimodvgradient
-     * uihgradient
-     * uimodhgradient
+     * `uipress+?`
      *
-     * uioutline
-     * uiline
-     * uitriangle
-     * uitriangleoutline
-     * uimodtriangle
-     * uicircle
-     * uicircleoutline
-     * uimodcircle
+     * `ui!hold`
      *
-     * uicolortext
-     * uitext
-     * uitextfill
-     * uiwrapcolortext
-     * uiwraptext
-     * uicolorcontext
-     * uicontext
-     * uicontextfill
-     * uiwrapcolorcontext
-     * uiwrapcontext
-     * uitexteditor
-     * uifont
-     * uiabovehud
-     * uiconsole
-     * uifield
-     * uikeyfield
+     * `uihold`
      *
-     * uiimage
-     * uistretchedimage
-     * uicroppedimage
-     * uiborderedimage
-     * uitiledimage
+     * `ui!hold?`
      *
-     * uimodelpreview
-     * uiprefabpreview
-     * uislotview
-     * uivslotview
+     * `uihold?`
+     *
+     * `ui!hold+`
+     *
+     * `uihold+`
+     *
+     * `ui!hold+?`
+     *
+     * `uihold+?`
+     *
+     * `ui!release`
+     *
+     * `uirelease`
+     *
+     * `ui!release?`
+     *
+     * `uirelease?`
+     *
+     * `ui!release+`
+     *
+     * `uirelease+`
+     *
+     * `ui!release+?`
+     *
+     * `uirelease+?`
+     *
+     * `ui!althold`
+     *
+     * `uialthold`
+     *
+     * `ui!althold?`
+     *
+     * `uialthold?`
+     *
+     * `ui!althold+`
+     *
+     * `uialthold+`
+     *
+     * `ui!althold+?`
+     *
+     * `uialthold+?`
+     *
+     * `ui!altpress`
+     *
+     * `uialtpress`
+     *
+     * `ui!altpress?`
+     *
+     * `uialtpress?`
+     *
+     * `ui!altpress+`
+     *
+     * `uialtpress+`
+     *
+     * `ui!altpress+?`
+     *
+     * `uialtpress+?`
+     *
+     * `ui!altrelease`
+     *
+     * `uialtrelease`
+     *
+     * `ui!altrelease?`
+     *
+     * `uialtrelease?`
+     *
+     * `ui!altrelease+`
+     *
+     * `uialtrelease+`
+     *
+     * `ui!altrelease+?`
+     *
+     * `uialtrelease+?`
+     *
+     * `ui!eschold`
+     *
+     * `uieschold`
+     *
+     * `ui!eschold?`
+     *
+     * `uieschold?`
+     *
+     * `ui!eschold+`
+     *
+     * `uieschold+`
+     *
+     * `ui!eschold+?`
+     *
+     * `uieschold+?`
+     *
+     * `ui!escpress`
+     *
+     * `uiescpress`
+     *
+     * `ui!escpress?`
+     *
+     * `uiescpress?`
+     *
+     * `ui!escpress+`
+     *
+     * `uiescpress+`
+     *
+     * `ui!escpress+?`
+     *
+     * `uiescpress+?`
+     *
+     * `ui!escrelease`
+     *
+     * `uiescrelease`
+     *
+     * `ui!escrelease?`
+     *
+     * `uiescrelease?`
+     *
+     * `ui!escrelease+`
+     *
+     * `uiescrelease+`
+     *
+     * `ui!escrelease+?`
+     *
+     * `uiescrelease+?`
+     *
+     * `ui!scrollup`
+     *
+     * `uiscrollup`
+     *
+     * `ui!scrollup?`
+     *
+     * `uiscrollup?`
+     *
+     * `ui!scrollup+`
+     *
+     * `uiscrollup+`
+     *
+     * `ui!scrollup+?`
+     *
+     * `uiscrollup+?`
+     *
+     * `ui!scrolldown`
+     *
+     * `uiscrolldown`
+     *
+     * `ui!scrolldown?`
+     *
+     * `uiscrolldown?`
+     *
+     * `ui!scrolldown+`
+     *
+     * `uiscrolldown+`
+     *
+     * `ui!scrolldown+?`
+     *
+     * `uiscrolldown+?`
+     *
+     * `uifocus`
+     *
+     * `uifocus?`
+     *
+     * `uifocus+`
+     *
+     * `uifocus+?`
+     *
+     * `uialign`
+     *
+     * `uialign-`
+     *
+     * `uialign*`
+     *
+     * `uiclamp`
+     *
+     * `uiclamp-`
+     *
+     * `uiclamp*`
+     *
+     * `uigroup`
+     *
+     * `uihlist`
+     *
+     * `uivlist`
+     *
+     * `uilist`
+     *
+     * `uigrid`
+     *
+     * `uitableheader`
+     *
+     * `uitablerow`
+     *
+     * `uitable`
+     *
+     * `uispace`
+     *
+     * `uioffset`
+     *
+     * `uifill`
+     *
+     * `uitarget`
+     *
+     * `uiclip`
+     *
+     * `uiscroll`
+     *
+     * `uihscrolloffset`
+     *
+     * `uivscrolloffset`
+     *
+     * `uihscrollbar`
+     *
+     * `uivscrollbar`
+     *
+     * `uiscrollarrow`
+     *
+     * `uiscrollbutton`
+     *
+     * `uihslider`
+     *
+     * `uivslider`
+     *
+     * `uisliderarrow`
+     *
+     * `uisliderbutton`
+     *
+     * `uicolor`
+     *
+     * `uimodcolor`
+     *
+     * `uivgradient`
+     *
+     * `uimodvgradient`
+     *
+     * `uihgradient`
+     *
+     * `uimodhgradient`
+     *
+     * `uioutline`
+     *
+     * `uiline`
+     *
+     * `uitriangle`
+     *
+     * `uitriangleoutline`
+     *
+     * `uimodtriangle`
+     *
+     * `uicircle`
+     *
+     * `uicircleoutline`
+     *
+     * `uimodcircle`
+     *
+     * `uicolortext`
+     *
+     * `uitext`
+     *
+     * `uitextfill`
+     *
+     * `uiwrapcolortext`
+     *
+     * `uiwraptext`
+     *
+     * `uicolorcontext`
+     *
+     * `uicontext`
+     *
+     * `uicontextfill`
+     *
+     * `uiwrapcolorcontext`
+     *
+     * `uiwrapcontext`
+     *
+     * `uitexteditor`
+     *
+     * `uifont`
+     *
+     * `uiabovehud`
+     *
+     * `uiconsole`
+     *
+     * `uifield`
+     *
+     * `uikeyfield`
+     *
+     * `uiimage`
+     *
+     * `uistretchedimage`
+     *
+     * `uicroppedimage`
+     *
+     * `uiborderedimage`
+     *
+     * `uitiledimage`
+     *
+     * `uimodelpreview`
+     *
+     * `uiprefabpreview`
+     *
+     * `uislotview`
+     *
+     * `uivslotview`
      */
     void inituicmds();
 }
