@@ -11,6 +11,13 @@
 #ifndef CUBE_H_
 #define CUBE_H_
 
+ //use WIN32 as the macro identifier regardless of which is in use
+#if defined(_WIN32) || defined(_WIN32_WCE) || defined(__WIN32__)
+    #ifndef WIN32
+        #define WIN32
+    #endif
+#endif
+
 #ifdef WIN32
     #define _USE_MATH_DEFINES
 #endif
@@ -54,17 +61,11 @@
     #define ZLIB_DLL
 #endif
 
-
 #include <SDL.h>
 
-#ifdef WIN32
-    #include <GL/wglew.h>
-#else
-    #include <GL/glew.h>
-#endif
+#include <GL/glew.h>
 
 #include <GL/gl.h>
-
 
 #include <zlib.h>
 
