@@ -54,10 +54,17 @@
     #define ZLIB_DLL
 #endif
 
+
 #include <SDL.h>
 
-#include <GL/glew.h>
+#ifdef WIN32
+    #include <GL/glew.h>
+#else
+    #include <GL/wglew.h>
+#endif
+
 #include <GL/gl.h>
+
 
 #include <zlib.h>
 
