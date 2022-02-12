@@ -58,9 +58,9 @@
 #include <SDL.h>
 
 #ifdef WIN32
-    #include <GL/glew.h>
-#else
     #include <GL/wglew.h>
+#else
+    #include <GL/glew.h>
 #endif
 
 #include <GL/gl.h>
