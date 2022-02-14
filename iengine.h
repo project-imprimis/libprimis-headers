@@ -343,6 +343,22 @@ namespace UI
      *
      * Commands defined:
      *
+     * `showui`
+     *
+     * `hideui`
+     *
+     * `hidetopui`
+     *
+     * `hideallui`
+     *
+     * `toggleui`
+     *
+     * `holdui`
+     *
+     * `uivisiblecmd`
+     *
+     * `uiname`
+     *
      * `ui!hover`
      *
      * `uihover`
