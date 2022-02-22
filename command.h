@@ -314,7 +314,6 @@ extern ident *newident(const char *name, int flags = 0);
 extern ident *readident(const char *name);
 extern ident *writeident(const char *name, int flags = 0);
 extern uint *compilecode(const char *p);
-extern void keepcode(uint *p);
 extern void freecode(uint *p);
 extern int execute(const uint *code);
 extern int execute(const char *p);
