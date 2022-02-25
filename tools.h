@@ -133,6 +133,7 @@ constexpr double SQRT3 = 1.73205080756888;
 
 #define RAD static_cast<float>(M_PI / 180.0f) //M_PI is a double
 
+
 #ifdef __GNUC__
     #define PRINTFARGS(fmt, args) __attribute__((format(printf, fmt, args)))
 #else
@@ -278,6 +279,19 @@ struct databuf
         return overreadval;
     }
 
+    /**
+     * @brief Returns a a databuf<T> object containing the first n entries
+     *
+     * Returns a databuf object of type T which represents the first n elements
+     * inside the databuf's array.
+     *
+     * If the size passed is larger than the databuf, the entire databuf object is
+     * copied and returned.
+     *
+     * @param sz the size of the output array (aka get the first `sz` entries)
+     *
+     * @return the sub-buffer of `this` object
+     */
     databuf subbuf(int sz)
     {
         sz = std::clamp(sz, 0, maxlen-len);
@@ -292,6 +306,13 @@ struct databuf
         return vals;
     }
 
+    /**
+     * @brief Adds an entry to the databuf if space is available
+     *
+     * If no space is available, applies the OVERWROTE flag to the flags field.
+     *
+     * @param val A const reference to the object to add
+     */
     void put(const T &val)
     {
         if(len<maxlen)
@@ -335,11 +356,66 @@ struct databuf
         len = max(len-n, 0);
     }
 
+    /**
+     * @brief Returns a pointer to the internal data array.
+     *
+     * This is a naked pointer to the internal data array and can therefore be used
+     * to potentially break this container, if used carelessly.
+     *
+     * @return A pointer the data array
+     */
     T *getbuf() const { return buf; }
+
+    /**
+     * @brief Returns whether any entries have been assigned to the array.
+     *
+     * @return true if the array has not been assigned to
+     * @return false if the array has assigned values
+     */
     bool empty() const { return len==0; }
+
+    /**
+     * @brief Returns the number of allocated entries in the databuf.
+     *
+     * Returns the number of entries which have been added to the databuf (not the
+     * overall databuf size).
+     *
+     * @return the number of entries allocated in the databuf.
+     */
     int length() const { return len; }
+
+    /**
+     * @brief Returns the number of values remaining before the databuf overflows.
+     *
+     * Returns the allocatable space remaining within the databuf object, in terms
+     * of the number of entires which can be `put` into it before it becomes
+     * OVERWROTE.
+     *
+     * @return the number of available entries in the databuf.
+     */
     int remaining() const { return maxlen-len; }
+
+    /**
+     * @brief Returns whether the databuf has been accessed with too large of an index.
+     *
+     * Returns whether the OVERREAD flag has been set. If the databuf was attempted
+     * to be accessed with an index larger than the number of allocated members,
+     * this value will be set.
+     *
+     * @return true if the array has been overread
+     * @return false if all read operations have been to valid entries
+     */
     bool overread() const { return (flags&OVERREAD)!=0; }
+
+    /**
+     * @brief Returns whether the databuf has had invalid writes to it
+     *
+     * Returns whether the OVERWROTE flag has been set. If the databuf was attempted
+     * to be wrote to while the databuf is already full, this flag will be set.
+     *
+     * @return true if the databuf has not been overwritten
+     * @return false if the databuf has had only valid writes
+     */
     bool overwrote() const { return (flags&OVERWROTE)!=0; }
 
     bool check(int n) { return remaining() >= n; }
@@ -379,6 +455,20 @@ struct sortnameless
     bool operator()(const T *x, const T *y) const { return sortless()(x->name, y->name); }
 };
 
+/**
+ * @brief Specializable insertion sort for a pointer-delineated range.
+ *
+ * Implements a insertion sort of elements between pointers `start` and `end`.
+ * The pointers `start` and `end` must correspond to a contiguous block of elements
+ * with type `T`.
+ *
+ * @tparam T The type of object to be comparing
+ * @tparam F The comparison object
+
+ * @param start the address to start from
+ * @param end the address to end at
+ * @param fun the function object to compare
+ */
 template<class T, class F>
 inline void insertionsort(T *start, T *end, F fun)
 {
@@ -411,6 +501,20 @@ inline void insertionsort(T *buf, int n)
     insertionsort(buf, buf+n, sortless());
 }
 
+/**
+ * @brief Specializable quicksort for a pointer-delineated range.
+ *
+ * Implements a quicksort of elements between pointers `start` and `end`.
+ * The pointers `start` and `end` must correspond to a contiguous block of elements
+ * with type `T`.
+ *
+ * @tparam T The type of object to be comparing
+ * @tparam F The comparison object
+
+ * @param start the address to start from
+ * @param end the address to end at
+ * @param fun the function object to compare
+ */
 template<class T, class F>
 inline void quicksort(T *start, T *end, F fun)
 {
@@ -595,6 +699,8 @@ inline bool htcmp(GLuint x, GLuint y)
  * The vector container does not support iterators, and therefore std library functions
  * depending on them (such as sort()) will not work. Instead, the builtin functions
  * for some such features are included in the class.
+ *
+ * @tparam T the type of the vector members
  */
 template <class T>
 struct vector
@@ -1601,6 +1707,22 @@ struct vector
     #undef UNIQUE
 };
 
+/**
+ * A specializable hash base class for the creation of hash tables and other objects.
+ *
+ * Implemented via the hash chaining method; there are DEFAULTSIZE chains that can
+ * have multiple elements in the case of a hash collision, connected by a single
+ * directional linked list. The base size of the hash table is fixed at the
+ * construction of the hash table and cannot be changed later.
+ *
+ * Note that E (the element type being stored) and T (the type that gets added) are
+ * not necessarily the same.
+ *
+ * @tparam H The inheriting object
+ * @tparam E The type of the element type to be stored
+ * @tparam K the type of the element's key
+ * @tparam T the type of the data being added
+ */
 template<class H, class E, class K, class T>
 struct hashbase
 {
@@ -1610,36 +1732,52 @@ struct hashbase
 
     enum { CHUNKSIZE = 64 };
 
+    /**
+     * @brief A chain entry. Capable of being created into a singly linked list.
+     */
     struct chain { E elem; chain *next; };
+
+    /**
+     * @brief A series of chains capable of being created into a singly linked list.
+     */
     struct chainchunk { chain chains[CHUNKSIZE]; chainchunk *next; };
 
-    int size;
-    int numelems;
-    chain **chains;
+    int size; /**< The size of the base chain array. Cannot be changed after creation. */
+    int numelems; /**< Total number of elements. */
+    chain **chains; /**< Pointer to the array containing the base chains.*/
 
     chainchunk *chunks;
     chain *unused;
 
-    enum { DEFAULTSIZE = 1<<10 };
+    enum { DEFAULTSIZE = 1<<10 }; //2^10 = 1024*(8) = 8192 bytes before allocation
 
     hashbase(int size = DEFAULTSIZE)
       : size(size)
     {
-        numelems = 0;
-        chunks = nullptr;
+        numelems = 0;  //no elements assigned by default
+        chunks = nullptr; //no chunks assigned
         unused = nullptr;
-        chains = new chain *[size];
-        memset(chains, 0, size*sizeof(chain *));
+        chains = new chain *[size]; //the base array of chains: an array of 1024 pointers at default size
+        memset(chains, 0, size*sizeof(chain *)); //clear all values inside the array to 0
     }
 
     ~hashbase()
     {
-        DELETEA(chains);
+        delete[] chains; //free the 1024 entry (by default) base array
+        chains = nullptr;
         deletechunks();
     }
 
+    /**
+     * @brief Creates a new hash entry using the given hash value.
+     *
+     * @param h The hash chain to use. Must be between 0 and `size`.
+     *
+     * @return A pointer to the created hash location.
+     */
     chain *insert(uint h)
     {
+
         if(!unused)
         {
             chainchunk *chunk = new chainchunk;
