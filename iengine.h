@@ -1124,7 +1124,7 @@ extern int shouldpacktex(int index);
 extern bool packeditinfo(editinfo *e, int &inlen, uchar *&outbuf, int &outlen);
 extern bool unpackeditinfo(editinfo *&e, const uchar *inbuf, int inlen, int outlen);
 extern void freeeditinfo(editinfo *&e);
-extern bool packundo(int op, int &inlen, uchar *&outbuf, int &outlen);
+extern bool packundo(bool undo, int &inlen, uchar *&outbuf, int &outlen);
 extern bool unpackundo(const uchar *inbuf, int inlen, int outlen);
 extern bool noedit(bool view = false, bool msg = true);
 extern void commitchanges(bool force = false);
