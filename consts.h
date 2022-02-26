@@ -45,26 +45,6 @@ enum
     MatFlag_Flags  = 0xFF << MatFlag_FlagShift
 };
 
-
-enum
-{
-    Edit_Face = 0,
-    Edit_Tex,
-    Edit_Mat,
-    Edit_Flip,
-    Edit_Copy,
-    Edit_Paste,
-    Edit_Rotate,
-    Edit_Replace,
-    Edit_DelCube,
-    Edit_AddCube,
-    Edit_CalcLight,
-    Edit_Remip,
-    Edit_VSlot,
-    Edit_Undo,
-    Edit_Redo
-};
-
 enum
 {
     Ray_BB = 1,
