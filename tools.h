@@ -280,7 +280,7 @@ struct databuf
     }
 
     /**
-     * @brief Returns a a databuf<T> object containing the first n entries
+     * @brief Returns a databuf<T> object containing the first n entries
      *
      * Returns a databuf object of type T which represents the first n elements
      * inside the databuf's array.
@@ -299,6 +299,16 @@ struct databuf
         return databuf(&buf[len-sz], sz);
     }
 
+    /**
+     * @brief Adds N empty elements to the end of the array and returns a pointer
+     *
+     * Creates an array of size `sz` which is then pointed to and returned as
+     * a naked pointer.
+     *
+     * @param sz the size of the buffer
+     *
+     * @return a pointer to the sub-array created
+     */
     T *pad(int numvals)
     {
         T *vals = &buf[len];
