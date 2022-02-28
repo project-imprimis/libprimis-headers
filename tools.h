@@ -98,8 +98,7 @@ inline float detrnd(uint s, int x)
     return static_cast<int>(((s*1103515245+12345)>>16)%x);
 }
 
-//operator delete/delete[] macros
-#define DELETEP(p) if(p) { delete   p; p = nullptr; }
+//operator delete[] macro
 #define DELETEA(p) if(p) { delete[] p; p = nullptr; }
 
 constexpr double SQRT2 = 1.4142135623731;
