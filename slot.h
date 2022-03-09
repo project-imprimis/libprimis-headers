@@ -115,7 +115,8 @@ struct Slot
         params.setsize(0);
         loaded = false;
         texmask = 0;
-        DELETEA(grass);
+        delete[] grass;
+        grass = nullptr;
         grasstex = nullptr;
         thumbnail = nullptr;
     }
