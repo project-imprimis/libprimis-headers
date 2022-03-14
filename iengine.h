@@ -1076,7 +1076,6 @@ namespace hmap
 extern bool allowediting;
 extern bool multiplayer;
 extern editinfo *localedit;
-extern selinfo sel;
 extern std::vector<ushort> texmru;
 extern selinfo repsel;
 extern int reptex;
@@ -1087,8 +1086,7 @@ extern int moving, orient, horient;
 extern bool editmode;
 extern int entmoving;
 extern int entediting;
-extern selinfo sel, lastsel, savedsel;
-extern vector<vslotmap> unpackingvslots;
+extern selinfo sel, lastsel;
 extern std::vector<vslotmap> remappedvslots;
 extern undolist undos, redos;
 extern int nompedit;
@@ -1096,8 +1094,8 @@ extern int hmapedit;
 extern bool havesel;
 extern std::vector<editinfo *> editinfos;
 extern int texpaneltimer; /**< Sets the length before the texture scroll panel turns off. */
-extern hashnameset<prefab> prefabs;
-extern ivec cor, cur, lastcur, lastcor;
+
+extern ivec cor, cur, lastcor;
 extern int gridsize;
 extern int passthroughsel;
 extern int outline;
