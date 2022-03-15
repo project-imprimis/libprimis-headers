@@ -153,7 +153,8 @@ extern std::string enginestr();
 
 // input
 
-extern bool grabinput, minimized;
+extern bool grabinput,
+            minimized; /**< Set to 1 if the window is minimized. */
 
 extern bool interceptkey(int sym);
 extern void inputgrab(bool on);
@@ -838,6 +839,16 @@ extern std::vector<std::string> animnames;
 extern void rendermodel(const char *mdl, int anim, const vec &o, float yaw = 0, float pitch = 0, float roll = 0, int cull = Model_CullVFC | Model_CullDist | Model_CullOccluded, dynent *d = nullptr, modelattach *a = nullptr, int basetime = 0, int basetime2 = 0, float size = 1, const vec4<float> &color = vec4<float>(1, 1, 1, 1));
 
 extern int intersectmodel(const char *mdl, int anim, const vec &pos, float yaw, float pitch, float roll, const vec &o, const vec &ray, float &dist, int mode = 0, dynent *d = nullptr, modelattach *a = nullptr, int basetime = 0, int basetime2 = 0, float size = 1);
+
+/**
+ * @brief Adds the z height of the model to the vector passed.
+ *
+ * Takes the passed-by-reference vector and adds the z height of the bounding
+ * box to the vector given.
+ *
+ * @param o the vector to add the height to
+ * @param mdl the name of the model object to use
+ */
 extern void abovemodel(vec &o, const char *mdl);
 extern void renderclient(dynent *d, const char *mdlname, modelattach *attachments, int hold, int attack, int attackdelay, int lastaction, int lastpain, float scale = 1, bool ragdoll = false, float trans = 1);
 extern void interpolateorientation(dynent *d, float &interpyaw, float &interppitch);
@@ -970,6 +981,13 @@ extern void limitfps(int &millis, int curmillis);
  * @param millis the timestamp to add to the fps history
  */
 extern void updatefpshistory(int millis);
+
+/**
+ * @brief Sets the SDL gamma level to 1.
+ *
+ * Sets SDL_SetWindowBrightness of the screen the engine is rendering to to 1, if the
+ * screen exists and the current gamma global variable has been changed from its default.
+ */
 extern void cleargamma();
 
 extern void renderbackground(const char *caption = nullptr, Texture *mapshot = nullptr, const char *mapname = nullptr, const char *mapinfo = nullptr, bool force = false);
@@ -977,6 +995,34 @@ extern void renderprogress(float bar, const char *text, bool background = false)
 
 // shader
 
+/**
+ * @brief Loads a series of shaders hardcoded into the engine.
+ *
+ * The shaders loaded are:
+ *
+ * `null`
+ *
+ * `hud`
+ *
+ * `hudtext`
+ *
+ * `hudnotexture`
+ *
+ * `stdworld`
+ *
+ * `nocolor`
+ *
+ * `fogged`
+ *
+ * `foggednotexture`
+ *
+ * `ldr`
+ *
+ * `ldrnotexture`
+ *
+ * If the shaders `null`...`stdworld` are not found, the engine exits by calling `fatal`.
+ * `setupshaders` creates these textures and adds them to the shader global hashtable.
+ */
 extern void loadshaders();
 
 // stain
@@ -1155,6 +1201,18 @@ extern void cancelsel();
  * @param the undo object to add
  */
 extern void addundo(undoblock *u);
+
+/**
+ * @brief Looks up a world cube inside the block passed
+ *
+ * @param x the x coordiante inside the block3 to look up
+ * @param y the y coordiante inside the block3 to look up
+ * @param z the z coordiante inside the block3 to look up
+ * @param b the block3 object to search inside
+ * @param rgrid the grid power to look up with
+ *
+ * @return a reference to the cube found
+ */
 extern cube &blockcube(int x, int y, int z, const block3 &b, int rgrid);
 extern void discardchildren(cube &c, bool fixtex = false, int depth = 0);
 
@@ -1434,6 +1492,13 @@ extern void fixmapname(char *name);
  * @return the cyclic redundancy code of the map file currently loaded
  */
 extern uint getmapcrc();
+
+/**
+ * @brief sets the CRC global variable to 0
+ *
+ * Invalidates the CRC code saved as a global variable for the world, usually
+ * to indicate that the CRC has become invalid as a result of modification.
+ */
 extern void clearmapcrc();
 extern bool loadents(const char *fname, const char *gameident, vector<entity> &ents, uint *crc = nullptr);
 
