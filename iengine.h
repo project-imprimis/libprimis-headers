@@ -1331,9 +1331,7 @@ extern vector<dynent *> dynents;
  * @return a pointer to the dynent object at index i
  */
 extern dynent *iterdynents(int i);
-extern void crouchplayer(physent *pl, int moveres, bool local);
 extern bool collide(physent *d, const vec &dir = vec(0, 0, 0), float cutoff = 0.0f, bool playercol = true, bool insideplayercol = false);
-extern bool bounce(physent *d, float secs, float elasticity, float waterfric, float grav);
 extern void avoidcollision(physent *d, const vec &dir, physent *obstacle, float space);
 extern bool movecamera(physent *pl, const vec &dir, float dist, float stepdist);
 
