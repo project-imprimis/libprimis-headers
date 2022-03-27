@@ -14,7 +14,7 @@ struct vec4;
 struct plane;
 struct quat;
 struct dualquat;
-struct matrix3;
+class matrix3;
 struct matrix4x3;
 struct matrix4;
 
@@ -916,396 +916,397 @@ inline vec::vec(const vec4<float> &v) : x(v.x), y(v.y), z(v.z) {}
  *
  * used largely in models/anims/ragdolls but also in stuff like bih
  */
-struct matrix3
+class matrix3
 {
-    /**
-     * @brief the three vectors making up the rows of the matrix
-     *
-     * a is the top vector
-     * b is the middle vector
-     * c is the bottom vector
-     */
-    vec a, b, c;
+    public:
+        /**
+         * @brief the three vectors making up the rows of the matrix
+         *
+         * a is the top vector
+         * b is the middle vector
+         * c is the bottom vector
+         */
+        vec a, b, c;
 
-    template<class M>
-    void transpose(const M &m)
-    {
-        a = vec(m.a.x, m.b.x, m.c.x);
-        b = vec(m.a.y, m.b.y, m.c.y);
-        c = vec(m.a.z, m.b.z, m.c.z);
-    }
+        /**
+         * @brief Creates an empty matrix.
+         */
+        matrix3();
 
-    /**
-     * @brief Creates an empty matrix.
-     */
-    matrix3();
+        /**
+         * @brief Creates a new matrix with the given vectors.
+         *
+         * @param a the vector to assign to the top row
+         * @param b the vector to assign to the middle row
+         * @param c the vector to assign to the bottom row
+         */
+        matrix3(const vec &a, const vec &b, const vec &c);
 
-    /**
-     * @brief Creates a new matrix with the given vectors.
-     *
-     * @param a the vector to assign to the top row
-     * @param b the vector to assign to the middle row
-     * @param c the vector to assign to the bottom row
-     */
-    matrix3(const vec &a, const vec &b, const vec &c);
-
-    /**
-     * @brief Creates a new matrix as a rotation matrix.
-     *
-     * @param angle
-     * @param axis
-     */
-    explicit matrix3(float angle, const vec &axis);
+        /**
+         * @brief Creates a new matrix as a rotation matrix.
+         *
+         * @param angle
+         * @param axis
+         */
+        explicit matrix3(float angle, const vec &axis);
 
 
-    /**
-     * @brief Creates a 3d matrix given a quaternion object.
-     *
-     * Note that quaternions are an engine-specific construct and not part of the
-     * game API beyond prototyping.
-     *
-     * @param q the quaternion to use
-     */
-    explicit matrix3(const quat &q);
+        /**
+         * @brief Creates a 3d matrix given a quaternion object.
+         *
+         * Note that quaternions are an engine-specific construct and not part of the
+         * game API beyond prototyping.
+         *
+         * @param q the quaternion to use
+         */
+        explicit matrix3(const quat &q);
 
-    /**
-     * @brief Creates a 3d matrix given a 4x3 matrix.
-     *
-     *
-     * @param m the matrix to use
-     */
-    explicit matrix3(const matrix4x3 &m);
+        /**
+         * @brief Creates a 3d matrix given a 4x3 matrix.
+         *
+         *
+         * @param m the matrix to use
+         */
+        explicit matrix3(const matrix4x3 &m);
 
-    /**
-     * @brief Creates a 3x3 matrix given a 4x4 matrix.
-     *
-     * This truncates the 4th member in both dimensions of the matrix.
-     *
-     * @param m the matrix to use
-     */
-    explicit matrix3(const matrix4 &m);
+        /**
+         * @brief Creates a 3x3 matrix given a 4x4 matrix.
+         *
+         * This truncates the 4th member in both dimensions of the matrix.
+         *
+         * @param m the matrix to use
+         */
+        explicit matrix3(const matrix4 &m);
 
-    /**
-     * @brief Calculates the product of three matrices.
-     *
-     * @param m the first matrix to multiply by
-     * @param n the second matrix to multiply by
-     */
-    void mul(const matrix3 &m, const matrix3 &n);
+        /**
+         * @brief Calculates the product of three matrices.
+         *
+         * @param m the first matrix to multiply by
+         * @param n the second matrix to multiply by
+         */
+        void mul(const matrix3 &m, const matrix3 &n);
 
-    /**
-     * @brief Multiplies the matrix by another
-     *
-     * This operation changes the value of the matrix.
-     *
-     * @param n
-     */
-    void mul(const matrix3 &n);
+        /**
+         * @brief Multiplies the matrix by another
+         *
+         * This operation changes the value of the matrix.
+         *
+         * @param n
+         */
+        void mul(const matrix3 &n);
 
-    /**
-     * @brief Calculates the multiplication-transpose of the three matrices
-     *
-     * @param m the first matrix to use
-     * @param n the second matrix to use
-     */
-    void multranspose(const matrix3 &m, const matrix3 &n);
+        /**
+         * @brief Calculates the multiplication-transpose with another matrix.
+         *
+         * @param n the matrix to use
+         */
+        void multranspose(const matrix3 &n);
 
-    /**
-     * @brief Calculates the multiplication-transpose with another matrix.
-     *
-     * @param n the matrix to use
-     */
-    void multranspose(const matrix3 &n);
+        /**
+         * @brief Calculates the transpose-multiplication with another two matrices.
+         *
+         * @param m the first matrix to use
+         * @param n the second matrix to use
+         */
+        void transposemul(const matrix3 &m, const matrix3 &n);
 
-    /**
-     * @brief Calculates the transpose-multiplication with another two matrices.
-     *
-     * @param m the first matrix to use
-     * @param n the second matrix to use
-     */
-    void transposemul(const matrix3 &m, const matrix3 &n);
+        /**
+         * @brief Calculates the transpose-multiplication with another matrix.
+         *
+         * @param n the matrix to multiply by
+         */
+        void transposemul(const matrix3 &n);
 
-    /**
-     * @brief Calculates the transpose-multiplication with another matrix.
-     *
-     * @param n the matrix to multiply by
-     */
-    void transposemul(const matrix3 &n);
+        /**
+         * @brief Transposes the matrix.
+         *
+         * ```
+         * a b c       a d g
+         * d e f   ->  b e h
+         * g h i       c f i
+         *```
+         */
+        void transpose();
 
-    /**
-     * @brief Transposes the matrix.
-     *
-     * ```
-     * a b c       a d g
-     * d e f   ->  b e h
-     * g h i       c f i
-     *```
-     */
-    void transpose();
+        /**
+         * @brief Inverts the matrix using another matrix for the scale factor.
+         *
+         * This operation can be undone by calling invert() again using the same
+         * argument.
+         *
+         */
+        void invert(const matrix3 &o);
 
-    /**
-     * @brief Inverts the matrix using another matrix for the scale factor.
-     *
-     * This operation can be undone by calling invert() again using the same
-     * argument.
-     *
-     */
-    void invert(const matrix3 &o);
+        /**
+         * @brief Inverts the matrix using itself for the scale factor.
+         *
+         * This operation can be undone by calling invert() again.
+         *
+         */
+        void invert();
 
-    /**
-     * @brief Inverts the matrix using itself for the scale factor.
-     *
-     * This operation can be undone by calling invert() again.
-     *
-     */
-    void invert();
+        /**
+         * @brief Normalizes each of the three rows to a magnitude of 1.
+         *
+         * Calls normalize() for each of the three vec objects making up the matrix.
+         */
+        void normalize();
 
-    /**
-     * @brief Normalizes each of the three rows to a magnitude of 1.
-     *
-     * Calls normalize() for each of the three vec objects making up the matrix.
-     */
-    void normalize();
+        /**
+         * @brief Multiplies each element of the matrix by the scale factor given.
+         *
+         * @param k the scale factor to multiply by
+         */
+        void scale(float k);
 
-    /**
-     * @brief Multiplies each element of the matrix by the scale factor given.
-     *
-     * @param k the scale factor to multiply by
-     */
-    void scale(float k);
+        /**
+         * @brief Rotates the matrix around the given axis by the given angle.
+         *
+         * @param angle the angle to rotate by (radians)
+         * @param axis the axis to rotate about
+         */
+        void rotate(float angle, const vec &axis);
 
-    /**
-     * @brief Rotates the matrix around the given axis by the given angle.
-     *
-     * @param angle the angle to rotate by (radians)
-     * @param axis the axis to rotate about
-     */
-    void rotate(float angle, const vec &axis);
+        /**
+         * @brief Rotates the matrix around the given axis by the given angle
+         *
+         * @param ck the cosine term
+         * @param sk the sine term
+         * @param axis the axis to rotate about
+         */
+        void rotate(float ck, float sk, const vec &axis);
 
-    /**
-     * @brief Rotates the matrix around the given axis by the given angle
-     *
-     * @param ck the cosine term
-     * @param sk the sine term
-     * @param axis the axis to rotate about
-     */
-    void rotate(float ck, float sk, const vec &axis);
+        /**
+         * @brief Sets the matrix to a 2D rotation matrix.
+         *
+         * The output matrix looks like this:
+         *
+         * ```
+         *  cosf(angle) sinf(angle) 0
+         * -sinf(angle) cosf(angle) 0
+         *  0           0           1
+         * ```
+         *
+         * @param angle the angle to rotate by (radians)
+         */
+        void setyaw(float angle);
 
-    /**
-     * @brief Sets the matrix to a 2D rotation matrix.
-     *
-     * The output matrix looks like this:
-     * ```
-     *  ck sk 0
-     * -sk ck 0
-     *  0  0  1
-     * ```
-     *
-     * @param ck the cosine term
-     * @param sk the sine term
-     */
-    void setyaw(float ck, float sk);
+        /**
+         * @brief Returns the trace of the matrix.
+         *
+         * @return a float representing the trace of the matrix
+         */
+        float trace() const;
 
-    /**
-     * @brief Sets the matrix to a 2D rotation matrix.
-     *
-     * The output matrix looks like this:
-     *
-     * ```
-     *  cosf(angle) sinf(angle) 0
-     * -sinf(angle) cosf(angle) 0
-     *  0           0           1
-     * ```
-     *
-     * @param angle the angle to rotate by (radians)
-     */
-    void setyaw(float angle);
+        /**
+         * @brief Calculates ragdoll angle axis compliance.
+         *
+         * Only used for some ragdoll calculations.
+         *
+         * @param tr the trace of the matrix
+         * @param angle the angle to test
+         * @param axis the axis to use
+         * @param threshold the threshhold for a pass
+         *
+         * @return whether the angle is within the allowable range
+         */
+        bool calcangleaxis(float tr, float &angle, vec &axis, float threshold = 1e-16f) const;
 
-    /**
-     * @brief Returns the trace of the matrix.
-     *
-     * @return a float representing the trace of the matrix
-     */
-    float trace() const;
+        /**
+         * @brief Calculates ragdoll angle axis compliance.
+         *
+         * Ony used for some ragdoll calculations.
+         *
+         * @param angle the angle to test
+         * @param axis the axis to use
+         * @param threshold the threshhold for a pass
+         *
+         * @return whether the angle is within the allowable range
+         */
+        bool calcangleaxis(float &angle, vec &axis, float threshold = 1e-16f) const;
 
-    /**
-     * @brief Calculates ragdoll angle axis compliance.
-     *
-     * Only used for some ragdoll calculations.
-     *
-     * @param tr the trace of the matrix
-     * @param angle the angle to test
-     * @param axis the axis to use
-     * @param threshold the threshhold for a pass
-     *
-     * @return whether the angle is within the allowable range
-     */
-    bool calcangleaxis(float tr, float &angle, vec &axis, float threshold = 1e-16f) const;
+        /**
+         * @brief Sets the matrix to the transform of the matrix.
+         *
+         * @param o the 3d vector to transform by
+         *
+         * @return whether the angle is within the allowable range
+         */
+        vec transform(const vec &o) const;
 
-    /**
-     * @brief Calculates ragdoll angle axis compliance.
-     *
-     * Ony used for some ragdoll calculations.
-     *
-     * @param angle the angle to test
-     * @param axis the axis to use
-     * @param threshold the threshhold for a pass
-     *
-     * @return whether the angle is within the allowable range
-     */
-    bool calcangleaxis(float &angle, vec &axis, float threshold = 1e-16f) const;
+        /**
+         * @brief Sets the matrix to the transpose-transform.
+         *
+         * @param o the 3d vector to transform by
+         *
+         * @return the result of the transform
+         */
+        vec transposedtransform(const vec &o) const;
 
-    /**
-     * @brief Sets the matrix to the transform of the matrix.
-     *
-     * @param o the 3d vector to transform by
-     *
-     * @return whether the angle is within the allowable range
-     */
-    vec transform(const vec &o) const;
+        /**
+         * @brief Sets the matrix to the absolute value of the transform
+         *
+         * @param o the 3d vector to transform by
+         *
+         * @return the dot products of the resulting matrix
+         */
+        vec abstransform(const vec &o) const;
 
-    /**
-     * @brief Sets the matrix to the transpose-transform.
-     *
-     * @param o the 3d vector to transform by
-     *
-     * @return the result of the transform
-     */
-    vec transposedtransform(const vec &o) const;
+        /**
+         * @brief Sets the matrix to the absolute value of the transpose-transform.
+         *
+         * @param o the 3d vector to transform by
+         *
+         * @return the result of the transform
+         */
+        vec abstransposedtransform(const vec &o) const;
 
-    /**
-     * @brief Sets the matrix to the absolute value of the transform
-     *
-     * @param o the 3d vector to transform by
-     *
-     * @return the dot products of the resulting matrix
-     */
-    vec abstransform(const vec &o) const;
+        /**
+         * @brief Sets the matrix to be the identity matrix.
+         *
+         * ```
+         * 1 0 0
+         * 0 1 0
+         * 0 0 1
+         * ```
+         */
+        void identity();
 
-    /**
-     * @brief Sets the matrix to the absolute value of the transpose-transform.
-     *
-     * @param o the 3d vector to transform by
-     *
-     * @return the result of the transform
-     */
-    vec abstransposedtransform(const vec &o) const;
+        /**
+         * @brief Rotates the matrix values around the X axis.
+         *
+         * @param angle the angle by which to rotate about
+         */
+        void rotate_around_x(float angle);
 
-    /**
-     * @brief Sets the matrix to be the identity matrix.
-     *
-     * ```
-     * 1 0 0
-     * 0 1 0
-     * 0 0 1
-     * ```
-     */
-    void identity();
+        /**
+         * @brief Rotates the matrix values around the X axis.
+         *
+         * @param sc a vector containing the cosine + sine terms
+         */
+        void rotate_around_x(const vec2 &sc);
 
-    /**
-     * @brief Rotates the matrix values around the X axis
-     *
-     * @param ck the cosine term
-     * @param sk the sine term
-     */
-    void rotate_around_x(float ck, float sk);
+        /**
+         * @brief Rotates the matrix values around the Y axis.
+         *
+         * @param angle the angle by which to rotate about
+         */
+        void rotate_around_y(float angle);
 
-    /**
-     * @brief Rotates the matrix values around the X axis.
-     *
-     * @param angle the angle by which to rotate about
-     */
-    void rotate_around_x(float angle);
+        /**
+         * @brief Rotates the matrix values around the Y axis.
+         *
+         * @param sc a vector containing the cosine + sine terms
+         */
+        void rotate_around_y(const vec2 &sc);
 
-    /**
-     * @brief Rotates the matrix values around the X axis.
-     *
-     * @param sc a vector containing the cosine + sine terms
-     */
-    void rotate_around_x(const vec2 &sc);
+        /**
+         * @brief Rotates the matrix values around the Z axis.
+         *
+         * @param angle by which to rotate
+         */
+        void rotate_around_z(float angle);
 
-    /**
-     * @brief Rotates the matrix values around the Y axis.
-     *
-     * @param ck the cosine term
-     * @param sk the sine term
-     */
-    void rotate_around_y(float ck, float sk);
+        /**
+         * @brief Rotates the matrix values around the Z axis.
+         *
+         * @param sc a vector containing the cosine + sine terms
+         */
+        void rotate_around_z(const vec2 &sc);
 
-    /**
-     * @brief Rotates the matrix values around the Y axis.
-     *
-     * @param angle the angle by which to rotate about
-     */
-    void rotate_around_y(float angle);
+        /**
+         * @brief Returns the transform of the matrix.
+         *
+         * @param o the 2d vector to transform by
+         *
+         * @return the transform of the matrix
+         */
+        vec transform(const vec2 &o);
 
-    /**
-     * @brief Rotates the matrix values around the Y axis.
-     *
-     * @param sc a vector containing the cosine + sine terms
-     */
-    void rotate_around_y(const vec2 &sc);
+        /**
+         * @brief Returns the transposed transform of the matrix.
+         *
+         * @param o the vector to transform with
+         *
+         * @return the transposed transform of the matrix
+         */
+        vec transposedtransform(const vec2 &o) const;
 
-    /**
-     * @brief Rotates the matrix values around the Z axis.
-     *
-     * @param ck the cosine term
-     * @param sk the sine term
-     */
-    void rotate_around_z(float ck, float sk);
+        /**
+         * @brief Returns the first (top) row of the matrix.
+         *
+         * @return a 3d vector containing the first row of the matrix
+         */
+        vec rowx() const;
 
-    /**
-     * @brief Rotates the matrix values around the Z axis.
-     *
-     * @param angle by which to rotate
-     */
-    void rotate_around_z(float angle);
+        /**
+         * @brief Returns the second (middle) row of the matrix.
+         *
+         * @return a 3d vector containing the second row of the matrix
+         */
+        vec rowy() const;
 
-    /**
-     * @brief Rotates the matrix values around the Z axis.
-     *
-     * @param sc a vector containing the cosine + sine terms
-     */
-    void rotate_around_z(const vec2 &sc);
+        /**
+         * @brief Returns the third (bottom) row of the matrix.
+         *
+         * @return a 3d fector containing the thrid row of the matrix
+         */
+        vec rowz() const;
+    private:
 
-    /**
-     * @brief Returns the transform of the matrix.
-     *
-     * @param o the 2d vector to transform by
-     *
-     * @return the transform of the matrix
-     */
-    vec transform(const vec2 &o);
+        /**
+         * @brief Calculates the multiplication-transpose of the three matrices
+         *
+         * @param m the first matrix to use
+         * @param n the second matrix to use
+         */
+        void multranspose(const matrix3 &m, const matrix3 &n);
 
-    /**
-     * @brief Returns the transposed transform of the matrix.
-     *
-     * @param o the vector to transform with
-     *
-     * @return the transposed transform of the matrix
-     */
-    vec transposedtransform(const vec2 &o) const;
+        /**
+         * @brief Sets the matrix to a 2D rotation matrix.
+         *
+         * The output matrix looks like this:
+         * ```
+         *  ck sk 0
+         * -sk ck 0
+         *  0  0  1
+         * ```
+         *
+         * @param ck the cosine term
+         * @param sk the sine term
+         */
+        void setyaw(float ck, float sk);
 
-    /**
-     * @brief Returns the first (top) row of the matrix.
-     *
-     * @return a 3d vector containing the first row of the matrix
-     */
-    vec rowx() const;
+        /**
+         * @brief Rotates the matrix values around the X axis
+         *
+         * @param ck the cosine term
+         * @param sk the sine term
+         */
+        void rotate_around_x(float ck, float sk);
 
-    /**
-     * @brief Returns the second (middle) row of the matrix.
-     *
-     * @return a 3d vector containing the second row of the matrix
-     */
-    vec rowy() const;
+        /**
+         * @brief Rotates the matrix values around the Y axis.
+         *
+         * @param ck the cosine term
+         * @param sk the sine term
+         */
+        void rotate_around_y(float ck, float sk);
 
-    /**
-     * @brief Returns the third (bottom) row of the matrix.
-     *
-     * @return a 3d fector containing the thrid row of the matrix
-     */
-    vec rowz() const;
+        /**
+         * @brief Rotates the matrix values around the Z axis.
+         *
+         * @param ck the cosine term
+         * @param sk the sine term
+         */
+        void rotate_around_z(float ck, float sk);
+
+        /**
+         * @brief Sets the matrix to the transpose of the one given.
+         *
+         * @param m the matrix to use to set
+         */
+        void transpose(const matrix3 &m);
 };
 
 /**
