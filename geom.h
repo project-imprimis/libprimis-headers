@@ -918,45 +918,14 @@ inline vec::vec(const vec4<float> &v) : x(v.x), y(v.y), z(v.z) {}
  */
 struct matrix3
 {
+    /**
+     * @brief the three vectors making up the rows of the matrix
+     *
+     * a is the top vector
+     * b is the middle vector
+     * c is the bottom vector
+     */
     vec a, b, c;
-
-    matrix3() {}
-    matrix3(const vec &a, const vec &b, const vec &c) : a(a), b(b), c(c) {}
-    explicit matrix3(float angle, const vec &axis) { rotate(angle, axis); }
-    explicit matrix3(const quat &q);
-
-    explicit matrix3(const matrix4x3 &m);
-    explicit matrix3(const matrix4 &m);
-
-    void mul(const matrix3 &m, const matrix3 &n)
-    {
-        a = vec(m.a).mul(n.a.x).madd(m.b, n.a.y).madd(m.c, n.a.z);
-        b = vec(m.a).mul(n.b.x).madd(m.b, n.b.y).madd(m.c, n.b.z);
-        c = vec(m.a).mul(n.c.x).madd(m.b, n.c.y).madd(m.c, n.c.z);
-    }
-    void mul(const matrix3 &n) { mul(matrix3(*this), n); }
-
-    void multranspose(const matrix3 &m, const matrix3 &n)
-    {
-        a = vec(m.a).mul(n.a.x).madd(m.b, n.b.x).madd(m.c, n.c.x);
-        b = vec(m.a).mul(n.a.y).madd(m.b, m.b.y).madd(m.c, n.c.y);
-        c = vec(m.a).mul(n.a.z).madd(m.b, n.b.z).madd(m.c, n.c.z);
-    }
-    void multranspose(const matrix3 &n) { multranspose(matrix3(*this), n); }
-
-    void transposemul(const matrix3 &m, const matrix3 &n)
-    {
-        a = vec(m.a.dot(n.a), m.b.dot(n.a), m.c.dot(n.a));
-        b = vec(m.a.dot(n.b), m.b.dot(n.b), m.c.dot(n.b));
-        c = vec(m.a.dot(n.c), m.b.dot(n.c), m.c.dot(n.c));
-    }
-    void transposemul(const matrix3 &n) { transposemul(matrix3(*this), n); }
-
-    void transpose()
-    {
-        swap(a.y, b.x); swap(a.z, c.x);
-        swap(b.z, c.y);
-    }
 
     template<class M>
     void transpose(const M &m)
@@ -966,176 +935,377 @@ struct matrix3
         c = vec(m.a.z, m.b.z, m.c.z);
     }
 
-    void invert(const matrix3 &o)
-    {
-        vec unscale(1/o.a.squaredlen(), 1/o.b.squaredlen(), 1/o.c.squaredlen());
-        transpose(o);
-        a.mul(unscale);
-        b.mul(unscale);
-        c.mul(unscale);
-    }
-    void invert() { invert(matrix3(*this)); }
+    /**
+     * @brief Creates an empty matrix.
+     */
+    matrix3();
 
-    void normalize()
-    {
-        a.normalize();
-        b.normalize();
-        c.normalize();
-    }
+    /**
+     * @brief Creates a new matrix with the given vectors.
+     *
+     * @param a the vector to assign to the top row
+     * @param b the vector to assign to the middle row
+     * @param c the vector to assign to the bottom row
+     */
+    matrix3(const vec &a, const vec &b, const vec &c);
 
-    void scale(float k)
-    {
-        a.mul(k);
-        b.mul(k);
-        c.mul(k);
-    }
+    /**
+     * @brief Creates a new matrix as a rotation matrix.
+     *
+     * @param angle
+     * @param axis
+     */
+    explicit matrix3(float angle, const vec &axis);
 
-    void rotate(float angle, const vec &axis)
-    {
-        rotate(cosf(angle), std::sin(angle), axis);
-    }
 
-    void rotate(float ck, float sk, const vec &axis)
-    {
-        a = vec(axis.x*axis.x*(1-ck)+ck, axis.x*axis.y*(1-ck)+axis.z*sk, axis.x*axis.z*(1-ck)-axis.y*sk);
-        b = vec(axis.x*axis.y*(1-ck)-axis.z*sk, axis.y*axis.y*(1-ck)+ck, axis.y*axis.z*(1-ck)+axis.x*sk);
-        c = vec(axis.x*axis.z*(1-ck)+axis.y*sk, axis.y*axis.z*(1-ck)-axis.x*sk, axis.z*axis.z*(1-ck)+ck);
-    }
+    /**
+     * @brief Creates a 3d matrix given a quaternion object.
+     *
+     * Note that quaternions are an engine-specific construct and not part of the
+     * game API beyond prototyping.
+     *
+     * @param q the quaternion to use
+     */
+    explicit matrix3(const quat &q);
 
-    void setyaw(float ck, float sk)
-    {
-        a = vec(ck, sk, 0);
-        b = vec(-sk, ck, 0);
-        c = vec(0, 0, 1);
-    }
+    /**
+     * @brief Creates a 3d matrix given a 4x3 matrix.
+     *
+     *
+     * @param m the matrix to use
+     */
+    explicit matrix3(const matrix4x3 &m);
 
-    void setyaw(float angle)
-    {
-        setyaw(cosf(angle), std::sin(angle));
-    }
+    /**
+     * @brief Creates a 3x3 matrix given a 4x4 matrix.
+     *
+     * This truncates the 4th member in both dimensions of the matrix.
+     *
+     * @param m the matrix to use
+     */
+    explicit matrix3(const matrix4 &m);
 
-    float trace() const { return a.x + b.y + c.z; }
+    /**
+     * @brief Calculates the product of three matrices.
+     *
+     * @param m the first matrix to multiply by
+     * @param n the second matrix to multiply by
+     */
+    void mul(const matrix3 &m, const matrix3 &n);
 
-    bool calcangleaxis(float tr, float &angle, vec &axis, float threshold = 1e-16f) const
-    {
-        if(tr <= -1)
-        {
-            if(a.x >= b.y && a.x >= c.z)
-            {
-                float r = 1 + a.x - b.y - c.z;
-                if(r <= threshold)
-                {
-                    return false;
-                }
-                r = sqrtf(r);
-                axis.x = 0.5f*r;
-                axis.y = b.x/r;
-                axis.z = c.x/r;
-            }
-            else if(b.y >= c.z)
-            {
-                float r = 1 + b.y - a.x - c.z;
-                if(r <= threshold)
-                {
-                    return false;
-                }
-                r = sqrtf(r);
-                axis.y = 0.5f*r;
-                axis.x = b.x/r;
-                axis.z = c.y/r;
-            }
-            else
-            {
-                float r = 1 + b.y - a.x - c.z;
-                if(r <= threshold)
-                {
-                    return false;
-                }
-                r = sqrtf(r);
-                axis.z = 0.5f*r;
-                axis.x = c.x/r;
-                axis.y = c.y/r;
-            }
-            angle = M_PI;
-        }
-        else if(tr >= 3)
-        {
-            axis = vec(0, 0, 1);
-            angle = 0;
-        }
-        else
-        {
-            axis = vec(b.z - c.y, c.x - a.z, a.y - b.x);
-            float r = axis.squaredlen();
-            if(r <= threshold)
-            {
-                return false;
-            }
-            axis.mul(1/sqrtf(r));
-            angle = acosf(0.5f*(tr - 1));
-        }
-        return true;
-    }
+    /**
+     * @brief Multiplies the matrix by another
+     *
+     * This operation changes the value of the matrix.
+     *
+     * @param n
+     */
+    void mul(const matrix3 &n);
 
-    bool calcangleaxis(float &angle, vec &axis, float threshold = 1e-16f) const { return calcangleaxis(trace(), angle, axis, threshold); }
+    /**
+     * @brief Calculates the multiplication-transpose of the three matrices
+     *
+     * @param m the first matrix to use
+     * @param n the second matrix to use
+     */
+    void multranspose(const matrix3 &m, const matrix3 &n);
 
-    vec transform(const vec &o) const
-    {
-        return vec(a).mul(o.x).madd(b, o.y).madd(c, o.z);
-    }
-    vec transposedtransform(const vec &o) const { return vec(a.dot(o), b.dot(o), c.dot(o)); }
-    vec abstransform(const vec &o) const
-    {
-        return vec(a).mul(o.x).abs().add(vec(b).mul(o.y).abs()).add(vec(c).mul(o.z).abs());
-    }
-    vec abstransposedtransform(const vec &o) const
-    {
-        return vec(a.absdot(o), b.absdot(o), c.absdot(o));
-    }
+    /**
+     * @brief Calculates the multiplication-transpose with another matrix.
+     *
+     * @param n the matrix to use
+     */
+    void multranspose(const matrix3 &n);
 
-    void identity()
-    {
-        a = vec(1, 0, 0);
-        b = vec(0, 1, 0);
-        c = vec(0, 0, 1);
-    }
+    /**
+     * @brief Calculates the transpose-multiplication with another two matrices.
+     *
+     * @param m the first matrix to use
+     * @param n the second matrix to use
+     */
+    void transposemul(const matrix3 &m, const matrix3 &n);
 
-    void rotate_around_x(float ck, float sk)
-    {
-        vec rb = vec(b).mul(ck).madd(c, sk),
-            rc = vec(c).mul(ck).msub(b, sk);
-        b = rb;
-        c = rc;
-    }
-    void rotate_around_x(float angle) { rotate_around_x(cosf(angle), std::sin(angle)); }
-    void rotate_around_x(const vec2 &sc) { rotate_around_x(sc.x, sc.y); }
+    /**
+     * @brief Calculates the transpose-multiplication with another matrix.
+     *
+     * @param n the matrix to multiply by
+     */
+    void transposemul(const matrix3 &n);
 
-    void rotate_around_y(float ck, float sk)
-    {
-        vec rc = vec(c).mul(ck).madd(a, sk),
-            ra = vec(a).mul(ck).msub(c, sk);
-        c = rc;
-        a = ra;
-    }
-    void rotate_around_y(float angle) { rotate_around_y(cosf(angle), std::sin(angle)); }
-    void rotate_around_y(const vec2 &sc) { rotate_around_y(sc.x, sc.y); }
+    /**
+     * @brief Transposes the matrix.
+     *
+     * ```
+     * a b c       a d g
+     * d e f   ->  b e h
+     * g h i       c f i
+     *```
+     */
+    void transpose();
 
-    void rotate_around_z(float ck, float sk)
-    {
-        vec ra = vec(a).mul(ck).madd(b, sk),
-            rb = vec(b).mul(ck).msub(a, sk);
-        a = ra;
-        b = rb;
-    }
-    void rotate_around_z(float angle) { rotate_around_z(cosf(angle), std::sin(angle)); }
-    void rotate_around_z(const vec2 &sc) { rotate_around_z(sc.x, sc.y); }
+    /**
+     * @brief Inverts the matrix using another matrix for the scale factor.
+     *
+     * This operation can be undone by calling invert() again using the same
+     * argument.
+     *
+     */
+    void invert(const matrix3 &o);
 
-    vec transform(const vec2 &o) { return vec(a).mul(o.x).madd(b, o.y); }
-    vec transposedtransform(const vec2 &o) const { return vec(a.dot2(o), b.dot2(o), c.dot2(o)); }
+    /**
+     * @brief Inverts the matrix using itself for the scale factor.
+     *
+     * This operation can be undone by calling invert() again.
+     *
+     */
+    void invert();
 
-    vec rowx() const { return vec(a.x, b.x, c.x); }
-    vec rowy() const { return vec(a.y, b.y, c.y); }
-    vec rowz() const { return vec(a.z, b.z, c.z); }
+    /**
+     * @brief Normalizes each of the three rows to a magnitude of 1.
+     *
+     * Calls normalize() for each of the three vec objects making up the matrix.
+     */
+    void normalize();
+
+    /**
+     * @brief Multiplies each element of the matrix by the scale factor given.
+     *
+     * @param k the scale factor to multiply by
+     */
+    void scale(float k);
+
+    /**
+     * @brief Rotates the matrix around the given axis by the given angle.
+     *
+     * @param angle the angle to rotate by (radians)
+     * @param axis the axis to rotate about
+     */
+    void rotate(float angle, const vec &axis);
+
+    /**
+     * @brief Rotates the matrix around the given axis by the given angle
+     *
+     * @param ck the cosine term
+     * @param sk the sine term
+     * @param axis the axis to rotate about
+     */
+    void rotate(float ck, float sk, const vec &axis);
+
+    /**
+     * @brief Sets the matrix to a 2D rotation matrix.
+     *
+     * The output matrix looks like this:
+     * ```
+     *  ck sk 0
+     * -sk ck 0
+     *  0  0  1
+     * ```
+     *
+     * @param ck the cosine term
+     * @param sk the sine term
+     */
+    void setyaw(float ck, float sk);
+
+    /**
+     * @brief Sets the matrix to a 2D rotation matrix.
+     *
+     * The output matrix looks like this:
+     *
+     * ```
+     *  cosf(angle) sinf(angle) 0
+     * -sinf(angle) cosf(angle) 0
+     *  0           0           1
+     * ```
+     *
+     * @param angle the angle to rotate by (radians)
+     */
+    void setyaw(float angle);
+
+    /**
+     * @brief Returns the trace of the matrix.
+     *
+     * @return a float representing the trace of the matrix
+     */
+    float trace() const;
+
+    /**
+     * @brief Calculates ragdoll angle axis compliance.
+     *
+     * Only used for some ragdoll calculations.
+     *
+     * @param tr the trace of the matrix
+     * @param angle the angle to test
+     * @param axis the axis to use
+     * @param threshold the threshhold for a pass
+     *
+     * @return whether the angle is within the allowable range
+     */
+    bool calcangleaxis(float tr, float &angle, vec &axis, float threshold = 1e-16f) const;
+
+    /**
+     * @brief Calculates ragdoll angle axis compliance.
+     *
+     * Ony used for some ragdoll calculations.
+     *
+     * @param angle the angle to test
+     * @param axis the axis to use
+     * @param threshold the threshhold for a pass
+     *
+     * @return whether the angle is within the allowable range
+     */
+    bool calcangleaxis(float &angle, vec &axis, float threshold = 1e-16f) const;
+
+    /**
+     * @brief Sets the matrix to the transform of the matrix.
+     *
+     * @param o the 3d vector to transform by
+     *
+     * @return whether the angle is within the allowable range
+     */
+    vec transform(const vec &o) const;
+
+    /**
+     * @brief Sets the matrix to the transpose-transform.
+     *
+     * @param o the 3d vector to transform by
+     *
+     * @return the result of the transform
+     */
+    vec transposedtransform(const vec &o) const;
+
+    /**
+     * @brief Sets the matrix to the absolute value of the transform
+     *
+     * @param o the 3d vector to transform by
+     *
+     * @return the dot products of the resulting matrix
+     */
+    vec abstransform(const vec &o) const;
+
+    /**
+     * @brief Sets the matrix to the absolute value of the transpose-transform.
+     *
+     * @param o the 3d vector to transform by
+     *
+     * @return the result of the transform
+     */
+    vec abstransposedtransform(const vec &o) const;
+
+    /**
+     * @brief Sets the matrix to be the identity matrix.
+     *
+     * ```
+     * 1 0 0
+     * 0 1 0
+     * 0 0 1
+     * ```
+     */
+    void identity();
+
+    /**
+     * @brief Rotates the matrix values around the X axis
+     *
+     * @param ck the cosine term
+     * @param sk the sine term
+     */
+    void rotate_around_x(float ck, float sk);
+
+    /**
+     * @brief Rotates the matrix values around the X axis.
+     *
+     * @param angle the angle by which to rotate about
+     */
+    void rotate_around_x(float angle);
+
+    /**
+     * @brief Rotates the matrix values around the X axis.
+     *
+     * @param sc a vector containing the cosine + sine terms
+     */
+    void rotate_around_x(const vec2 &sc);
+
+    /**
+     * @brief Rotates the matrix values around the Y axis.
+     *
+     * @param ck the cosine term
+     * @param sk the sine term
+     */
+    void rotate_around_y(float ck, float sk);
+
+    /**
+     * @brief Rotates the matrix values around the Y axis.
+     *
+     * @param angle the angle by which to rotate about
+     */
+    void rotate_around_y(float angle);
+
+    /**
+     * @brief Rotates the matrix values around the Y axis.
+     *
+     * @param sc a vector containing the cosine + sine terms
+     */
+    void rotate_around_y(const vec2 &sc);
+
+    /**
+     * @brief Rotates the matrix values around the Z axis.
+     *
+     * @param ck the cosine term
+     * @param sk the sine term
+     */
+    void rotate_around_z(float ck, float sk);
+
+    /**
+     * @brief Rotates the matrix values around the Z axis.
+     *
+     * @param angle by which to rotate
+     */
+    void rotate_around_z(float angle);
+
+    /**
+     * @brief Rotates the matrix values around the Z axis.
+     *
+     * @param sc a vector containing the cosine + sine terms
+     */
+    void rotate_around_z(const vec2 &sc);
+
+    /**
+     * @brief Returns the transform of the matrix.
+     *
+     * @param o the 2d vector to transform by
+     *
+     * @return the transform of the matrix
+     */
+    vec transform(const vec2 &o);
+
+    /**
+     * @brief Returns the transposed transform of the matrix.
+     *
+     * @param o the vector to transform with
+     *
+     * @return the transposed transform of the matrix
+     */
+    vec transposedtransform(const vec2 &o) const;
+
+    /**
+     * @brief Returns the first (top) row of the matrix.
+     *
+     * @return a 3d vector containing the first row of the matrix
+     */
+    vec rowx() const;
+
+    /**
+     * @brief Returns the second (middle) row of the matrix.
+     *
+     * @return a 3d vector containing the second row of the matrix
+     */
+    vec rowy() const;
+
+    /**
+     * @brief Returns the third (bottom) row of the matrix.
+     *
+     * @return a 3d fector containing the thrid row of the matrix
+     */
+    vec rowz() const;
 };
 
 /**
@@ -1152,248 +1322,76 @@ struct matrix4x3
 {
     vec a, b, c, d;
 
-    matrix4x3() {}
-    matrix4x3(const vec &a, const vec &b, const vec &c, const vec &d) : a(a), b(b), c(c), d(d) {}
-    matrix4x3(const matrix3 &rot, const vec &trans) : a(rot.a), b(rot.b), c(rot.c), d(trans) {}
+    matrix4x3();
+    matrix4x3(const vec &a, const vec &b, const vec &c, const vec &d);
+    matrix4x3(const matrix3 &rot, const vec &trans);
     matrix4x3(const dualquat &dq);
     explicit matrix4x3(const matrix4 &m);
 
-    void mul(float k)
-    {
-        a.mul(k);
-        b.mul(k);
-        c.mul(k);
-        d.mul(k);
-    }
+    void mul(float k);
+    void setscale(float x, float y, float z);
+    void setscale(const vec &v);
+    void setscale(float n);
 
-    void setscale(float x, float y, float z)
-    {
-        a.x = x;
-        b.y = y;
-        c.z = z;
-    }
+    void scale(float x, float y, float z);
+    void scale(const vec &v);
 
-    void setscale(const vec &v)
-    {
-        setscale(v.x, v.y, v.z);
-    }
+    void scale(float n);
 
-    void setscale(float n)
-    {
-        setscale(n, n, n);
-    }
+    void settranslation(const vec &p);
+    void settranslation(float x, float y, float z);
+    void translate(const vec &p);
+    void translate(float x, float y, float z);
+    void translate(const vec &p, float scale);
+    void accumulate(const matrix4x3 &m, float k);
 
-    void scale(float x, float y, float z)
-    {
-        a.mul(x);
-        b.mul(y);
-        c.mul(z);
-    }
+    void normalize();
+    void lerp(const matrix4x3 &to, float t);
+    void lerp(const matrix4x3 &from, const matrix4x3 &to, float t);
 
-    void scale(const vec &v)
-    {
-        scale(v.x, v.y, v.z);
-    }
+    void identity();
+    void mul(const matrix4x3 &m, const matrix4x3 &n);
+    void mul(const matrix4x3 &n);
 
-    void scale(float n)
-    {
-        scale(n, n, n);
-    }
+    void mul(const matrix3 &m, const matrix4x3 &n);
 
-    void settranslation(const vec &p)
-    {
-        d = p;
-    }
+    void mul(const matrix3 &rot, const vec &trans, const matrix4x3 &n);
 
-    void settranslation(float x, float y, float z)
-    {
-        d = vec(x, y, z);
-    }
+    void transpose();
+    void transpose(const matrix4x3 &o);
 
-    void translate(const vec &p)
-    {
-        d.madd(a, p.x).madd(b, p.y).madd(c, p.z);
-    }
+    void transposemul(const matrix4x3 &m, const matrix4x3 &n);
 
-    void translate(float x, float y, float z)
-    {
-        translate(vec(x, y, z));
-    }
+    void multranspose(const matrix4x3 &m, const matrix4x3 &n);
 
-    void translate(const vec &p, float scale)
-    {
-        translate(vec(p).mul(scale)); }
+    void invert(const matrix4x3 &o);
+    void invert();
+    void rotate(float angle, const vec &d);
 
-    void accumulate(const matrix4x3 &m, float k)
-    {
-        a.madd(m.a, k);
-        b.madd(m.b, k);
-        c.madd(m.c, k);
-        d.madd(m.d, k);
-    }
+    void rotate(float ck, float sk, const vec &axis);
 
-    void normalize()
-    {
-        a.normalize();
-        b.normalize();
-        c.normalize();
-    }
+    void rotate_around_x(float ck, float sk);
+    void rotate_around_x(float angle);
 
-    void lerp(const matrix4x3 &to, float t)
-    {
-        a.lerp(to.a, t);
-        b.lerp(to.b, t);
-        c.lerp(to.c, t);
-        d.lerp(to.d, t);
-    }
-    void lerp(const matrix4x3 &from, const matrix4x3 &to, float t)
-    {
-        a.lerp(from.a, to.a, t);
-        b.lerp(from.b, to.b, t);
-        c.lerp(from.c, to.c, t);
-        d.lerp(from.d, to.d, t);
-    }
+    void rotate_around_x(const vec2 &sc);
 
-    void identity()
-    {
-        a = vec(1, 0, 0);
-        b = vec(0, 1, 0);
-        c = vec(0, 0, 1);
-        d = vec(0, 0, 0);
-    }
+    void rotate_around_y(float ck, float sk);
+    void rotate_around_y(float angle);
+    void rotate_around_y(const vec2 &sc);
 
-    void mul(const matrix4x3 &m, const matrix4x3 &n)
-    {
-        a = vec(m.a).mul(n.a.x).madd(m.b, n.a.y).madd(m.c, n.a.z);
-        b = vec(m.a).mul(n.b.x).madd(m.b, n.b.y).madd(m.c, n.b.z);
-        c = vec(m.a).mul(n.c.x).madd(m.b, n.c.y).madd(m.c, n.c.z);
-        d = vec(m.d).madd(m.a, n.d.x).madd(m.b, n.d.y).madd(m.c, n.d.z);
-    }
-    void mul(const matrix4x3 &n) { mul(matrix4x3(*this), n); }
+    void rotate_around_z(float ck, float sk);
+    void rotate_around_z(float angle);
+    void rotate_around_z(const vec2 &sc);
 
-    void mul(const matrix3 &m, const matrix4x3 &n)
-    {
-        a = vec(m.a).mul(n.a.x).madd(m.b, n.a.y).madd(m.c, n.a.z);
-        b = vec(m.a).mul(n.b.x).madd(m.b, n.b.y).madd(m.c, n.b.z);
-        c = vec(m.a).mul(n.c.x).madd(m.b, n.c.y).madd(m.c, n.c.z);
-        d = vec(m.a).mul(n.d.x).madd(m.b, n.d.y).madd(m.c, n.d.z);
-    }
+    vec transform(const vec &o) const;
+    vec transposedtransform(const vec &o) const;
+    vec transformnormal(const vec &o) const;
+    vec transposedtransformnormal(const vec &o) const;
+    vec transform(const vec2 &o) const;
 
-    void mul(const matrix3 &rot, const vec &trans, const matrix4x3 &n)
-    {
-        mul(rot, n);
-        d.add(trans);
-    }
-
-    void transpose()
-    {
-        d = vec(a.dot(d), b.dot(d), c.dot(d)).neg();
-        swap(a.y, b.x); swap(a.z, c.x);
-        swap(b.z, c.y);
-    }
-
-    void transpose(const matrix4x3 &o)
-    {
-        a = vec(o.a.x, o.b.x, o.c.x);
-        b = vec(o.a.y, o.b.y, o.c.y);
-        c = vec(o.a.z, o.b.z, o.c.z);
-        d = vec(o.a.dot(o.d), o.b.dot(o.d), o.c.dot(o.d)).neg();
-    }
-
-    void transposemul(const matrix4x3 &m, const matrix4x3 &n)
-    {
-        vec t(m.a.dot(m.d), m.b.dot(m.d), m.c.dot(m.d));
-        a = vec(m.a.dot(n.a), m.b.dot(n.a), m.c.dot(n.a));
-        b = vec(m.a.dot(n.b), m.b.dot(n.b), m.c.dot(n.b));
-        c = vec(m.a.dot(n.c), m.b.dot(n.c), m.c.dot(n.c));
-        d = vec(m.a.dot(n.d), m.b.dot(n.d), m.c.dot(n.d)).sub(t);
-    }
-
-    void multranspose(const matrix4x3 &m, const matrix4x3 &n)
-    {
-        vec t(n.a.dot(n.d), n.b.dot(n.d), n.c.dot(n.d));
-        a = vec(m.a).mul(n.a.x).madd(m.b, n.b.x).madd(m.c, n.c.x);
-        b = vec(m.a).mul(n.a.y).madd(m.b, m.b.y).madd(m.c, n.c.y);
-        c = vec(m.a).mul(n.a.z).madd(m.b, n.b.z).madd(m.c, n.c.z);
-        d = vec(m.d).msub(m.a, t.x).msub(m.b, t.y).msub(m.c, t.z);
-    }
-
-    void invert(const matrix4x3 &o)
-    {
-        vec unscale(1/o.a.squaredlen(), 1/o.b.squaredlen(), 1/o.c.squaredlen());
-        transpose(o);
-        a.mul(unscale);
-        b.mul(unscale);
-        c.mul(unscale);
-        d.mul(unscale);
-    }
-    void invert() { invert(matrix4x3(*this)); }
-
-    void rotate(float angle, const vec &d)
-    {
-        rotate(cosf(angle), std::sin(angle), d);
-    }
-
-    void rotate(float ck, float sk, const vec &axis)
-    {
-        matrix3 m;
-        m.rotate(ck, sk, axis);
-        *this = matrix4x3(m, vec(0, 0, 0));
-    }
-
-    void rotate_around_x(float ck, float sk)
-    {
-        vec rb = vec(b).mul(ck).madd(c, sk),
-            rc = vec(c).mul(ck).msub(b, sk);
-        b = rb;
-        c = rc;
-    }
-    void rotate_around_x(float angle)
-    {
-        rotate_around_x(cosf(angle), std::sin(angle));
-    }
-
-    void rotate_around_x(const vec2 &sc)
-    {
-        rotate_around_x(sc.x, sc.y);
-    }
-
-    void rotate_around_y(float ck, float sk)
-    {
-        vec rc = vec(c).mul(ck).madd(a, sk),
-            ra = vec(a).mul(ck).msub(c, sk);
-        c = rc;
-        a = ra;
-    }
-    void rotate_around_y(float angle)
-    {
-        rotate_around_y(cosf(angle), std::sin(angle));
-    }
-
-    void rotate_around_y(const vec2 &sc)
-    {
-        rotate_around_y(sc.x, sc.y);
-    }
-
-    void rotate_around_z(float ck, float sk)
-    {
-        vec ra = vec(a).mul(ck).madd(b, sk),
-            rb = vec(b).mul(ck).msub(a, sk);
-        a = ra;
-        b = rb;
-    }
-    void rotate_around_z(float angle) { rotate_around_z(cosf(angle), std::sin(angle)); }
-    void rotate_around_z(const vec2 &sc) { rotate_around_z(sc.x, sc.y); }
-
-    vec transform(const vec &o) const { return vec(d).madd(a, o.x).madd(b, o.y).madd(c, o.z); }
-    vec transposedtransform(const vec &o) const { vec p = vec(o).sub(d); return vec(a.dot(p), b.dot(p), c.dot(p)); }
-    vec transformnormal(const vec &o) const { return vec(a).mul(o.x).madd(b, o.y).madd(c, o.z); }
-    vec transposedtransformnormal(const vec &o) const { return vec(a.dot(o), b.dot(o), c.dot(o)); }
-    vec transform(const vec2 &o) const { return vec(d).madd(a, o.x).madd(b, o.y); }
-
-    vec4<float> rowx() const { return vec4<float>(a.x, b.x, c.x, d.x); }
-    vec4<float> rowy() const { return vec4<float>(a.y, b.y, c.y, d.y); }
-    vec4<float> rowz() const { return vec4<float>(a.z, b.z, c.z, d.z); }
+    vec4<float> rowx() const;
+    vec4<float> rowy() const;
+    vec4<float> rowz() const;
 };
 
 /*
@@ -1582,210 +1580,12 @@ struct matrix4
 {
     vec4<float> a, b, c, d;
 
-    matrix4() {}
-    matrix4(const float *m) : a(m), b(m+4), c(m+8), d(m+12) {}
-    matrix4(const vec &a, const vec &b, const vec &c = vec(0, 0, 1))
-        : a(a.x, b.x, c.x, 0), b(a.y, b.y, c.y, 0), c(a.z, b.z, c.z, 0), d(0, 0, 0, 1)
-    {}
-    matrix4(const vec4<float> &a, const vec4<float> &b, const vec4<float> &c, const vec4<float> &d = vec4<float>(0, 0, 0, 1))
-        : a(a), b(b), c(c), d(d)
-    {}
-    matrix4(const matrix4x3 &m)
-        : a(m.a, 0), b(m.b, 0), c(m.c, 0), d(m.d, 1)
-    {}
-    matrix4(const matrix3 &rot, const vec &trans)
-        : a(rot.a, 0), b(rot.b, 0), c(rot.c, 0), d(trans, 1)
-    {}
-
-    void mul(const matrix4 &x, const matrix3 &y)
+    template<class T, class U>
+    T transformnormal(const U &in) const
     {
-        a = vec4<float>(x.a).mul(y.a.x).madd(x.b, y.a.y).madd(x.c, y.a.z);
-        b = vec4<float>(x.a).mul(y.b.x).madd(x.b, y.b.y).madd(x.c, y.b.z);
-        c = vec4<float>(x.a).mul(y.c.x).madd(x.b, y.c.y).madd(x.c, y.c.z);
-        d = x.d;
-    }
-    void mul(const matrix3 &y) { mul(matrix4(*this), y); }
-
-    template<class T>
-    void mult(const matrix4 &x, const matrix4 &y)
-    {
-        a = T(x.a).mul(y.a.x).madd(x.b, y.a.y).madd(x.c, y.a.z).madd(x.d, y.a.w);
-        b = T(x.a).mul(y.b.x).madd(x.b, y.b.y).madd(x.c, y.b.z).madd(x.d, y.b.w);
-        c = T(x.a).mul(y.c.x).madd(x.b, y.c.y).madd(x.c, y.c.z).madd(x.d, y.c.w);
-        d = T(x.a).mul(y.d.x).madd(x.b, y.d.y).madd(x.c, y.d.z).madd(x.d, y.d.w);
-    }
-
-    void mul(const matrix4 &x, const matrix4 &y) { mult<vec4<float>>(x, y); }
-    void mul(const matrix4 &y) { mult<vec4<float>>(matrix4(*this), y); }
-
-    void muld(const matrix4 &x, const matrix4 &y) { mult<vec4<float>>(x, y); }
-    void muld(const matrix4 &y) { mult<vec4<float>>(matrix4(*this), y); }
-
-    void rotate_around_x(float ck, float sk)
-    {
-        vec4<float> rb = vec4<float>(b).mul(ck).madd(c, sk),
-                    rc = vec4<float>(c).mul(ck).msub(b, sk);
-        b = rb;
-        c = rc;
-    }
-    void rotate_around_x(float angle) { rotate_around_x(cosf(angle), std::sin(angle)); }
-    void rotate_around_x(const vec2 &sc) { rotate_around_x(sc.x, sc.y); }
-
-    void rotate_around_y(float ck, float sk)
-    {
-        vec4<float> rc = vec4<float>(c).mul(ck).madd(a, sk),
-                    ra = vec4<float>(a).mul(ck).msub(c, sk);
-        c = rc;
-        a = ra;
-    }
-    void rotate_around_y(float angle) { rotate_around_y(cosf(angle), std::sin(angle)); }
-    void rotate_around_y(const vec2 &sc) { rotate_around_y(sc.x, sc.y); }
-
-    void rotate_around_z(float ck, float sk)
-    {
-        vec4<float> ra = vec4<float>(a).mul(ck).madd(b, sk),
-                    rb = vec4<float>(b).mul(ck).msub(a, sk);
-        a = ra;
-        b = rb;
-    }
-    void rotate_around_z(float angle) { rotate_around_z(cosf(angle), std::sin(angle)); }
-    void rotate_around_z(const vec2 &sc) { rotate_around_z(sc.x, sc.y); }
-
-    void rotate(float ck, float sk, const vec &axis)
-    {
-        matrix3 m;
-        m.rotate(ck, sk, axis);
-        mul(m);
-    }
-    void rotate(float angle, const vec &dir) { rotate(cosf(angle), std::sin(angle), dir); }
-    void rotate(const vec2 &sc, const vec &dir) { rotate(sc.x, sc.y, dir); }
-
-    void identity()
-    {
-        a = vec4<float>(1, 0, 0, 0);
-        b = vec4<float>(0, 1, 0, 0);
-        c = vec4<float>(0, 0, 1, 0);
-        d = vec4<float>(0, 0, 0, 1);
-    }
-
-    void settranslation(const vec &v) { d.setxyz(v); }
-    void settranslation(float x, float y, float z) { d.x = x; d.y = y; d.z = z; }
-
-    void translate(const vec &p) { d.madd(a, p.x).madd(b, p.y).madd(c, p.z); }
-    void translate(float x, float y, float z) { translate(vec(x, y, z)); }
-    void translate(const vec &p, float scale) { translate(vec(p).mul(scale)); }
-
-    void setscale(float x, float y, float z) { a.x = x; b.y = y; c.z = z; }
-    void setscale(const vec &v) { setscale(v.x, v.y, v.z); }
-    void setscale(float n) { setscale(n, n, n); }
-
-    void scale(float x, float y, float z)
-    {
-        a.mul(x);
-        b.mul(y);
-        c.mul(z);
-    }
-    void scale(const vec &v) { scale(v.x, v.y, v.z); }
-    void scale(float n) { scale(n, n, n); }
-
-    void scalexy(float x, float y)
-    {
-        a.x *= x; a.y *= y;
-        b.x *= x; b.y *= y;
-        c.x *= x; c.y *= y;
-        d.x *= x; d.y *= y;
-    }
-
-    void scalez(float k)
-    {
-        a.z *= k;
-        b.z *= k;
-        c.z *= k;
-        d.z *= k;
-    }
-
-    void reflectz(float z)
-    {
-        d.add(vec4(c).mul(2*z));
-        c.neg();
-    }
-
-    void jitter(float x, float y)
-    {
-        a.x += x * a.w;
-        a.y += y * a.w;
-        b.x += x * b.w;
-        b.y += y * b.w;
-        c.x += x * c.w;
-        c.y += y * c.w;
-        d.x += x * d.w;
-        d.y += y * d.w;
-    }
-
-    void transpose()
-    {
-        swap(a.y, b.x); swap(a.z, c.x); swap(a.w, d.x);
-        swap(b.z, c.y); swap(b.w, d.y);
-        swap(c.w, d.z);
-    }
-
-    void transpose(const matrix4 &m)
-    {
-        a = vec4<float>(m.a.x, m.b.x, m.c.x, m.d.x);
-        b = vec4<float>(m.a.y, m.b.y, m.c.y, m.d.y);
-        c = vec4<float>(m.a.z, m.b.z, m.c.z, m.d.z);
-        d = vec4<float>(m.a.w, m.b.w, m.c.w, m.d.w);
-    }
-
-    void frustum(float left, float right, float bottom, float top, float znear, float zfar)
-    {
-        float width = right - left,
-              height = top - bottom,
-              zrange = znear - zfar;
-        a = vec4<float>(2*znear/width, 0, 0, 0);
-        b = vec4<float>(0, 2*znear/height, 0, 0);
-        c = vec4<float>((right + left)/width, (top + bottom)/height, (zfar + znear)/zrange, -1);
-        d = vec4<float>(0, 0, 2*znear*zfar/zrange, 0);
-    }
-
-    void perspective(float fovy, float aspect, float znear, float zfar)
-    {
-        float ydist = znear * std::tan(fovy/2*RAD),
-              xdist = ydist * aspect;
-        frustum(-xdist, xdist, -ydist, ydist, znear, zfar);
-    }
-
-    void ortho(float left, float right, float bottom, float top, float znear, float zfar)
-    {
-        float width = right - left,
-              height = top - bottom,
-              zrange = znear - zfar;
-        a = vec4<float>(2/width, 0, 0, 0);
-        b = vec4<float>(0, 2/height, 0, 0);
-        c = vec4<float>(0, 0, 2/zrange, 0);
-        d = vec4<float>(-(right+left)/width, -(top+bottom)/height, (zfar+znear)/zrange, 1);
-    }
-
-    void clip(const plane &p, const matrix4 &m);
-
-    void transform(const vec &in, vec &out) const
-    {
-        out = vec(a).mul(in.x).add(vec(b).mul(in.y)).add(vec(c).mul(in.z)).add(vec(d));
-    }
-
-    void transform(const vec4<float> &in, vec &out) const
-    {
-        out = vec(a).mul(in.x).add(vec(b).mul(in.y)).add(vec(c).mul(in.z)).add(vec(d).mul(in.w));
-    }
-
-    void transform(const vec &in, vec4<float> &out) const
-    {
-        out = vec4<float>(a).mul(in.x).madd(b, in.y).madd(c, in.z).add(d);
-    }
-
-    void transform(const vec4<float> &in, vec4<float> &out) const
-    {
-        out = vec4<float>(a).mul(in.x).madd(b, in.y).madd(c, in.z).madd(d, in.w);
+        T v;
+        transformnormal(in, v);
+        return v;
     }
 
     template<class T, class U>
@@ -1804,62 +1604,92 @@ struct matrix4
         return vec(v).div(v.w);
     }
 
-    void transformnormal(const vec &in, vec &out) const
+    template<class T>
+    void mult(const matrix4 &x, const matrix4 &y)
     {
-        out = vec(a).mul(in.x).add(vec(b).mul(in.y)).add(vec(c).mul(in.z));
+        a = T(x.a).mul(y.a.x).madd(x.b, y.a.y).madd(x.c, y.a.z).madd(x.d, y.a.w);
+        b = T(x.a).mul(y.b.x).madd(x.b, y.b.y).madd(x.c, y.b.z).madd(x.d, y.b.w);
+        c = T(x.a).mul(y.c.x).madd(x.b, y.c.y).madd(x.c, y.c.z).madd(x.d, y.c.w);
+        d = T(x.a).mul(y.d.x).madd(x.b, y.d.y).madd(x.c, y.d.z).madd(x.d, y.d.w);
     }
 
-    void transformnormal(const vec &in, vec4<float> &out) const
-    {
-        out = vec4<float>(a).mul(in.x).madd(b, in.y).madd(c, in.z);
-    }
+    matrix4();
+    matrix4(const float *m);
+    matrix4(const vec &a, const vec &b, const vec &c = vec(0, 0, 1));
+    matrix4(const vec4<float> &a, const vec4<float> &b, const vec4<float> &c, const vec4<float> &d = vec4<float>(0, 0, 0, 1));
+    matrix4(const matrix4x3 &m);
+    matrix4(const matrix3 &rot, const vec &trans);
+    void mul(const matrix4 &x, const matrix3 &y);
+    void mul(const matrix3 &y);
+    void mul(const matrix4 &x, const matrix4 &y);
+    void mul(const matrix4 &y);
+    void muld(const matrix4 &x, const matrix4 &y);
+    void muld(const matrix4 &y);
+    void rotate_around_x(float ck, float sk);
+    void rotate_around_x(float angle);
+    void rotate_around_x(const vec2 &sc);
+    void rotate_around_y(float ck, float sk);
+    void rotate_around_y(float angle);
+    void rotate_around_y(const vec2 &sc);
 
-    template<class T, class U>
-    T transformnormal(const U &in) const
-    {
-        T v;
-        transformnormal(in, v);
-        return v;
-    }
+    void rotate_around_z(float ck, float sk);
+    void rotate_around_z(float angle);
+    void rotate_around_z(const vec2 &sc);
 
-    void transposedtransform(const vec &in, vec &out) const
-    {
-        vec p = vec(in).sub(vec(d));
-        out.x = a.dot3(p);
-        out.y = b.dot3(p);
-        out.z = c.dot3(p);
-    }
+    void rotate(float ck, float sk, const vec &axis);
+    void rotate(float angle, const vec &dir);
+    void rotate(const vec2 &sc, const vec &dir);
 
-    void transposedtransformnormal(const vec &in, vec &out) const
-    {
-        out.x = a.dot3(in);
-        out.y = b.dot3(in);
-        out.z = c.dot3(in);
-    }
+    void identity();
 
+    void settranslation(const vec &v);
+    void settranslation(float x, float y, float z);
+    void translate(const vec &p);
+    void translate(float x, float y, float z);
+    void translate(const vec &p, float scale);
+    void setscale(float x, float y, float z);
+    void setscale(const vec &v);
+    void setscale(float n);
+    void scale(float x, float y, float z);
+    void scale(const vec &v);
+    void scale(float n);
+    void scalexy(float x, float y);
+
+    void scalez(float k);
+
+    void reflectz(float z);
+
+    void jitter(float x, float y);
+    void transpose();
+
+    void transpose(const matrix4 &m);
+    void frustum(float left, float right, float bottom, float top, float znear, float zfar);
+    void perspective(float fovy, float aspect, float znear, float zfar);
+
+    void ortho(float left, float right, float bottom, float top, float znear, float zfar);
+
+    void clip(const plane &p, const matrix4 &m);
+
+    void transform(const vec &in, vec &out) const;
+    void transform(const vec4<float> &in, vec &out) const;
+
+    void transform(const vec &in, vec4<float> &out) const;
+    void transform(const vec4<float> &in, vec4<float> &out) const;
+    void transformnormal(const vec &in, vec &out) const;
+    void transformnormal(const vec &in, vec4<float> &out) const;
+
+    void transposedtransform(const vec &in, vec &out) const;
+    void transposedtransformnormal(const vec &in, vec &out) const;
     void transposedtransform(const plane &in, plane &out) const;
-
-    float getscale() const
-    {
-        return sqrtf(a.x*a.y + b.x*b.x + c.x*c.x);
-    }
-
-    vec gettranslation() const
-    {
-        return vec(d);
-    }
-
-    vec4<float> rowx() const { return vec4<float>(a.x, b.x, c.x, d.x); }
-    vec4<float> rowy() const { return vec4<float>(a.y, b.y, c.y, d.y); }
-    vec4<float> rowz() const { return vec4<float>(a.z, b.z, c.z, d.z); }
-    vec4<float> roww() const { return vec4<float>(a.w, b.w, c.w, d.w); }
-
+    float getscale() const;
+    vec gettranslation() const;
+    vec4<float> rowx() const;
+    vec4<float> rowy() const;
+    vec4<float> rowz() const;
+    vec4<float> roww() const;
     bool invert(const matrix4 &m, double mindet = 1.0e-12);
 
-    vec2 lineardepthscale() const
-    {
-        return vec2(d.w, -d.z).div(c.z*d.w - d.z*c.w);
-    }
+    vec2 lineardepthscale() const;
 };
 
 inline matrix3::matrix3(const matrix4 &m)
