@@ -157,21 +157,6 @@ struct physent
 };
 
 /**
- * @brief An representation of a model attachment (e.g. weapon to player).
- */
-struct modelattach final
-{
-    const char *tag, *name;
-    int anim, basetime;
-    vec *pos;
-    model *m;
-
-    modelattach();
-    modelattach(const char *tag, const char *name, int anim = -1, int basetime = 0);
-    modelattach(const char *tag, vec *pos);
-};
-
-/**
  * @brief description of a character's animation
  */
 struct animinfo final
