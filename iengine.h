@@ -791,9 +791,41 @@ extern void vectoryawpitch(const vec &v, float &yaw, float &pitch);
  * call fatal() and exit the game if any of its conditions are not met.
  */
 extern void gl_checkextensions();
+
+/**
+ * @brief Sets up GL global parameters for the game
+ *
+ * This function sets up the global variables which allow for the appropriate
+ * operation of the renderer, and sets up the basic shaders required.
+ */
 extern void gl_init();
+
+/**
+ * @brief Changes the viewport size to set values
+ *
+ * This function sets the size of the viewport to the dimensions defined in
+ * `hudw` and `hudh`. It also calls `gl_setupframe()`.
+ */
 extern void gl_resize();
+
+/**
+ * @brief Sets render frame variables up.
+ *
+ * Sets renderw/h and hudw/h to the screen size, then sets up deferred buffers
+ * if `force` is true.
+ */
 extern void gl_setupframe(bool force = false);
+
+/**
+ * @brief Draws the frame to the screen.
+ *
+ * @param crosshairindex the crosshair to render at the center of the screen
+ * @param gamefxn the game interface rendering function
+ * @param hudfxn the 3d HUD rendering function
+ * @param editfxn the game's edit rendering function
+ * @param hud2d the game's HUD rendering function
+ *
+ */
 extern void gl_drawframe(int crosshairindex, void (*gamefxn)(), void (*hudfxn)(), void (*editfxn)(), void (*hud2d)());
 
 /**
@@ -806,6 +838,11 @@ extern void drawminimap(int yaw, int pitch, vec loc, cubeworld world);
 
 // renderlights
 
+/**
+ * @brief Clears the shadow maps cached in the shadow atlas
+ *
+ * Also clears the radiance hints cache, if enabled.
+ */
 extern void clearshadowcache();
 
 extern int spotlights; /**< Toggles spotlights, behaves like bool; 0 for no spotlights and 1 for spotlights */
@@ -850,8 +887,6 @@ extern int intersectmodel(const char *mdl, int anim, const vec &pos, float yaw, 
  * @param mdl the name of the model object to use
  */
 extern void abovemodel(vec &o, const char *mdl);
-extern void renderclient(dynent *d, const char *mdlname, modelattach *attachments, int hold, int attack, int attackdelay, int lastaction, int lastpain, float scale = 1, bool ragdoll = false, float trans = 1);
-extern void interpolateorientation(dynent *d, float &interpyaw, float &interppitch);
 
 /**
  * @brief Returns the mapmodel name at the given index.
@@ -884,7 +919,21 @@ extern void preloadmodel(const char *name);
  * @return a pointer to the model object
  */
 extern model *loadmapmodel(int n);
+
+/**
+ * @brief Loads the model with the associated name.
+ *
+ * @param name the name of the model to load
+ * @param i the number of models to search through before giving up
+ * @param msg toggles rendering a loading progress meter while loading the model
+ */
 extern model *loadmodel(const char *name, int i = -1, bool msg = false);
+
+/**
+ * @brief Clears the loaded model cache.
+ *
+ * @param msg toggles rendering a loading progress meter
+ */
 extern void flushpreloadedmodels(bool msg = true);
 extern void preloadusedmapmodels(bool msg = false, bool bih = false);
 extern void clear_models();
@@ -903,7 +952,46 @@ extern std::vector<std::string> entnames;
  * @return a C string corresponding to the ent type's name
  */
 extern const char * getentname(int i);
+
+/**
+ * @brief Spawns a splash particle with the designated properties.
+ *
+ * ```
+ * dir: (where dir%3 is similar to offsetvec with 0=up)
+ * 0..2 circle
+ * 3.. 5 cylinder shell
+ * 6..11 cone shell
+ * 12..14 plane volume
+ * 15..20 line volume, i.e. wall
+ * 21 sphere
+ * 24..26 flat plane
+ * +32 to inverse direction
+ * ```
+ * @param type the type of particle to spawn
+ * @param num the number indicating the spawning direction/pattern
+ * @param fade the number of ms before the particle fades
+ * @param p the location for the particle
+ * @param color the color of the particle (web hex color)
+ * @param size the size factor for the particle
+ * @param radius the spawn area radius for the particle
+ * @param gravity the gravity factor for particles after spawning
+ * @param delay the delay in milliseconds between particle spawns
+ */
 extern void regular_particle_splash(int type, int num, int fade, const vec &p, int color = 0xFFFFFF, float size = 1.0f, int radius = 150, int gravity = 2, int delay = 0);
+
+/**
+ * @brief Spawns a flame particle
+ *
+ * @param type the type of particle to spawn
+ * @param p location to spawn at
+ * @param radius spawning radius of the particle
+ * @param color the color of the particle (web hex color)
+ * @param density the density of particle spawns
+ * @param scale the scale factor for the particle
+ * @param speed initial speed of particles after spawning
+ * @param fade time in ms before the particle fades
+ * @param gravity gravity factor for particles after spawning
+ */
 extern void regular_particle_flame(int type, const vec &p, float radius, float height, int color, int density = 3, float scale = 2.0f, float speed = 200.0f, float fade = 600.0f, int gravity = -15);
 extern void particle_splash(int type, int num, int fade, const vec &p, int color = 0xFFFFFF, float size = 1.0f, int radius = 150, int gravity = 2);
 extern void particle_trail(int type, int fade, const vec &from, const vec &to, int color = 0xFFFFFF, float size = 1.0f, int gravity = 20);
@@ -1109,7 +1197,6 @@ extern void freeocta(cube *c);
 extern void getcubevector(cube &c, int d, int x, int y, int z, ivec &p);
 
 extern void optiface(uchar *p, cube &c);
-extern bool isvalidcube(const cube &c);
 
 // octaedit
 
@@ -1125,7 +1212,7 @@ extern editinfo *localedit;
 extern std::vector<ushort> texmru;
 extern selinfo repsel;
 extern int reptex;
-extern int lasttex;
+extern int lasttex; /**< index for the most recently used texture*/
 extern int lasttexmillis;
 extern int curtexindex;
 extern int moving, orient, horient;
@@ -1134,10 +1221,11 @@ extern int entmoving;
 extern int entediting;
 extern selinfo sel, lastsel;
 extern std::vector<vslotmap> remappedvslots;
-extern undolist undos, redos;
+extern undolist undos, /**< list of cube undo operations */
+                redos; /**< list of cube operations available to redo */
 extern int nompedit;
-extern int hmapedit;
-extern bool havesel;
+extern int hmapedit; /**< used as boolean, 0 if not heightmapping, 1 otherwise */
+extern bool havesel; /**< true if there is a set of cubes in selection, false otherwise */
 extern std::vector<editinfo *> editinfos;
 extern int texpaneltimer; /**< Sets the length before the texture scroll panel turns off. */
 
@@ -1236,11 +1324,60 @@ extern void reorient();
 extern int countblock(block3 *b);
 extern bool hmapsel;
 extern void forcenextundo();
+
+/**
+ * @brief Deletes an undoblock object.
+ *
+ * Destroys an undoblock and frees its memory allocation.
+ * The pointer passed will become invalid.
+ *
+ * @param u the undoblock to destroy.
+ */
 extern void freeundo(undoblock *u);
 extern void pasteblock(block3 &b, selinfo &sel, bool local);
 extern void pasteundo(undoblock *u);
+
+/**
+ * @brief Creates an undoblock object given a cube selection.
+ *
+ * @param s the selection information to give to the undoblock object
+ *
+ * @return a pointer to a new heap-allocated undoblock object
+ */
 extern undoblock *newundocube(const selinfo &s);
 extern void remapvslots(cube &c, bool delta, const VSlot &ds, int orient, bool &findrep, VSlot *&findedit);
+
+/**
+ * @brief Changes the texture for a cube and its children.
+ *
+ * The integer indices for the `orient` parameter are indicated below.
+ * ```
+ *  +z
+ *   |  /+x
+ *   | /
+ *   |/___+y
+ *      ______
+ *     /.    /|
+ *    / . 5 / |
+ *   /__.__/  |
+ *   |  ...|3./
+ *   | .0  | /
+ *   |.    |/
+ *   .-----/
+ *      ______
+ *     /|    .|
+ *    / |  1. |
+ *   /..|...  |
+ *   |2 |-----/
+ *   | /   . /
+ *   |/   4./
+ *   .-----/
+ * ```
+ * @param c the cube to modify
+ * @param tex the texture slot to apply
+ * @param orient the face of the cube to apply to; -1 indicates all faces
+ * @param findrep toggles whether to find the existing texture
+ */
 extern void edittexcube(cube &c, int tex, int orient, bool &findrep);
 
 /**
@@ -1365,6 +1502,15 @@ extern void vecfromyawpitch(float yaw, float pitch, int move, int strafe, vec &m
 extern void updatephysstate(physent *d);
 extern void cleardynentcache();
 extern void updatedynentcache(physent *d);
+
+/**
+ * @brief Brute force but effective way to find a free spawn spot in the map.
+ *
+ * Attemps to place a dynent onto the map.
+ *
+ * @param d the dynent to place onto the map
+ * @param avoidplayers toggles whether this dynent should be spawned on top of others
+ */
 extern bool entinmap(dynent *d, bool avoidplayers = false);
 
 extern void modifyvelocity(physent *pl, bool local, bool water, bool floating, int curtime);
