@@ -697,6 +697,14 @@ namespace UI
      * `uislotview`
      *
      * `uivslotview`
+     *
+     * `uicontextscale`
+     *
+     * `newui`
+     *
+     * `uiallowinput`
+     *
+     * `uieschide`
      */
     void inituicmds();
 }
