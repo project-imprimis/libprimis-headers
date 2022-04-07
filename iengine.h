@@ -76,6 +76,7 @@ namespace gle
  * command.cpp                                                                  *
  * console.cpp                                                                  *
  * control.cpp                                                                  *
+ * cubestd.cpp                                                                  *
  * input.cpp                                                                    *
  * menus.cpp                                                                    *
  * sound.cpp                                                                    *
@@ -150,6 +151,23 @@ extern std::string enginebuilddate();
  * @return a std::string corresponding to the engine's name string
  */
 extern std::string enginestr();
+
+// cubestd
+
+/**
+ * @brief Adds math commands to the cubescript interpreter
+ */
+extern void initmathcmds();
+
+/**
+ * @brief Adds string commands to the cubescript interpreter
+ */
+extern void initstrcmds();
+
+/**
+ * @brief Adds program control commands to the cubescript interpreter
+ */
+extern void initcontrolcmds();
 
 // input
 
