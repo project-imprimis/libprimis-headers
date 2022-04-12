@@ -80,6 +80,7 @@ namespace gle
  * input.cpp                                                                    *
  * menus.cpp                                                                    *
  * sound.cpp                                                                    *
+ * textedit.cpp                                                                 *
  * ui.cpp                                                                       *
 \*==============================================================================*/
 
@@ -87,11 +88,23 @@ namespace gle
 
 /* see command.h */
 
+/**
+ * @brief Initializes core cubescript commands.
+ */
+
+extern void initcscmds();
+
 // console
 
 extern void conoutf(const char *s, ...) PRINTFARGS(1, 2);
 extern void conoutf(int type, const char *s, ...) PRINTFARGS(2, 3);
 extern void clear_console();
+
+/**
+ * @brief Initializes console cubescript commands.
+ */
+
+extern void initcscmds();
 
 // control
 extern int curtime;                     // current frame time
@@ -326,6 +339,14 @@ extern void updatesounds();
  * down SDL_Mixer.
  */
 extern void clear_sound();
+
+//textedit
+
+/**
+ * @brief Initializes textedit cubescript commands.
+ */
+
+extern void inittextcmds();
 
 // UI
 
@@ -1532,6 +1553,7 @@ extern vector<dynent *> dynents;
 extern dynent *iterdynents(int i);
 extern bool collide(physent *d, const vec &dir = vec(0, 0, 0), float cutoff = 0.0f, bool playercol = true, bool insideplayercol = false);
 extern void avoidcollision(physent *d, const vec &dir, physent *obstacle, float space);
+
 extern bool movecamera(physent *pl, const vec &dir, float dist, float stepdist);
 
 /**
