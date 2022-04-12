@@ -427,34 +427,4 @@ extern void clear_command();
 #define SVARF(name, cur, body) SVARF_(name, name, cur, body, 0)
 #define SVARFR(name, cur, body) SVARF_(name, name, cur, body, Idf_Override)
 
-
-//inline command macros
-#define ICOMMANDNAME(name) _icmd_##name
-#define ICOMMANDSNAME _icmds_
-
-//create lambda and use as function pointer, then dereference it to cast as identfun
-//unary + operator on lambda used to degrade it to a function pointer
-#define ICOMMANDKNS(name, type, cmdname, nargs, proto, b) \
-    bool cmdname = addcommand(name, reinterpret_cast<identfun>(+[] proto { b; }), nargs, type); \
-
-#define ICOMMANDKN(name, type, cmdname, nargs, proto, b) ICOMMANDKNS(#name, type, cmdname, nargs, proto, b)
-#define ICOMMANDK(name, type, nargs, proto, b) ICOMMANDKN(name, type, ICOMMANDNAME(name), nargs, proto, b)
-#define ICOMMANDNS(name, cmdname, nargs, proto, b) ICOMMANDKNS(name, Id_Command, cmdname, nargs, proto, b)
-#define ICOMMANDN(name, cmdname, nargs, proto, b) ICOMMANDNS(#name, cmdname, nargs, proto, b)
-
-/**
- * @def ICOMMAND(name, nargs, proto, b)
- *
- * @brief Creates an inline command.
- *
- * Creates an inline command which is assigned to the global identmap hash table.
- *
- * @param name the name of the command to make
- * @param nargs the cubescript paramater signature
- * @param proto the C++ function call signature
- * @param b the body of the function to call
- *
- */
-#define ICOMMAND(name, nargs, proto, b) ICOMMANDN(name, ICOMMANDNAME(name), nargs, proto, b)
-
 #endif /* COMMAND_H_ */
