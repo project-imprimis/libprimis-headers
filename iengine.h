@@ -161,6 +161,42 @@ extern void initmathcmds();
 
 /**
  * @brief Adds string commands to the cubescript interpreter
+ *
+ * `echo` echoes the arguments passed directly to the console
+ *
+ * `error`
+ *
+ * `strstr`
+ *
+ * `strlen` returns the length of the string passed
+ *
+ * `strcode`
+ *
+ * `codestr`
+ *
+ * `struni`
+ *
+ * `unistr`
+ *
+ * `strlower` converts the string to lowercase
+ *
+ * `strupper` converts the string to uppercase
+ *
+ * `strsplice`
+ *
+ * `strreplace`
+ *
+ * `substr`
+ *
+ * `stripcolors` strips any color formatting from the argument passed
+ *
+ * `appendword`
+ *
+ * `concat` concatenates the strings passed, without inserting spaces between arguments
+ *
+ * `concatword` concatenates the strings passed, adding a space between each argument
+ *
+ * `format` nicely formats the string passed
  */
 extern void initstrcmds();
 
