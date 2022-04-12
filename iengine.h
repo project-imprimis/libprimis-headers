@@ -104,7 +104,7 @@ extern void clear_console();
  * @brief Initializes console cubescript commands.
  */
 
-extern void initcscmds();
+extern void initconsolecmds();
 
 // control
 extern int curtime;                     // current frame time
