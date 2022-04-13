@@ -1283,6 +1283,67 @@ extern void optiface(uchar *p, cube &c);
 
 // octaedit
 
+/**
+ * @brief Initializes the octaedit cubescript commands.
+ *
+ * `moving`
+ *
+ * `entcancel`
+ *
+ * `cubecancel`
+ *
+ * `cancelsel`
+ *
+ * `reorient`
+ *
+ * `selextend`
+ *
+ * `selmoved`
+ *
+ * `selsave`
+ *
+ * `selrestore`
+ *
+ * `selswap`
+ *
+ * `havesel`
+ *
+ * `selchildnum`
+ *
+ * `selchildmat`
+ *
+ * `clearundos`
+ *
+ * `delprefab`
+ *
+ * `saveprefab`
+ *
+ * `pasteprefab`
+ *
+ * `wtr`
+ *
+ * `vtr`
+ *
+ * `wvt`
+ *
+ * `vvt`
+ *
+ * `evt`
+ *
+ * `eva`
+ *
+ * `octa`
+ *
+ * `va`
+ *
+ * `gldes`
+ *
+ * `geombatch`
+ *
+ * `oq`
+ */
+extern void initoctaeditcmds();
+
 namespace hmap
 {
     extern bool isheightmap(int o, int d, bool empty, cube &c);
