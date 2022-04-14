@@ -49,6 +49,14 @@ struct Texture;
 struct Shader;
 struct VSlot; //both slot and vslot depend on each other
 
+/**
+ * @brief A representation of a texture inside the engine.
+ *
+ * A texture slot represents the texture and shader information for a single
+ * application onto an octree face. This includes a diffuse texture, as well as
+ * other shader-defined textures such as normal, parallax, and specular maps if
+ * they are part of the shader configuration of the slot object.
+ */
 struct Slot
 {
     enum
@@ -135,6 +143,18 @@ struct Slot
     }
 };
 
+/**
+ * @brief A virtual texture slot.
+ *
+ * A virtual texture slot ("VSlot") is a derivative of a standard texture slot;
+ * it contains modification information (such as rotation, translation, tinting,
+ * and modifications to other shader settings) but not the fundamental attributes
+ * of a texture.
+ *
+ * Each VSlot must point to a normal slot to have any meaning; it is from this slot
+ * object where the VSlot gets the attributes of its texture files and shader
+ * definition information.
+ */
 struct VSlot
 {
     Slot *slot;
@@ -191,6 +211,9 @@ struct VSlot
     bool isdynamic() const;
 };
 
+/**
+ * @param A derivative form of a slot intended for decal objects.
+ */
 struct DecalSlot : Slot, VSlot
 {
     float depth, fade;

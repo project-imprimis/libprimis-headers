@@ -90,36 +90,158 @@ namespace gle
 
 /**
  * @brief Initializes core cubescript commands.
+ *
+ * `defvar`
+ *
+ * `defvarp`
+ *
+ * `deffvarp`
+ *
+ * `defsvar`
+ *
+ * `defsvarp`
+ *
+ * `getvarmin`
+ *
+ * `getfvarmin`
+ *
+ * `getfvarmax`
+ *
+ * `identexists`
+ *
+ * `getalias`
  */
 
 extern void initcscmds();
 
 // console
 
+/**
+ * @brief Prints a message to the ingame console.
+ *
+ * This function behaves the same way as printf() except it prints to the console
+ * instead.
+ *
+ * @param s the string to print
+ * @param ... the names of variables to substitute into the string, in order
+ */
 extern void conoutf(const char *s, ...) PRINTFARGS(1, 2);
+
+/**
+ * @brief Prints a message to the ingame console, with a specific type flag.
+ *
+ * This function behaves the same way as printf() except it prints to the console
+ * instead. It uses a parameter `type` to indicate what type of console message
+ * to print. The console flags are defined in consts.h.
+ *
+ * @param type the flag to modify the console printout with
+ * @param s the string to print
+ * @param ... the names of variables to substitute into the string, in order
+ */
 extern void conoutf(int type, const char *s, ...) PRINTFARGS(2, 3);
+
+/**
+ * @brief Clears the console KeyM history hashtable.
+ *
+ * Empties the KeyM hashtable keyms, typicall used when shutting down the program.
+ */
 extern void clear_console();
 
 /**
  * @brief Initializes console cubescript commands.
+ *
+ * `fullconsole`
+ *
+ * `toggleconsole`
+ *
+ * `conskip`
+ *
+ * `miniconskip`
+ *
+ * `clearconsole`
+ *
+ * `keymap`
+ *
+ * `bind`
+ *
+ * `specbind`
+ *
+ * `editbind`
+ *
+ * `getbind`
+ *
+ * `getspecbind`
+ *
+ * `geteditbind`
+ *
+ * `searchbinds`
+ *
+ * `searchspecbinds`
+ *
+ * `searcheditbinds`
+ *
+ * `clearbinds`
+ *
+ * `clearspecbinds`
+ *
+ * `cleareditbinds`
+ *
+ * `clearallbinds`
+ *
+ * `inputcommand`
+ *
+ * `saycommand`
+ *
+ * `history`
+ *
+ * `onrelease`
+ *
+ * `complete`
+ *
+ * `listcomplete`
  */
 
 extern void initconsolecmds();
 
 // control
-extern int curtime;                     // current frame time
-extern int lastmillis;                  // last time
-extern int elapsedtime;                 // elapsed frame time
-extern int totalmillis;                 // total elapsed time
-extern FILE *logfile;
+extern int curtime;                     /** current frame time */
+extern int lastmillis;                  /** last time */
+extern int elapsedtime;                 /** elapsed frame time */
+extern int totalmillis;                 /** total elapsed time */
+extern FILE *logfile;                   /** the file where the  */
 
+/**
+ * @brief Returns the logfile (Linux) or stdout (Windows)
+ *
+ * Log files are not supported on Windows, so this function returns stdout if
+ * on Windows.
+ */
 FILE *getlogfile();
+
+/**
+ * @brief Prints a line to the log file.
+ *
+ * This function behaves the same way as printf(), except it prints to the
+ * output specified in `getlogfile()`.
+ *
+ * @param fmt The string to print
+ * @param ... the names of variables to substitute into the string, in order
+ */
 void logoutf(const char *fmt, ...);
+
+/**
+ * @brief The dynamic entity representing the player.
+ */
 
 extern dynent *player;
 extern bool inbetweenframes,
             renderedframe;
 
+/**
+ * @brief Initializes SDL functions necessary to run a game.
+ *
+ * Initializes SDL_INIT_TIMER, SDL_INIT_VIDEO, and SDL_INIT_AUDIO.
+ */
 extern bool initsdl();
 
 /**
@@ -138,7 +260,7 @@ extern void fatal(const char *s, ...) PRINTFARGS(1, 2);
  * Uses SDL to retrieve the amount of time since the game started.
  */
 extern int getclockmillis();
-extern int initing;
+
 extern int scr_w, scr_h;
 extern int desktopw, desktoph;
 
@@ -398,6 +520,36 @@ extern void clear_sound();
 
 /**
  * @brief Initializes textedit cubescript commands.
+ *
+ * `textinit`
+ *
+ * `textlist`
+ *
+ * `textshow`
+ *
+ * `textfocus`
+ *
+ * `textprev`
+ *
+ * `textmode`
+ *
+ * `textsave`
+ *
+ * `textload`
+ *
+ * `textcopy`
+ *
+ * `textpaste`
+ *
+ * `textmark`
+ *
+ * `textselectall`
+ *
+ * `textclear`
+ *
+ * `textcurrentline`
+ *
+ * `textexec`
  */
 
 extern void inittextcmds();
@@ -1681,6 +1833,16 @@ extern bool movecamera(physent *pl, const vec &dir, float dist, float stepdist);
  * @param e the entity to drop towards the floor.
  */
 extern void dropenttofloor(entity *e);
+
+/**
+ * @brief Rotates the center and radius vectors using the given Euler angles
+ *
+ * @param center the center of the bounding box
+ * @param radius the size of the bounding box
+ * @param yaw the yaw amount to modify by
+ * @param pitch the pitch amount to modify by
+ * @param roll the roll amount to modify by
+ */
 extern void rotatebb(vec &center, vec &radius, int yaw, int pitch, int roll = 0);
 
 /**
@@ -1698,7 +1860,6 @@ extern void rotatebb(vec &center, vec &radius, int yaw, int pitch, int roll = 0)
  * @param m      the vector to modify
  */
 extern void vecfromyawpitch(float yaw, float pitch, int move, int strafe, vec &m);
-extern void updatephysstate(physent *d);
 extern void cleardynentcache();
 extern void updatedynentcache(physent *d);
 

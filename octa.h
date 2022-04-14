@@ -15,11 +15,89 @@ struct facebounds
     bool empty() const { return u1 >= u2 || v1 >= v2; }
 };
 
-struct cubeext;
+struct cubeext; /** internal engine data for the cube object, not accessible via external API*/
 
 constexpr uint faceempty = 0;             /**< all edges in the range (0,0) */
 constexpr uint facesolid = 0x80808080;    /**< all edges in the range (0,8) */
 
+/**
+ * @brief The fundemental building block of the octree world, representing a 3D cube.
+ *
+ * The main rendered object in the world is an octree (8-leaf tree) comprising of
+ * objects of this type. Each cube object has its own deformation information,
+ * texture information, and a handful of utility functions as well as pointing to
+ * up to eight children in a fractal manner.
+ *
+ * Cube objects are the game-facing abstraction which the renderer itself does not
+ * use; they are converted to `vertex arrays` by the engine which requires calculation
+ * by itself. However, the octree structure is capable of a relatively simple and
+ * effective representation of detail over several orders of magnitude.
+ *
+ * The integer indices for the textures are shown below.
+ * ```
+ *  +z
+ *   |  /+x
+ *   | /
+ *   |/___+y
+ *      ______
+ *     /.    /|
+ *    / . 5 / |
+ *   /__.__/  |
+ *   |  ...|3./
+ *   | .0  | /
+ *   |.    |/
+ *   .-----/
+ *      ______
+ *     /|    .|
+ *    / |  1. |
+ *   /..|...  |
+ *   |2 |-----/
+ *   | /   . /
+ *   |/   4./
+ *   .-----/
+ * ```
+ *
+ * The integer indices of the 8 children are shown below.
+ * ```
+ *              ^ +z
+ *              |
+ *            __________
+ *           /  4 /  5 /
+ *          /____/____/.
+ *         /  6 /  7 / .
+ *        /____/____/  .
+ *       .    _____.___.
+ *       .   /  0 /. 1 /     +x
+ *       .  /____/_.__/    ->
+ *       . /  2 / 3. /
+ *       ./____/___./
+ *
+ *
+ *           / +y
+ *          |/
+ * ```
+ *
+ * The integer indices of the 12 edges are shown below.
+ * ```
+ *              ^ +z
+ *              |
+ *              |  2
+ *            __________
+ *           /         /
+ *        5 /.8       /.
+ *         / .   3   / .
+ *        /_________/  .9
+ *       . . ._____.___.
+ *     10.   /  0  .   /     +x
+ *       . 4/    11.  /    ->
+ *       . /       . /6
+ *       ./________./
+ *            1
+ *
+ *           / +y
+ *          |/
+ * ```
+ */
 class cube
 {
     public:
@@ -61,8 +139,35 @@ class cube
         }
 
         void setmat(ushort mat, ushort matmask, ushort filtermat, ushort filtermask, int filtergeom);
+
+        /**
+         * @brief discards children
+         *
+         * @param fixtex toggles fixing the texture of the resulting cube
+         * @param depth at which to stop discarding
+         */
         void discardchildren(bool fixtex = false, int depth = 0);
+
+        /**
+         * @brief Merges adjacent faces that can be losslessly merged.
+         *
+         * Merges adjacent faces, provided that the resulting cube created
+         * is no larger than the `maxmerge` gridpower size. Faces resulting from
+         * the merge process are always lossless; therefore the previously
+         * existing cubes must be coplanar prior to the merge request.
+         *
+         * Applies to all children of the cube passed, usually the world root.
+         *
+         * @param root the cube object with which all children under will be merged
+         */
         void calcmerges(cube * root);
+
+        /**
+         * @brief Returns whether the cube is valid.
+         *
+         * If the cube is not convex, this function returns true, otherwise it
+         * returns false.
+         */
         bool isvalidcube();
 
     private:
@@ -165,12 +270,17 @@ class cube
         friend bool htcmp(const cube::pedge &x, const cube::pedge &y);
 };
 
+/**
+ * @brief A representation of a rectangular volume of cubes.
+ */
 struct selinfo
 {
     int corner;
     int cx, cxs, cy, cys;
-    ivec o, s; //two corners of the selection (s is an _offset_ vector
-    int grid, orient;
+    ivec o, /**< the coordinates from which the selection starts */
+         s; /**< the offset vector conveying the size of the  selection*/
+    int grid, /**< the gridpower of the selection */
+        orient; /**< the orientation of the selection */
     selinfo() : corner(0), cx(0), cxs(0), cy(0), cys(0), o(0, 0, 0), s(0, 0, 0), grid(8), orient(0) {}
     int size() const
     {
@@ -182,6 +292,13 @@ struct selinfo
         return s[d]*grid;
     }
 
+    /**
+     * @brief Returns whether the two selections occupy the same space.
+     *
+     * Requires that the two selections are occupying the same volume in the
+     * world space, and both are of the same gridpower and orientation (selected
+     * face). Otherwise, false is returned.
+     */
     bool operator==(const selinfo &sel) const
     {
         return o==sel.o && s==sel.s && grid==sel.grid && orient==sel.orient;
@@ -355,9 +472,30 @@ struct cubeworld
         void shrinkmap();
         bool load_world(const char *mname, const char *gameident, const char *gameinfo = nullptr, const char *cname = nullptr);
         bool save_world(const char *mname, const char *gameident);
+
+        /**
+         * @brief Removes unnecessary virtual texture slots.
+         *
+         * Checks and removes unused virtual texture slots (vslots) from the octree
+         * world.
+         */
         int compactvslots(bool cull = false);
         void genprefabmesh(prefab &p);
+
+        /**
+         * @brief Creates vertex arrays for the octree world.
+         *
+         * Creates vertex arrays, geometry objects used by the renderer to render
+         * the world.
+         */
         void octarender();
+
+        /**
+         * @brief Destroys vertex arrays for the octree world.
+         *
+         * Cleans up the geometry objects used by the renderer to render the octree
+         * world.
+         */
         void cleanupva();
 
         /**
