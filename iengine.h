@@ -214,7 +214,61 @@ extern void initmathcmds();
 extern void initstrcmds();
 
 /**
- * @brief Adds program control commands to the cubescript interpreter
+ * @brief Adds program control commands to the cubescript interpreter.
+ *
+ * `exec`
+ *
+ * `escape`
+ *
+ * `unescape`
+ *
+ * `writecfg`
+ *
+ * `changedvars`
+ *
+ * `doargs`
+ *
+ * `if`
+ *
+ * `?`
+ *
+ * `pushif`
+ *
+ * `do`
+ *
+ * `append`
+ *
+ * `result`
+ *
+ * `listlen`
+ *
+ * `at`
+ *
+ * `sublist`
+ *
+ * `listcount`
+ *
+ * `at`
+ *
+ * `sublist`
+ *
+ * `listcount`
+ *
+ * `listfind`
+ *
+ * `listfind=`
+ *
+ * `loop`
+ *
+ * `loop+`
+ *
+ * `loop*`
+ *
+ * `loop+*`
+ *
+ * `loopconcat`
+ *
+ * `loopconcat+`
  */
 extern void initcontrolcmds();
 
