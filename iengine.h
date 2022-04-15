@@ -423,6 +423,33 @@ extern int mainmenu;
 // sound
 
 /**
+ * @brief Initializes sound Cubescript commands.
+ *
+ * `music`
+ *
+ * `playsound`
+ *
+ * `resetsound`
+ *
+ * `registersound`
+ *
+ * `mapsound`
+ *
+ * `altsound`
+ *
+ * `altmapsound`
+ *
+ * `numsounds`
+ *
+ * `nummapsounds`
+ *
+ * `soundreset`
+ *
+ * `mapsoundreset`
+ */
+extern void initsoundcmds();
+
+/**
  * @brief Plays a sound with the given attributes.
  *
  * @param n index of the sound to play
