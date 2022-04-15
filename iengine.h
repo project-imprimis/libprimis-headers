@@ -140,6 +140,8 @@ extern void conoutf(const char *s, ...) PRINTFARGS(1, 2);
  */
 extern void conoutf(int type, const char *s, ...) PRINTFARGS(2, 3);
 
+extern int initing;
+
 /**
  * @brief Clears the console KeyM history hashtable.
  *
