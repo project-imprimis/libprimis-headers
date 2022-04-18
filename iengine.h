@@ -670,195 +670,99 @@ namespace UI
      *
      * `uiname`
      *
-     * `ui!hover`
-     *
      * `uihover`
-     *
-     * `ui!hover?`
      *
      * `uihover?`
      *
-     * `ui!hover+`
-     *
      * `uihover+`
-     *
-     * `ui!hover+?`
      *
      * `uihover+?`
      *
-     * `ui!press`
-     *
      * `uipress`
-     *
-     * `ui!press?`
      *
      * `uipress?`
      *
-     * `ui!press+`
-     *
      * `uipress+`
-     *
-     * `ui!press+?`
      *
      * `uipress+?`
      *
-     * `ui!hold`
-     *
      * `uihold`
-     *
-     * `ui!hold?`
      *
      * `uihold?`
      *
-     * `ui!hold+`
-     *
      * `uihold+`
-     *
-     * `ui!hold+?`
      *
      * `uihold+?`
      *
-     * `ui!release`
-     *
      * `uirelease`
-     *
-     * `ui!release?`
      *
      * `uirelease?`
      *
-     * `ui!release+`
-     *
      * `uirelease+`
-     *
-     * `ui!release+?`
      *
      * `uirelease+?`
      *
-     * `ui!althold`
-     *
      * `uialthold`
-     *
-     * `ui!althold?`
      *
      * `uialthold?`
      *
-     * `ui!althold+`
-     *
      * `uialthold+`
-     *
-     * `ui!althold+?`
      *
      * `uialthold+?`
      *
-     * `ui!altpress`
-     *
      * `uialtpress`
-     *
-     * `ui!altpress?`
      *
      * `uialtpress?`
      *
-     * `ui!altpress+`
-     *
      * `uialtpress+`
-     *
-     * `ui!altpress+?`
      *
      * `uialtpress+?`
      *
-     * `ui!altrelease`
-     *
      * `uialtrelease`
-     *
-     * `ui!altrelease?`
      *
      * `uialtrelease?`
      *
-     * `ui!altrelease+`
-     *
      * `uialtrelease+`
-     *
-     * `ui!altrelease+?`
      *
      * `uialtrelease+?`
      *
-     * `ui!eschold`
-     *
      * `uieschold`
-     *
-     * `ui!eschold?`
      *
      * `uieschold?`
      *
-     * `ui!eschold+`
-     *
      * `uieschold+`
-     *
-     * `ui!eschold+?`
      *
      * `uieschold+?`
      *
-     * `ui!escpress`
-     *
      * `uiescpress`
-     *
-     * `ui!escpress?`
      *
      * `uiescpress?`
      *
-     * `ui!escpress+`
-     *
      * `uiescpress+`
-     *
-     * `ui!escpress+?`
      *
      * `uiescpress+?`
      *
-     * `ui!escrelease`
-     *
      * `uiescrelease`
-     *
-     * `ui!escrelease?`
      *
      * `uiescrelease?`
      *
-     * `ui!escrelease+`
-     *
      * `uiescrelease+`
-     *
-     * `ui!escrelease+?`
      *
      * `uiescrelease+?`
      *
-     * `ui!scrollup`
-     *
      * `uiscrollup`
-     *
-     * `ui!scrollup?`
      *
      * `uiscrollup?`
      *
-     * `ui!scrollup+`
-     *
      * `uiscrollup+`
-     *
-     * `ui!scrollup+?`
      *
      * `uiscrollup+?`
      *
-     * `ui!scrolldown`
-     *
      * `uiscrolldown`
-     *
-     * `ui!scrolldown?`
      *
      * `uiscrolldown?`
      *
-     * `ui!scrolldown+`
-     *
      * `uiscrolldown+`
-     *
-     * `ui!scrolldown+?`
      *
      * `uiscrolldown+?`
      *
