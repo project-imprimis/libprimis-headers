@@ -151,6 +151,14 @@ struct identstack
 
 typedef void (__cdecl *identfun)(ident *id);
 
+/**
+ * @brief An object representing all Cubescript objects.
+ *
+ * This object defines all possible state for any object in Cubescript. Different
+ * types will have different members due to the union types, but the ident object
+ * is common to them regardless. This allows storage of CS objects in a uniform
+ * map consisting of one type.
+ */
 struct ident
 {
     //this pointer will point to different types depending upon the type of variable
@@ -284,55 +292,231 @@ struct ident
     void getcval(tagval &v) const;
 };
 
-extern const char *intstr(int v);
+/**
+ * @brief Returns an integer value from a Cubescript command.
+ *
+ * When writing a CS command, this function returns an integer value to the inheriting
+ * CS environment.
+ *
+ * @param v the value to return
+ */
 extern void intret(int v);
+
 extern const char *floatstr(float v);
+
+/**
+ * @brief Returns a float value from a Cubescript command.
+ *
+ * When writing a CS command, this function returns a float value to the inheriting
+ * CS environment.
+ *
+ * @param v the value to return
+ */
 extern void floatret(float v);
-extern const char *numberstr(double v);
-extern void numberret(double v);
+
+/**
+ * @brief Returns a string value from a Cubescript command.
+ *
+ * When writing a CS command, this function returns a string value to the inheriting
+ * CS environment.
+ *
+ * @param v the value to return
+ */
 extern void stringret(char *s);
-extern void result(tagval &v);
+
+/**
+ * @brief Returns an alias' name from a Cubescript command.
+ *
+ * When writing a CS command, this functions a string value representing the name
+ * of a Cubescript object to the inheriting CS environment.
+ *
+ * @param s the name of the ident to return
+ */
 extern void result(const char *s);
 
+/**
+ * @brief Returns the string passed as an integer.
+ *
+ * Parses the entire string, returning the value of the passed value as an integer.
+ * The value of this value will always be greater than zero unless there is an
+ * overflow beyond the size of `int`. The output may be converted by a trailing
+ * radix digit as described in `strtoul`.
+ *
+ * @param s the string to turn into an integer
+ */
 inline int parseint(const char *s)
 {
     return static_cast<int>(strtoul(s, nullptr, 0));
 }
 
+/**
+ * @brief Registers an int variable in the Cubescript ident table.
+ *
+ * @param name the name of the aliased variable in Cubescript
+ * @param min the minimum value the variable can be set at
+ * @param cur the starting value of the variable
+ * @param max the maximum value the variable can be set at
+ * @param storage the pointer to the variable to be aliased to Cubescript
+ * @param fun a function pointer to be called upon modification of the variable
+ * @param flags the handling flags for the variable
+ *
+ * @return the value cur passed
+ */
 extern int variable(const char *name, int min, int cur, int max, int *storage, identfun fun, int flags);
+
+/**
+ * @brief Registers a float variable in the Cubescript ident table.
+ *
+ * Adds a float variable to the Cubescript ident table. The name of the Cubescript
+ * variable does not necessarily need to correspond to the C++ variable's name.
+ *
+ * @param name the name of the aliased variable in Cubescript
+ * @param min the minimum value the variable can be set at
+ * @param cur the starting value of the variable
+ * @param max the maximum value the variable can be set at
+ * @param storage the pointer to the variable to be aliased to Cubescript
+ * @param fun a function pointer to be called upon modification of the variable
+ * @param flags the handling flags for the variable
+ *
+ * @return the value cur passed
+ */
 extern float fvariable(const char *name, float min, float cur, float max, float *storage, identfun fun, int flags);
+
+/**
+ * @brief Registers a C string variable in the Cubescript ident table.
+ *
+ * @param name the name of the aliased variable in Cubescript
+ * @param cur the starting value of the variable
+ * @param storage the pointer to the pointer to the variable to be aliased to Cubescript
+ * @param fun a function pointer to be called upon modification of the variable
+ * @param flags the handling flags for the variable
+ *
+ * @return the value cur passed
+ */
 extern char *svariable(const char *name, const char *cur, char **storage, identfun fun, int flags);
+
+/**
+ * @brief Sets a Cubescript integer value to the given value.
+ *
+ * @param name the name of the cubescript alias to change
+ * @param i the value to set
+ * @param dofunc whether to run the onchange function
+ * @param doclamp whether to clamp the value to the specified limits
+ */
 extern void setvar(const char *name, int i, bool dofunc = true, bool doclamp = true);
+
+/**
+ * @brief Sets a Cubescript float value to the given value.
+ *
+ * @param name the name of the cubescript alias to change
+ * @param i the value to set
+ * @param dofunc whether to run the onchange function
+ * @param doclamp whether to clamp the value to the specified limits
+ */
 extern void setfvar(const char *name, float f, bool dofunc = true, bool doclamp = true);
+
+/**
+ * @brief Sets a Cubescript string value to the given value.
+ *
+ * @param name the name of the cubescript alias to change
+ * @param i the value to set
+ * @param dofunc whether to run the onchange function
+ */
 extern void setsvar(const char *name, const char *str, bool dofunc = true);
+
+/**
+ * @brief Registers a command in the Cubescript ident table.
+ *
+ * The arguments of the function passed are cast away, so they are reconstructed using
+ * the char * string passed to `narg`.
+ *
+ * @param name of the command in Cubescript
+ * @param fun a function pointer to be called when the command is executed
+ * @param a string containing the arguments of the function
+ * @param type the type of the command to create
+ */
 extern bool addcommand(const char *name, identfun fun, const char *narg, int type = Id_Command);
 
-extern std::queue<ident *> triggerqueue;
-extern bool identexists(const char *name);
+extern std::queue<ident *> triggerqueue; /**< A queue of game events for the engine to process */
+
+/**
+ * @brief Returns the pointer to the ident object with the given CS alias.
+ *
+ * @param the name of the cubescript object to get
+ *
+ * @return The address of the ident object.
+ */
 extern ident *getident(const char *name);
-extern ident *newident(const char *name, int flags = 0);
-extern ident *readident(const char *name);
-extern ident *writeident(const char *name, int flags = 0);
-extern uint *compilecode(const char *p);
-extern void freecode(uint *p);
 extern int execute(const uint *code);
+
+/**
+ * @brief Executes the contents of the string passed.
+ *
+ * Parses and executes the line of Cubescript given.
+ *
+ * @param the C string containing the code to execute
+ */
 extern int execute(const char *p);
-extern int execute(ident *id, tagval *args, int numargs, bool lookup = false);
 extern int execident(const char *name, int noid = 0, bool lookup = false);
 extern bool executebool(const uint *code);
-extern bool executebool(const char *p);
-extern bool executebool(ident *id, tagval *args, int numargs, bool lookup = false);
-extern bool execidentbool(const char *name, bool noid = false, bool lookup = false);
+
+/**
+ * @brief Executes the contents of the referenced file.
+ *
+ * @param cfgfile the relative director of the file to execute
+ * @param msg whether to print to console a failure message
+ *
+ * @return true if the file was successfully loaded
+ * @return false if the file was not found
+ */
 extern bool execfile(const char *cfgfile, bool msg = true);
-extern void alias(const char *name, const char *action);
+
+/**
+ * @brief Replaces C style excape characters with Cubescript ones
+ *
+ * @param s the string to convert
+ *
+ * @return a string containing the escaped changes
+ */
 extern const char *escapestring(const char *s);
-extern void explodelist(const char *s, vector<char *> &elems, int limit = -1);
+
+/**
+ * @brief Prints out the formatted variable
+ *
+ * The param is intended to represent the value the ident object represents.
+ *
+ * @param id the ident object to print out
+ * @param i the value to print out the variable equalling.
+ */
 extern void printvar(ident *id, int i);
+
+/**
+ * @brief Modifies the value passed to fall within the boundaries passed.
+ *
+ * Clamps the value i to within minval and maxval. If id is a hex variable,
+ * issues a warning about clamping. i is a regular free variable and does not
+ * necessarily have anything to do with the ident passed.
+ *
+ * @param id the ident object to check the hex-ness of
+ * @param i the value to clamp
+ * @param minval the lowest value to clamp to
+ * @param maxval the largest value to clamp to
+ */
 extern int clampvar(ident *id, int i, int minval, int maxval);
 extern void loopiter(ident *id, identstack &stack, int i);
 extern void loopend(ident *id, identstack &stack);
 const char *escapeid(const char *s);
 extern void writecfg(const char *savedconfig, const char *autoexec = nullptr, const char *defaultconfig = nullptr, const char *name = nullptr);
+
+/**
+ * @brief Processes the cubescript sleep queue.
+ *
+ * At most, one sleep command is removed from the queue per cycle. Removes
+ * queued sleep commands as they expire, which stops CS commands from executing
+ * for a certain period of time.
+ *
+ * @param millis the current timestamp
+ */
 extern void checksleep(int millis);
 extern bool initidents();
 
