@@ -13,7 +13,6 @@
 
 #define IS_LIQUID(mat) ((mat)==Mat_Water)
 #define IS_CLIPPED(mat) ((mat)==Mat_Glass) //materials that are obligate clipping (always also get clipped)
-#define LOOP_START(id, stack) if((id)->type != Id_Alias) return; identstack stack;
 
 enum
 {
