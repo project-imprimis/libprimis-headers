@@ -235,16 +235,16 @@ class cube
             pvert verts[Face_MaxVerts];
 
             bool clippoly(const facebounds &b);
-            bool mergepolys(int orient, hashset<plink> &links, std::vector<plink *> &queue, int owner, poly &q, const pedge &e);
+            bool mergepolys(hashset<plink> &links, std::vector<plink *> &queue, int owner, poly &q, const pedge &e);
         };
 
         void freecubeext(cube &c);
         void genmerges(cube * root, const ivec &o = ivec(0, 0, 0), int size = 9);
         bool genpoly(int orient, const ivec &o, int size, int vis, ivec &n, int &offset, poly &p);
         void clearmerge(int orient);
-        void addmerge(int orient, const ivec &co, const ivec &n, int offset, poly &p);
-        void addmerges(int orient, const ivec &co, const ivec &n, int offset, std::vector<poly> &polys);
-        void mergepolys(int orient, const ivec &co, const ivec &n, int offset, std::vector<poly> &polys);
+        void addmerge(int orient, const ivec &n, int offset, poly &p);
+        void addmerges(int orient, const ivec &n, int offset, std::vector<poly> &polys);
+        void mergepolys(int orient, const ivec &n, int offset, std::vector<poly> &polys);
 
         struct cfpolys
         {
@@ -514,7 +514,7 @@ struct cubeworld
         bool bboccluded(const ivec &bo, const ivec &br);
         void findtjoints();
         void allchanged(bool load = false);
-        const cube &neighborcube(const cube &c, int orient, const ivec &co, int size, ivec &ro, int &rsize);
+        const cube &neighborcube(int orient, const ivec &co, int size, ivec &ro, int &rsize);
 
         /**
          * @brief Calculates normals and re-calculates geometry.

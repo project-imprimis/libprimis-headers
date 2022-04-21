@@ -1485,7 +1485,7 @@ extern void initoctaeditcmds();
 
 namespace hmap
 {
-    extern bool isheightmap(int o, int d, bool empty, cube &c);
+    extern bool isheightmap(int o, bool empty, cube &c);
     extern void run(int dir, int mode);
 }
 
