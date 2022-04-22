@@ -81,12 +81,12 @@ constexpr uint facesolid = 0x80808080;    /**< all edges in the range (0,8) */
  * ```
  *              ^ +z
  *              |
- *              |  2
- *            __________
+ *              |
+ *            _____2____
  *           /         /
- *        5 /.8       /.
- *         / .   3   / .
- *        /_________/  .9
+ *        5 /.8      7/.
+ *         / .       / .
+ *        /_____3___/  .9
  *       . . ._____.___.
  *     10.   /  0  .   /     +x
  *       . 4/    11.  /    ->
@@ -279,14 +279,31 @@ struct selinfo
     int cx, cxs, cy, cys;
     ivec o, /**< the coordinates from which the selection starts */
          s; /**< the offset vector conveying the size of the  selection*/
-    int grid, /**< the gridpower of the selection */
+    int grid, /**< the gridscale of the selection */
         orient; /**< the orientation of the selection */
     selinfo() : corner(0), cx(0), cxs(0), cy(0), cys(0), o(0, 0, 0), s(0, 0, 0), grid(8), orient(0) {}
+
+    /**
+     * @brief Returns the volume of the selection.
+     *
+     * The volume returned is in the units of the gridpower being used, so selections
+     * with the same cube dimensions but different gridpowers will have the same
+     * volume.
+     *
+     * @return the volume of the selection (l*w*h)
+     */
     int size() const
     {
         return s.x*s.y*s.z;
     }
 
+    /**
+     * @brief Returns the absolute size of the selection along the specified axis.
+     *
+     * @param d the dimension to query (0 for x, 1 for y, 2 for z)
+     *
+     * @return the absolute size of the selection along that axis
+     */
     int us(int d) const
     {
         return s[d]*grid;
@@ -304,6 +321,11 @@ struct selinfo
         return o==sel.o && s==sel.s && grid==sel.grid && orient==sel.orient;
     }
 
+    /**
+     * @brief Keeps the selection within the world.
+     *
+     * @return false if the selection attempts to leave the bounds of the world
+     */
     bool validate()
     {
         extern int worldsize;
@@ -337,6 +359,11 @@ struct selinfo
     }
 };
 
+/**
+ * @brief A representation of a rectangular volume of cubes, with less metadata.
+ *
+ * A rectangular volume of cubes.
+ */
 struct block3
 {
     ivec o, s;
