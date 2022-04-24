@@ -437,7 +437,7 @@ extern int mainmenu;
  *
  * `pendingchanges`
  */
-extern int initmenuscmds();
+extern void initmenuscmds();
 
 // sound
 
