@@ -110,6 +110,14 @@ namespace gle
  * `identexists`
  *
  * `getalias`
+ *
+ * `nodebug`
+ *
+ * `push`
+ *
+ * `alias`
+ *
+ * `resetvar`
  */
 
 extern void initcscmds();
@@ -421,6 +429,15 @@ extern void keyrepeat(bool on, int mask = ~0);
 
 extern void menuprocess();
 extern int mainmenu;
+
+/**
+ * Initializes menus CubeScript commands.
+ *
+ * `applychanges`
+ *
+ * `pendingchanges`
+ */
+extern int initmenuscmds();
 
 // sound
 
@@ -933,6 +950,7 @@ extern void addchange(const char *desc, int type);
  *                                                                              *
  * aa.cpp                                                                       *
  * grass.cpp                                                                    *
+ * hud.cpp                                                                      *
  * normal.cpp                                                                   *
  * octarender.cpp                                                               *
  * radiancehints.cpp                                                            *
@@ -950,9 +968,51 @@ extern void addchange(const char *desc, int type);
  * water.cpp                                                                    *
 \*==============================================================================*/
 
+// hud
+
+/**
+ * @brief Initializes HUD cubescript commands
+ *
+ * `loadcrosshair`
+ *
+ * `getcrosshair`
+ */
+extern void inithudcmds();
+
+// normal
+
+/**
+ * @brief Initializes normal.cpp cubescript commands
+ *
+ * `smoothangle`
+ */
+extern void initnormalcmds();
+
 // octarender
 
+/**
+ * @brief Initializes octarender.cpp cubescript commands
+ *
+ * `recalc`
+ */
+extern void initoctarendercmds();
+
 // rendergl
+
+/**
+ * @brief Initializes rendergl.cpp cubescript commands
+ *
+ * `glext`
+ *
+ * `getcamyaw`
+ *
+ * `getcampitch`
+ *
+ * `getcamroll`
+ *
+ * `getcampos`
+ */
+extern void initrenderglcmds();
 
 extern physent *camera1; /**< Camera location for the renderer to render at */
 extern vec worldpos, camdir, camright, camup;
@@ -1061,6 +1121,13 @@ extern void drawminimap(int yaw, int pitch, vec loc, cubeworld world);
 // renderlights
 
 /**
+ * @brief Initializes renderlights CubeScript commands
+ *
+ * `usepacknorm`
+ */
+extern void initrenderlightscmds();
+
+/**
  * @brief Clears the shadow maps cached in the shadow atlas
  *
  * Also clears the radiance hints cache, if enabled.
@@ -1072,6 +1139,86 @@ extern int volumetriclights;
 extern int nospeclights;
 
 // rendermodel
+
+/**
+ * @brief Initializes rendermodel CubeScript commands
+ *
+ * `mdlcullface`
+ *
+ * `mdlcolor`
+ *
+ * `mdlcollide`
+ *
+ * `mdlellipsecollide`
+ *
+ * `mdltricollide`
+ *
+ * `mdlspec`
+ *
+ * `mdlgloss`
+ *
+ * `mdlalphatest`
+ *
+ * `mdldepthoffset`
+ *
+ * `mdlglow`
+ *
+ * `mdlfullbright`
+ *
+ * `mdlshader`
+ *
+ * `mdlspin`
+ *
+ * `mdlscale`
+ *
+ * `mdltrans`
+ *
+ * `mdlyaw`
+ *
+ * `mdlpitch`
+ *
+ * `mdlroll`
+ *
+ * `mdlshadow`
+ *
+ * `mdlalphashadow`
+ *
+ * `mdlbb`
+ *
+ * `mdlextendbb`
+ *
+ * `mdlname`
+ *
+ * `rdvert`
+ *
+ * `rdeye`
+ *
+ * `rdtri`
+ *
+ * `rdjoint`
+ *
+ * `rdlimitdist`
+ *
+ * `rdlimitrot`
+ *
+ * `rdanimjoints`
+ *
+ * `mapmodelreset`
+ *
+ * `mapmodel`
+ *
+ * `mapmodelname`
+ *
+ * `mapmodelloaded`
+ *
+ * `nummapmodels`
+ *
+ * `clearmodel`
+ *
+ * `findanims`
+ */
+extern void initrendermodelcmds();
+
 extern int numanims;
 extern std::vector<std::string> animnames;
 
@@ -1237,6 +1384,31 @@ extern void updateparticles();
 
 // rendertext
 
+/**
+ * @brief Initializes rendertext Cubescript commands.
+ *
+ * `fontalias`
+ *
+ * `tabify`
+ *
+ * `font`
+ *
+ * `fontborder`
+ *
+ * `fontoutline`
+ *
+ * `fontoffset`
+ *
+ * `fontscale`
+ *
+ * `fonttex`
+ *
+ * `fontchar`
+ *
+ * `fontskip`
+ */
+extern void initrendertextcmds();
+
 extern void draw_text(const char *str, float left, float top, int r = 255, int g = 255, int b = 255, int a = 255, int cursor = -1, int maxwidth = -1);
 extern void draw_textf(const char *fstr, float left, float top, ...) PRINTFARGS(1, 4);
 extern void text_boundsf(const char *str, float &width, float &height, int maxwidth = -1);
@@ -1254,6 +1426,17 @@ extern void text_boundsf(const char *str, float &width, float &height, int maxwi
 extern bool setfont(const char *name);
 
 // renderwindow
+
+/**
+ * @brief Initializes renderwindow Cubescript commands
+ *
+ * `getfps`
+ *
+ * `resetgl`
+ *
+ * `screenres`
+ */
+extern void initrenderwindowcmds();
 
 /**
  * @brief Refreshes the rendered screenbuffer.
@@ -1306,6 +1489,35 @@ extern void renderprogress(float bar, const char *text, bool background = false)
 // shader
 
 /**
+ * @brief Initializes shader Cubescript commands.
+ *
+ * `defershader`
+ *
+ * `forceshader`
+ *
+ * `shader`
+ *
+ * `variantshader`
+ *
+ * `setshader`
+ *
+ * `isshaderdefined`
+ *
+ * `setshaderparam`
+ *
+ * `reuseuniformparam`
+ *
+ * `clearpostfx`
+ *
+ * `addpostfx`
+ *
+ * `setpostfx`
+ *
+ * `resetshaders`
+ */
+extern void initshadercmds();
+
+/**
  * @brief Loads a series of shaders hardcoded into the engine.
  *
  * The shaders loaded are:
@@ -1355,6 +1567,45 @@ inline void addstain(int type, const vec &center, const vec &surface, float radi
 
 // texture
 
+/**
+ * @brief Initializes texture Cubescript commands.
+ *
+ * `texturereset`
+ *
+ * `materialreset`
+ *
+ * `decalreset`
+ *
+ * `compactvslots`
+ *
+ * `texture`
+ *
+ * `texgrass`
+ *
+ * `texscroll`
+ *
+ * `texoffset`
+ *
+ * `texrotate`
+ *
+ * `texangle`
+ *
+ * `texalpha`
+ *
+ * `texcolor`
+ *
+ * `texrefract`
+ *
+ * `texsmooth`
+ *
+ * `decaldepth`
+ *
+ * `reloadtex`
+ *
+ * `screenshot`
+ */
+extern void inittexturecmds();
+
 extern Texture *notexture;
 
 extern Texture *textureload(const char *name, int clamp = 0, bool mipit = true, bool msg = true);
@@ -1368,9 +1619,10 @@ extern void packvslot(vector<uchar> &buf, const VSlot *vs);
  *                                                                              *
  * bih.cpp                                                                      *
  * dynlight.cpp                                                                 *
+ * heightmap.cpp                                                                *
  * light.cpp                                                                    *
  * material.cpp                                                                 *
- * octa.cpp                                                                     *
+ * octaworld.cpp                                                                *
  * octaedit.cpp                                                                 *
  * physics.cpp                                                                  *
  * raycube.cpp                                                                  *
@@ -1382,6 +1634,21 @@ extern void packvslot(vector<uchar> &buf, const VSlot *vs);
 
 extern void adddynlight(const vec &o, float radius, const vec &color, int fade = 0, int peak = 0, int flags = 0, float initradius = 0, const vec &initcolor = vec(0, 0, 0), physent *owner = nullptr, const vec &dir = vec(0, 0, 0), int spot = 0);
 extern void removetrackeddynlights(physent *owner = nullptr);
+
+// heightmap
+
+/**
+ * @brief Initializes heightmap Cubescript commands.
+ *
+ * `hmapcancel`
+ *
+ * `hmapselect`
+ *
+ * `clearhbrush`
+ *
+ * `hbrushvert`
+ */
+extern void initheightmapcmds();
 
 // light
 
@@ -1402,9 +1669,16 @@ extern int showmat;
  */
 extern int findmaterial(const char *name);
 
-// octa
+// octaworld
 extern ivec lu;
 extern int lusize;
+
+/**
+ * @brief Initializes octaworld Cubescript commands.
+ *
+ * `printcube` prints debug information for a cube
+ */
+extern void initoctaworldcmds();
 
 /**
  * @brief Deletes a cube and its children.
@@ -1907,6 +2181,13 @@ namespace entities
 // worldio
 
 extern string clientmap;
+
+/**
+ * @brief Initializes worldio Cubescript commands.
+ *
+ * `mapcfgname`
+ */
+extern void initworldiocmds();
 
 /**
  * @brief Changes the passed string to conform to valid map names.
