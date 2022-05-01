@@ -170,16 +170,6 @@ class cube
          */
         bool isvalidcube();
 
-        /**
-         * @brief Deletes a cube and its children.
-         *
-         * Recursively deletes child members of the cube passed, then deletes the cube
-         * itself. The node allocation counter is also decreased to correspond to the
-         * removed cubes.
-         *
-         */
-        void freeocta();
-
     private:
 
         struct pvert

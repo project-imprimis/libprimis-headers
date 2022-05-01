@@ -1680,6 +1680,16 @@ extern int lusize;
  */
 extern void initoctaworldcmds();
 
+/**
+ * @brief Deletes a cube and its children.
+ *
+ * Recursively deletes child members of the cube passed, then deletes the cube
+ * itself. The node allocation counter is also decreased to correspond to the
+ * removed cubes.
+ *
+ * @param c the cube object to be deleted
+ */
+extern void freeocta(cube *c);
 extern void getcubevector(cube &c, int d, int x, int y, int z, ivec &p);
 
 extern void optiface(uchar *p, cube &c);
