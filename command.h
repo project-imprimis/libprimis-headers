@@ -536,13 +536,6 @@ extern void clear_command();
  *  The macro kludges themselves register commands or values within some vector<>-s which keeps track of all cmds/vars
  */
 
-//command macros
-#define KEYWORD(name, type) static bool dummy_##type = addcommand(#name, (identfun)nullptr, nullptr, type)
-#define COMMANDKN(name, type, fun, nargs) static bool dummy_##fun = addcommand(#name, (identfun)fun, nargs, type)
-#define COMMANDK(name, type, nargs) COMMANDKN(name, type, name, nargs)
-#define COMMANDN(name, fun, nargs) COMMANDKN(name, Id_Command, fun, nargs)
-#define COMMAND(name, nargs) COMMANDN(name, name, nargs)
-
 //integer var macros
 //VAR_, _VARF, VARM_ are templates for "normal" macros that do not execute an inline function
 #define VAR_(name, global, min, cur, max, persist)  int global = variable(#name, min, cur, max, &global, nullptr, persist)
