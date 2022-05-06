@@ -46,7 +46,7 @@ struct SlotShaderParam
 };
 
 struct Texture;
-struct Shader;
+class Shader;
 struct VSlot; //both slot and vslot depend on each other
 
 /**
