@@ -2217,6 +2217,5 @@ extern uint getmapcrc();
  * to indicate that the CRC has become invalid as a result of modification.
  */
 extern void clearmapcrc();
-extern bool loadents(const char *fname, const char *gameident, vector<entity> &ents, uint *crc = nullptr);
 
 #endif /* IENGINE_H_ */
