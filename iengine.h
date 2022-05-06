@@ -654,7 +654,6 @@ namespace UI
 
     void setup();
     void update();
-    void render();
     void cleanup();
 
     bool showui(const char *name);
