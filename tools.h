@@ -1008,8 +1008,11 @@ struct vector
     /**
      * @brief Removes elements until i are left.
      *
-     * The vector's values beyond i are all dropped. leaving a vector of size i
-     * as the remainder.
+     * The vector's values beyond i are all dropped, leaving a vector of size i
+     * as the remainder. Has no effect if the size to shrink to is equal to or
+     * larger than the vector was originally.
+     *
+     * The std::vector equivalent to this function is to call `resize()`.
      *
      * @param i the last index in the array to keep
      */
