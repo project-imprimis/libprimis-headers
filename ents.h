@@ -138,6 +138,9 @@ struct physent
 
     int inwater;
     bool jumping;
+
+    // The velocity type: `move` is movement along camera axis while `strafe` is
+    // side-to-side movement perpendicular to camera axis.
     char move, strafe, crouching;
 
     uchar physstate;                            /**< one of PHYS_* above */
