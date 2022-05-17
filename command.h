@@ -380,10 +380,10 @@ extern void setsvar(const char *name, const char *str, bool dofunc = true);
  *
  * @param name of the command in Cubescript
  * @param fun a function pointer to be called when the command is executed
- * @param a string containing the arguments of the function
+ * @param narg string containing the arguments of the function
  * @param type the type of the command to create
  */
-extern bool addcommand(const char *name, identfun fun, const char *narg, int type = Id_Command);
+extern bool addcommand(const char *name, identfun fun, const char *narg = "", int type = Id_Command);
 
 extern std::queue<ident *> triggerqueue; /**< A queue of game events for the engine to process */
 
