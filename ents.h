@@ -28,28 +28,27 @@ enum
     Anim_GameSpecific
 };
 
-enum
+enum EntAnim
 {
-    Anim_All        = 0x1FF,
-    Anim_Index      = 0x1FF,
-    Anim_Loop       = (1 << 9),
-    Anim_Clamp      = (1 << 10),
-    Anim_Reverse    = (1 << 11),
-    Anim_Start      = (Anim_Loop | Anim_Clamp),
-    Anim_End        = (Anim_Loop | Anim_Clamp | Anim_Reverse),
-    Anim_Dir        = 0xE00,
-    Anim_Secondary  = 12,
-    Anim_Reuse      = 0xFFFFFF,
-    Anim_NoSkin     = (1 << 24),
-    Anim_SetTime    = (1 << 25),
-    Anim_FullBright = (1 << 26),
-    Anim_NoRender   = (1 << 27),
-    Anim_Ragdoll    = (1 << 28),
-    Anim_SetSpeed   = (1 << 29),
-    Anim_NoPitch    = (1 << 30),
-    Anim_Flags      = 0xFF000000,
+    All        = 0x1FF,
+    Index      = 0x1FF,
+    Loop       = (1 << 9),
+    Clamp      = (1 << 10),
+    Reverse    = (1 << 11),
+    Start      = (EntAnim::Loop | EntAnim::Clamp),
+    End        = (EntAnim::Loop | EntAnim::Clamp | EntAnim::Reverse),
+    Dir        = 0xE00,
+    Secondary  = 12,
+    Reuse      = 0xFFFFFF,
+    NoSkin     = (1 << 24),
+    SetTime    = (1 << 25),
+    FullBright = (1 << 26),
+    NoRender   = (1 << 27),
+    Ragdoll    = (1 << 28),
+    SetSpeed   = (1 << 29),
+    NoPitch    = (1 << 30),
+    Flags      = 0xFF000000,
 };
-
 
 enum
 {
