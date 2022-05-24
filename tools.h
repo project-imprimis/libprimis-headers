@@ -23,16 +23,7 @@ typedef unsigned long long int ullong;
     #define RESTRICT
 #endif
 
-#ifdef swap
-    #undef swap
-#endif
-template<class T>
-inline void swap(T &a, T &b)
-{
-    T t = a;
-    a = b;
-    b = t;
-}
+
 #ifdef max
     #undef max
 #endif
@@ -561,7 +552,7 @@ inline void quicksort(T *start, T *end, F fun)
         else
         {
             pivot = *mid;
-            swap(*start, end[-1]);
+            std::swap(*start, end[-1]);
         }  /* end <= mid <= start */
         *mid = end[-2];
         do
@@ -580,7 +571,7 @@ inline void quicksort(T *start, T *end, F fun)
                     goto partitioned;
                 }
             }
-            swap(*i, *j);
+            std::swap(*i, *j);
         } while(++i < j);
     partitioned:
         end[-2] = *i;
@@ -782,9 +773,11 @@ struct vector
      *
      * This function's closest equivalents in std::vector<> are push_back() and
      * emplace_back(). However, these functions do not return a reference to the
-     * newly created value. Manually allocating the pointer on the heap and pushing
-     * it into an array of pointers or references, or using iterators, can work
-     * around this difference in architecture.
+     * newly created value.
+     *
+     * The easiest way to replicate this behavior in std::vector is to create
+     * the new item at the back of the vector with emplace_back() followed by
+     * using back() to get a reference to the newly created vector.
      *
      * @param x the value to assign to the newly created value
      *
@@ -857,9 +850,9 @@ struct vector
     {
         if(!ulen)
         {
-            swap(buf, v.buf);
-            swap(ulen, v.ulen);
-            swap(alen, v.alen);
+            std::swap(buf, v.buf);
+            std::swap(ulen, v.ulen);
+            std::swap(alen, v.alen);
         }
         else
         {
@@ -1077,7 +1070,8 @@ struct vector
      * @brief Returns a pointer to the vector's internal array.
      *
      * Returns the address of the vector's internal array. If the vector's size
-     * changes, this pointer will become invalidated.
+     * changes, this pointer will become invalidated. The std::vector equivalent
+     * to this is data().
      *
      * @return A pointer to the vector's internal array.
      */
@@ -1094,7 +1088,9 @@ struct vector
      */
     const T *getbuf() const { return buf; }
 
-    /**
+    //now unused
+
+    /*
      * @brief returns whether the pointer is inside the vector's internal array
      *
      * Returns whether the pointer passed has an address that falls within
@@ -1105,8 +1101,9 @@ struct vector
      *
      * @return true if the address is inside the vector's array
      * @return false if the address is outside the vector's array
-     */
+     * /
     bool inbuf(const T *e) const { return e >= buf && e < &buf[ulen]; }
+    */
 
     /**
      * @brief Sorts using the passed function between passed indices.
@@ -1500,7 +1497,7 @@ struct vector
     {
         for(int i = 0; i < static_cast<int>(ulen/2); ++i)
         {
-            swap(buf[i], buf[ulen-1-i]);
+            std::swap(buf[i], buf[ulen-1-i]);
         }
     }
 
@@ -1554,7 +1551,7 @@ struct vector
             {
                 break;
             }
-            swap(buf[i], buf[pi]);
+            std::swap(buf[i], buf[pi]);
             i = pi;
         }
         return i;
@@ -1598,16 +1595,16 @@ struct vector
             {
                if(ci+1 < ulen && heapscore(buf[ci+1]) < cscore)
                {
-                   swap(buf[ci+1], buf[i]); i = ci+1;
+                   std::swap(buf[ci+1], buf[i]); i = ci+1;
                }
                else
                {
-                   swap(buf[ci], buf[i]); i = ci;
+                   std::swap(buf[ci], buf[i]); i = ci;
                }
             }
             else if(ci+1 < ulen && heapscore(buf[ci+1]) < score)
             {
-                swap(buf[ci+1], buf[i]); i = ci+1;
+                std::swap(buf[ci+1], buf[i]); i = ci+1;
             }
             else break;
         }
@@ -1699,7 +1696,7 @@ struct vector
     */
     void uniquedeletecontents()
     {
-        UNIQUE(swap(buf[n], buf[i]), deletecontents(n));
+        UNIQUE(std::swap(buf[n], buf[i]), deletecontents(n));
     }
 
     /**
@@ -1711,7 +1708,7 @@ struct vector
      */
     void uniquedeletearrays()
     {
-        UNIQUE(swap(buf[n], buf[i]), deletearrays(n));
+        UNIQUE(std::swap(buf[n], buf[i]), deletearrays(n));
     }
     #undef UNIQUE
 };
