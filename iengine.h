@@ -1636,6 +1636,9 @@ extern void removetrackeddynlights(physent *owner = nullptr);
 
 // heightmap
 
+extern bool isheightmap(int o, bool empty, cube &c);
+extern void heightmaprun(int dir, int mode);
+
 /**
  * @brief Initializes heightmap Cubescript commands.
  *
@@ -1755,12 +1758,6 @@ extern void optiface(uchar *p, cube &c);
  * `oq`
  */
 extern void initoctaeditcmds();
-
-namespace hmap
-{
-    extern bool isheightmap(int o, bool empty, cube &c);
-    extern void run(int dir, int mode);
-}
 
 extern bool allowediting;
 extern bool multiplayer;
