@@ -118,7 +118,7 @@ constexpr double SQRT3 = 1.73205080756888;
     #define PATHDIV '/'
 #endif
 
-#define RAD static_cast<float>(M_PI / 180.0f) //M_PI is a double
+#define RAD static_cast<float>(180.0f / M_PI) //M_PI is a double
 
 
 #ifdef __GNUC__
