@@ -1114,8 +1114,14 @@ extern void gl_drawframe(int crosshairindex, void (*gamefxn)(), void (*hudfxn)()
  *
  * Draws a minimap buffer at the specified orientation and location on the map.
  * Does not render it to the screen, instead rendering it to the minimaptex buffer.
+ *
+ * @param yaw the yaw angle to draw the texture at
+ * @param pitch the pitch angle to draw the texture at
+ * @param loc the location about which to draw the texture
+ * @param cubeworld the world to draw
+ * @param scalefactor the texture zoom factor
  */
-extern void drawminimap(int yaw, int pitch, vec loc, cubeworld world);
+extern void drawminimap(int yaw, int pitch, vec loc, cubeworld world, int scalefactor = 1);
 
 // renderlights
 
