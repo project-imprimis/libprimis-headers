@@ -12,7 +12,7 @@
 
 extern uint totalsecs;
 extern int gamespeed, paused;
-extern vector<int> entgroup;
+extern std::vector<int> entgroup;
 
 extern int worldscale, worldsize;
 
