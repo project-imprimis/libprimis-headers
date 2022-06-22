@@ -194,7 +194,7 @@ extern char *tempformatstring(const char *fmt, ...) PRINTFARGS(1, 2);
 template<size_t N>
 inline bool matchstring(const char *s, size_t len, const char (&d)[N])
 {
-    return len == N-1 && !memcmp(s, d, N-1);
+    return len == N-1 && !std::memcmp(s, d, N-1);
 }
 
 inline char *newstring(size_t l)
@@ -662,7 +662,7 @@ inline uint hthash(const stringslice &s) { return memhash(s.str, s.len); }
 
 inline bool htcmp(const stringslice &x, const char *y)
 {
-    return x.len == (int)strlen(y) && !memcmp(x.str, y, x.len);
+    return x.len == (int)strlen(y) && !std::memcmp(x.str, y, x.len);
 }
 
 inline uint hthash(int key)
