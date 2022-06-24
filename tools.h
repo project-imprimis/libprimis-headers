@@ -140,7 +140,7 @@ inline void vformatstring(char (&d)[N], const char *fmt, va_list v) { vformatstr
 inline char *copystring(char *d, const char *s, size_t len)
 {
     size_t slen = min(strlen(s), len-1);
-    memcpy(d, s, slen);
+    std::memcpy(d, s, slen);
     d[slen] = 0;
     return d;
 }
@@ -209,7 +209,7 @@ inline char *newstring(const char *s)
 {
     size_t l = strlen(s);
     char *d = newstring(l);
-    memcpy(d, s, l+1);
+    std::memcpy(d, s, l+1);
     return d;
 }
 
@@ -218,8 +218,8 @@ inline char *newconcatstring(const char *s, const char *t)
     size_t slen = strlen(s),
            tlen = strlen(t);
     char *r = newstring(slen + tlen);
-    memcpy(r, s, slen);
-    memcpy(&r[slen], t, tlen);
+    std::memcpy(r, s, slen);
+    std::memcpy(&r[slen], t, tlen);
     r[slen+tlen] = '\0';
     return r;
 }
@@ -329,7 +329,7 @@ struct databuf
             numvals = maxlen - len;
             flags |= OVERWROTE;
         }
-        memcpy(&buf[len], (const void *)vals, numvals*sizeof(T));
+        std::memcpy(&buf[len], (const void *)vals, numvals*sizeof(T));
         len += numvals;
     }
 
@@ -340,7 +340,7 @@ struct databuf
             numvals = maxlen - len;
             flags |= OVERREAD;
         }
-        memcpy(vals, (void *)&buf[len], numvals*sizeof(T));
+        std::memcpy(vals, (void *)&buf[len], numvals*sizeof(T));
         len += numvals;
         return numvals;
     }
@@ -639,7 +639,7 @@ inline int stringlen(const stringslice &s) { return s.len; }
 inline char *copystring(char *d, const stringslice &s, size_t len)
 {
     size_t slen = min(size_t(s.len), len-1);
-    memcpy(d, s.str, slen);
+    std::memcpy(d, s.str, slen);
     d[slen] = 0;
     return d;
 }
@@ -859,7 +859,7 @@ struct vector
             growbuf(ulen+v.ulen);
             if(v.ulen)
             {
-                memcpy(&buf[ulen], (void  *)v.buf, v.ulen*sizeof(T));
+                std::memcpy(&buf[ulen], (void  *)v.buf, v.ulen*sizeof(T));
             }
             ulen += v.ulen;
             v.ulen = 0;
@@ -1180,7 +1180,7 @@ struct vector
         {
             if(ulen > 0)
             {
-                memcpy(newbuf, (void *)buf, ulen*sizeof(T));
+                std::memcpy(newbuf, (void *)buf, ulen*sizeof(T));
             }
             delete[] (uchar *)buf;
         }
