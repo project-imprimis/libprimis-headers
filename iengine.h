@@ -1794,11 +1794,11 @@ extern int passthroughsel;
 extern int outline;
 extern int dragging;
 extern int selectcorners;
-extern bool boxoutline;
 
-extern void boxs3D(const vec &o, vec s, int g);
-extern void boxs(int orient, vec o, const vec &s);
-extern void boxsgrid(int orient, vec o, vec s, int g);
+extern void boxs3D(const vec &o, vec s, int g, bool boxoutline);
+extern void boxs(int orient, vec o, const vec &s, float size, bool boxoutline);
+extern void boxs(int orient, vec o, const vec &s, bool boxoutline);
+extern void boxsgrid(int orient, vec o, vec s, int g, bool boxoutline);
 extern bool editmoveplane(const vec &o, const vec &ray, int d, float off, vec &handle, vec &dest, bool first);
 
 /**
