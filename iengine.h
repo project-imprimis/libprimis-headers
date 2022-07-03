@@ -1638,7 +1638,7 @@ extern void packvslot(vector<uchar> &buf, const VSlot *vs);
 // dynlight
 
 extern void adddynlight(const vec &o, float radius, const vec &color, int fade = 0, int peak = 0, int flags = 0, float initradius = 0, const vec &initcolor = vec(0, 0, 0), physent *owner = nullptr, const vec &dir = vec(0, 0, 0), int spot = 0);
-extern void removetrackeddynlights(physent *owner = nullptr);
+extern void removetrackeddynlights(const physent *owner = nullptr);
 
 // heightmap
 
