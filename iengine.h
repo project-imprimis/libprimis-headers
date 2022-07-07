@@ -2008,12 +2008,9 @@ extern bool insideworld(const vec &o);
 
 // physics
 
-extern int floatspeed;
-extern const float slopez, wallz, floorz, stairheight;
 extern vec collidewall;
 extern int collideinside;
 extern physent *collideplayer;
-extern const float gravity;
 extern int numdynents;
 extern vector<dynent *> dynents;
 
