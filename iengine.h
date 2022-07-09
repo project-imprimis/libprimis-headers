@@ -1771,7 +1771,6 @@ extern std::vector<ushort> texmru;
 extern selinfo repsel;
 extern int reptex;
 extern int lasttex; /**< index for the most recently used texture*/
-extern int lasttexmillis;
 extern int curtexindex;
 extern int moving, orient, horient;
 extern bool editmode;
