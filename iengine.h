@@ -2024,6 +2024,16 @@ extern vector<dynent *> dynents;
  * @return a pointer to the dynent object at index i
  */
 extern dynent *iterdynents(int i);
+
+/**
+ * @brief Determines whether the specified physent has collided with the octree world
+ *
+ * @param d a pointer to the physent
+ * @param dir the direction to attempt to collide at
+ * @param cutoff collision cutoff slope
+ * @param playercol toggles colliding with outside players
+ * @param insideplayercol tooggles collidign with players you share space with
+ */
 extern bool collide(physent *d, const vec &dir = vec(0, 0, 0), float cutoff = 0.0f, bool playercol = true, bool insideplayercol = false);
 extern void avoidcollision(physent *d, const vec &dir, physent *obstacle, float space);
 
