@@ -1767,7 +1767,6 @@ extern void initoctaeditcmds();
 
 extern bool allowediting;
 extern bool multiplayer;
-extern editinfo *localedit;
 extern std::vector<ushort> texmru;
 extern selinfo repsel;
 extern int reptex;
