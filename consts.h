@@ -180,23 +180,6 @@ enum
     Music_UseAlt = 1<<2
 };
 
-//server
-enum
-{
-    Discon_None = 0,
-    Discon_EndOfPacket,
-    Discon_Local,
-    Discon_Kick,
-    Discon_MsgError,
-    Discon_IPBan,
-    Discon_Private,
-    Discon_MaxClients,
-    Discon_Timeout,
-    Discon_Overflow,
-    Discon_Password,
-    Discon_NumDiscons
-};
-
 enum
 {
     Init_Not = 0,
