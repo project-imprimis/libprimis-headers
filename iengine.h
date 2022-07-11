@@ -1809,7 +1809,6 @@ extern void countselchild(cube *c, const ivec &cor, int size);
 extern void normalizelookupcube(const ivec &o);
 extern void updateselection();
 
-extern int shouldpacktex(int index);
 extern bool packeditinfo(editinfo *e, int &inlen, uchar *&outbuf, int &outlen);
 extern bool unpackeditinfo(editinfo *&e, const uchar *inbuf, int inlen, int outlen);
 extern void freeeditinfo(editinfo *&e);
