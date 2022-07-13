@@ -826,14 +826,58 @@ struct vec4
      * Calculates the sum of the first three elements in `this` with the value
      * passed to `f`. This means that the original vector is not preserved.
      *
-     * @param o the value to add with
+     * @param f the value to add with
      *
      * @return a reference to `this` object following the operation
      */
     vec4 &add3(T f)      { x += f; y += f; z += f; return *this; }
+
+    /**
+     * @brief Calculates the elementwise sum.
+     *
+     * Calculates the sum of the four elements in `this` with the four elements
+     * comprising `f`. This means that the original vector is not preserved.
+     *
+     * @param f the value to add with
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &add(T f)       { add3(f); w += f; return *this; }
+
+    /**
+     * @brief Adds to the fourth value of the vector (w/a).
+     *
+     * Calculates the sum of the passed value and the fourth element of the vec4,
+     * modifying the original vector to equal this sum.
+     *
+     * @param f the value to add with
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &addw(T f)      { w += f; return *this; }
+
+    /**
+     * @brief Subtracts from `this` the vec4 passed.
+     *
+     * Calculates the difference between the four elements in `this` and the
+     * four elements of `o`, modifying the original vector to equal this difference.
+     *
+     * @param o the vec4 to subtract
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &sub(const vec4 &o) { x -= o.x; y -= o.y; z -= o.z; w -= o.w; return *this; }
+
+    /**
+     * @brief Subtracts from `this` the vec passed.
+     *
+     * Calculates the difference between the four elements in `this` and the three
+     * elements of `o`, modifying the original vector to equal this difference.
+     *
+     * @param o the vec to subtract
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &sub(const vec &o)  { x -= o.x; y -= o.y; z -= o.z; return *this; }
     vec4 &sub3(T f)      { x -= f; y -= f; z -= f; return *this; }
     vec4 &sub(T f)       { sub3(f); w -= f; return *this; }
