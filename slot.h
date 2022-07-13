@@ -295,12 +295,6 @@ extern vector<Slot *> slots;
 extern vector<VSlot *> vslots;
 extern std::vector<int *> editingvslots;
 
-struct vslotref
-{
-    vslotref(int &index) { editingvslots.push_back(&index); }
-    ~vslotref() { editingvslots.pop_back(); }
-};
-
 extern const char *getshaderparamname(const char *name, bool insert = true);
 extern void setldrnotexture();
 
