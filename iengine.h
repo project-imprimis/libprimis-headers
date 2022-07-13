@@ -652,14 +652,76 @@ namespace UI
     bool textinput(const char *str, int len);
     float abovehud();
 
+    /**
+     * @brief Creates a new UI World object, used globally for UI functionality.
+     */
     void setup();
     void update();
+
+    /**
+     * @brief Deletes all of the open windows exposed and deletes the UI world object.
+     */
     void cleanup();
 
+    /**
+     * @brief Shows a UI window with the specified name.
+     *
+     * If the specified window does not exist or already is shown, no action is
+     * taken. Otherwise, displays the window specified.
+     *
+     * @param name the name of the UI to show
+     *
+     * @return true if the window was shown
+     * @return false if the window was hidden, or if no window exists
+     */
     bool showui(const char *name);
+
+    /**
+     * @brief Hides an open UI window with the specified name.
+     *
+     * If the specified window is not shown or does not exist, no action is taken,
+     * Otherwise, hides the open window specified
+     *
+     * @param name the name of the UI window to show
+     *
+     * @return true if the window was hidden
+     * @return false if the window was not previously shown or did not exist
+     */
     bool hideui(const char *name);
+
+    /**
+     * @brief Toggles the open/closed state of a window.
+     *
+     * If the speficied window is open, closes the window; if it is closed, opens
+     * it. If the window does not exist, does nothing.
+     *
+     * @param name the name of the window to toggle
+     *
+     * @return true if the window was shown
+     * @return false if the window was hidden, or if no window exists
+     */
     bool toggleui(const char *name);
+
+    /**
+     * @brief Opens or closes the specified UI.
+     *
+     * Opens the specified UI if `on` is `true` and closes it if `on` is false;
+     * calls either showui() or hideui().
+     *
+     * @param name the name of the window to hold
+     * @param on whether to open or close the specified UI window
+     */
     void holdui(const char *name, bool on);
+
+    /**
+     * @brief Gets the open/close status of a UI window.
+     *
+     * Returns whether the specified window is open or closed (displayed onscreen
+     * or hidden).
+     *
+     * @return true if the window is open
+     * @return false if the window does not exist or is closed
+     */
     bool uivisible(const char *name);
 
     /**
