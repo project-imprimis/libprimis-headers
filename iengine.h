@@ -1015,7 +1015,7 @@ extern void initrenderglcmds();
 
 extern physent *camera1; /**< Camera location for the renderer to render at */
 extern vec worldpos, camdir, camright, camup;
-extern float curfov, fovy, aspect;
+extern float fovy;
 extern bool detachedcamera; /**< read only variable corresponding to camera at ent location (1p) or away from it (3p) */
 
 /**
@@ -2105,6 +2105,12 @@ extern block3 *blockcopy(const block3 &s, int rgrid);
 extern ushort getmaterial(cube &c);
 
 // world
+
+namespace entities
+{
+    extern vector<extentity *> ents;
+    extern vector<extentity *> &getents();
+}
 
 extern int octaentsize;
 
