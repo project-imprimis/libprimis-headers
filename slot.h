@@ -16,6 +16,15 @@
 #ifndef SLOT_H_
 #define SLOT_H_
 
+/**
+ * @brief Bitmask variables for a VSlot.changed field.
+ *
+ * These variables determine what about a virtual texture slot has been changed.
+ * Use them by bit shifting by the value of the enum, e.g.
+ * ```
+ * slot.changed = 1 << VSlot_ShParam;
+ * ```
+ */
 enum
 {
     VSlot_ShParam = 0,
@@ -108,11 +117,30 @@ struct Slot
         return false;
     }
 
+    /**
+     * @brief Attempts to find a tex with index type.
+     *
+     * Searches for a tex with the type passed, searching only for the part of the
+     * sts vector after `last`. If none is found, returns -1.
+     *
+     * @param type the type to seach for
+     * @param last the last index to not look at
+     *
+     * @return the index where the type was found
+     */
     int findtextype(int type, int last = -1) const;
 
     void load(int index, Slot::Tex &t);
     void load();
 
+    /**
+     * @brief Returns a new texture that is a thumbnail of the slot's texture.
+     *
+     * Creates a new texture on the heap representing a scaled-down version of
+     * the slot's diffuse map.
+     *
+     * @return a pointer to the generated Texture containing the thumbnail
+     */
     Texture *loadthumbnail();
 
     void reset()
