@@ -8,13 +8,6 @@
 
 const int Face_MaxVerts = 15;
 
-struct facebounds
-{
-    ushort u1, u2, v1, v2;
-
-    bool empty() const { return u1 >= u2 || v1 >= v2; }
-};
-
 struct cubeext; /** internal engine data for the cube object, not accessible via external API*/
 
 constexpr uint faceempty = 0;             /**< all edges in the range (0,0) */
@@ -185,6 +178,15 @@ class cube
 
     private:
 
+        struct facebounds
+        {
+            ushort u1, u2, v1, v2;
+
+            bool empty() const
+            {
+                return u1 >= u2 || v1 >= v2;
+            }
+        };
         struct pvert
         {
             ushort x, y;
@@ -250,6 +252,9 @@ class cube
             bool clippoly(const facebounds &b);
             bool mergepolys(hashset<plink> &links, std::vector<plink *> &queue, int owner, poly &q, const pedge &e);
         };
+
+        bool mincubeface(const cube &cu, int orient, const ivec &co, int size, facebounds &orig);
+        void mincubeface(const cube &cu, int orient, const ivec &o, int size, const facebounds &orig, facebounds &cf, ushort nmat, ushort matmask);
 
         void freecubeext(cube &c);
         void genmerges(cube * root, const ivec &o = ivec(0, 0, 0), int size = 9);
