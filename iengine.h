@@ -411,7 +411,15 @@ extern bool grabinput,
 
 extern bool interceptkey(int sym);
 extern void inputgrab(bool on);
-extern void checkinput();
+
+/**
+ * @brief Handles input from SDL.
+ *
+ * Executes the CubeScript commands associated with any SDL key operations queued.
+ *
+ * @param map the keymap to use: 0 for default, 1 for edit, 2 for spec
+ */
+extern void checkinput(int map = 0);
 
 /**
  * @brief Flushes all queued mouse events.
