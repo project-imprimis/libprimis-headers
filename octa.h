@@ -474,7 +474,7 @@ extern int lusize;
 struct prefab;
 struct clipplanes;
 
-struct cubeworld
+class cubeworld
 {
     public:
         cube *worldroot = nullptr;
@@ -582,6 +582,26 @@ struct cubeworld
          * optimizied can be controlled by the maxmerge variable.
          */
         void remip();
+        /**
+         * @brief Returns the CRC code for the map currently loaded.
+         *
+         * Returns the cyclic redundancy checksum for the file currently loaded. This
+         * value is unique for every revision of a map binary, and is useful to make
+         * sure multiple clients have the same binary.
+         *
+         * @return the cyclic redundancy code of the map file currently loaded
+         */
+        uint getmapcrc();
+
+        /**
+         * @brief sets the CRC global variable to 0
+         *
+         * Invalidates the CRC code saved as a global variable for the world, usually
+         * to indicate that the CRC has become invalid as a result of modification.
+         */
+        void clearmapcrc();
+    private:
+        uint mapcrc; /**< the cyclic redundancy checksum of the entire world*/
 };
 
 extern cubeworld rootworld;
