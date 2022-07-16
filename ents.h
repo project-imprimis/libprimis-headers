@@ -50,17 +50,6 @@ enum
     Anim_Flags      = 0xFF000000,
 };
 
-
-enum
-{
-    ClientState_Alive = 0,
-    ClientState_Dead,
-    ClientState_Spawning,
-    ClientState_Lagged,
-    ClientState_Editing,
-    ClientState_Spectator,
-};
-
 enum
 {
     EngineEnt_Empty=0,
