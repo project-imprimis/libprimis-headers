@@ -110,7 +110,7 @@ class cube
             uint faces[3];       /**< 4 edges of each dimension together representing 2 perpendicular faces */
         };
         ushort texture[6];       /**< one for each face. same order as orient. */
-        ushort material;         /**< empty-space material */
+        ushort material;         /**< empty-space material, bitmask created from available mats */
         uchar merged;            /**< merged faces of the cube */
         union
         {
@@ -138,6 +138,19 @@ class cube
                    faces[2]==facesolid; //check all three
         }
 
+        /**
+         * @brief Sets a cube's materials, given a material & filter to use
+         *
+         * Modifies the material properties of a cube object, given the various
+         * filtering parameters.
+         *
+         * @param c the cube object to use
+         * @param mat material index to apply
+         * @param matmask material mask
+         * @param filtermat if nonzero, determines what existing mats to apply to
+         * @param filtermask filter material mask
+         * @param filtergeom type of geometry inside the cube (empty, solid, partially solid)
+         */
         void setmat(ushort mat, ushort matmask, ushort filtermat, ushort filtermask, int filtergeom);
 
         /**
