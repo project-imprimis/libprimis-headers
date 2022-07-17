@@ -474,6 +474,13 @@ extern int lusize;
 struct prefab;
 struct clipplanes;
 
+/**
+ * @brief An object representing the entirety of an octree world.
+ *
+ * A `cubeworld` is an object storing an entire octree structure and its data;
+ *  the octree is made up of `cube` objects, the topmost of which is pointed to
+ * by `worldroot`.
+ */
 class cubeworld
 {
     public:
@@ -526,14 +533,6 @@ class cubeworld
          */
         int compactvslots(bool cull = false);
         void genprefabmesh(prefab &p);
-
-        /**
-         * @brief Creates vertex arrays for the octree world.
-         *
-         * Creates vertex arrays, geometry objects used by the renderer to render
-         * the world.
-         */
-        void octarender();
 
         /**
          * @brief Destroys vertex arrays for the octree world.
@@ -600,8 +599,20 @@ class cubeworld
          * to indicate that the CRC has become invalid as a result of modification.
          */
         void clearmapcrc();
+
+        void entitiesinoctanodes();
+        void commitchanges(bool force = false);
+
     private:
         uint mapcrc; /**< the cyclic redundancy checksum of the entire world*/
+
+        /**
+         * @brief Creates vertex arrays for the octree world.
+         *
+         * Creates vertex arrays, geometry objects used by the renderer to render
+         * the world.
+         */
+        void octarender();
 };
 
 extern cubeworld rootworld;

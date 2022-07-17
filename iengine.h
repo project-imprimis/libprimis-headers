@@ -1885,7 +1885,6 @@ extern void freeeditinfo(editinfo *&e);
 extern bool packundo(bool undo, int &inlen, uchar *&outbuf, int &outlen);
 extern bool unpackundo(const uchar *inbuf, int inlen, int outlen);
 extern bool noedit(bool view = false, bool msg = true);
-extern void commitchanges(bool force = false);
 
 /**
  * @brief Determines whether selection contains location at specified location.
@@ -2249,8 +2248,6 @@ extern void mmboundbox(const entity &e, model *m, vec &center, vec &radius);
  * @return a floating point value indicating the slot's depth
  */
 extern float getdecalslotdepth(DecalSlot &s);
-extern void entitiesinoctanodes();
-
 
 namespace entities
 {
