@@ -65,13 +65,6 @@ enum
 
 enum
 {
-    PhysEnt_Player = 0,
-    PhysEnt_Camera,
-    PhysEnt_Bounce,
-};
-
-enum
-{
     PhysEntState_Float = 0,
     PhysEntState_Fall,
     PhysEntState_Slide,
@@ -134,7 +127,14 @@ struct physent
 
     uchar physstate;                            /**< one of PHYS_* above */
     uchar state, editstate;                     /**< one of CS_* above */
-    uchar type;                                 /**< one of ENT_* above */
+
+    enum
+    {
+        PhysEnt_Player = 0,
+        PhysEnt_Camera,
+        PhysEnt_Bounce,
+    };
+    uchar type;                                 /**< one of PhysEnt_* above */
     uchar collidetype;                          /**< one of COLLIDE_* above */
 
     bool blocked;                               /**< used by physics to signal ai */
