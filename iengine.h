@@ -1455,7 +1455,6 @@ extern void removetrackedparticles(physent *owner = nullptr);
  * as necessary to begin particle rendering.
  */
 extern void initparticles();
-extern void updateparticles();
 
 // rendertext
 

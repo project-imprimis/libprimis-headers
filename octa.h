@@ -602,6 +602,7 @@ class cubeworld
 
         void entitiesinoctanodes();
         void commitchanges(bool force = false);
+        void updateparticles();
 
     private:
         uint mapcrc; /**< the cyclic redundancy checksum of the entire world*/
@@ -613,6 +614,7 @@ class cubeworld
          * the world.
          */
         void octarender();
+        void seedparticles();
 };
 
 extern cubeworld rootworld;
