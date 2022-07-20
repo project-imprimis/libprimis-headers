@@ -606,7 +606,49 @@ class cubeworld
 
     private:
         uint mapcrc; /**< the cyclic redundancy checksum of the entire world*/
+        bool haschanged;
 
+        ///@brief This is a cube() object but with a constructor that indicates nothing is in it
+        static struct emptycube : cube
+        {
+            emptycube()
+            {
+                children = nullptr;
+                ext = nullptr;
+                visible = 0;
+                merged = 0;
+                material = 0;
+                setcubefaces(*this, faceempty);
+                for(int i = 0; i < 6; ++i)
+                {
+                    texture[i] = 0;
+                }
+            }
+        } emptycube;
+
+        struct mapheader
+        {
+            char magic[4];              // "TMAP"
+            int version;                // any >8bit quantity is little endian
+            int headersize;             // sizeof(header)
+            int worldsize;
+            int numents;
+            int numpvs;                 // no longer used, kept for backwards compatibility
+            int blendmap;               // also no longer used
+            int numvars;
+            int numvslots;
+        };
+
+        struct octaheader
+        {
+            char magic[4];              // "OCTA"
+            int version;                // any >8bit quantity is little endian
+            int headersize;             // sizeof(header)
+            int worldsize;
+            int numents;
+            int numvars;
+            int numvslots;
+        };
         /**
          * @brief Creates vertex arrays for the octree world.
          *
@@ -615,6 +657,11 @@ class cubeworld
          */
         void octarender();
         void seedparticles();
+        void makeparticles(entity &e);
+        void resetmap();
+        void resetclipplanes();
+        void savec(cube *c, const ivec &o, int size, stream *f);
+        bool loadmapheader(stream *f, const char *ogzname, mapheader &hdr, octaheader &ohdr);
 };
 
 extern cubeworld rootworld;
