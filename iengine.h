@@ -1946,7 +1946,6 @@ extern void makeundo(selinfo &s);
 extern void makeundo();
 extern void reorient();
 extern int countblock(block3 *b);
-extern bool hmapsel;
 extern void forcenextundo();
 
 /**
