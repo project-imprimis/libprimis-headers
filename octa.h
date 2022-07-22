@@ -467,7 +467,6 @@ inline int octadim(int d)
 
 #define DIMENSION(orient)  ((orient)>>1)
 #define DIM_COORD(orient)  ((orient)&1)
-#define OPPOSITE(orient)   ((orient)^1)
 
 extern ivec lu;
 extern int lusize;
