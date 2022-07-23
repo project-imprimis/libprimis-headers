@@ -1747,8 +1747,6 @@ extern int showmat;
 extern int findmaterial(const char *name);
 
 // octaworld
-extern ivec lu;
-extern int lusize;
 
 /**
  * @brief Initializes octaworld Cubescript commands.
