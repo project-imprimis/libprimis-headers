@@ -608,7 +608,7 @@ class cubeworld
         bool haschanged;
 
         ///@brief This is a cube() object but with a constructor that indicates nothing is in it
-        static struct emptycube : cube
+        struct emptycube : cube
         {
             emptycube()
             {
