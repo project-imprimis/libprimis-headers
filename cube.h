@@ -42,6 +42,7 @@
 #include <unordered_map>
 #include <queue>
 #include <stack>
+#include <array>
 
 #ifdef WIN32
     #define WIN32_LEAN_AND_MEAN
