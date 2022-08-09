@@ -1629,7 +1629,10 @@ struct vector
         return e;
     }
 
-    /**
+    /*
+    // All of the below functions are no longer used.
+
+     **
      * @brief finds the key from a hashtable in the vector.
      *
      * the implementation takes advantage of the numerous overloads
@@ -1641,7 +1644,7 @@ struct vector
      * - GLuint
      *
      * @returns the index of the element if it exists; -1 otherwise
-     */
+     *
     template<class K>
     int htfind(const K &key)
     {
@@ -1672,7 +1675,7 @@ struct vector
                 break; \
             }
 
-    /**
+     **
      * @brief removes every duplicate **stack allocated value** from the vector.
      *
      * Contents must be initally sorted.
@@ -1681,36 +1684,37 @@ struct vector
      * **It may leak memory if used with heap allocated and array items.**
      * **see uniquedeletecontents() and uniquedeletearrays() for that case**
      *
-    */
+     *
     void unique() // contents must be initially sorted
     {
         UNIQUE(buf[n] = buf[i], setsize(n));
     }
 
-    /**
+     **
      * @brief removes every duplicate **heap-allocated value** from the vector.
      *
      * Duplicated items get deleted via deletecontents().
      * for the equivalent function for stack values see unique().
      * for the equivalent function for array values see uniquedeletearrays().
-    */
+    *
     void uniquedeletecontents()
     {
         UNIQUE(std::swap(buf[n], buf[i]), deletecontents(n));
     }
 
-    /**
+     **
      * @brief removes every duplicate **array value** from the vector.
      *
      * Duplicated items get deleted via deletearrays().
      * for the equivalent function for stack values see unique().
      * for the equivalent function for heap-allocated values see uniquedeletecontents().
-     */
+     *
     void uniquedeletearrays()
     {
         UNIQUE(std::swap(buf[n], buf[i]), deletearrays(n));
     }
     #undef UNIQUE
+    */
 };
 
 /**
