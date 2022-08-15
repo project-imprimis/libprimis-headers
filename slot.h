@@ -88,7 +88,7 @@ struct Slot
     int index, smooth;
     vector<Tex> sts;
     Shader *shader;
-    vector<SlotShaderParam> params;
+    std::vector<SlotShaderParam> params;
     VSlot *variants;
     bool loaded;
     uint texmask;
@@ -148,7 +148,7 @@ struct Slot
         smooth = -1;
         sts.setsize(0);
         shader = nullptr;
-        params.setsize(0);
+        params.clear();
         loaded = false;
         texmask = 0;
         delete[] grass;
@@ -188,7 +188,7 @@ struct VSlot
     Slot *slot;
     VSlot *next;
     int index, changed;
-    vector<SlotShaderParam> params;
+    std::vector<SlotShaderParam> params;
     bool linked;
     float scale;
     int rotation;
@@ -215,7 +215,7 @@ struct VSlot
 
     void reset()
     {
-        params.setsize(0);
+        params.clear();
         linked = false;
         scale = 1;
         rotation = 0;
