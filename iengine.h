@@ -2074,7 +2074,7 @@ extern vec collidewall;
 extern int collideinside;
 extern physent *collideplayer;
 extern int numdynents;
-extern vector<dynent *> dynents;
+extern std::vector<dynent *> dynents;
 
 /**
  * @brief Returns the dynent at index i.
