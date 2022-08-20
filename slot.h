@@ -291,8 +291,8 @@ struct vslotmap
     vslotmap(int index, VSlot *vslot) : index(index), vslot(vslot) {}
 };
 
-extern vector<Slot *> slots;
-extern vector<VSlot *> vslots;
+extern std::vector<Slot *> slots;
+extern std::vector<VSlot *> vslots;
 extern std::vector<int *> editingvslots;
 
 extern const char *getshaderparamname(const char *name, bool insert = true);
