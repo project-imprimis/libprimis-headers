@@ -146,7 +146,7 @@ struct Slot
     void reset()
     {
         smooth = -1;
-        sts.setsize(0);
+        sts.clear();
         shader = nullptr;
         params.clear();
         loaded = false;
@@ -162,7 +162,7 @@ struct Slot
         loaded = false;
         grasstex = nullptr;
         thumbnail = nullptr;
-        for(int i = 0; i < sts.length(); i++)
+        for(uint i = 0; i < sts.size(); i++)
         {
             Tex &t = sts[i];
             t.t = nullptr;
