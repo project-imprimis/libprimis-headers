@@ -86,7 +86,7 @@ struct Slot
     };
 
     int index, smooth;
-    vector<Tex> sts;
+    std::vector<Tex> sts;
     Shader *shader;
     std::vector<SlotShaderParam> params;
     VSlot *variants;
