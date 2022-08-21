@@ -2171,12 +2171,6 @@ extern ushort getmaterial(cube &c);
 
 // world
 
-namespace entities
-{
-    extern vector<extentity *> ents;
-    extern vector<extentity *> &getents();
-}
-
 extern int octaentsize;
 
 /**
@@ -2247,8 +2241,8 @@ extern float getdecalslotdepth(DecalSlot &s);
 
 namespace entities
 {
-    extern vector<extentity *> ents;
-
+    extern std::vector<extentity *> ents;
+    extern std::vector<extentity *> &getents();
     extern extentity *newentity();
     extern void deleteentity(extentity *e);
 }
