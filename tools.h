@@ -1191,8 +1191,8 @@ struct vector
      * @brief Expands the array by the amount requested.
      *
      * Expands the data array by the amount requested. Silently fails to expand
-     * the array if it is already long enough. If this operation succeeds, the
-     * pointers to the old array will become invalidated.
+     * the array if it is already long enough. If this operation succeeds in lengthening
+     * the array, all of the pointers to the old array will become invalidated.
      *
      * @return the buffer starting at the old used length for sz entries
      */
@@ -1252,9 +1252,28 @@ struct vector
     void put(const T &v) { add(v); }
 
     /**
-     * @brief Adds n-1 empty entries after adding v.
+     * @brief Adds an array to the vector.
      *
-     * @param v the value to assign to the
+     * Adds an array of length n to the end of the vector, reserving the necessary
+     * space if required.
+     *
+     * The std::vector equivalent to
+     *
+     * ```
+     * foo.put(a, len);
+     *
+     * ```
+     *
+     * is
+     *
+     * ```
+     * for(int i = 0; i < len; ++i)
+     * {
+     *     foo.push_back(a[i]);
+     * }
+     * ```
+     *
+     * @param v a pointer to the array to add
      * @param n the number of total entries to add
      */
     void put(const T *v, int n)
