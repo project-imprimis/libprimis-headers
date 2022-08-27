@@ -2190,6 +2190,7 @@ inline void putuint_(T &p, int n)
     }
 }
 
+extern void putint(std::vector<uchar> &p, int n);
 
 template<class T>
 inline void sendstring_(const char *t, T &p)

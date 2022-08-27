@@ -1683,8 +1683,8 @@ extern void inittexturecmds();
 extern Texture *notexture;
 
 extern Texture *textureload(const char *name, int clamp = 0, bool mipit = true, bool msg = true);
-extern void packvslot(vector<uchar> &buf, int index);
-extern void packvslot(vector<uchar> &buf, const VSlot *vs);
+extern void packvslot(std::vector<uchar> &buf, int index);
+extern void packvslot(std::vector<uchar> &buf, const VSlot *vs);
 
 /*==============================================================================*\
  * World Functions & Values                                                     *
