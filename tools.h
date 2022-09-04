@@ -17,12 +17,11 @@ typedef unsigned long ulong;
 typedef signed long long int llong;
 typedef unsigned long long int ullong;
 
-#if defined(__GNUC__) || (defined(_MSC_VER) && _MSC_VER >= 1400)
+#if defined(__GNUC__) || defined(_MSC_VER)
     #define RESTRICT __restrict
 #else
     #define RESTRICT
 #endif
-
 
 #ifdef max
     #undef max
