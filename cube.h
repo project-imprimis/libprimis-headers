@@ -44,6 +44,8 @@
 #include <stack>
 #include <array>
 #include <map>
+#include <set>
+#include <unordered_set>
 
 #ifdef WIN32
     #define WIN32_LEAN_AND_MEAN

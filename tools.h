@@ -746,44 +746,6 @@ struct hashbase
         deletechunks();
     }
 
-    /**
-     * @brief Creates a new hash entry using the given hash value.
-     *
-     * @param h The hash chain to use. Must be between 0 and `size`.
-     *
-     * @return A pointer to the created hash location.
-     */
-    chain *insert(uint h)
-    {
-
-        if(!unused)
-        {
-            chainchunk *chunk = new chainchunk;
-            chunk->next = chunks;
-            chunks = chunk;
-            for(int i = 0; i < static_cast<int>(CHUNKSIZE-1); ++i)
-            {
-                chunk->chains[i].next = &chunk->chains[i+1];
-            }
-            chunk->chains[CHUNKSIZE-1].next = unused;
-            unused = chunk->chains;
-        }
-        chain *c = unused;
-        unused = unused->next;
-        c->next = chains[h];
-        chains[h] = c;
-        numelems++;
-        return c;
-    }
-
-    template<class U>
-    T &insert(uint h, const U &key)
-    {
-        chain *c = insert(h);
-        H::setkey(c->elem, key);
-        return H::getdata(c->elem);
-    }
-
     #define HTFIND(success, fail) \
         uint h = hthash(key)&(this->size-1); \
         for(chain *c = this->chains[h]; c; c = c->next) \
@@ -795,36 +757,87 @@ struct hashbase
         } \
         return (fail);
 
+    /**
+     * @brief Attempts to find the given element in the hash table.
+     *
+     * This is similar to `unordered_map::find()` except that `nullptr`, not `end()`,
+     * is returned if the key is not found, and `hthash` instead of `std::hash<>` must
+     * be defined.
+     *
+     * @param key the key to search for
+     * @return a pointer to the found item, or nullptr
+     */
     template<class U>
     T *access(const U &key)
     {
         HTFIND(&, nullptr);
     }
 
+    /**
+     * @brief Attempts to find the given element in the hash table.
+     *
+     * This is similar to `operator[]` except that `hthash()` instead of `std::hash<>`
+     * must be defined for the specified element. If the element is not found, a new
+     * element with the key `key` and the contents `elem` are inserted instead.
+     *
+     * @param key the key to search for
+     * @param element the contents to conditionally add
+     * @return a pointer to the found item, or to an empty element
+     */
     template<class U, class V>
     T &access(const U &key, const V &elem)
     {
         HTFIND( , insert(h, key) = elem);
     }
 
+    /**
+     * @brief Attempts to find the given element in the hash table.
+     *
+     * This is similar to `operator[]` except that `hthash()` instead of `std::hash<>`
+     * must be defined for the specified element.
+     *
+     * @param key the key to search for
+     * @return a pointer to the found item, or to an empty element
+     */
     template<class U>
     T &operator[](const U &key)
     {
         HTFIND( , insert(h, key));
     }
 
+    /**
+     * @brief Attempts to find the given element in the hash table.
+     * Returns the element by reference, not by pointer. Since a reference cannot
+     * be nullptr, returns the given `notfound` value if not found.
+     * @param key the key to search for
+     * @param notfound the value to return if not found
+     * @return the element, or the value passed as `notfound`
+     */
     template<class U>
     T &find(const U &key, T &notfound)
     {
         HTFIND( , notfound);
     }
-
+    /**
+     * @brief Attempts to find the given element in the hash table.
+     * Returns the element by constant reference, not by pointer. Since a reference
+     * cannot be nullptr, returns the given `notfound` value if not found.
+     * @param key the key to search for
+     * @param notfound the value to return if not found
+     * @return the element, or the value passed as `notfound`
+     */
     template<class U>
     const T &find(const U &key, const T &notfound)
     {
         HTFIND( , notfound);
     }
 
+    /**
+     * @brief Removes the key-element entry corresponding to the passed key.
+     *
+     * @param key the key of the element to erase
+     * @return true if successful, false if not found
+     */
     template<class U>
     bool remove(const U &key)
     {
@@ -898,6 +911,44 @@ struct hashbase
     static inline chain *enumnext(void *i) { return ((chain *)i)->next; }
     static inline K &enumkey(void *i) { return H::getkey(((chain *)i)->elem); }
     static inline T &enumdata(void *i) { return H::getdata(((chain *)i)->elem); }
+    private:
+        /**
+         * @brief Creates a new hash entry using the given hash value.
+         *
+         * @param h The hash chain to use. Must be between 0 and `size`.
+         *
+         * @return A pointer to the created hash location.
+         */
+        chain *insert(uint h)
+        {
+
+            if(!unused)
+            {
+                chainchunk *chunk = new chainchunk;
+                chunk->next = chunks;
+                chunks = chunk;
+                for(int i = 0; i < static_cast<int>(CHUNKSIZE-1); ++i)
+                {
+                    chunk->chains[i].next = &chunk->chains[i+1];
+                }
+                chunk->chains[CHUNKSIZE-1].next = unused;
+                unused = chunk->chains;
+            }
+            chain *c = unused;
+            unused = unused->next;
+            c->next = chains[h];
+            chains[h] = c;
+            numelems++;
+            return c;
+        }
+
+        template<class U>
+        T &insert(uint h, const U &key)
+        {
+            chain *c = insert(h);
+            H::setkey(c->elem, key);
+            return H::getdata(c->elem);
+        }
 };
 
 template<class T>
