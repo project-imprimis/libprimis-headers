@@ -1462,8 +1462,6 @@ extern void initparticles();
  *
  * `fontalias`
  *
- * `tabify`
- *
  * `font`
  *
  * `fontborder`
