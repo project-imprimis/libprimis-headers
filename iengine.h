@@ -429,13 +429,25 @@ extern void checkinput(int map = 0);
  * the cursor spawns in the middle of the screen.
  */
 extern void ignoremousemotion();
+
+/**
+ * @brief Sets the key repeat mask for SDL.
+ *
+ * If on is true, sets keyrepeatmask to the OR of the existing mask and the passed mask;
+ * if on is false, sets keyrepeat mask to the AND of the existing mask and the inverse of the passed mask.
+ *
+ * The keyrepeat enum is defined in consts.h with the appropriate masks to pass.
+ *
+ * @param on the mode for the mask to be combined
+ * @param mask the bitmask to apply
+ */
 extern void keyrepeat(bool on, int mask = ~0);
 
 
 // menus
 
 extern void menuprocess();
-extern int mainmenu;
+extern int mainmenu; /**< toggles if the main menu is shown, bool-like int */
 
 /**
  * Initializes menus CubeScript commands.
@@ -655,14 +667,15 @@ namespace UI
      * @param dy amount to move the cursor in the y direction
      */
     bool movecursor(int dx, int dy);
-    bool keypress(int code, bool isdown);
-    bool textinput(const char *str, int len);
-    float abovehud();
 
     /**
      * @brief Creates a new UI World object, used globally for UI functionality.
      */
     void setup();
+
+    /**
+     * @brief Updates cursor vis a vis the UI elements.
+     */
     void update();
 
     /**
@@ -1008,9 +1021,6 @@ namespace UI
     void inituicmds();
 }
 
-//menus
-
-extern void addchange(const char *desc, int type);
 /*==============================================================================*\
  * Render Functions & Values                                                    *
  *                                                                              *
@@ -1084,7 +1094,7 @@ extern void initrenderglcmds();
 
 extern physent *camera1; /**< Camera location for the renderer to render at */
 extern vec worldpos, camdir, camright, camup;
-extern float fovy;
+extern float fovy; /**< Field of view in degrees in the vertical direction (normal fov is X dimension). */
 extern bool detachedcamera; /**< read only variable corresponding to camera at ent location (1p) or away from it (3p) */
 
 /**
@@ -1117,8 +1127,26 @@ extern void flushhudmatrix(bool flushparams = true);
 extern void pophudmatrix(bool flush = true, bool flushparams = true);
 extern void resethudshader();
 extern void initgbuffer();
+
 extern void computezoom();
+/**
+ * @brief Enables GL offset mode for overlay drawing.
+ *
+ * Controlled by polygonoffsetfactor/polygonoffsetunits variables;
+ * negative values will overlay in depth so there is no z fighting.
+ * Enables the GL mode passed to type.
+ *
+ * @param type the GL mode to glEnable()
+ */
 extern void enablepolygonoffset(GLenum type);
+
+/**
+ * @brief Disables GL offset mode for overlay drawing.
+ *
+ * Also disables the GL mode passed to type.
+ *
+ * @param type the GL mode to glDisable()
+ */
 extern void disablepolygonoffset(GLenum type);
 
 /**
@@ -1208,10 +1236,6 @@ extern void initrenderlightscmds();
  */
 extern void clearshadowcache();
 
-extern int spotlights; /**< Toggles spotlights, behaves like bool; 0 for no spotlights and 1 for spotlights */
-extern int volumetriclights;
-extern int nospeclights;
-
 // rendermodel
 
 /**
@@ -1293,8 +1317,7 @@ extern int nospeclights;
  */
 extern void initrendermodelcmds();
 
-extern int numanims;
-extern std::vector<std::string> animnames;
+extern std::vector<std::string> animnames; /**< A list of anim names to be loaded into the engine by the game. */
 
 /**
  * @brief Renders a world model
@@ -1316,7 +1339,19 @@ extern std::vector<std::string> animnames;
  * @param size        scale factor for model
  * @param color       rgba color of the model
  */
-extern void rendermodel(const char *mdl, int anim, const vec &o, float yaw = 0, float pitch = 0, float roll = 0, int cull = Model_CullVFC | Model_CullDist | Model_CullOccluded, dynent *d = nullptr, modelattach *a = nullptr, int basetime = 0, int basetime2 = 0, float size = 1, const vec4<float> &color = vec4<float>(1, 1, 1, 1));
+extern void rendermodel(const char *mdl,
+                        int anim,
+                        const vec &o,
+                        float yaw = 0,
+                        float pitch = 0,
+                        float roll = 0,
+                        int cull = Model_CullVFC | Model_CullDist | Model_CullOccluded,
+                        dynent *d = nullptr,
+                        modelattach *a = nullptr,
+                        int basetime = 0,
+                        int basetime2 = 0,
+                        float size = 1,
+                        const vec4<float> &color = vec4<float>(1, 1, 1, 1));
 
 extern int intersectmodel(const char *mdl, int anim, const vec &pos, float yaw, float pitch, float roll, const vec &o, const vec &ray, float &dist, int mode = 0, dynent *d = nullptr, modelattach *a = nullptr, int basetime = 0, int basetime2 = 0, float size = 1);
 
@@ -1379,6 +1414,13 @@ extern model *loadmodel(const char *name, int i = -1, bool msg = false);
  */
 extern void flushpreloadedmodels(bool msg = true);
 extern void preloadusedmapmodels(bool msg = false, bool bih = false);
+
+/**
+ * @brief Clears all loaded models' basic information.
+ *
+ * Clears the model information from its associated hashmap. Does not clear preloaded
+ * model information.
+ */
 extern void clear_models();
 
 // renderparticles
@@ -1719,10 +1761,6 @@ extern void heightmaprun(int dir, int mode);
  * `hbrushvert`
  */
 extern void initheightmapcmds();
-
-// light
-
-extern void clearlightcache(int id = -1);
 
 // material
 extern int showmat;
@@ -2147,6 +2185,16 @@ extern bool entinmap(dynent *d, bool avoidplayers = false);
 extern void modifyvelocity(physent *pl, bool local, bool water, bool floating, int curtime);
 extern void recalcdir(physent *d, const vec &oldvel, vec &dir);
 extern void slideagainst(physent *d, vec &dir, const vec &obstacle, bool foundfloor, bool slidecollide);
+
+/**
+ * @brief Deletes dynamically allocated cubes to a block entity
+ *
+ * Deletes the cube octree associated with the block3 object. If alloced is true,
+ * also deletes the block3 object itself.
+ *
+ * @param b a pointer to the block to free
+ * @param alloced if true, deletes the block itself
+ */
 extern void freeblock(block3 *b, bool alloced = true);
 extern block3 *blockcopy(const block3 &s, int rgrid);
 
@@ -2234,7 +2282,14 @@ extern float getdecalslotdepth(DecalSlot &s);
 
 namespace entities
 {
+    /**
+     * @brief The list of extentities corresponding to the cube world's entities
+     */
     extern std::vector<extentity *> ents;
+
+    /**
+     * @brief Returns the entities::ents vector.
+     */
     extern std::vector<extentity *> &getents();
     extern extentity *newentity();
     extern void deleteentity(extentity *e);
