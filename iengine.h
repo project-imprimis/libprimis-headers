@@ -527,15 +527,6 @@ extern int playsoundname(const char *s, const vec *loc = nullptr, int vol = 0, i
 extern void preloadsound(int n);
 
 /**
- * @brief Loads the approriate map sound file at the given index
- *
- * Fails silently if index is invalid.
- *
- * @param n the sound index to use
- */
-extern void preloadmapsound(int n);
-
-/**
  * @brief Loads the sounds for every element in the map sounds vector.
  *
  * Loads the related sound file for every valid map sound index (map entity sounds).
