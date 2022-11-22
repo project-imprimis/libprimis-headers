@@ -606,6 +606,7 @@ class cubeworld
     private:
         uint mapcrc; /**< the cyclic redundancy checksum of the entire world*/
         bool haschanged;
+        string ogzname, bakname, cfgname, picname;
 
         ///@brief This is a cube() object but with a constructor that indicates nothing is in it
         struct emptycube : cube
@@ -661,6 +662,8 @@ class cubeworld
         void resetclipplanes();
         void savec(cube *c, const ivec &o, int size, stream *f);
         bool loadmapheader(stream *f, const char *ogzname, mapheader &hdr, octaheader &ohdr);
+        void setmapfilenames(const char *fname, const char *cname = nullptr);
+
 };
 
 extern cubeworld rootworld;
