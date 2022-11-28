@@ -1404,6 +1404,13 @@ extern model *loadmodel(const char *name, int i = -1, bool msg = false);
  * @param msg toggles rendering a loading progress meter
  */
 extern void flushpreloadedmodels(bool msg = true);
+
+/**
+ * @brief Preloads mapmodels corresponding to the world's mapmodel entities
+ *
+ * @param msg toggles printing warning messages
+ * @param bih toggles preloading the bounding interval hierarchy (BIH) for the model
+ */
 extern void preloadusedmapmodels(bool msg = false, bool bih = false);
 
 /**
@@ -1416,7 +1423,7 @@ extern void clear_models();
 
 // renderparticles
 
-extern std::vector<std::string> entnames;
+extern std::vector<std::string> entnames; /**< The names of the map entities, set by the application code. */
 
 /**
  * @brief Returns the entity name of of a given entity type index.
@@ -1547,10 +1554,33 @@ extern void initrenderwindowcmds();
  */
 extern void swapbuffers(bool overlay = true);
 extern int fullscreen; /**< Toggles fullscreen, behaves like bool; 0 for windowed and 1 for fullscreen. */
+
+/**
+ * @brief Sets up the SDL window the application runs in.
+ *
+ * Should only be called once in the lifetime of the program. This function opens a window onscreen that the application runs
+ * in.
+ */
 extern void setupscreen();
 extern void restoregamma();
 extern void restorevsync();
+
+/**
+ * @brief Sets the entirety of the fps history buffer (used for averaging the FPS readout) to 1
+ *
+ * Sets the fps history buffer values all to 1.
+ */
 extern void resetfpshistory();
+
+/**
+ * @brief delays a frame by a specified amount
+ *
+ * Uses SDL_Delay to delay a frame, given the time the last frame was
+ * rendered and the current time. Takes into account the global fps cap global variable (maxfps) to calculate delay.
+ *
+ * @param millis: the time (in ms) since program started
+ * @param curmillis: the last registered frame time
+ */
 extern void limitfps(int &millis, int curmillis);
 
 /**
@@ -1584,6 +1614,16 @@ extern void updatefpshistory(int millis);
 extern void cleargamma();
 
 extern void renderbackground(const char *caption = nullptr, Texture *mapshot = nullptr, const char *mapname = nullptr, const char *mapinfo = nullptr, bool force = false);
+
+/**
+ * @brief Renders a loading progress bar at the bottom center of the window.
+ *
+ * Intended for indicating asset loading or similar technical holding of the game state.
+ *
+ * @param bar from 0...1, indicates how full the progress bar should be
+ * @param text the string to overlay on the progress bar
+ * @param toggles rendering a background for the loading bar
+ */
 extern void renderprogress(float bar, const char *text, bool background = false);
 
 // shader
