@@ -1827,7 +1827,7 @@ extern void initoctaworldcmds();
  * @param c the cube object to be deleted
  */
 extern void freeocta(cube *c);
-extern void getcubevector(cube &c, int d, int x, int y, int z, ivec &p);
+extern void getcubevector(const cube &c, int d, int x, int y, int z, ivec &p);
 
 extern void optiface(uchar *p, cube &c);
 
