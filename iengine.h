@@ -1116,6 +1116,12 @@ extern void resethudmatrix();
 extern void pushhudmatrix();
 extern void flushhudmatrix(bool flushparams = true);
 extern void pophudmatrix(bool flush = true, bool flushparams = true);
+
+/**
+ * @brief Binds the HUD shader via glUseProgram()
+ *
+ * Also sets the color of the gle system to white (1,1,1).
+ */
 extern void resethudshader();
 extern void initgbuffer();
 
