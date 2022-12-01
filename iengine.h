@@ -1912,7 +1912,6 @@ extern bool editmode;
 extern int entmoving;
 extern int entediting;
 extern selinfo sel, lastsel;
-extern std::vector<vslotmap> remappedvslots;
 extern undolist undos, /**< list of cube undo operations */
                 redos; /**< list of cube operations available to redo */
 extern int nompedit;
@@ -1928,6 +1927,7 @@ extern int outline;
 extern int dragging;
 extern int selectcorners;
 
+extern void clearremappedvslots();
 extern void boxs3D(const vec &o, vec s, int g, bool boxoutline);
 extern void boxs(int orient, vec o, const vec &s, float size, bool boxoutline);
 extern void boxs(int orient, vec o, const vec &s, bool boxoutline);

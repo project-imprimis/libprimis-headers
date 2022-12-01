@@ -282,15 +282,6 @@ struct DecalSlot : Slot, VSlot
     }
 };
 
-struct vslotmap
-{
-    int index;
-    VSlot *vslot;
-
-    vslotmap() {}
-    vslotmap(int index, VSlot *vslot) : index(index), vslot(vslot) {}
-};
-
 extern std::vector<Slot *> slots;
 extern std::vector<VSlot *> vslots;
 extern std::vector<int *> editingvslots;
