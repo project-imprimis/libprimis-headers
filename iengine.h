@@ -1928,8 +1928,36 @@ extern int dragging;
 extern int selectcorners;
 
 extern void clearremappedvslots();
+
+/**
+ * @brief Draws a box corresponding to positions in worldspace.
+ *
+ * @param o the origin from where to draw the box
+ * @param s the displacement vector from the origin to place the opposite corner
+ * @param g the gridpower to multiply the box by
+ * @param boxoutline toggles rendering such that it appears outside a cube with the same dimensions
+ */
 extern void boxs3D(const vec &o, vec s, int g, bool boxoutline);
+
+/**
+ * @brief Draws a box corresponding to positions in worldspace.
+ *
+ * @param orient the orientation direction of the square
+ * @param o the origin from where to draw the box
+ * @param s the displacement vector from the origin to place the opposite corner
+ * @param size the scale factor of the box in the world
+ * @param boxoutline toggles rendering such that it appears outside a cube with the same dimensions
+ */
 extern void boxs(int orient, vec o, const vec &s, float size, bool boxoutline);
+
+/**
+ * @brief Draws a box corresponding to positions in worldspace.
+ *
+ * @param orient the orientation direction of the square
+ * @param o the origin from where to draw the box
+ * @param s the displacement vector from the origin to place the opposite corner
+ * @param boxoutline toggles rendering such that it appears outside a cube with the same dimensions
+ */
 extern void boxs(int orient, vec o, const vec &s, bool boxoutline);
 extern void boxsgrid(int orient, vec o, vec s, int g, bool boxoutline);
 extern bool editmoveplane(const vec &o, const vec &ray, int d, float off, vec &handle, vec &dest, bool first);
@@ -1946,6 +1974,14 @@ extern void updateselection();
 
 extern bool packeditinfo(editinfo *e, int &inlen, uchar *&outbuf, int &outlen);
 extern bool unpackeditinfo(editinfo *&e, const uchar *inbuf, int inlen, int outlen);
+
+/**
+ * @brief Safely frees an editinfo object.
+ *
+ * Deletes an editinfo object, including its position in the editinfos vector.
+ *
+ * @param e the editinfo object to destroy.
+ */
 extern void freeeditinfo(editinfo *&e);
 extern bool packundo(bool undo, int &inlen, uchar *&outbuf, int &outlen);
 extern bool unpackundo(const uchar *inbuf, int inlen, int outlen);
@@ -1981,7 +2017,7 @@ extern void cancelsel();
 extern void addundo(undoblock *u);
 
 /**
- * @brief Looks up a world cube inside the block passed
+ * @brief Looks up a world cube inside the block passed.
  *
  * @param x the x coordiante inside the block3 to look up
  * @param y the y coordiante inside the block3 to look up
@@ -2010,8 +2046,27 @@ extern void makeundo(selinfo &s);
  * undos vector.
  */
 extern void makeundo();
+
+/**
+ * @brief Reorients `sel` to point in the direction of `orient`.
+ *
+ * See the cube faces in octa.h to interpret what the value of `orient` means in dimensions.
+ *
+ */
 extern void reorient();
+
+/**
+ * @brief Counts the number of cubes (incl. children) within a block3 volume.
+ *
+ * @param b the block to evaluate
+ *
+ * @return the number of cubes in the block
+ */
 extern int countblock(block3 *b);
+
+/**
+ * @brief Sets `lastsel`'s orientation flag to -1.
+ */
 extern void forcenextundo();
 
 /**
