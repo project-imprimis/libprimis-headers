@@ -1788,7 +1788,17 @@ extern bool rayboxintersect(const vec &b, const vec &s, const vec &o, const vec 
 extern bool linecylinderintersect(const vec &from, const vec &to, const vec &start, const vec &end, float radius, float &dist);
 extern int polyclip(const vec *in, int numin, const vec &dir, float below, float above, vec *out);
 
-extern const vec2 sincos360[];
+extern const vec2 sincos360[]; /**< a 721 element table of cosines, sines given integral values */
+
+/**
+ * @brief Returns the angle passed to it, clamped to 0...360
+ *
+ * Normalizes negative/large angles passed to it to the range [0,360).
+ *
+ * @param angle the angle to parse
+ *
+ * @return the angle clamped to 0...360
+ */
 inline int mod360(int angle)
 {
     if(angle < 0)
@@ -1801,10 +1811,58 @@ inline int mod360(int angle)
     }
     return angle;
 }
+
+/**
+ * @brief Returns a vec2 containing (cos, sine) for a given integral angle.
+ *
+ * @param angle the angle to get the sine/cos value of
+ *
+ * @return a vec2 containing the cosine and sine of the given angle
+ */
 inline const vec2 &sincosmod360(int angle) { return sincos360[mod360(angle)]; }
+
+/**
+ * @brief Returns the cosine for an angle (in degrees)
+ *
+ * Must be within the bounds of 0...720. Uses a lookup table for integral values in degrees.
+ *
+ * @param angle the angle to get the cosine of (in degrees)
+ *
+ * @return the cosine of that angle
+ */
 inline float cos360(int angle) { return sincos360[angle].x; }
+
+/**
+ * @brief Returns the sine for an angle (in degrees)
+ *
+ * Must be within the bounds of 0...720. Uses a lookup table for integral values in degrees.
+ *
+ * @param angle the angle to get the sine of (in degrees)
+ *
+ * @return the sine of that angle
+ */
 inline float sin360(int angle) { return sincos360[angle].y; }
+
+/**
+ * @brief Returns the tangent for an angle (in degrees)
+ *
+ * Must be within the bounds of 0...720. Uses a lookup table for integral values in degrees.
+ *
+ * @param angle the angle to get the tangent of (in degrees)
+ *
+ * @return the tangent of that angle
+ */
 inline float tan360(int angle) { const vec2 &sc = sincos360[angle]; return sc.y/sc.x; }
+
+/**
+ * @brief Returns the cotangent for an angle (in degrees)
+ *
+ * Must be within the bounds of 0...720. Uses a lookup table for integral values in degrees.
+ *
+ * @param angle the angle to get the cotangent of (in degrees)
+ *
+ * @return the cotangent of that angle
+ */
 inline float cotan360(int angle) { const vec2 &sc = sincos360[angle]; return sc.x/sc.y; }
 
 #endif /* GEOM_H_ */
