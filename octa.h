@@ -660,7 +660,19 @@ class cubeworld
         void makeparticles(entity &e);
         void resetmap();
         void resetclipplanes();
-        void savec(cube *c, const ivec &o, int size, stream *f);
+
+        /**
+         * @brief Saves a cube and its children to the specified stream.
+         *
+         * Recursively saves a cube and all of its information (materials, textures, etc.) by writing it to the
+         * stream object passed by const pointer.
+         *
+         * @param c the cube to save (usually the world root)
+         * @param o the location of the cube in the world
+         * @param size the gridpower of the cube to save
+         * @param f the stream to save to
+         */
+        void savec(const cube * const c, const ivec &o, int size, stream * const f);
         bool loadmapheader(stream *f, const char *ogzname, mapheader &hdr, octaheader &ohdr);
         void setmapfilenames(const char *fname, const char *cname = nullptr);
 
