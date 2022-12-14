@@ -900,7 +900,7 @@ struct stream
     #else
         typedef off_t offset;
 #endif
-    //see file/gz/utf8/zipstream children for more interesting forms
+    //see file/gz/zipstream children for more interesting forms
     virtual ~stream() {}
     virtual void close() = 0;
     virtual bool end() = 0;
@@ -958,7 +958,6 @@ extern stream *openrawfile(const char *filename, const char *mode);
 extern stream *openzipfile(const char *filename, const char *mode);
 extern stream *openfile(const char *filename, const char *mode);
 extern stream *opengzfile(const char *filename, const char *mode, stream *file = nullptr, int level = Z_BEST_COMPRESSION);
-extern stream *openutf8file(const char *filename, const char *mode, stream *file = nullptr);
 
 template<class T>
 inline void putint_(T &p, int n)

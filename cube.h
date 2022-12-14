@@ -46,6 +46,7 @@
 #include <map>
 #include <set>
 #include <unordered_set>
+#include <fstream>
 
 #ifdef WIN32
     #define WIN32_LEAN_AND_MEAN
