@@ -441,33 +441,8 @@ inline bool htcmp(const char *x, const char *y)
     return !strcmp(x, y);
 }
 
-struct stringslice
-{
-    const char *str;
-    int len;
-    stringslice() {}
-    stringslice(const char *str, int len) : str(str), len(len) {}
-    stringslice(const char *str, const char *end) : str(str), len(static_cast<int>(end-str)) {}
-
-    const char *end() const { return &str[len]; }
-};
-
-inline char *newstring(const stringslice &s) { return newstring(s.str, s.len); }
 inline const char *stringptr(const char *s) { return s; }
-inline const char *stringptr(const stringslice &s) { return s.str; }
 inline int stringlen(const char *s) { return static_cast<int>(strlen(s)); }
-inline int stringlen(const stringslice &s) { return s.len; }
-
-inline char *copystring(char *d, const stringslice &s, size_t len)
-{
-    size_t slen = min(size_t(s.len), len-1);
-    std::memcpy(d, s.str, slen);
-    d[slen] = 0;
-    return d;
-}
-
-template<size_t N>
-inline char *copystring(char (&d)[N], const stringslice &s) { return copystring(d, s, N); }
 
 inline uint memhash(const void *ptr, int len)
 {
@@ -478,13 +453,6 @@ inline uint memhash(const void *ptr, int len)
         h = ((h<<5)+h)^data[i];
     }
     return h;
-}
-
-inline uint hthash(const stringslice &s) { return memhash(s.str, s.len); }
-
-inline bool htcmp(const stringslice &x, const char *y)
-{
-    return x.len == (int)strlen(y) && !std::memcmp(x.str, y, x.len);
 }
 
 inline uint hthash(int key)
