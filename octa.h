@@ -250,7 +250,7 @@ class cube
             pvert verts[Face_MaxVerts];
 
             bool clippoly(const facebounds &b);
-            bool mergepolys(hashset<plink> &links, std::vector<plink *> &queue, int owner, poly &q, const pedge &e);
+            bool mergepolys(std::unordered_set<plink> &links, std::vector<const plink *> &queue, int owner, poly &q, const pedge &e);
         };
 
         bool mincubeface(const cube &cu, int orient, const ivec &co, int size, facebounds &orig);
@@ -277,15 +277,11 @@ class cube
             int offset;
         };
 
-        static hashtable<cube::cfkey, cube::cfpolys> cpolys;
-
         //need htcmp to be free functions to work with tools.h
         //but nothing else needs it
         friend bool htcmp(const cube::cfkey &x, const cube::cfkey &y);
         friend uint hthash(const cube::cfkey &k);
-
-        friend uint hthash(const cube::pedge &x);
-        friend bool htcmp(const cube::pedge &x, const cube::pedge &y);
+        friend std::hash<plink>; //for unordered_map
 };
 
 /**
