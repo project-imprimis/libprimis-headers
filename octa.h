@@ -340,37 +340,7 @@ struct selinfo
      *
      * @return false if the selection attempts to leave the bounds of the world
      */
-    bool validate()
-    {
-        extern int worldsize;
-        if(grid <= 0 || grid >= worldsize)
-        {
-            return false;
-        }
-        if(o.x >= worldsize || o.y >= worldsize || o.z >= worldsize)
-        {
-            return false;
-        }
-        if(o.x < 0)
-        {
-            s.x -= (grid - 1 - o.x)/grid;
-            o.x = 0;
-        }
-        if(o.y < 0)
-        {
-            s.y -= (grid - 1 - o.y)/grid;
-            o.y = 0;
-        }
-        if(o.z < 0)
-        {
-            s.z -= (grid - 1 - o.z)/grid;
-            o.z = 0;
-        }
-        s.x = std::clamp(s.x, 0, (worldsize - o.x)/grid);
-        s.y = std::clamp(s.y, 0, (worldsize - o.y)/grid);
-        s.z = std::clamp(s.z, 0, (worldsize - o.z)/grid);
-        return s.x > 0 && s.y > 0 && s.z > 0;
-    }
+    bool validate();
 };
 
 /**
@@ -588,9 +558,9 @@ class cubeworld
         uint getmapcrc();
 
         /**
-         * @brief sets the CRC global variable to 0
+         * @brief sets the CRC field variable to 0
          *
-         * Invalidates the CRC code saved as a global variable for the world, usually
+         * Invalidates the CRC code saved as a cubeworld field for the world, usually
          * to indicate that the CRC has become invalid as a result of modification.
          */
         void clearmapcrc();
@@ -599,10 +569,29 @@ class cubeworld
         void commitchanges(bool force = false);
         void updateparticles();
 
+        /**
+         * @brief Returns the gridpower scale of the world
+         *
+         * Returns the size of the worldroot cube, in terms of the number of
+         * half-linear-size cubes it has as descendents in the octree. This value
+         * is generally between 10 and 15.
+         */
+        int mapscale() const;
+
+        /**
+         * @brief Returns the linear dimensions of the world
+         *
+         * Returns the size of the worldroot cube, in terms of the number of size
+         * 0 cubes on each linear axis. This value is generally between 2^10 and
+         * 2^15.
+         */
+        int mapsize() const;
     private:
         uint mapcrc; /**< the cyclic redundancy checksum of the entire world*/
         bool haschanged;
         string ogzname, bakname, cfgname, picname;
+        int worldscale; /**< should only be set at map creation/load **/
+
 
         ///@brief This is a cube() object but with a constructor that indicates nothing is in it
         struct emptycube : cube

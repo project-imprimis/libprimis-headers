@@ -14,9 +14,6 @@ extern uint totalsecs;
 extern int gamespeed, paused;
 extern std::vector<int> entgroup;
 
-extern int worldscale, worldsize;
-
-
 extern bool settexture(const char *name, int clamp = 0);
 extern int xtraverts, xtravertsva;
 extern SDL_Window *screen;
@@ -2305,17 +2302,6 @@ extern ushort getmaterial(cube &c);
 // world
 
 extern int octaentsize;
-
-/**
- * @brief Returns the size of the world.
- *
- * This function returns the size of the currently loaded world in terms of gridpower
- * 0 cubes (the smallest possible size). A size 10 map will be 2^10 = 1024 cubes
- * in size.
- *
- * @return the size of the world, in size 0 cubes
- */
-extern int getworldsize();
 
 /**
  * @brief Cancels selection of selected entities.
