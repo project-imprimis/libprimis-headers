@@ -174,7 +174,7 @@ class cube
          * If the cube is not convex, this function returns true, otherwise it
          * returns false.
          */
-        bool isvalidcube();
+        bool isvalidcube() const;
 
     private:
 
@@ -547,7 +547,7 @@ class cubeworld
          * @param size   size of cube which registers a hit
          * @param t      entity to check against
          */
-        float raycube   (const vec &o, const vec &ray, float radius = 0, int mode = 3, int size = 0, extentity *t = 0);
+        float raycube   (const vec &o, const vec &ray, float radius = 0, int mode = 3, int size = 0, extentity *t = 0) const;
         bool octacollide(physent *d, const vec &dir, float cutoff, const ivec &bo, const ivec &bs);
         cube &lookupcube(const ivec &to, int tsize = 0, ivec &ro = lu, int &rsize = lusize);
         bool bboccluded(const ivec &bo, const ivec &br);
