@@ -2375,7 +2375,10 @@ namespace entities
 
 // worldio
 
-extern string clientmap;
+/**
+ * @brief Returns the name of the map currently loaded.
+ */
+const char *getclientmap();
 
 /**
  * @brief Initializes worldio Cubescript commands.
@@ -2383,16 +2386,5 @@ extern string clientmap;
  * `mapcfgname`
  */
 extern void initworldiocmds();
-
-/**
- * @brief Changes the passed string to conform to valid map names.
- *
- * This function modifies the input parameter, passed by pointer, to comply with
- * the requirements for Cube map names. This ensures it can be rendered with the
- * engine's text library.
- *
- * @param name The name of the string to modify to compliance
- */
-extern void fixmapname(char *name);
 
 #endif /* IENGINE_H_ */
