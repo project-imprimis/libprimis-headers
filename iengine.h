@@ -2381,6 +2381,11 @@ namespace entities
 const char *getclientmap();
 
 /**
+ * @brief Sets the client map string to the provided value.
+ */
+const void setmapname(const char * newname);
+
+/**
  * @brief Initializes worldio Cubescript commands.
  *
  * `mapcfgname`
