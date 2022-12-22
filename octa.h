@@ -643,6 +643,11 @@ class cubeworld
         void octarender();
         void seedparticles();
         void makeparticles(entity &e);
+
+        /**
+         * @brief Resets the metadata associated with a map.
+         *
+         */
         void resetmap();
         void resetclipplanes();
 
@@ -658,7 +663,27 @@ class cubeworld
          * @param f the stream to save to
          */
         void savec(const cube * const c, const ivec &o, int size, stream * const f);
+
+        /**
+         * @brief Loads a map header given the input stream.
+         *
+         * @param f the stream to decode into a map header
+         * @param ogzname the name of the map file, for debug message purposes
+         * @param hdr the mapheader object to be set with values from f
+         * @param ohdr the octaheader object to be set with values from f
+         *
+         * @return true if the input stream is well formed, false otherwise
+         */
         bool loadmapheader(stream *f, const char *ogzname, mapheader &hdr, octaheader &ohdr);
+
+        /**
+         * @brief Sets the map's save file names
+         *
+         * Also sets the backup names of the file in anology with `fname`.
+         *
+         * @param fname the octree map file (ogz) name to set
+         * @param cname the config file (cfg) name to set
+         */
         void setmapfilenames(const char *fname, const char *cname = nullptr);
 
 };
