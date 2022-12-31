@@ -289,7 +289,7 @@ extern std::vector<int *> editingvslots;
 extern const char *getshaderparamname(const char *name, bool insert = true);
 extern void setldrnotexture();
 
-extern VSlot *findvslot(Slot &slot, const VSlot &src, const VSlot &delta);
+extern VSlot *findvslot(const Slot &slot, const VSlot &src, const VSlot &delta);
 extern VSlot *editvslot(const VSlot &src, const VSlot &delta);
 extern Slot &lookupslot(int slot, bool load = true);
 extern VSlot &lookupvslot(int slot, bool load = true);
