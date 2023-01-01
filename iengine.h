@@ -1212,7 +1212,7 @@ extern void gl_drawframe(int crosshairindex, void (*gamefxn)(), void (*hudfxn)()
  * @param cubeworld the world to draw
  * @param scalefactor the texture zoom factor
  */
-extern void drawminimap(int yaw, int pitch, vec loc, cubeworld world, int scalefactor = 1);
+extern void drawminimap(int yaw, int pitch, vec loc, const cubeworld& world, int scalefactor = 1);
 
 // renderlights
 
