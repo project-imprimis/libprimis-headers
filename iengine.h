@@ -75,7 +75,6 @@ namespace gle
  * cubestd.cpp                                                                  *
  * input.cpp                                                                    *
  * menus.cpp                                                                    *
- * sound.cpp                                                                    *
  * textedit.cpp                                                                 *
  * ui.cpp                                                                       *
 \*==============================================================================*/
@@ -454,120 +453,6 @@ extern int mainmenu; /**< toggles if the main menu is shown, bool-like int */
  * `pendingchanges`
  */
 extern void initmenuscmds();
-
-// sound
-
-/**
- * @brief Initializes sound Cubescript commands.
- *
- * `music`
- *
- * `playsound`
- *
- * `resetsound`
- *
- * `registersound`
- *
- * `mapsound`
- *
- * `altsound`
- *
- * `altmapsound`
- *
- * `numsounds`
- *
- * `nummapsounds`
- *
- * `soundreset`
- *
- * `mapsoundreset`
- */
-extern void initsoundcmds();
-
-/**
- * @brief Plays a sound with the given attributes.
- *
- * @param n index of the sound to play
- * @param loc world location to play at
- * @param ent entity to associate with (overwrites location)
- * @param flags music option flags
- * @param loops number of times to loop
- * @param fade ms to fade in over
- * @param chanid music channel index to use
- * @param radius distance over which sound is audible (in size 0 cubes)
- * @param expire maximum time before the sound stops playing
- */
-extern int playsound(int n, const vec *loc = nullptr, extentity *ent = nullptr, int flags = 0, int loops = 0, int fade = 0, int chanid = -1, int radius = 0, int expire = -1);
-
-/**
- * @brief Plays a sound with the given attributes.
- *
- * @param s name of the sound to play
- * @param loc world location to play at
- * @param ent entity to associate with (overwrites location)
- * @param flags music option flags
- * @param loops number of times to loop
- * @param fade ms to fade in over
- * @param chanid music channel index to use
- * @param radius distance over which sound is audible (in size 0 cubes)
- * @param expire maximum time before the sound stops playing
- */
-extern int playsoundname(const char *s, const vec *loc = nullptr, int vol = 0, int flags = 0, int loops = 0, int fade = 0, int chanid = -1, int radius = 0, int expire = -1);
-
-/**
- * @brief Loads the approriate sound file at the given index
- *
- * Fails silently if index is invalid.
- *
- * @param n the sound index to use
- */
-extern void preloadsound(int n);
-
-/**
- * @brief Loads the sounds for every element in the map sounds vector.
- *
- * Loads the related sound file for every valid map sound index (map entity sounds).
- */
-extern void preloadmapsounds();
-
-/**
- * @brief Stops playing a sound of index n in the specificied channel.
- *
- * @param n the sound index to stop playing
- * @param chanid the channel id to use
- * @param fade milliseconds to spend fading out the sound
- */
-extern bool stopsound(int n, int chanid, int fade = 0);
-
-/**
- * @brief Immediately kills all active sounds.
- *
- * Halts all sound channels in use and frees them.
- */
-extern void stopsounds();
-
-/**
- * @brief Starts SDL_Mixer and initializes startup sound channels.
- *
- * Fails and disables sound output if SDL is v2.0.6.
- */
-extern void initsound();
-
-/**
- * @brief Restarts and updates all sound indices.
- *
- * Pauses, reloads, and resumes playback of all active sounds. Does not play
- * sounds if on the main menu.
- */
-extern void updatesounds();
-
-/**
- * @brief Shuts down sound system.
- *
- * Stops playing any active music, cleans up game and map sound vectors, and shuts
- * down SDL_Mixer.
- */
-extern void clear_sound();
 
 //textedit
 
