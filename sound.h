@@ -314,7 +314,7 @@ class SoundEngine
         struct SoundSample
         {
             SoundEngine * const parent;
-            char *name;
+            std::string name;
             Mix_Chunk *chunk;
 
             SoundSample(SoundEngine& p);
