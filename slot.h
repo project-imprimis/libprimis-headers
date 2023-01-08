@@ -50,7 +50,8 @@ struct SlotShaderParam
     };
 
     const char *name;
-    int loc, flags;
+    size_t loc;
+    int flags;
     float val[4];
 };
 
