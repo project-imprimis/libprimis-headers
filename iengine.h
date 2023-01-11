@@ -24,7 +24,6 @@ struct VSlot;
 struct Texture;
 struct editinfo;
 class model;
-struct undolist;
 struct undoblock;
 struct vslotmap;
 struct prefab;
@@ -1794,8 +1793,8 @@ extern bool editmode;
 extern int entmoving;
 extern int entediting;
 extern selinfo sel, lastsel;
-extern undolist undos, /**< list of cube undo operations */
-                redos; /**< list of cube operations available to redo */
+extern std::deque<undoblock *> undos, /**< list of cube undo operations */
+                               redos; /**< list of cube operations available to redo */
 extern int nompedit;
 extern int hmapedit; /**< used as boolean, 0 if not heightmapping, 1 otherwise */
 extern bool havesel; /**< true if there is a set of cubes in selection, false otherwise */
