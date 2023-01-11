@@ -1681,7 +1681,7 @@ extern void heightmaprun(int dir, int mode);
 extern void initheightmapcmds();
 
 // material
-extern int showmat;
+extern int showmat; /**< treat as bool, determines whether material outlines are rendered*/
 
 /**
  * @brief Returns the bitmask for the given material name.
@@ -1716,7 +1716,7 @@ extern void initoctaworldcmds();
 extern void freeocta(cube *c);
 extern void getcubevector(const cube &c, int d, int x, int y, int z, ivec &p);
 
-extern void optiface(uchar *p, cube &c);
+extern void optiface(const uchar *p, cube &c);
 
 // octaedit
 
@@ -1849,7 +1849,7 @@ extern bool editmoveplane(const vec &o, const vec &ray, int d, float off, vec &h
  * Recursively counts the number of cubes being selected in the current selection,
  * and assigns this value to selchildcount
  */
-extern void countselchild(cube *c, const ivec &cor, int size);
+extern void countselchild(const cube *c, const ivec &cor, int size);
 extern void normalizelookupcube(const ivec &o);
 extern void updateselection();
 
@@ -1865,7 +1865,6 @@ extern bool unpackeditinfo(editinfo *&e, const uchar *inbuf, int inlen, int outl
  */
 extern void freeeditinfo(editinfo *&e);
 extern bool packundo(bool undo, int &inlen, uchar *&outbuf, int &outlen);
-extern bool unpackundo(const uchar *inbuf, int inlen, int outlen);
 extern bool noedit(bool view = false, bool msg = true);
 
 /**
