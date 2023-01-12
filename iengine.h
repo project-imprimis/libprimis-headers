@@ -10,14 +10,6 @@
 #ifndef IENGINE_H_
 #define IENGINE_H_
 
-extern uint totalsecs;
-extern int gamespeed, paused;
-extern std::vector<int> entgroup;
-
-extern bool settexture(const char *name, int clamp = 0);
-extern int xtraverts, xtravertsva;
-extern SDL_Window *screen;
-
 //forward object declarations (used in some functions below)
 struct DecalSlot;
 struct VSlot;
@@ -968,6 +960,7 @@ extern physent *camera1; /**< Camera location for the renderer to render at */
 extern vec worldpos, camdir, camright, camup;
 extern float fovy; /**< Field of view in degrees in the vertical direction (normal fov is X dimension). */
 extern bool detachedcamera; /**< read only variable corresponding to camera at ent location (1p) or away from it (3p) */
+extern int xtraverts;
 
 /**
  * @brief Unsets any zoom progress and disables zooming.
@@ -1638,6 +1631,7 @@ extern Texture *notexture;
 extern Texture *textureload(const char *name, int clamp = 0, bool mipit = true, bool msg = true);
 extern void packvslot(std::vector<uchar> &buf, int index);
 extern void packvslot(std::vector<uchar> &buf, const VSlot *vs);
+extern bool settexture(const char *name, int clamp = 0);
 
 /*==============================================================================*\
  * World Functions & Values                                                     *
@@ -2185,6 +2179,7 @@ extern ushort getmaterial(cube &c);
 // world
 
 extern int octaentsize;
+extern std::vector<int> entgroup;
 
 /**
  * @brief Cancels selection of selected entities.
