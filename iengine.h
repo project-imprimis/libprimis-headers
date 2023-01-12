@@ -1414,6 +1414,8 @@ extern bool setfont(const char *name);
 
 // renderwindow
 
+extern SDL_Window *screen;
+
 /**
  * @brief Initializes renderwindow Cubescript commands
  *
