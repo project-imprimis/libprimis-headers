@@ -686,6 +686,7 @@ class cubeworld
          */
         void setmapfilenames(const char *fname, const char *cname = nullptr);
 
+        bool upoctree(const vec& v, int& x, int& y, int& z, const ivec& lo, int& lshift) const;
 };
 
 extern cubeworld rootworld;
