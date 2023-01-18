@@ -518,7 +518,7 @@ class cubeworld
          * @param t      entity to check against
          */
         float raycube   (const vec &o, const vec &ray, float radius = 0, int mode = 3, int size = 0, extentity *t = 0) const;
-        bool octacollide(physent *d, const vec &dir, float cutoff, const ivec &bo, const ivec &bs);
+        bool octacollide(const physent *d, const vec &dir, float cutoff, const ivec &bo, const ivec &bs);
         cube &lookupcube(const ivec &to, int tsize = 0, ivec &ro = lu, int &rsize = lusize);
         bool bboccluded(const ivec &bo, const ivec &br);
         void findtjoints();

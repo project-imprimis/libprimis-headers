@@ -279,7 +279,7 @@ struct vec
 
     //cross products
     template<class T>
-    bool reject(const T &o, float r) { return x>o.x+r || x<o.x-r || y>o.y+r || y<o.y-r; }
+    bool reject(const T &o, float r) const { return x>o.x+r || x<o.x-r || y>o.y+r || y<o.y-r; }
 
     template<class A, class B>
     vec &cross(const A &a, const B &b) { x = a.y*b.z-a.z*b.y; y = a.z*b.x-a.x*b.z; z = a.x*b.y-a.y*b.x; return *this; }

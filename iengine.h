@@ -2032,6 +2032,18 @@ extern void unpackundocube(ucharbuf buf, uchar *outbuf);
  */
 extern void multiplayerwarn();
 
+/**
+ * @brief Returns the material bitmask for the given cube.
+ *
+ * Returns the bitmask for the cube passed, which corresponds to the sum of all
+ * materials occupying the cube. Every sum is unique due to the basis selection,
+ * and therefore any combination of materials can be represented in the output.
+ * Returns 0 (air) if there is no valid material that describes the entire cube.
+ *
+ * @return An unsigned short integer corresponding to the material bitmask
+ */
+extern ushort getmaterial(cube &c);
+
 // raycube
 
 /**
@@ -2095,7 +2107,7 @@ extern dynent *iterdynents(int i);
  * @param playercol toggles colliding with outside players
  * @param insideplayercol tooggles collidign with players you share space with
  */
-extern bool collide(physent *d, const vec &dir = vec(0, 0, 0), float cutoff = 0.0f, bool playercol = true, bool insideplayercol = false);
+extern bool collide(const physent *d, const vec &dir = vec(0, 0, 0), float cutoff = 0.0f, bool playercol = true, bool insideplayercol = false);
 extern void avoidcollision(physent *d, const vec &dir, physent *obstacle, float space);
 
 extern bool movecamera(physent *pl, const vec &dir, float dist, float stepdist);
@@ -2150,8 +2162,7 @@ extern void updatedynentcache(physent *d);
  */
 extern bool entinmap(dynent *d, bool avoidplayers = false);
 
-extern void modifyvelocity(physent *pl, bool local, bool water, bool floating, int curtime);
-extern void recalcdir(physent *d, const vec &oldvel, vec &dir);
+extern void recalcdir(const physent *d, const vec &oldvel, vec &dir);
 extern void slideagainst(physent *d, vec &dir, const vec &obstacle, bool foundfloor, bool slidecollide);
 
 /**
@@ -2165,18 +2176,6 @@ extern void slideagainst(physent *d, vec &dir, const vec &obstacle, bool foundfl
  */
 extern void freeblock(block3 *b, bool alloced = true);
 extern block3 *blockcopy(const block3 &s, int rgrid);
-
-/**
- * @brief Returns the material bitmask for the given cube.
- *
- * Returns the bitmask for the cube passed, which corresponds to the sum of all
- * materials occupying the cube. Every sum is unique due to the basis selection,
- * and therefore any combination of materials can be represented in the output.
- * Returns 0 (air) if there is no valid material that describes the entire cube.
- *
- * @return An unsigned short integer corresponding to the material bitmask
- */
-extern ushort getmaterial(cube &c);
 
 // world
 
