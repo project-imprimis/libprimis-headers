@@ -78,17 +78,17 @@ struct vec2
     vec2 &lerp(const vec2 &a, const vec2 &b, float t) { x = a.x + (b.x-a.x)*t; y = a.y + (b.y-a.y)*t; return *this; }
     vec2 &avg(const vec2 &b) { add(b); mul(0.5f); return *this; }
 
-    vec2 operator+(const vec2 &v2)
+    vec2 operator+(const vec2 &v2) const
     {
         return vec2(x+v2.x, y+v2.y);
     }
 
-    vec2 operator-(const vec2 &v2)
+    vec2 operator-(const vec2 &v2) const
     {
         return vec2(x-v2.x, y-v2.y);
     }
 
-    vec2 operator-()
+    vec2 operator-() const
     {
         return vec2(-x, -y);
     }
@@ -887,39 +887,39 @@ struct vec4
     vec4 &clamp(T l, T h) { x = ::std::clamp(x, l, h); y = ::std::clamp(y, l, h); z = ::std::clamp(z, l, h); w = ::std::clamp(w, l, h); return *this; }
 
 
-    vec4 operator+(const vec4 &v2)
+    vec4 operator+(const vec4 &v2) const
     {
         return vec4(x+v2.x, y+v2.y, z+v2.z, w+v2.w);
     }
 
-    vec4 operator-(const vec4 &v2)
+    vec4 operator-(const vec4 &v2) const
     {
         return vec4(x-v2.x, y-v2.y, z-v2.z, w+v2.w);
     }
 
-    vec4 operator-()
+    vec4 operator-() const
     {
         return vec4(-x, -y, -z, -w);
     }
 
     template<typename U>
-    vec4 operator*(const U &n)
+    vec4 operator*(const U &n) const
     {
         return vec4(n*x, n*y, n*z, n*w);
     }
 
-    vec4 operator*(const vec4 &v2)
+    vec4 operator*(const vec4 &v2) const
     {
         return vec4(x*v2.x, y*v2.y, z*v2.z, w*v2.w);
     }
 
     template<typename U>
-    vec4 operator/(const U &n)
+    vec4 operator/(const U &n) const
     {
         return vec4(x/n, y/n, z/n, w/n);
     }
 
-    vec4 operator/(const vec4 &v2)
+    vec4 operator/(const vec4 &v2) const
     {
         return vec4(x/v2.x, y/v2.y, z/v2.z, w/v2.w);
     }
