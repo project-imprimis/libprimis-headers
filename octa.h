@@ -517,7 +517,7 @@ class cubeworld
          * @param size   size of cube which registers a hit
          * @param t      entity to check against
          */
-        float raycube   (const vec &o, const vec &ray, float radius = 0, int mode = 3, int size = 0, extentity *t = 0) const;
+        float raycube   (const vec &o, const vec &ray, float radius = 0, int mode = 3, int size = 0, const extentity *t = 0) const;
         bool octacollide(const physent *d, const vec &dir, float cutoff, const ivec &bo, const ivec &bs);
         cube &lookupcube(const ivec &to, int tsize = 0, ivec &ro = lu, int &rsize = lusize);
         bool bboccluded(const ivec &bo, const ivec &br);
@@ -532,7 +532,7 @@ class cubeworld
          * calculates normal maps for corners.
          */
         void calclight();
-        float shadowray(const vec &o, const vec &ray, float radius, int mode, extentity *t = nullptr);
+        float shadowray(const vec &o, const vec &ray, float radius, int mode, const extentity *t = nullptr);
         void changed(const ivec &bbmin, const ivec &bbmax, bool commit = true);
         void changed(const block3 &sel, bool commit = true);
         clipplanes &getclipbounds(const cube &c, const ivec &o, int size, int offset);
