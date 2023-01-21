@@ -2029,7 +2029,17 @@ extern void pastecube(const cube &src, cube &dst);
  */
 extern void pasteundoblock(block3 *b, const uchar *g);
 extern bool uncompresseditinfo(const uchar *inbuf, int inlen, uchar *&outbuf, int &outlen);
-extern void unpackundocube(ucharbuf buf, uchar *outbuf);
+
+/**
+ * @brief Unpacks a buffer containing an undo action into a unsigned char array.
+ *
+ * This function does not preserve the original buffer.
+ *
+ * @param buf the buffer to unpack
+ * @param outbuf the buffer to unpack into.
+ *
+ */
+extern void unpackundocube(ucharbuf &buf, uchar *outbuf);
 
 /**
  * @brief Prints a warning message to the console.
