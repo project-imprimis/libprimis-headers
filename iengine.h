@@ -2020,7 +2020,14 @@ extern bool haveselent();
  * @param dst a reference to the destination cube where the selection is pasted
  */
 extern void pastecube(const cube &src, cube &dst);
-extern void pasteundoblock(block3 *b, uchar *g);
+
+/**
+ * @brief Pastes an undo block associated with the passed block3 object.
+ *
+ * @param b the block3 to use to paste
+ * @param g the gridscale array to pass
+ */
+extern void pasteundoblock(block3 *b, const uchar *g);
 extern bool uncompresseditinfo(const uchar *inbuf, int inlen, uchar *&outbuf, int &outlen);
 extern void unpackundocube(ucharbuf buf, uchar *outbuf);
 
