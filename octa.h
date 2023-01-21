@@ -355,6 +355,11 @@ struct block3
     block3() {}
     block3(const selinfo &sel) : o(sel.o), s(sel.s), grid(sel.grid), orient(sel.orient) {}
 
+    const cube *getcube() const
+    {
+        return reinterpret_cast<const cube *>(this+1);
+    }
+
     cube *c()
     {
         return reinterpret_cast<cube *>(this+1);
