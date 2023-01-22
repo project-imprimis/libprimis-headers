@@ -2252,7 +2252,7 @@ extern void mmboundbox(const entity &e, model *m, vec &center, vec &radius);
  * @param s the decalslot to query
  * @return a floating point value indicating the slot's depth
  */
-extern float getdecalslotdepth(DecalSlot &s);
+extern float getdecalslotdepth(const DecalSlot &s);
 
 namespace entities
 {

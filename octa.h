@@ -647,7 +647,7 @@ class cubeworld
          */
         void octarender();
         void seedparticles();
-        void makeparticles(entity &e);
+        void makeparticles(const entity &e);
 
         /**
          * @brief Resets the metadata associated with a map.
