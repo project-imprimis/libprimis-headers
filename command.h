@@ -110,19 +110,19 @@ typedef void (__cdecl *identfun)(ident *id);
 struct ident
 {
     //this pointer will point to different types depending upon the type of variable
-    union identvalptr
+    union identvalptr /**< points to an ident's value */
     {
-        void  *p; // ID_*VAR
-        int   *i; // Id_Var
-        float *f; // Id_FloatVar
-        char **s; // Id_StringVar
+        void  *p; /**< can point to any Id_*Var */
+        int   *i; /**< points to an Id_Var (int) */
+        float *f; /**< points to an Id_FloatVar */
+        char **s; /**< points to a pointer to a Id_StringVar (C string) */
     };
 
-    uchar type; // one of ID_* above
+    uchar type; /**< one of Id_* in Id_ enum */
     union
     {
-        uchar valtype; // Id_Alias
-        uchar numargs; // Id_Command
+        uchar valtype; /**< if alias, points to Id_Alias's type */
+        uchar numargs; /**< if command, number of commands the Id_Command has */
     };
     ushort flags;
     int index;
@@ -135,13 +135,13 @@ struct ident
             {
                 struct
                 {
-                    int minval,
-                        maxval;
+                    int minval, /**< if an int variable, its min allowed value*/
+                        maxval; /**< if an int variable, its max allowed value*/
                 };     // Id_Var
                 struct
                 {
-                    float minvalf,
-                          maxvalf;
+                    float minvalf, /**< if a float variable, its min allowed value*/
+                          maxvalf; /**< if a float variable, its max allowed value*/
                 }; // Id_FloatVar
             };
             identvalptr storage;
@@ -159,20 +159,26 @@ struct ident
             uint argmask;
         };
     };
-    identfun fun; // Id_Var, Id_FloatVar, Id_StringVar, Id_Command
+    identfun fun; /**< the pointer a command or variable points to (the on-change command for a var)*/
 
     ident() {}
-    // Id_Var
+    /**
+     * @brief Constructor for an ident for an int variable.
+     */
     ident(int t, const char *n, int m, int x, int *s, void *f = nullptr, int flags = 0)
         : type(t), flags(flags | (m > x ? Idf_ReadOnly : 0)), name(n), minval(m), maxval(x), fun((identfun)f)
     { storage.i = s; }
 
-    // Id_FloatVar
+    /**
+     * @brief Constructor for an ident for a float variable.
+     */
     ident(int t, const char *n, float m, float x, float *s, void *f = nullptr, int flags = 0)
         : type(t), flags(flags | (m > x ? Idf_ReadOnly : 0)), name(n), minvalf(m), maxvalf(x), fun((identfun)f)
     { storage.f = s; }
 
-    // Id_StringVar
+    /**
+     * @brief Constructor for an ident for a string variable.
+     */
     ident(int t, const char *n, char **s, void *f = nullptr, int flags = 0)
         : type(t), flags(flags), name(n), fun((identfun)f)
     { storage.s = s; }
@@ -197,7 +203,9 @@ struct ident
         : type(t), valtype(v.type), flags(flags), name(n), code(nullptr), stack(nullptr)
     { val = v; }
 
-    // Id_Command
+    /**
+     * @brief Constructor for an ident for a C++ bound command.
+     */
     ident(int t, const char *n, const char *args, uint argmask, int numargs, void *f = nullptr, int flags = 0)
         : type(t), numargs(numargs), flags(flags), name(n), args(args), argmask(argmask), fun((identfun)f)
     {}
@@ -403,6 +411,8 @@ extern int execute(const uint *code);
  * Parses and executes the line of Cubescript given.
  *
  * @param the C string containing the code to execute
+ *
+ * @return an int from the results of the execution
  */
 extern int execute(const char *p);
 extern int execident(const char *name, int noid = 0, bool lookup = false);
