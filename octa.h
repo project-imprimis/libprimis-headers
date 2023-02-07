@@ -1,6 +1,11 @@
 /**
  * @file octa.h
- * @brief
+ * @brief Objects representing the octree and its manipulation methods.
+ *
+ * This file describes objects that build the octal tree structure of the world
+ * (a `cubeworld` containing `cube` objects) as well as convenient representations
+ * of selections of cubes (in a Cartesian sense) that allow simpler reasoning about
+ * spatial relationships between nodes.
  */
 
 #ifndef OCTA_H_

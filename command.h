@@ -1,6 +1,9 @@
 /**
  * @file command.h
  * @brief Script binding functionality.
+ *
+ * This file describes the CubeScript API for binding and executing code from within
+ * the engine's CubeScript context.
  */
 
 #ifndef COMMAND_H_

@@ -1,6 +1,10 @@
 /**
  * @file geom.h
- * @brief
+ * @brief Physical geometry objects
+ *
+ * This file describes objects which represent concrete geometric constructions,
+ * such as vectors that represent 2D, 3D, and 4D Cartesian coordinates, as well
+ * as more complex geometric structures such as quaternions and matrices.
  */
 
 #ifndef GEOM_H_

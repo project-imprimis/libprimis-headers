@@ -1,3 +1,11 @@
+/**
+ * @file sound.h
+ * @brief The sound engine that translates world positions into positonal sound
+ *
+ * This file describes an object, called SoundEngine, that translates sounds from
+ * a world position to a positional audio sound that can be played by SDL2-mixer.
+ */
+
 #ifndef SOUND_H_
 #define SOUND_H_
 
