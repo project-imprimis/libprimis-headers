@@ -1517,7 +1517,12 @@ extern void renderprogress(float bar, const char *text, bool background = false)
  *
  * `forceshader`
  *
- * `shader`
+ * `shader` type name ps vs
+ *  - Adds a shader to the engine's catalog.
+ *  - `type` a bitmask describing the properties of the shader
+ *  - `name` the name of the shader for calls from e.g. `useshaderbyname`
+ *  - `ps` the pixel shader
+ *  - `vs` the vertex shader
  *
  * `variantshader`
  *
