@@ -2207,7 +2207,6 @@ extern block3 *blockcopy(const block3 &s, int rgrid);
 
 // world
 
-extern int octaentsize;
 extern std::vector<int> entgroup;
 
 /**
