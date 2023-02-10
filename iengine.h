@@ -1665,7 +1665,13 @@ extern void removetrackeddynlights(const physent *owner = nullptr);
 
 // heightmap
 
-extern bool isheightmap(int o, bool empty, cube &c);
+/**
+ * @brief Determines if a heightmap is active for the current selection.
+ *
+ * @return true if there is a heightmap active
+ * @return false if no heightmap is active
+ */
+extern bool isheightmap(int o, bool empty, const cube &c);
 extern void heightmaprun(int dir, int mode);
 
 /**
