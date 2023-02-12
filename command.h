@@ -418,6 +418,17 @@ extern int execute(const uint *code);
  * @return an int from the results of the execution
  */
 extern int execute(const char *p);
+
+/**
+ * @brief Executes the contents of an ident, searched by name.
+ *
+ * Attempts to find in the ident table an ident with the given name, and
+ * if found executes it.
+ *
+ * @param name the name of the ident to look for
+ * @param noid the value to return if no ident is found
+ * @param lookup if a command, and parameters are of format 'N', sets to -1
+ */
 extern int execident(const char *name, int noid = 0, bool lookup = false);
 extern bool executebool(const uint *code);
 
@@ -479,10 +490,27 @@ extern void writecfg(const char *savedconfig, const char *autoexec = nullptr, co
  * @param millis the current timestamp
  */
 extern void checksleep(int millis);
+
+/**
+ * @brief Initializes the CubeScript preset argument idents.
+ *
+ * Intitializes the argument parameters (arg1, arg2, ..., arg<Max_Args>) as CS
+ * ident objects. Required to use of $argN variables.
+ * Also initializes the dummy ident, `//dummy`.
+ *
+ * @return always returns true
+ */
 extern bool initidents();
 
-extern int identflags;
+extern int identflags; /**< The flags to automatically set on ident objects */
 
+/**
+ * @brief Clears all aliases from the ident map.
+ *
+ * All aliases, aka objects created from within CubeScript, are deleted and their
+ * memory freed. Does not apply to non-alias objects, such as bound variables and
+ * functions. Generally used for cleaning up at the end of the program's lifetime.
+ */
 extern void clear_command();
 
 // nasty macros for registering script functions, abuses globals to avoid excessive infrastructure
@@ -495,6 +523,30 @@ extern void clear_command();
  *  Because the macro kludges are the definition of global variables, at program initializiation, they must be run first
  *  The values of the variables themselves don't matter because they only exist to cheat and run before main()
  *  The macro kludges themselves register commands or values within some vector<>-s which keeps track of all cmds/vars
+ */
+
+/*
+ * Parameter Flags (exhaustive list, not exhaustive descriptions)
+ * i an integer parameter
+ * b a boolean parameter
+ * f a float parameter (sets to 0 if over parameter limit)
+ * F a float parameter (sets to value of previous parameter if over parameter limit)
+ * s a string parameter (sets to new allocated string "" if over parameter limit)
+ * S a string paremter (sets current string to "" if over parameter limit)
+ * t sets to null if over parameter limit
+ * T same as "t"
+ * e a code block parameter
+ * E a code block paremter (null)
+ * r an ident parameter
+ * $ an ident parameter
+ * N a number parameter
+ * D a bind parameter (e.g. player movement)
+ * C an ident parameter, ComC
+ * V an ident parameter, ComV
+ * 1 repeat one arg
+ * 2 repeat two args
+ * 3 repeat three args
+ * 4 repeat four args
  */
 
 //integer var macros
