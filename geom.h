@@ -1588,16 +1588,6 @@ struct ivec2
 
 inline ivec::ivec(const ivec2 &v, int z) : x(v.x), y(v.y), z(z) {}
 
-inline bool htcmp(const ivec2 &x, const ivec2 &y)
-{
-    return x == y;
-}
-
-inline uint hthash(const ivec2 &k)
-{
-    return k.x^k.y;
-}
-
 inline bvec::bvec(const vec4<uchar> &v) : x(v.x), y(v.y), z(v.z) {}
 
 /**
