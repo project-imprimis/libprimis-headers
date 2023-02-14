@@ -1915,7 +1915,6 @@ extern void addundo(undoblock *u);
  * @return a reference to the cube found
  */
 extern cube &blockcube(int x, int y, int z, const block3 &b, int rgrid);
-extern void discardchildren(cube &c, bool fixtex = false, int depth = 0);
 
 /**
  * @brief Adds an undo entry to the undos vector given the passed selection.
