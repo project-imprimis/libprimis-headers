@@ -1474,9 +1474,9 @@ class matrix3
  * @brief floating point 4x3 matrix object
  * defined as four column vectors, a-d
  * takes the form as follows:
- * [ a1 b1 c1 d1
- *   a2 b2 c2 d2
- *   a3 b3 c3 d3 ]
+ * [ a1 b1 c1 d1   (x)
+ *   a2 b2 c2 d2   (y)
+ *   a3 b3 c3 d3 ] (z)
  *
  * used in animation along with dualquats
  */
@@ -1491,26 +1491,103 @@ struct matrix4x3
     explicit matrix4x3(const matrix4 &m);
 
     void mul(float k);
+
+    /**
+     * @brief Sets the diagonals a.x, b.y, c.z to the given values.
+     *
+     * Does not modify any of the values except for a.x, b.y, c.z.
+     *
+     * @param x the first value to set in the diagonal
+     * @param y the second value to set in the diagonal
+     * @param z the third value to set in the diagonal
+     */
     void setscale(float x, float y, float z);
+
+    /**
+     * @brief Sets the diagonals a.x, b.y, c.z to the given vector's x, y, z values.
+     *
+     * Does not modify any of the values except for a.x, b.y, c.z.
+     *
+     * @param v the vector to assign from
+     */
     void setscale(const vec &v);
+
+    /**
+     * @brief Sets the diagonals a.x, b.y, c.z identically to a given value.
+     *
+     * @parm n the value to set to
+     */
     void setscale(float n);
 
+    /**
+     * @brief Scales the first three vectors by x, y, and z respectively.
+     *
+     * Does not modify the fourth matrix element vector`d`.
+     *
+     * @param x the scale to multiply the first vector by
+     * @param y the scale to multiply the second vector by
+     * @param z the scale to multiply the third vector by
+     */
     void scale(float x, float y, float z);
+
+    /**
+     * @brief Multiplies the first three vectors by v.x, v.y, and v.z respectively.
+     *
+     * Does not modify the fourth matrix element vector`d`.
+     *
+     * @param v the vector to multiply by
+     */
     void scale(const vec &v);
 
+    /**
+     * @brief Scales the first three vector elements in the matrix by the specified amount.
+     *
+     * Does not modify the fourth matrix element vector`d`.
+     *
+     * @param n the scale factor to multiply by
+     */
     void scale(float n);
 
+    /**
+     * @brief Copies the `p` vector into the fourth column vector (`d`).
+     *
+     * @param p the vector to copy to the `d` vector.
+     */
     void settranslation(const vec &p);
+
+    /**
+     * @brief Copies x, y, z into the fourth column vector (`d`).
+     *
+     * @param x the first value to copy into d.x
+     * @param y the second value to copy into d.y
+     * @param z the third value to copy into d.z
+     */
     void settranslation(float x, float y, float z);
     void translate(const vec &p);
     void translate(float x, float y, float z);
     void translate(const vec &p, float scale);
     void accumulate(const matrix4x3 &m, float k);
 
+    /**
+     * @brief Normalizes the first three column vectors.
+     *
+     * Sets the three first vectors to have a magnitude of 1. That is,
+     * sqrt(x^2 + y^2 + z^2) = 1.
+     */
     void normalize();
     void lerp(const matrix4x3 &to, float t);
     void lerp(const matrix4x3 &from, const matrix4x3 &to, float t);
 
+    /**
+     * @brief Sets this matrix to the identity matrix.
+     *
+     * ```
+     *   a b c d
+     * x 1 0 0 0
+     * y 0 1 0 0
+     * z 0 0 1 0
+     * ```
+     */
     void identity();
     void mul(const matrix4x3 &m, const matrix4x3 &n);
     void mul(const matrix4x3 &n);
@@ -1551,8 +1628,25 @@ struct matrix4x3
     vec transposedtransformnormal(const vec &o) const;
     vec transform(const vec2 &o) const;
 
+    /**
+     * @brief Returns the x values of the four vectors as a four-vector.
+     *
+     * @return a vector containing four x values
+     */
     vec4<float> rowx() const;
+
+    /**
+     * @brief Returns the y values of the four vectors as a four-vector.
+     *
+     * @return a vector containing four y values
+     */
     vec4<float> rowy() const;
+
+    /**
+     * @brief Returns the z values of the four vectors as a four-vector.
+     *
+     * @return a vector containing four z values
+     */
     vec4<float> rowz() const;
 };
 
