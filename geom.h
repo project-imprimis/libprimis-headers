@@ -620,14 +620,99 @@ struct vec4
     bool operator==(const vec4 &o) const { return x == o.x && y == o.y && z == o.z && w == o.w; }
     bool operator!=(const vec4 &o) const { return x != o.x || y != o.y || z != o.z || w != o.w; }
 
+    /**
+     * @brief Returns the 3 dimensional dot product between two 4-vecs.
+     *
+     * Returns the scalar (dot) product of two 4D vecs, `this` and the passed
+     * one, as if they are 3D vecs, by ignoring the fourth term in each vector.
+     *
+     * @param o the vec4 to multiply by
+     *
+     * @return the dot product of the first three elements of each vector
+     */
     T dot3(const vec4 &o) const { return x*o.x + y*o.y + z*o.z; }
+
+    /**
+     * @brief Returns the 3 dimensional dot product between `this` and a 3D vec.
+     *
+     * Returns the scalar (dot) product of a 3D and 4D vec, `this` and the passed
+     * 3D vec, by ignoring the fourth term in the 4D vec.
+     *
+     * @param o the vec3 to multiply by
+     *
+     * @return the dot product of the first three elements of each vector
+     */
     T dot3(const vec &o) const { return x*o.x + y*o.y + z*o.z; }
+
+    /**
+     * @brief Returns the scalar product with another vec4.
+     *
+     * Returns the scalar (dot) product of two 4D vecs, `this` and the passed
+     * vec4 `o`.
+     *
+     * @param o the vector to multiply with
+     *
+     * @return the dot product of the two vectors
+     */
     T dot(const vec4 &o) const { return dot3(o) + w*o.w; }
+
+    /**
+     * @brief Returns the dot product of `this` and a vec3, assuming o.w = 1.
+     *
+     * Calculates the dot product with a vec3, with `o.w` implied to equal 1.
+     *
+     * @param o the vec3 to multiply by
+     *
+     * @return the dot product of the two vectors
+     */
     T dot(const vec &o) const  { return x*o.x + y*o.y + z*o.z + w; }
+
+    /**
+     * @brief Returns the square of the magnitude of the vector.
+     *
+     * Calculates the dot product of the vector with itself, yielding the
+     * square of the magnitude of the vec4.
+     *
+     * @return the magnitude of `this` squared
+     */
     T squaredlen() const { return dot(*this); }
+
+    /**
+     * @brief Returns the magnitude of the vector.
+     *
+     * Calculates the magnitude (length) of the vector, by taking the square
+     * root of the dot product of the vector with itself.
+     *
+     * @return the maginitude of `this`
+     */
     T magnitude() const  { return sqrtf(squaredlen()); }
+
+    /**
+     * @brief Returns the magnitude of the vector, ignoring the w dimension.
+     *
+     * Calculates the #D magnitude (length) of the vector, by taking the square
+     * root of the 3D dot product of the vector with itself.
+     *
+     * @return the maginitude of `this`
+     */
     T magnitude3() const { return sqrtf(dot3(*this)); }
+
+    /**
+     * @brief Scales the vector to have a magnitude of 1
+     *
+     * Will cause a divide-by-zero if the vector is (0,0,0,0).
+     *
+     * @return a reference to `this` vector
+     */
     vec4 &normalize() { mul(1/magnitude()); return *this; }
+
+    /**
+     * @brief Scales the vector to have a magnitude of 1
+     *
+     * Will return (0,0,0,0) if the vector passed (0,0,0,0).
+     *
+     * @return a reference to `this` vector
+     */
     vec4 &safenormalize() { T m = magnitude(); if(m) mul(1/m); return *this; }
 
     void lerp(const vec4<uchar> &a, const vec4<uchar> &b, float t)
@@ -654,6 +739,11 @@ struct vec4
         w = static_cast<uchar>(a.w*ta + b.w*tb + c.w*tc);
     }
 
+    /**
+     * @brief Flips a vec4<uchar> by using the mask type pun.
+     *
+     * Not for use with non-char vec4<> objects.
+     */
     void flip() { mask ^= 0x80808080; }
 
     vec4 &lerp(const vec4 &b, T t)
@@ -672,6 +762,18 @@ struct vec4
         w = a.w+(b.w-a.w)*t;
         return *this;
     }
+
+    /**
+     * @brief Calculates the elementwise arithmetic mean.
+     *
+     * Sets `this` to the elementwise arithmetic mean of `this` object and the
+     * passed object. The original vector is not preserved, but the passed one
+     * is.
+     *
+     * @param b the vec4 to average with
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &avg(const vec4 &b) { add(b); mul(0.5f); return *this; }
 
     template<class B>
@@ -883,6 +985,17 @@ struct vec4
      * @return a reference to `this` object following the operation
      */
     vec4 &sub(const vec &o)  { x -= o.x; y -= o.y; z -= o.z; return *this; }
+
+    /**
+     * @brief Subtracts from the first three entries `this` the svalue passed.
+     *
+     * Calculates the difference between the first three elements in `this` and
+     * the value passed, modifying the original vector to equal this difference.
+     *
+     * @param f the value to subtract
+     *
+     * @return a return to `this` object following the operation
+     */
     vec4 &sub3(T f)      { x -= f; y -= f; z -= f; return *this; }
     vec4 &sub(T f)       { sub3(f); w -= f; return *this; }
     vec4 &subw(T f)      { w -= f; return *this; }
