@@ -1886,6 +1886,18 @@ struct matrix4
     void rotate(float angle, const vec &dir);
     void rotate(const vec2 &sc, const vec &dir);
 
+    /**
+     * @brief Sets the matrix to I, the identity matrix
+     *
+     * Sets the matrix to I, with the form as follows:
+     * ```
+     *   a b c d
+     * x 1 0 0 0
+     * y 0 1 0 0
+     * z 0 0 1 0
+     * w 0 0 0 1
+     * ```
+     */
     void identity();
 
     void settranslation(const vec &v);
@@ -1906,8 +1918,32 @@ struct matrix4
     void reflectz(float z);
 
     void jitter(float x, float y);
+
+    /**
+     * @brief Transposes the matrix along the diagonal.
+     *
+     * Transforms the matrix like so (letters are just arbitrary value placeholders)
+     * ```
+     * a b c d     a e i m
+     * e f g h  -> b f j n
+     * i j k l     c g k o
+     * m n o p     d h l p
+     * ```
+     */
     void transpose();
 
+    /**
+     * @brief Copies the transpose of the given matrix4 to `this`
+     *
+     * Copies the transform of the matrix passed like so (letters are just arbitrary
+     * value placeholders) to `this` object.
+     * ```
+     * a b c d     a e i m
+     * e f g h  -> b f j n
+     * i j k l     c g k o
+     * m n o p     d h l p
+     * ```
+     */
     void transpose(const matrix4 &m);
     void frustum(float left, float right, float bottom, float top, float znear, float zfar);
     void perspective(float fovy, float aspect, float znear, float zfar);
@@ -1927,12 +1963,57 @@ struct matrix4
     void transposedtransform(const vec &in, vec &out) const;
     void transposedtransformnormal(const vec &in, vec &out) const;
     void transposedtransform(const plane &in, plane &out) const;
-    float getscale() const;
+
     vec gettranslation() const;
+
+    /**
+     * @brief Returns the first row of the matrix.
+     *
+     * Returns the first value of each column vector that makes up the matrix.
+     *
+     * @return a vec4 of the first row of the vector
+     */
     vec4<float> rowx() const;
+
+    /**
+     * @brief Returns the second row of the matrix.
+     *
+     * Returns the second value of each column vector that makes up the matrix.
+     *
+     * @return a vec4 of the second row of the vector
+     */
     vec4<float> rowy() const;
+
+    /**
+     * @brief Returns the third row of the matrix.
+     *
+     * Returns the third value of each column vector that makes up the matrix.
+     *
+     * @return a vec4 of the third row of the vector
+     */
     vec4<float> rowz() const;
+
+    /**
+     * @brief Returns the fourth row of the matrix.
+     *
+     * Returns the fourth value of each column vector that makes up the matrix.
+     *
+     * @return a vec4 of the last row of the vector
+     */
     vec4<float> roww() const;
+
+    /**
+     * @brief Sets this matrix to the inverse of the provided matrix.
+     *
+     * sets the matrix values to the inverse of the provided matrix A*A^-1 = I
+     * returns false if singular (or nearly singular to within tolerance of mindet)
+     * or true if matrix was inverted successfully
+     *
+     * @param m a matrix4 object to be inverted and assigned to the object
+     * @param mindet the minimum value at which matrices are considered
+     *
+     * @return false if the matrix is singular, true otherwise
+     */
     bool invert(const matrix4 &m, double mindet = 1.0e-12);
 
     vec2 lineardepthscale() const;
