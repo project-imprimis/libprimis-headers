@@ -2005,16 +2005,27 @@ struct matrix4
     /**
      * @brief Sets this matrix to the inverse of the provided matrix.
      *
-     * sets the matrix values to the inverse of the provided matrix A*A^-1 = I
+     * Sets the matrix values to the inverse of the provided matrix A*A^-1 = I
      * returns false if singular (or nearly singular to within tolerance of mindet)
      * or true if matrix was inverted successfully
      *
      * @param m a matrix4 object to be inverted and assigned to the object
-     * @param mindet the minimum value at which matrices are considered
+     * @param mindet the determinant value at which matrices are considered singular
      *
      * @return false if the matrix is singular, true otherwise
      */
     bool invert(const matrix4 &m, double mindet = 1.0e-12);
+
+    /**
+     * @brief Returns the inverse of the matrix.
+     *
+     * Returns a zero matrix if the matrix is singular.
+     *
+     * @param mindet the determinant value at which matrices are considered singular
+     *
+     * @return a matrix4 containing the matrix inverse
+     */
+    matrix4 inverse(double mindet = 1.0e-12) const;
 
     vec2 lineardepthscale() const;
 };
