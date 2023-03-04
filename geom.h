@@ -452,6 +452,17 @@ inline uint hthash(const vec &k)
     return v + (v>>12);
 }
 
+template<>
+struct std::hash<vec> {
+    size_t operator()(const vec& k) const {
+        union { uint i; float f; } x, y, z;
+        x.f = k.x;
+        y.f = k.y;
+        z.f = k.z;
+        uint v = x.i^y.i^z.i;
+        return v + (v>>12);
+    }
+};
 
 /**
  * @brief color vector3 (r,g,b)
@@ -1748,6 +1759,13 @@ inline uint hthash(const ivec &k)
 {
     return k.x^k.y^k.z;
 }
+
+template<>
+struct std::hash<ivec> {
+    size_t operator()(const ivec &k) const {
+        return k.x^k.y^k.z;
+    }
+};
 
 /**
  * @brief integer vector2
