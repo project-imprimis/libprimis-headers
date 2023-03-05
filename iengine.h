@@ -936,6 +936,7 @@ extern void initnormalcmds();
  * @brief Initializes octarender.cpp cubescript commands
  *
  * `recalc`
+ *  - Recalculates the world geometry to merge cubes & faces where possible.
  */
 extern void initoctarendercmds();
 
@@ -944,15 +945,21 @@ extern void initoctarendercmds();
 /**
  * @brief Initializes rendergl.cpp cubescript commands
  *
- * `glext`
+ * `glext` ext
+ *  - Returns whether the given GL extension was loaded
+ *   - `ext` the name of the extension to query
  *
  * `getcamyaw`
+ *  - Returns the current camera's yaw angle in degrees
  *
  * `getcampitch`
+ *  - Returns the current camera's pitch angle in degrees
  *
  * `getcamroll`
+ * - Returns the current camera's roll angle in degrees
  *
  * `getcampos`
+ * - Returns the current camera's world position, in the format "$x $y $z"
  */
 extern void initrenderglcmds();
 
@@ -1519,10 +1526,10 @@ extern void renderprogress(float bar, const char *text, bool background = false)
  *
  * `shader` type name ps vs
  *  - Adds a shader to the engine's catalog.
- *  - `type` a bitmask describing the properties of the shader
- *  - `name` the name of the shader for calls from e.g. `useshaderbyname`
- *  - `ps` the pixel shader
- *  - `vs` the vertex shader
+ *   - `type` a bitmask describing the properties of the shader
+ *   - `name` the name of the shader for calls from e.g. `useshaderbyname`
+ *   - `ps` the pixel shader
+ *   - `vs` the vertex shader
  *
  * `variantshader`
  *
