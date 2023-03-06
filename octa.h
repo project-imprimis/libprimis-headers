@@ -280,6 +280,10 @@ class cube
             ushort material, tex;
             ivec n;
             int offset;
+
+            bool operator==(const cfkey &o) {
+                    return orient == o.orient && tex == o.tex && n == o.n && offset == o.offset && material == o.material;
+            }
         };
 
         //need htcmp to be free functions to work with tools.h
@@ -287,6 +291,14 @@ class cube
         friend bool htcmp(const cube::cfkey &x, const cube::cfkey &y);
         friend uint hthash(const cube::cfkey &k);
         friend std::hash<plink>; //for unordered_map
+        friend std::hash<cfkey>; //for unordered_map
+};
+
+template<>
+struct std::hash<cube::cfkey> {
+    size_t operator()(const cube::cfkey &k) const {
+        return hthash(k.n)^k.offset^k.tex^k.orient^k.material;
+    }
 };
 
 /**
