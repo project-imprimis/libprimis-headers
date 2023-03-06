@@ -297,7 +297,7 @@ class cube
 template<>
 struct std::hash<cube::cfkey> {
     size_t operator()(const cube::cfkey &k) const {
-        return hthash(k.n)^k.offset^k.tex^k.orient^k.material;
+        return std::hash<ivec>{}(k.n)^k.offset^k.tex^k.orient^k.material;
     }
 };
 
