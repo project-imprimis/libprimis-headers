@@ -288,8 +288,6 @@ class cube
 
         //need htcmp to be free functions to work with tools.h
         //but nothing else needs it
-        friend bool htcmp(const cube::cfkey &x, const cube::cfkey &y);
-        friend uint hthash(const cube::cfkey &k);
         friend std::hash<plink>; //for unordered_map
         friend std::hash<cfkey>; //for unordered_map
 };
