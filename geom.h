@@ -1750,16 +1750,6 @@ struct ivec
 
 inline vec::vec(const ivec &v) : x(v.x), y(v.y), z(v.z) {}
 
-inline bool htcmp(const ivec &x, const ivec &y)
-{
-    return x == y;
-}
-
-inline uint hthash(const ivec &k)
-{
-    return k.x^k.y^k.z;
-}
-
 template<>
 struct std::hash<ivec> {
     size_t operator()(const ivec &k) const {
