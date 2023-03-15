@@ -1116,82 +1116,168 @@ extern void clearshadowcache();
 
 // rendermodel
 
+
 /**
  * @brief Initializes rendermodel CubeScript commands
  *
- * `mdlcullface`
+ * `mdlcullface` *int* cullface
  *
- * `mdlcolor`
+ * `mdlcolor` *float* red *float* green *float* blue
  *
- * `mdlcollide`
+ * `mdlcollide` *bool* collide
  *
- * `mdlellipsecollide`
+ * `mdlellipsecollide` *bool* collide
  *
- * `mdltricollide`
+ * `mdltricollide` *bool* collide
  *
- * `mdlspec`
+ * `mdlspec` *float* scale
  *
- * `mdlgloss`
+ * `mdlgloss` *float* type
  *
- * `mdlalphatest`
+ * `mdlalphatest` *float* cutoff
  *
- * `mdldepthoffset`
+ * `mdldepthoffset` *int* offset
  *
- * `mdlglow`
+ * `mdlglow` *float* scale *float* delta *float* pulse
  *
- * `mdlfullbright`
+ * `mdlfullbright` *float* scale
  *
- * `mdlshader`
+ * `mdlshader` *string* shader
  *
- * `mdlspin`
+ * `mdlspin` *float* yaw *float* pitch *float* roll
  *
- * `mdlscale`
+ * `mdlscale` *float* scale
  *
- * `mdltrans`
+ * `mdltrans` *float* x *float* y *float* z
  *
- * `mdlyaw`
+ * `mdlyaw` *float* angle
  *
- * `mdlpitch`
+ * `mdlpitch` *float* angle
  *
- * `mdlroll`
+ * `mdlroll` *float* angle
  *
- * `mdlshadow`
+ * `mdlshadow` *bool* shadow
  *
- * `mdlalphashadow`
+ * `mdlalphashadow` *bool* shadow
  *
- * `mdlbb`
+ * `mdlbb` *float* radius *float* height *float* eyeheight
  *
- * `mdlextendbb`
+ * `mdlextendbb` *float* x *float* y *float* z
  *
  * `mdlname`
  *
- * `rdvert`
+ * `rdvert` *float* x *float* y *float* z *float* radius
  *
- * `rdeye`
+ * `rdeye` *int* level
  *
- * `rdtri`
+ * `rdtri` *int* vertex1 *int* vertex2 *int* vertex3
  *
- * `rdjoint`
+ * `rdjoint` *int* num *int* tri *bool* vertex1 *bool* vertex2 *bool* vertex3
  *
- * `rdlimitdist`
+ * `rdlimitdist`  *int* vertex1 *int* vertex2 *float* mindist *float* maxdist
  *
- * `rdlimitrot`
+ * `rdlimitrot` *int* tri1 *int* tri2 *float* maxangle *float* quatx *float* quaty *float* quatz *float* quatw
  *
- * `rdanimjoints`
+ * `rdanimjoints` *bool* on
  *
- * `mapmodelreset`
+ * `mapmodelreset` *int* index
  *
- * `mapmodel`
+ * `mapmodel` *string* name
  *
- * `mapmodelname`
+ * `mapmodelname` *int* index *int* prefix
  *
- * `mapmodelloaded`
+ * `mapmodelloaded` *int* index
  *
- * `nummapmodels`
+ * `nummapmodels` *null*
  *
- * `clearmodel`
+ * `clearmodel` *string* name
  *
- * `findanims`
+ * `findanims` *string* name
+ *
+ * `objskin` *string* meshname *string* tex *string* masks
+ *
+ * `objspec` *string* tex *float* scale
+ *
+ * `objgloss` *string* tex *int* type
+ *
+ * `objglow` *string* tex *float* percent *float* delta *float* pulse
+ *
+ * `objalphatest` *string* meshname *float* cutoff
+ *
+ * `objcullface` *string* meshname *int* cullface
+ *
+ * `objcolor` *string* meshname *float* red *float* green *float* blue
+ *
+ * `objbumpmap` *string* meshname *string* tex
+ *
+ * `objdecal` *string* meshname *string* tex
+ *
+ * `objfullbright` *string* meshname *string* brightness
+ *
+ * `objshader` *string* meshname *string* shader
+ *
+ * `objscroll` *string* meshname *float* xscroll *float* yscroll
+ *
+ * `objnoclip` *string* meshname *bool* clip
+ *
+ * `objtricollide` *string* meshname
+ *
+ * `objlink` *int* parent *int* child *string* tagname *float* x *float* y *float* z
+ *
+ * `objload` *string* meshname *float* smooth
+ *
+ * `objtag` *string* tagname *float* tx *float* ty *float* tz *float* rx *float* ry *float* rz
+ *
+ * `objpitch` *string* meshname
+ *
+ *
+ * `md5skin` *string* meshname *string* tex *string* masks
+ *
+ * `md5spec` *string* tex *float* scale
+ *
+ * `md5gloss` *string* tex *int* type
+ *
+ * `md5glow` *string* tex *float* percent *float* delta *float* pulse
+ *
+ * `md5alphatest` *string* meshname *float* cutoff
+ *
+ * `md5cullface` *string* meshname *int* cullface
+ *
+ * `md5color` *string* meshname *float* red *float* green *float* blue
+ *
+ * `md5bumpmap` *string* meshname *string* tex
+ *
+ * `md5decal` *string* meshname *string* tex
+ *
+ * `md5fullbright` *string* meshname *string* brightness
+ *
+ * `md5shader` *string* meshname *string* shader
+ *
+ * `md5scroll` *string* meshname *float* xscroll *float* yscroll
+ *
+ * `md5noclip` *string* meshname *bool* clip
+ *
+ * `md5tricollide` *string* meshname *string* meshname
+ *
+ * `md5link` *int* parent *int* child *string* tagname *float* x *float* y *float* z
+ *
+ * `md5load` *string* meshname *string* skel *float* smooth
+ *
+ * `md5tag` *string* tagname *float* tx *float* ty *float* tz *float* rx *float* ry *float* rz
+ *
+ * `md5pitch` *string* meshname *float* pitchscale *float* pitchoffset *float* pitchmin *float* pitchmax
+ *
+ * `md5pitchtarget` *string* meshname *string* animfile *int* frameoffset *float* pitchmin *float* pitchmax
+ *
+ * `md5pitchcorrect` *string* meshname *string* targetname *float* scale *float* pitchmin *float* pitchmax
+ *
+ * `md5hitzone` *int* hitzoneid *string* maskstring
+ *
+ * `md5anim` *string* animname *string* animfile *float* speed *int* priority *int* startoffset *int* endoffset
+ *
+ * `md5animpart` *string* maskstring
+ *
+ * `md5adjust` *string* bonename *float* yaw *float* pitch *float* roll *float* translatex *float* translatey *float* translatez
  */
 extern void initrendermodelcmds();
 
