@@ -474,7 +474,7 @@ extern void printvar(ident *id, int i);
  * @param minval the lowest value to clamp to
  * @param maxval the largest value to clamp to
  */
-extern int clampvar(ident *id, int i, int minval, int maxval);
+extern int clampvar(const ident *id, int i, int minval, int maxval);
 extern void loopiter(ident *id, identstack &stack, int i);
 extern void loopend(ident *id, identstack &stack);
 const char *escapeid(const char *s);
