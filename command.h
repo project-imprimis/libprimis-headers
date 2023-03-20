@@ -460,7 +460,7 @@ extern const char *escapestring(const char *s);
  * @param id the ident object to print out
  * @param i the value to print out the variable equalling.
  */
-extern void printvar(ident *id, int i);
+extern void printvar(const ident *id, int i);
 
 /**
  * @brief Modifies the value passed to fall within the boundaries passed.
