@@ -1858,26 +1858,37 @@ extern void optiface(const uchar *p, cube &c);
  * `pasteprefab`
  *
  * `wtr`
+ *  - Returns the number of world triangles
  *
  * `vtr`
+ *  - Returns the number of va triangles
  *
  * `wvt`
+ *  - Returns the number of world vertices
  *
  * `vvt`
+ *  - Returns the number of va vertices
  *
  * `evt`
+ *  - Returns the number of extra vertices (sky, lightsphere, box guides, materials, water, fireballs)
  *
  * `eva`
+ *  - Returns the number of extra va vertices (models, some buffers, stains)
  *
  * `octa`
+ *  - Returns the number of allocated octree nodes
  *
  * `va`
+ *  - Returns the number of vertex arrays
  *
  * `gldes`
+ *  - Returns the number of GL draw range element calls
  *
  * `geombatch`
+ *  - Returns the number of geometry batches
  *
  * `oq`
+ *  - Returns the number of occlusion queries
  */
 extern void initoctaeditcmds();
 
