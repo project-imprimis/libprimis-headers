@@ -293,17 +293,17 @@ extern void initmathcmds();
 /**
  * @brief Adds string commands to the cubescript interpreter
  *
- * `echo` echoes the arguments passed directly to the console
+ * `echo` *commandstr* expression
+ *  - echoes the parameter passed directly to the console
  *
- * `error`
+ * `error` *commandstr* expression
+ *  - echos the parameter passed out as an error to the console
  *
- * `strstr`
+ * `strstr` *string* haystack *string* needle
+ *  - finds the first instance of *needle* in the *haystack* string passed, returns int index, wrapper around std::strstr()
  *
- * `strlen` returns the length of the string passed
- *
- * `strcode`
- *
- * `codestr`
+ * `strlen` *string*
+ *  - returns the length of the string passed as an int
  *
  * `struni`
  *
@@ -334,11 +334,11 @@ extern void initstrcmds();
 /**
  * @brief Adds program control commands to the cubescript interpreter.
  *
- * `exec`
+ * `exec` *string* file *int* msg
  *
- * `escape`
+ * `escape` *string* str
  *
- * `unescape`
+ * `unescape` *string* str
  *
  * `writecfg`
  *
@@ -1614,8 +1614,8 @@ extern void renderprogress(float bar, const char *text, bool background = false)
  *  - Adds a shader to the engine's catalog.
  *   - `type` a bitmask describing the properties of the shader
  *   - `name` the name of the shader for calls from e.g. `useshaderbyname`
- *   - `ps` the pixel shader
  *   - `vs` the vertex shader
+ *   - `ps` the pixel shader
  *
  * `variantshader`
  *
