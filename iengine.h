@@ -1512,11 +1512,14 @@ extern SDL_Window *screen;
 /**
  * @brief Initializes renderwindow Cubescript commands
  *
- * `getfps`
+ * `getfps` *bool* raw
+ *  - Returns an integer number of frames rendered per second. If *raw* is true, returns a float instead.
  *
- * `resetgl`
+ * `resetgl` *null*
+ *  - Resets the OpenGL environment, including textures, shaders, and fonts.
  *
- * `screenres`
+ * `screenres` *int* width *int* height
+ *  - Sets the screen resolution to *width* by *height*
  */
 extern void initrenderwindowcmds();
 
@@ -1690,39 +1693,102 @@ inline void addstain(int type, const vec &center, const vec &surface, float radi
 /**
  * @brief Initializes texture Cubescript commands.
  *
- * `texturereset`
+ * `texturereset` *int* max
+ *  - Resets the v-slot list.
+ *   - `max` the maximum number of slots to retain.
  *
- * `materialreset`
+ * `materialreset` *null*
+ *  - Resets the octree materials.
  *
- * `decalreset`
+ * `decalreset` *int* max
+ *  - Resets the decals list.
+ *   - `max` the maximum number of decals to retain.
  *
- * `compactvslots`
+ * `compactvslots` *int* max
+ *  - Removes unnecessary v-slots.
+ *   - `max` the maximum number of slots to retain.
  *
- * `texture`
+ * #### The below tex* commands all require there to be a currently selected vslot. They will silently fail otherwise.
  *
- * `texgrass`
+ * `texture` *string* type *string* name *int* rot *int* xoffset *int* yoffset *float* scale
+ *  - Loads a single texture file
+ *   - `type` the type of texture file being loaded:
+ *    - `0` diffuse
+ *    - `1` unknown tex
+ *    - `c` diffuse
+ *    - `u` unknown tex
+ *    - `n` normal map
+ *    - `g` glow map
+ *    - `s` specular map
+ *    - `z` depth map
+ *    - `a` alpha map
+ *   - `name` the path to the texture files
+ *   - `rot` the rotation value of the texture (see texrotate)
+ *   - `xoffset` the x-offset of the texture (see texoffset)
+ *   - `yoffset` the y-offset of the texture (see texoffset)
+ *   - `scale` the scale factor for the texture on the world
+*
+ * `texgrass` *string* name
+ *  - Applies grass with the specified texture.
  *
- * `texscroll`
+ * `texscroll` *float* x *float* y
+ *  - Causes the texture to scroll by the amount specified in each axis
  *
- * `texoffset`
+ * `texoffset` *int* x *int* y
+ *  - Translates the texture by the specified number of pixels.
  *
- * `texrotate`
+ * `texrotate` *int* xform
+ *  - Transforms the texture by rotation, flipping, or transposition.
+ *   - `xform` the transform code:
+ *    - `0` no transform
+ *    - `1` 90 degrees
+ *    - `2` 180 degrees
+ *    - `3` 270 degrees CW
+ *    - `4` flip, X axis
+ *    - `5` flip, Y axis
+ *    - `6` transpose
+ *    - `7` flipped transpose
  *
- * `texangle`
+ * `texangle` *float* angle
+ *  - Sets the texture's rotation angle.
+ *   - `angle` the angle in degrees to rotate the texture
  *
- * `texalpha`
+ * `texalpha` *float* front *float* back
+ *  - Sets the front-side and back-side alpha intensity of the texture.
+ *  - Both parameters will be clamped from 0 to 1.
+ *   - `front` the opacity of a texture viewed from the front
+ *   - `back` the opacity of a texture viewed from the back
  *
- * `texcolor`
+ * `texcolor` *float* red *float* green *float* blue
+ *  - Sets the alpha properties of the material.
+ *  - All three parameters will be clamped from 0 to 2.
+ *   - `red` the intensity of the red channel
+ *   - `green` the intensity of the green channel
+ *   - `blue` the intensity of the blue channel
  *
- * `texrefract`
+ * `texrefract` *float* k *float* red *float* green *float* blue
+ *   - Sets the refractive properties of the texture (alpha mat only)
+ *   - All four parameters will be clamped from 0 to 1.
+ *    - `k` the refractive index
+ *    - `red` the intensity of the red channel
+ *    - `green` the intensity of the green channel
+ *    - `blue` the intensity of the blue channel
  *
- * `texsmooth`
+ * `texsmooth` *int* id *bool* angle
+ *  - Sets the lerp smooth angle for the texture.
+ *   - `id` the id of the smoothgroup
+ *   - `angle` the angle to lerp at
+
+ * `decaldepth` *float* depth *float* fade
+ *  - Attempts to set the decal depth of the current decal. Silently fails to do anything if this is not possible.
+ *   - `depth` the depth to set the decal
+ *   - `fade` the fade intensity of the decal
  *
- * `decaldepth`
+ * `reloadtex` *string* name
+ *  - Attempts to reload the texture with the given name. Prints an error message if this is not successful.
  *
- * `reloadtex`
- *
- * `screenshot`
+ * `screenshot` *string* filename
+ *  - Prints a PNG screenshot to the file name indicated. If no file is specified, an automatically generated one is created.
  */
 extern void inittexturecmds();
 
