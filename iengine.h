@@ -915,9 +915,14 @@ namespace UI
 /**
  * @brief Initializes HUD cubescript commands
  *
- * `loadcrosshair`
+ * `loadcrosshair` *string* file *int* index
+ *  - Loads the crosshair file at the specified location into the crosshair manager at the specified index.
+ *   - file the file where the crosshair image is located
+ *   - index the index to alias the crosshair to
  *
- * `getcrosshair`
+ * `getcrosshair` *int* index
+ *  - Returns the path to the crosshair aliased by *index*.
+ *   - `index` the crosshair index to query
  */
 extern void inithudcmds();
 
@@ -926,7 +931,10 @@ extern void inithudcmds();
 /**
  * @brief Initializes normal.cpp cubescript commands
  *
- * `smoothangle`
+ * `smoothangle` *int* id *int* angle
+ *  - Returns id, unless id is negative or larger than the maximum number of smoothgroups.
+ *   - id the id to query
+ *   - the angle to set the smoothgroup at id's location
  */
 extern void initnormalcmds();
 
