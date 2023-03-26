@@ -258,8 +258,8 @@ class cube
             bool mergepolys(std::unordered_set<plink> &links, std::vector<const plink *> &queue, int owner, poly &q, const pedge &e);
         };
 
-        bool mincubeface(const cube &cu, int orient, const ivec &co, int size, facebounds &orig);
-        void mincubeface(const cube &cu, int orient, const ivec &o, int size, const facebounds &orig, facebounds &cf, ushort nmat, ushort matmask);
+        bool mincubeface(const cube &cu, int orient, const ivec &co, int size, facebounds &orig) const;
+        void mincubeface(const cube &cu, int orient, const ivec &o, int size, const facebounds &orig, facebounds &cf, ushort nmat, ushort matmask) const;
 
         void freecubeext(cube &c);
         void genmerges(cube * root, const ivec &o = ivec(0, 0, 0), int size = 9);
