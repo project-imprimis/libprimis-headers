@@ -530,7 +530,7 @@ class cubeworld
         float raycube   (const vec &o, const vec &ray, float radius = 0, int mode = 3, int size = 0, const extentity *t = 0) const;
         bool octacollide(const physent *d, const vec &dir, float cutoff, const ivec &bo, const ivec &bs);
         cube &lookupcube(const ivec &to, int tsize = 0, ivec &ro = lu, int &rsize = lusize);
-        bool bboccluded(const ivec &bo, const ivec &br);
+        bool bboccluded(const ivec &bo, const ivec &br) const;
         void findtjoints();
         void allchanged(bool load = false);
         const cube &neighborcube(int orient, const ivec &co, int size, ivec &ro, int &rsize);
