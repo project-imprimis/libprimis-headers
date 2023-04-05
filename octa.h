@@ -565,7 +565,7 @@ class cubeworld
          *
          * @return the cyclic redundancy code of the map file currently loaded
          */
-        uint getmapcrc();
+        uint getmapcrc() const;
 
         /**
          * @brief sets the CRC field variable to 0
