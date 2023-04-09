@@ -45,7 +45,21 @@ extern void cleanragdoll(dynent *d);
 
 namespace gle
 {
+    /**
+     * @brief Sets the type of primitive to draw.
+     *
+     * @param mode one of the GL primitive types (e.g. GL_TRIANGLES, GL_TRIANGLE_STRIP, ..)
+     */
     extern void begin(GLenum mode);
+
+    /**
+     * @brief Sets up an immediate-like rendering context
+     *
+     * Does not use glBegin() or other legacy constructs.
+     *
+     * @param mode one of the GL primitive types (e.g. GL_TRIANGLES, GL_TRIANGLE_STRIP, ..)
+     * @param numverts the number of vertices to draw
+     */
     extern void begin(GLenum mode, int numverts);
     extern void attrib(const vec &v);
     extern void attribf(float x, float y);
