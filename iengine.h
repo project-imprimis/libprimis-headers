@@ -61,10 +61,51 @@ namespace gle
      * @param numverts the number of vertices to draw
      */
     extern void begin(GLenum mode, int numverts);
+
+    /**
+     * @brief Adds three float values, packed in a vec, to the attribbuf.
+     *
+     * @param v the vec to add to the attribbuf
+     */
     extern void attrib(const vec &v);
+
+    /**
+     * @brief Adds two float values to the attribbuf.
+     *
+     * @param x the first value to add
+     * @param y the second value to add
+     */
     extern void attribf(float x, float y);
+
+    /**
+     * @brief Calls glVertexAttrib of the appropriate dimension.
+     *
+     * If the alpha value (w) is 0, glVertexAttrib3f is called, else glVertexAttrib4f.
+     * Sets the color of the attribute currently active.
+     *
+     * @param x the red channel (0..1)
+     * @param y the green channel (0..1)
+     * @param z the blue channel (0..1)
+     * @param w the alpha channel (0..1)
+     */
     extern void colorf(float x, float y, float z, float w = 0.0f);
+
+    /**
+     * @brief Calls glVertexAttrib4Nub to set the color of an attribute.
+     *
+     * @param x the red channel (0..255)
+     * @param y the green channel (0..255)
+     * @param z the blue channel (0..255)
+     * @param w the alpha channel (0..255)
+     */
     extern void colorub(uchar x, uchar y, uchar z, uchar w = 255);
+
+    /**
+     * @brief Sets texcoord0 with the given dimensionality and type.
+     *
+     * @param size the number of dimensions to use
+     * @param the GL format of the dimensions
+     */
     extern void deftexcoord0(int size = 2, int format = GL_FLOAT);
     extern void defvertex(int size = 3, int format = GL_FLOAT);
     extern int end();
