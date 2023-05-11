@@ -488,7 +488,6 @@ extern void keyrepeat(bool on, int mask = ~0);
 
 // menus
 
-extern void menuprocess();
 extern int mainmenu; /**< toggles if the main menu is shown, bool-like int */
 
 /**
