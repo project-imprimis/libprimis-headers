@@ -210,7 +210,7 @@ struct dynent : physent
 
     void stopmoving();
     void reset();
-    vec abovehead();
+    vec abovehead() const;
 };
 
 #endif /* ENTS_H_ */
