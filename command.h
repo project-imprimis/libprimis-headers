@@ -242,8 +242,29 @@ struct ident
         valtype = Value_Null;
     }
 
+    /**
+     * @brief Returns the saved value of the ident as a float.
+     *
+     * Returns a float even if the ident is of another type, e.g. integer
+     *
+     * @return the float value of the ident
+     */
     float getfloat() const;
+
+    /**
+     * @brief Returns the saved value of the ident as an integer.
+     *
+     * Returns an int even if the ident is of another type, e.g. float
+     */
     int getint() const;
+
+    /**
+     * @brief Returns the saved value of the ident as a double.
+     *
+     * Returns a double even if the ident is of another type, e.g. integer
+     *
+     * @return the double value of the ident
+     */
     double getnumber() const;
     const char *getstr() const;
     void getval(tagval &r) const;
