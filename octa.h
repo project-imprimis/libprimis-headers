@@ -496,6 +496,13 @@ class cubeworld
          */
         bool enlargemap(bool force);
         bool modifyoctaent(int flags, int id, extentity &e);
+
+        /**
+         * @brief attempts to reduce the mapsize by 1 (halves all linear dimensions)
+         *
+         * Fails if the 7 octants not at the origin are not empty.
+         * On success, the resulting map will have its maximum gridsize reduced by 1.
+         */
         void shrinkmap();
         bool load_world(const char *mname, const char *gameident, const char *gameinfo = nullptr, const char *cname = nullptr);
         bool save_world(const char *mname, const char *gameident);
