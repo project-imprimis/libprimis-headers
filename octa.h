@@ -691,7 +691,7 @@ class cubeworld
          *
          * @return true if the input stream is well formed, false otherwise
          */
-        bool loadmapheader(stream *f, const char *ogzname, mapheader &hdr, octaheader &ohdr);
+        bool loadmapheader(stream *f, const char *ogzname, mapheader &hdr, octaheader &ohdr) const;
 
         /**
          * @brief Sets the map's save file names
