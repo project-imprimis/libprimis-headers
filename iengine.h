@@ -2196,7 +2196,15 @@ extern void forcenextundo();
  * @param u the undoblock to destroy.
  */
 extern void freeundo(undoblock *u);
-extern void pasteblock(block3 &b, selinfo &sel, bool local);
+
+/**
+ * @brief Pastes the block3 passed to the volume in the selinfo object
+ *
+ * @param b the block3 to paste
+ * @param sel the selection to paste into
+ * @param local whether the command was local
+ */
+extern void pasteblock(const block3 &b, selinfo &sel, bool local);
 extern void pasteundo(undoblock *u);
 
 /**
