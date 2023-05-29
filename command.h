@@ -561,7 +561,7 @@ extern void clear_command();
  * r an ident parameter
  * $ an ident parameter
  * N a number parameter
- * D a bind parameter (e.g. player movement)
+ * D a bind parameter (e.g. player movement), adds a release action for the command
  * C an ident parameter, ComC
  * V an ident parameter, ComV
  * 1 repeat one arg
