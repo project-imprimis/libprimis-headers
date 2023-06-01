@@ -499,6 +499,15 @@ extern int clampvar(const ident *id, int i, int minval, int maxval);
 extern void loopiter(ident *id, identstack &stack, int i);
 extern void loopend(ident *id, identstack &stack);
 const char *escapeid(const char *s);
+
+/**
+ * @brief Writes out the state of the CubeScript idents to a file.
+ *
+ * @param savedconfig the path to write to if name is nullptr
+ * @param autoexec the path for the autoexec file for user modification, for display in top of file comment
+ * @param defaultconfig the path for the master copy of the configuration file, for display in top of file comment
+ * @param name the path to write to, if nullptr savedconfig is used instead
+ */
 extern void writecfg(const char *savedconfig, const char *autoexec = nullptr, const char *defaultconfig = nullptr, const char *name = nullptr);
 
 /**
