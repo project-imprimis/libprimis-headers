@@ -467,6 +467,8 @@ extern bool execfile(const char *cfgfile, bool msg = true);
 /**
  * @brief Replaces C style excape characters with Cubescript ones
  *
+ * The resulting string is also wrapped in quotes ("").
+ *
  * @param s the string to convert
  *
  * @return a string containing the escaped changes
@@ -498,6 +500,17 @@ extern void printvar(const ident *id, int i);
 extern int clampvar(const ident *id, int i, int minval, int maxval);
 extern void loopiter(ident *id, identstack &stack, int i);
 extern void loopend(ident *id, identstack &stack);
+
+/**
+ * @brief Escapes a string unless it is null.
+ *
+ * If an empty string is passed, escapestring() is not called. Otherwise, the same
+ * behavior as in escapestring() is executed.
+ *
+ * @param s the string to convert
+ *
+ * @return a string containing the potentially applied escape changes
+ */
 const char *escapeid(const char *s);
 
 /**
