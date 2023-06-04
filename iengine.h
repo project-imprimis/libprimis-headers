@@ -1535,8 +1535,6 @@ extern void initparticles();
 /**
  * @brief Initializes rendertext Cubescript commands.
  *
- * `fontalias`
- *
  * `font`
  *
  * `fontborder`
