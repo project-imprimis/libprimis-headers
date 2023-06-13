@@ -2309,6 +2309,18 @@ extern void multiplayerwarn();
  */
 extern ushort getmaterial(cube &c);
 
+/**
+ * @brief Pushes cubes linked with the passed cube.
+ *
+ * @param c the cube to push
+ * @param d dimension of the selection's orient
+ * @param x selection bounds x
+ * @param y selection bounds y
+ * @param dc dimension coordinate of the selection's orient
+ * @param dir direction to push
+ */
+extern void linkedpush(cube &c, int d, int x, int y, int dc, int dir);
+
 // raycube
 
 /**

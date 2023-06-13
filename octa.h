@@ -422,11 +422,6 @@ inline void setcubefaces(cube &c, uint face)
     c.faces[0] = c.faces[1] = c.faces[2] = face;
 }
 
-#define EDGE_GET(edge, coord) ((coord) ? (edge)>>4 : (edge)&0xF)
-#define EDGE_SET(edge, coord, val) ((edge) = ((coord) ? ((edge)&0xF)|((val)<<4) : ((edge)&0xF0)|(val)))
-
-#define CUBE_EDGE(c, d, x, y) ((c).edges[(((d)<<2)+((y)<<1)+(x))])
-
 inline int octadim(int d)
 {
     return 1<<d;
