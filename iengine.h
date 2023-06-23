@@ -1409,7 +1409,7 @@ extern const char *mapmodelname(int i);
  * vector by this function are loaded. Silently fails and does nothing if the model
  * name passed is not valid or already exists in the vector.
  */
-extern void preloadmodel(const char *name);
+extern void preloadmodel(std::string name);
 
 /**
  * @brief Loads the mapmodel assigned to the specified index.
