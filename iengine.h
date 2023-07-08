@@ -1162,10 +1162,21 @@ extern void drawminimap(int yaw, int pitch, vec loc, const cubeworld& world, int
 
 // renderlights
 
+
 /**
  * @brief Initializes renderlights CubeScript commands
  *
  * `usepacknorm`
+ *
+ * `debuglightinfo` *int* type
+ *  - Returns the selected type of light debug information (int)
+ *  - 0: lightpassesused
+ *  - 1: lightsvisible
+ *  - 2: lightsoccluded
+ *  - 3: lightbatchesused
+ *  - 4: lightbatchrectsused
+ *  - 5: lightbatchstacksused
+ *  - If a value not specified is entered, returns -1.
  */
 extern void initrenderlightscmds();
 
