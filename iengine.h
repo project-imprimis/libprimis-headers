@@ -2555,6 +2555,11 @@ const void setmapname(const char * newname);
  * @brief Initializes worldio Cubescript commands.
  *
  * `mapcfgname`
+ *  - Returns the current map configuration file path.
+ *
+ * `mapversion`
+ *  - Returns the current map version.
+ *
  */
 extern void initworldiocmds();
 
