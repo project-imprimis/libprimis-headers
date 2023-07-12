@@ -488,16 +488,19 @@ extern void printvar(const ident *id, int i);
 /**
  * @brief Modifies the value passed to fall within the boundaries passed.
  *
- * Clamps the value i to within minval and maxval. If id is a hex variable,
- * issues a warning about clamping. i is a regular free variable and does not
- * necessarily have anything to do with the ident passed.
+ * Clamps the value i to within minval and maxval. If hex is passed, warns in hex
+ * mode, otherwise decimal. If the values are not within bounds, issued aformentioned
+ * warning, refering to the passed name in the console message.
  *
- * @param id the ident object to check the hex-ness of
+ * @param hex toggles whether to display hex warning instead of decimal
+ * @param name the name
  * @param i the value to clamp
  * @param minval the lowest value to clamp to
  * @param maxval the largest value to clamp to
+ *
+ * @return the clamped value
  */
-extern int clampvar(const ident *id, int i, int minval, int maxval);
+extern int clampvar(bool hex, std::string name, int i, int minval, int maxval);
 extern void loopiter(ident *id, identstack &stack, int i);
 extern void loopend(ident *id, identstack &stack);
 
