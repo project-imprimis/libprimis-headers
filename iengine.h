@@ -2450,7 +2450,29 @@ extern void updatedynentcache(physent *d);
  */
 extern bool entinmap(dynent *d, bool avoidplayers = false);
 
+/**
+ * @brief Recalculates dir based on the provided physent, normalized to oldvel
+ *
+ * The magnitude of the dir vec passed in is used to multiply the output by
+ * (magnitude of oldvel)/(magnitude of dir). The direction of the output is not
+ * determined by the input; this is equal to the physnent's vel and falling fields
+ * added together.
+ *
+ * @param d the physent to use the fall velocity of
+ * @param oldvel the velocity to use the magnitude of to scale
+ * @param[in, out] dir the dynent's direction scaled to the oldvel and input dir
+ */
 extern void recalcdir(const physent *d, const vec &oldvel, vec &dir);
+
+/**
+ * @brief Re-projects a physent's velocity according to a given wall normal
+ *
+ * @param d the dynent to velocity project
+ * @param dir the direction to recalcdir() using the dynent's velocity
+ * @param obstacle the normal of the wall
+ * @param foundfloor toggles whether to omit the z coordinate of the given wall normal
+ * @param slidecollide toggles whether to omit the z-coord of the given wall normal (if foundfloor==false)
+ */
 extern void slideagainst(physent *d, vec &dir, const vec &obstacle, bool foundfloor, bool slidecollide);
 
 /**
@@ -2463,6 +2485,19 @@ extern void slideagainst(physent *d, vec &dir, const vec &obstacle, bool foundfl
  * @param alloced if true, deletes the block itself
  */
 extern void freeblock(block3 *b, bool alloced = true);
+
+/**
+ * @brief Allocates a new copy of the given block3 on the heap.
+ *
+ * Generates a new object of type uchar[blocksize] which is filled with the same
+ * contents of the passed block. This is operated on by reinterpret_cast<block3 *>
+ * to return a pointer of the return type.
+ *
+ * @param s the block3 to copy
+ * @param the grid power to copy at
+ *
+ * @return a pointer to a char array that has been cast to a block3*
+ */
 extern block3 *blockcopy(const block3 &s, int rgrid);
 
 // world
