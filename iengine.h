@@ -1162,7 +1162,6 @@ extern void drawminimap(int yaw, int pitch, vec loc, const cubeworld& world, int
 
 // renderlights
 
-
 /**
  * @brief Initializes renderlights CubeScript commands
  *
@@ -1177,6 +1176,35 @@ extern void drawminimap(int yaw, int pitch, vec loc, const cubeworld& world, int
  *  - 4: lightbatchrectsused
  *  - 5: lightbatchstacksused
  *  - If a value not specified is entered, returns -1.
+ *
+ * `getcsmproperty` *int* type
+ *  - Returns the selected cascaded shadow map property (float)
+ *  - List of types for the type parameter:
+ *   0. csmmaxsize
+ *   1. csmnearplane
+ *   2. csmfarplane
+ *   3. csmcull
+ *   4. csmsplitweight
+ *   5. csmpradiustweak
+ *   6. csmdepthrange
+ *   7. csmdepthmargin
+ *   8. csmbias
+ *   9. csmbias2
+ *
+ * `setcsmproperty` *int* type *float* value
+ *  - Sets the selected cascaded shadow map property.
+ *  - If a value out of bounds is specified, value will be modified to remain in range.
+ *  - List of types for the type parameter:
+ *   0. csmmaxsize
+ *   1. csmnearplane
+ *   2. csmfarplane
+ *   3. csmcull
+ *   4. csmsplitweight
+ *   5. csmpradiustweak
+ *   6. csmdepthrange
+ *   7. csmdepthmargin
+ *   8. csmbias
+ *   9. csmbias2
  */
 extern void initrenderlightscmds();
 
