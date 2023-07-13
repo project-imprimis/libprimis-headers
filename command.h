@@ -434,7 +434,7 @@ extern int execute(const uint *code);
  *
  * Parses and executes the line of Cubescript given.
  *
- * @param the C string containing the code to execute
+ * @param p the C string containing the code to execute
  *
  * @return an int from the results of the execution
  */
