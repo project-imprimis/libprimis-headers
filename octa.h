@@ -499,7 +499,32 @@ class cubeworld
          * On success, the resulting map will have its maximum gridsize reduced by 1.
          */
         void shrinkmap();
+
+        /**
+         * @brief Loads a map file into the octaworld object.
+         *
+         * Loads a map that has been saved in .ogz format.
+         * Will load the configuration file of the same name, unless cname is specified.
+         *
+         * @param mname the name of the map to load (the ogz)
+         * @param gameident the name of the game calling (this is saved in the map)
+         * @param gameinfo the string to render while the map is loading
+         * @param the name of the map's configuration file (if different than the octree)
+         *
+         * @return true if the map was loaded
+         * @return false if the map failed to load or was not found
+         */
         bool load_world(const char *mname, const char *gameident, const char *gameinfo = nullptr, const char *cname = nullptr);
+
+        /**
+         * @brief Saves the current map to an ogz file.
+         *
+         * @param mname the name of the map file once saved
+         * @param gameident the name of the game saving the file
+         *
+         * @return true if the map was saved
+         * @return false if the map failed to save
+         */
         bool save_world(const char *mname, const char *gameident);
 
         /**
@@ -606,6 +631,8 @@ class cubeworld
          * Returns the size of the worldroot cube, in terms of the number of
          * half-linear-size cubes it has as descendents in the octree. This value
          * is generally between 10 and 15.
+         *
+         * @return the scale of the world
          */
         int mapscale() const;
 
@@ -615,6 +642,8 @@ class cubeworld
          * Returns the size of the worldroot cube, in terms of the number of size
          * 0 cubes on each linear axis. This value is generally between 2^10 and
          * 2^15.
+         *
+         * @return the size of the world
          */
         int mapsize() const;
     private:
