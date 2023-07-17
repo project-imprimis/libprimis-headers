@@ -509,6 +509,7 @@ struct stream
 extern string homedir;
 
 extern char *path(char *s);
+extern std::string path(std::string s);
 extern char *copypath(const char *s);
 extern const char *sethomedir(const char *dir);
 extern const char *findfile(const char *filename, const char *mode);
