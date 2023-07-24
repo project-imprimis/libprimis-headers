@@ -255,7 +255,7 @@ class cube
             pvert verts[Face_MaxVerts];
 
             bool clippoly(const facebounds &b);
-            bool mergepolys(std::unordered_set<plink> &links, std::vector<const plink *> &queue, int owner, poly &q, const pedge &e);
+            bool mergepolys(std::unordered_set<plink> &links, std::deque<const plink *> &queue, int owner, poly &q, const pedge &e);
         };
 
         bool mincubeface(const cube &cu, int orient, const ivec &co, int size, facebounds &orig) const;
@@ -266,12 +266,12 @@ class cube
         bool genpoly(int orient, const ivec &o, int size, int vis, ivec &n, int &offset, poly &p);
         void clearmerge(int orient);
         void addmerge(int orient, const ivec &n, int offset, poly &p);
-        void addmerges(int orient, const ivec &n, int offset, std::vector<poly> &polys);
-        void mergepolys(int orient, const ivec &n, int offset, std::vector<poly> &polys);
+        void addmerges(int orient, const ivec &n, int offset, std::deque<poly> &polys);
+        void mergepolys(int orient, const ivec &n, int offset, std::deque<poly> &polys);
 
         struct cfpolys
         {
-            std::vector<poly> polys;
+            std::deque<poly> polys;
         };
 
         struct cfkey
