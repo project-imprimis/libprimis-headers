@@ -1026,10 +1026,31 @@ extern void initoctarendercmds();
 extern void initrenderglcmds();
 
 extern physent *camera1; /**< Camera location for the renderer to render at */
-extern vec worldpos, camdir, camright, camup;
+extern vec worldpos;
 extern float fovy; /**< Field of view in degrees in the vertical direction (normal fov is X dimension). */
 extern bool detachedcamera; /**< read only variable corresponding to camera at ent location (1p) or away from it (3p) */
 extern int xtraverts;
+
+/**
+ * @brief returns the camera matrix direction component
+ *
+ * @return a vec containing the transposed transform of the camera matrix and view matrix's dir component
+ */
+extern vec camdir();
+
+/**
+ * @brief returns the camera matrix right component
+ *
+ * @return a vec containing the transposed transform of the camera matrix and view matrix's right component
+ */
+extern vec camright();
+
+/**
+ * @brief returns the camera matrix up component
+ *
+ * @return a vec containing the transposed transform of the camera matrix and view matrix's up component
+ */
+extern vec camup();
 
 /**
  * @brief Unsets any zoom progress and disables zooming.
