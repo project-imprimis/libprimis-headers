@@ -968,38 +968,38 @@ namespace UI
 /**
  * @brief Initializes AA cubescript commands
  *
- * `getsmaaproperty` *int* index
+ * @n `getsmaaproperty` *int* index
  *  - Returns the selected SMAA property (int)
  *  - List of types for the type parameter:
- *   0. T2X
- *   1. S2X
- *   2. X4
- *   3. SMAA
- *   4. Spatial
- *   5. Quality
- *   6. ColorEdge
- *   7. GreenLuma
- *   8. DepthMask
- *   9. Stencil
- *   10. Debug
+ * @n 0. T2X
+ *    1. S2X
+ *    2. X4
+ *    3. SMAA
+ *    4. Spatial
+ *    5. Quality
+ *    6. ColorEdge
+ *    7. GreenLuma
+ *    8. DepthMask
+ *    9. Stencil
+ *    10. Debug
  *
- * `setsmaaproperty` *int* index *int* value
+ * @n `setsmaaproperty` *int* index *int* value
  *  - Sets the selected SMAA property (int)
  *  - If a value out of bounds is specified, value will be modified to remain in range.
  *  - List of types for the index parameter:
- *
- *   0. T2X
- *   1. S2X
- *   2. X4
- *   3. SMAA
- *   4. Spatial
- *   5. Quality
- *   6. ColorEdge
- *   7. GreenLuma
- *   8. DepthMask
- *   9. Stencil
- *   10. Debug
+ * @n 0. T2X
+ *    1. S2X
+ *    2. X4
+ *    3. SMAA
+ *    4. Spatial
+ *    5. Quality
+ *    6. ColorEdge
+ *    7. GreenLuma
+ *    8. DepthMask
+ *    9. Stencil
+ *    10. Debug
  */
+extern void initaacmds();
 
 // hud
 
