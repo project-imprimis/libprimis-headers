@@ -326,7 +326,7 @@ extern void result(const char *s);
  */
 inline int parseint(const char *s)
 {
-    return static_cast<int>(strtoul(s, nullptr, 0));
+    return static_cast<int>(std::strtoul(s, nullptr, 0));
 }
 
 /**
