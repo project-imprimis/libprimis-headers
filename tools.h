@@ -580,6 +580,18 @@ inline void putuint_(T &p, int n)
 
 extern void putint(std::vector<uchar> &p, int n);
 
+template<typename T>
+inline void vectorput(std::vector<uint8_t>& buf, const T& data)
+{
+    const uint8_t* data_ptr = reinterpret_cast<const uint8_t*>(&data);
+    buf.insert(buf.end(), data_ptr, data_ptr + sizeof(T));
+}
+
+inline void vectorput(std::vector<uint8_t>& buf, const uint8_t* data, size_t size)
+{
+    buf.insert(buf.end(), data, data + size);
+}
+
 template<class T>
 inline void sendstring_(const char *t, T &p)
 {
