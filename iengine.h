@@ -1808,6 +1808,24 @@ extern void renderprogress(float bar, const char *text, bool background = false)
  * `setpostfx`
  *
  * `resetshaders`
+ *
+ * `variantshader_new`
+ *
+ * `shader_new` *int* *string* *exec*
+ *
+ * `shader_define` *string* *string*
+ *
+ * `shader_source` *string* *string*
+ *
+ * `shader_include_vs` *string*
+ *
+ * `shader_include_ps` *string*
+ *
+ * `shader_get_defines` *null*
+ *
+ * `shader_get_includes_vs` *null*
+ *
+ * `shader_get_includes_ps` *null*
  */
 extern void initshadercmds();
 
