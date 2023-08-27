@@ -99,7 +99,7 @@ constexpr uint facesolid = 0x80808080;    /**< all edges in the range (0,8) */
 class cube
 {
     public:
-        cube *children;          /**< points to 8 cube structures which are its children, or nullptr. -Z first, then -Y, -X */
+        std::array<cube, 8> *children; /**< points to 8 cube structures which are its children, or nullptr. -Z first, then -Y, -X. If children[0] == nullptr, assume there are no children.*/
         cubeext *ext;            /**< extended info for the cube */
         union
         {
@@ -115,6 +115,7 @@ class cube
             uchar escaped;       /**< mask of which children have escaped merges */
             uchar visible;       /**< visibility info for faces */
         };
+        bool valid;              /**< status of the cube: */
         /**
          * @brief returns if the cube is empty (face 0 does not exist)
          *
@@ -360,14 +361,14 @@ struct block3
     block3() {}
     block3(const selinfo &sel) : o(sel.o), s(sel.s), grid(sel.grid), orient(sel.orient) {}
 
-    const cube *getcube() const
+    const std::array<cube, 8> *getcube() const
     {
-        return reinterpret_cast<const cube *>(this+1);
+        return reinterpret_cast<const std::array<cube, 8> *>(this+1);
     }
 
-    cube *c()
+    std::array<cube, 8> *c()
     {
-        return reinterpret_cast<cube *>(this+1);
+        return reinterpret_cast<std::array<cube, 8> *>(this+1);
     }
 
     int size() const
@@ -454,7 +455,7 @@ struct clipplanes;
 class cubeworld
 {
     public:
-        cube *worldroot = nullptr;
+        std::array<cube, 8> *worldroot;
 
         /**
          * @brief Returns the material bitmask value at the given location.
@@ -722,7 +723,7 @@ class cubeworld
          * @param size the gridpower of the cube to save
          * @param f the stream to save to
          */
-        void savec(const cube * const c, const ivec &o, int size, stream * const f);
+        void savec(const std::array<cube, 8> &c, const ivec &o, int size, stream * const f);
 
         /**
          * @brief Loads a map header given the input stream.
