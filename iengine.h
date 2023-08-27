@@ -2068,7 +2068,7 @@ extern void initoctaworldcmds();
  *
  * @param c the cube object to be deleted
  */
-extern void freeocta(cube *c);
+extern void freeocta(std::array<cube, 8> *&c);
 extern void getcubevector(const cube &c, int d, int x, int y, int z, ivec &p);
 
 extern void optiface(const uchar *p, cube &c);
@@ -2215,7 +2215,7 @@ extern bool editmoveplane(const vec &o, const vec &ray, int d, float off, vec &h
  * Recursively counts the number of cubes being selected in the current selection,
  * and assigns this value to selchildcount
  */
-extern void countselchild(const cube *c, const ivec &cor, int size);
+extern void countselchild(const std::array<cube, 8> &c, const ivec &cor, int size);
 extern void normalizelookupcube(const ivec &o);
 extern void updateselection();
 
