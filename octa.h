@@ -361,14 +361,14 @@ struct block3
     block3() {}
     block3(const selinfo &sel) : o(sel.o), s(sel.s), grid(sel.grid), orient(sel.orient) {}
 
-    const std::array<cube, 8> *getcube() const
+    const cube *getcube() const
     {
-        return reinterpret_cast<const std::array<cube, 8> *>(this+1);
+        return reinterpret_cast<const cube *>(this+1);
     }
 
-    std::array<cube, 8> *c()
+    cube *c()
     {
-        return reinterpret_cast<std::array<cube, 8> *>(this+1);
+        return reinterpret_cast<cube *>(this+1);
     }
 
     int size() const
