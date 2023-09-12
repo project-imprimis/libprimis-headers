@@ -1984,7 +1984,21 @@ extern void inittexturecmds();
 extern Texture *notexture;
 
 extern Texture *textureload(const char *name, int clamp = 0, bool mipit = true, bool msg = true);
+
+/**
+ * @brief Packs into the passed char vector the contents of a VSlot
+ *
+ * @param buf the vector to pack information into
+ * @param index the index in the vslot list to pack
+ */
 extern void packvslot(std::vector<uchar> &buf, int index);
+
+/**
+ * @brief Packs into the passed char vector the contents of a VSlot
+ *
+ * @param buf the vector to pack information into
+ * @param vs a pointer to the slot to pack
+ */
 extern void packvslot(std::vector<uchar> &buf, const VSlot *vs);
 extern bool settexture(const char *name, int clamp = 0);
 
