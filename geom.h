@@ -130,24 +130,6 @@ struct vec2
     vec2 &rotate_around_z(const vec2 &sc) { return rotate_around_z(sc.x, sc.y); }
 };
 
-inline bool htcmp(const vec2 &x, const vec2 &y)
-{
-    return x == y;
-}
-
-inline uint hthash(const vec2 &k)
-{
-    union
-    {
-        uint i;
-        float f;
-    } x, y;
-    x.f = k.x;
-    y.f = k.y;
-    uint v = x.i^y.i;
-    return v + (v>>12);
-}
-
 struct ivec;
 struct svec;
 
@@ -437,24 +419,11 @@ struct vec
 
 inline vec2::vec2(const vec &v) : x(v.x), y(v.y) {}
 
-inline bool htcmp(const vec &x, const vec &y)
-{
-    return x == y;
-}
-
-inline uint hthash(const vec &k)
-{
-    union { uint i; float f; } x, y, z;
-    x.f = k.x;
-    y.f = k.y;
-    z.f = k.z;
-    uint v = x.i^y.i^z.i;
-    return v + (v>>12);
-}
-
 template<>
-struct std::hash<vec> {
-    size_t operator()(const vec& k) const {
+struct std::hash<vec>
+{
+    size_t operator()(const vec& k) const
+    {
         union { uint i; float f; } x, y, z;
         x.f = k.x;
         y.f = k.y;
@@ -1750,19 +1719,11 @@ struct ivec
 
 inline vec::vec(const ivec &v) : x(v.x), y(v.y), z(v.z) {}
 
-inline bool htcmp(const ivec &x, const ivec &y)
-{
-    return x == y;
-}
-
-inline uint hthash(const ivec &k)
-{
-    return k.x^k.y^k.z;
-}
-
 template<>
-struct std::hash<ivec> {
-    size_t operator()(const ivec &k) const {
+struct std::hash<ivec>
+{
+    size_t operator()(const ivec &k) const
+    {
         return k.x^k.y^k.z;
     }
 };
