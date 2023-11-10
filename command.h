@@ -213,6 +213,12 @@ struct ident
         : type(t), numargs(numargs), flags(flags), name(n), args(args), argmask(argmask), fun((identfun)f)
     {}
 
+    /**
+     * @brief Calls a change effect for this ident, if one exists.
+     *
+     * If there is no function pointed to by `fun` (it is null), then nothing
+     * will occur.
+     */
     void changed()
     {
         if(fun)
@@ -221,18 +227,39 @@ struct ident
         }
     }
 
+    /**
+     * @brief Sets the value and type of value of this ident given a tagval
+     *
+     * Sets this ident's value type and value to the corresponding values from
+     * the passed tagval object.
+     *
+     * @param v the tagval to set values from
+     */
     void setval(const tagval &v)
     {
         valtype = v.type;
         val = v;
     }
 
+    /**
+     * @brief Sets the value and type of value of this ident given an identstack
+     *
+     * Sets this ident's value type and value to the corresponding values from
+     * the passed identstack object.
+     *
+     * @param v the identstack to set values from
+     */
     void setval(const identstack &v)
     {
         valtype = v.valtype;
         val = v.val;
     }
 
+    /**
+     * @brief Sets the value type of this ident to null.
+     *
+     * If a string is being stored inside this ident, it is freed.
+     */
     void forcenull()
     {
         if(valtype==Value_String)
