@@ -112,7 +112,7 @@ struct Slot
 
     virtual VSlot &emptyvslot();
 
-    virtual int cancombine(int type)const;
+    virtual std::optional<int> cancombine(int type) const;
     virtual bool shouldpremul(int) const
     {
         return false;
@@ -122,14 +122,14 @@ struct Slot
      * @brief Attempts to find a tex with index type.
      *
      * Searches for a tex with the type passed, searching only for the part of the
-     * sts vector after `last`. If none is found, returns -1.
+     * sts vector after `last`.
      *
      * @param type the type to seach for
      * @param last the last index to not look at
      *
-     * @return the index where the type was found
+     * @return the index where the type was found, else std::nullopt.
      */
-    int findtextype(int type, int last = -1) const;
+    std::optional<int> findtextype(int type, int last = -1) const;
 
     void load(int index, Slot::Tex &t);
     void load();
@@ -265,7 +265,7 @@ struct DecalSlot : Slot, VSlot
         return *this;
     }
 
-    int cancombine(int type) const;
+    std::optional<int> cancombine(int type) const;
     bool shouldpremul(int type) const;
 
     void reset()

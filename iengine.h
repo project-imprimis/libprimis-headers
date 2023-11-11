@@ -7,6 +7,7 @@
  * the game code to expose functions to the game.
  */
 
+#include "cube.h"
 #ifndef IENGINE_H_
 #define IENGINE_H_
 
@@ -2062,7 +2063,7 @@ extern int showmat; /**< treat as bool, determines whether material outlines are
  *
  * @return an integer corresponding to the bitmask value of the material
  */
-extern int findmaterial(const char *name);
+extern std::optional<int> findmaterial(const char *name);
 
 // octaworld
 
