@@ -7,7 +7,6 @@
  * the game code to expose functions to the game.
  */
 
-#include "cube.h"
 #ifndef IENGINE_H_
 #define IENGINE_H_
 
