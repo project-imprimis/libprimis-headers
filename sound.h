@@ -52,6 +52,9 @@ class SoundEngine
 
         /**
          * @brief Plays a sound with the given attributes.
+         * 
+         * Returns the wrapped channel id
+         * Returns std::nullopt in case of failure
          *
          * @param n index of the sound to play
          * @param loc world location to play at
