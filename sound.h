@@ -53,8 +53,6 @@ class SoundEngine
         /**
          * @brief Plays a sound with the given attributes.
          * 
-         * Returns the wrapped channel id.
-         * Returns std::nullopt in case of failure.
          *
          * @param n index of the sound to play
          * @param loc world location to play at
@@ -65,6 +63,8 @@ class SoundEngine
          * @param chanid music channel index to use
          * @param radius distance over which sound is audible (in size 0 cubes)
          * @param expire maximum time before the sound stops playing
+         * 
+         * @return the channel id or std::nullopt in case of failure.
          */
         std::optional<int> playsound(int n, const vec *loc = nullptr, extentity *ent = nullptr, int flags = 0, int loops = 0, int fade = 0, int chanid = -1, int radius = 0, int expire = -1);
 
