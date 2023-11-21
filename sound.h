@@ -104,8 +104,10 @@ class SoundEngine
          * @param chanid music channel index to use
          * @param radius distance over which sound is audible (in size 0 cubes)
          * @param expire maximum time before the sound stops playing
+         * 
+         * @return the channel id where the song gets played or std::nullopt if it fails
          */
-        int playsoundname(const char *s, const vec *loc, int vol, int flags, int loops, int fade, int chanid, int radius, int expire);
+        std::optional<int> playsoundname(const char *s, const vec *loc, int vol, int flags, int loops, int fade, int chanid, int radius, int expire);
 
         /**
          * @brief Starts SDL_Mixer and initializes startup sound channels.
