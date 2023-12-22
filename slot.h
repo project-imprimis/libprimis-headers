@@ -243,30 +243,30 @@ struct VSlot
 /**
  * @param A derivative form of a slot intended for decal objects.
  */
-struct DecalSlot : Slot, VSlot
+struct DecalSlot final : Slot, VSlot
 {
     float depth, fade;
 
     DecalSlot(int index = -1) : Slot(index), VSlot(this), depth(1), fade(0.5f) {}
 
-    int type() const
+    int type() const override final
     {
         return SlotType_Decal;
     }
 
-    const char *name() const;
-    const char *texturedir() const
+    const char *name() const override final;
+    const char *texturedir() const override final
     {
         return "media/decal";
     }
 
-    VSlot &emptyvslot()
+    VSlot &emptyvslot() override final
     {
         return *this;
     }
 
-    int cancombine(int type) const;
-    bool shouldpremul(int type) const;
+    int cancombine(int type) const override final;
+    bool shouldpremul(int type) const override final;
 
     void reset()
     {
