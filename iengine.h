@@ -1293,6 +1293,15 @@ extern void clearshadowcache();
 /**
  * @brief Initializes rendermodel CubeScript commands
  *
+ * Commands starting with `obj` or `md5` will only have an effect when called
+ * by files loaded by the following functions: `loadmodel` `rendermodel`
+ * `loadmapmodel(int)` `intersectmodel` `preloadusedmapmodels`
+ * `flushpreloadedmodels` `abovemodel`.
+ *
+ * They define the parameters of the loaded model, and are not to be used when
+ * not loaded by the above functions. All `obj`/`md5` functions will return a
+ * "not loading an X" error if they are called outside of these special scopes.
+ *
  * `mapmodelreset` *int* index
  *
  * `mapmodel` *string* name
