@@ -1545,7 +1545,38 @@ extern void rendermodel(const char *mdl,
                         float size = 1,
                         const vec4<float> &color = vec4<float>(1, 1, 1, 1));
 
-extern int intersectmodel(const char *mdl, int anim, const vec &pos, float yaw, float pitch, float roll, const vec &o, const vec &ray, float &dist, int mode = 0, dynent *d = nullptr, modelattach *a = nullptr, int basetime = 0, int basetime2 = 0, float size = 1);
+/**
+ * @brief Returns the intersection status of a model.
+ *
+ * @param mdl name of the model to load
+ * @param anim animation status (Anim_ enum)
+ * @param pos position of the model
+ * @param yaw yaw of the model
+ * @param pitch pitch of the model
+ * @param roll roll of the model
+ * @param o origin of intersecting ray
+ * @param ray direction of intersecting ray
+ * @param dist length of the ray
+ * @param d dynent associated with this model
+ * @param a array of modelattach objects
+ * @param basetime animation basetime
+ * @param basetime2 if Anim_SetSpeed, speed factor
+ * @param size scale factor of model
+ */
+extern int intersectmodel(const char *mdl,
+                          int anim,
+                          const vec &pos,
+                          float yaw,
+                          float pitch,
+                          float roll,
+                          const vec &o,
+                          const vec &ray,
+                          float &dist,
+                          dynent *d = nullptr,
+                          modelattach *a = nullptr,
+                          int basetime = 0,
+                          int basetime2 = 0,
+                          float size = 1);
 
 /**
  * @brief Adds the z height of the model to the vector passed.
