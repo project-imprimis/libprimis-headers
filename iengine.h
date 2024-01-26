@@ -1289,7 +1289,6 @@ extern void clearshadowcache();
 
 // rendermodel
 
-
 /**
  * @brief Initializes rendermodel CubeScript commands
  *
@@ -1398,113 +1397,113 @@ extern void clearshadowcache();
  *
  * `objpitch` *string* meshname
  *
- * `md5cullface` *int* cullface
+ * `md5cullface` `gltfcullface` *int* cullface
  *
- * `md5color` *float* red *float* green *float* blue
+ * `md5color` `gltfcolor` *float* red *float* green *float* blue
  *
- * `md5collide` *bool* collide
+ * `md5collide` `gltfcollide` *bool* collide
  *
- * `md5ellipsecollide` *bool* collide
+ * `md5ellipsecollide` `gltfellipsecollide` *bool* collide
  *
- * `md5tricollide` *bool* collide
+ * `md5tricollide` `gltftricollide` *bool* collide
  *
- * `md5spec` *float* scale
+ * `md5spec` `gltfspec` *float* scale
  *
- * `md5gloss` *float* type
+ * `md5gloss` `gltfgloss` *float* type
  *
- * `md5alphatest` *float* cutoff
+ * `md5alphatest` `gltfalphatest` *float* cutoff
  *
- * `md5depthoffset` *int* offset
+ * `md5depthoffset` `gltfdepthoffset` *int* offset
  *
- * `md5glow` *float* scale *float* delta *float* pulse
+ * `md5glow` `gltfglow` *float* scale *float* delta *float* pulse
  *
- * `md5fullbright` *float* scale
+ * `md5fullbright` `gltffullbright` *float* scale
  *
- * `md5shader` *string* shader
+ * `md5shader` `gltfshader` *string* shader
  *
- * `md5spin` *float* yaw *float* pitch *float* roll
+ * `md5spin` `gltfspin` *float* yaw *float* pitch *float* roll
  *
- * `md5scale` *float* scale
+ * `md5scale` `gltfscale` *float* scale
  *
- * `md5trans` *float* x *float* y *float* z
+ * `md5trans` `gltftrans` *float* x *float* y *float* z
  *
- * `md5yaw` *float* angle
+ * `md5yaw` `gltfyaw` *float* angle
  *
- * `md5pitch` *float* angle
+ * `md5pitch` `gltfpitch` *float* angle
  *
- * `md5roll` *float* angle
+ * `md5roll` `gltfroll` *float* angle
  *
- * `md5shadow` *bool* shadow
+ * `md5shadow` `gltfshadow` *bool* shadow
  *
- * `md5alphashadow` *bool* shadow
+ * `md5alphashadow` `gltfalphashadow` *bool* shadow
  *
- * `md5bb` *float* radius *float* height *float* eyeheight
+ * `md5bb` `gltfbb` *float* radius *float* height *float* eyeheight
  *
- * `md5extendbb` *float* x *float* y *float* z
+ * `md5extendbb` `gltfextendbb` *float* x *float* y *float* z
  *
- * `md5name`
+ * `md5name` `gltfname`
  *
- * `md5skin` *string* meshname *string* tex *string* masks
+ * `md5skin` `gltfskin` *string* meshname *string* tex *string* masks
  *
- * `md5texspec` *string* tex *float* scale
+ * `md5texspec` `gltftexspec` *string* tex *float* scale
  *
- * `md5texgloss` *string* tex *int* type
+ * `md5texgloss` `gltftexgloss` *string* tex *int* type
  *
- * `md5texglow` *string* tex *float* percent *float* delta *float* pulse
+ * `md5texglow` `gltftexglow` *string* tex *float* percent *float* delta *float* pulse
  *
- * `md5meshalphatest` *string* meshname *float* cutoff
+ * `md5meshalphatest` `gltfmeshalphatest` *string* meshname *float* cutoff
  *
- * `md5meshcullface` *string* meshname *int* cullface
+ * `md5meshcullface` `gltfmeshcullface` *string* meshname *int* cullface
  *
- * `md5meshcolor` *string* meshname *float* red *float* green *float* blue
+ * `md5meshcolor` `gltfmeshcolor` *string* meshname *float* red *float* green *float* blue
  *
- * `md5bumpmap` *string* meshname *string* tex
+ * `md5bumpmap` `gltfbumpmap` *string* meshname *string* tex
  *
- * `md5decal` *string* meshname *string* tex
+ * `md5decal` `gltfdecal` *string* meshname *string* tex
  *
- * `md5meshfullbright` *string* meshname *string* brightness
+ * `md5meshfullbright` `gltfmeshfullbright` *string* meshname *string* brightness
  *
- * `md5meshshader` *string* meshname *string* shader
+ * `md5meshshader` `gltfmeshshader` *string* meshname *string* shader
  *
- * `md5scroll` *string* meshname *float* xscroll *float* yscroll
+ * `md5scroll` `gltfscroll` *string* meshname *float* xscroll *float* yscroll
  *
- * `md5noclip` *string* meshname *bool* clip
+ * `md5noclip` `gltfnoclip` *string* meshname *bool* clip
  *
- * `md5tricollide` *string* meshname *string* meshname
+ * `md5tricollide` `gltftricollide` *string* meshname *string* meshname
  *
- * `md5link` *int* parent *int* child *string* tagname *float* x *float* y *float* z
+ * `md5link` `gltflink` *int* parent *int* child *string* tagname *float* x *float* y *float* z
  *
- * `md5load` *string* meshname *string* skel *float* smooth
+ * `md5load` `gltfload` *string* meshname *string* skel *float* smooth
  *
- * `md5tag` *string* tagname *float* tx *float* ty *float* tz *float* rx *float* ry *float* rz
+ * `md5tag` `gltftag` *string* tagname *float* tx *float* ty *float* tz *float* rx *float* ry *float* rz
  *
- * `md5pitch` *string* meshname *float* pitchscale *float* pitchoffset *float* pitchmin *float* pitchmax
+ * `md5pitch` `gltfpitch` *string* meshname *float* pitchscale *float* pitchoffset *float* pitchmin *float* pitchmax
  *
- * `md5pitchtarget` *string* meshname *string* animfile *int* frameoffset *float* pitchmin *float* pitchmax
+ * `md5pitchtarget` `gltfpitchtarget` *string* meshname *string* animfile *int* frameoffset *float* pitchmin *float* pitchmax
  *
- * `md5pitchcorrect` *string* meshname *string* targetname *float* scale *float* pitchmin *float* pitchmax
+ * `md5pitchcorrect` `gltfpitchcorrect` *string* meshname *string* targetname *float* scale *float* pitchmin *float* pitchmax
  *
- * `md5hitzone` *int* hitzoneid *string* maskstring
+ * `md5hitzone` `gltfhitzone` *int* hitzoneid *string* maskstring
  *
- * `md5anim` *string* animname *string* animfile *float* speed *int* priority *int* startoffset *int* endoffset
+ * `md5anim` `gltfanim` *string* animname *string* animfile *float* speed *int* priority *int* startoffset *int* endoffset
  *
- * `md5animpart` *string* maskstring
+ * `md5animpart` `gltfanimpart` *string* maskstring
  *
- * `md5adjust` *string* bonename *float* yaw *float* pitch *float* roll *float* translatex *float* translatey *float* translatez
+ * `md5adjust` `gltfadjust` *string* bonename *float* yaw *float* pitch *float* roll *float* translatex *float* translatey *float* translatez
  *
- * `md5rdvert` *float* x *float* y *float* z *float* radius
+ * `md5rdvert` `gltfrdvert` *float* x *float* y *float* z *float* radius
  *
- * `md5rdeye` *int* level
+ * `md5rdeye` `gltfrdeye` *int* level
  *
- * `md5rdtri` *int* vertex1 *int* vertex2 *int* vertex3
+ * `md5rdtri` `gltfrdtri` *int* vertex1 *int* vertex2 *int* vertex3
  *
- * `md5rdjoint` *int* num *int* tri *bool* vertex1 *bool* vertex2 *bool* vertex3
+ * `md5rdjoint` `gltfrdjoint *int* num *int* tri *bool* vertex1 *bool* vertex2 *bool* vertex3
  *
- * `md5rdlimitdist`  *int* vertex1 *int* vertex2 *float* mindist *float* maxdist
+ * `md5rdlimitdist` `gltfrdlimitdist`  *int* vertex1 *int* vertex2 *float* mindist *float* maxdist
  *
- * `md5rdlimitrot` *int* tri1 *int* tri2 *float* maxangle *float* quatx *float* quaty *float* quatz *float* quatw
+ * `md5rdlimitrot` `gltfrdlimitrot` *int* tri1 *int* tri2 *float* maxangle *float* quatx *float* quaty *float* quatz *float* quatw
  *
- * `md5rdanimjoints` *bool* on
+ * `md5rdanimjoints` `gltfrdanimjoints` *bool* on
  *
  */
 extern void initrendermodelcmds();
