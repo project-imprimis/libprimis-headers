@@ -1091,12 +1091,11 @@ class matrix3
          */
         explicit matrix3(float angle, const vec &axis);
 
-
         /**
-         * @brief Creates a 3d matrix given a quaternion object.
+         * @brief Creates a 3d rotation matrix given a quaternion object.
          *
          * Note that quaternions are an engine-specific construct and not part of the
-         * game API beyond prototyping.
+         * game API beyond the prototype defined in this header.
          *
          * @param q the quaternion to use
          */
@@ -1464,12 +1463,58 @@ struct matrix4x3
 {
     vec a, b, c, d;
 
+    /**
+     * @brief Creates an empty matrix4x3 object.
+     *
+     * Creates a matrix4x3 object, where all values within the matrix are set to
+     * zero.
+     */
     matrix4x3();
+
+    /**
+     * @brief Creates a matrix4x3 from four three-dimensional vec objects.
+     *
+     * The values of the passed vecs are copied to the new matrix4x3 object.
+     *
+     * @param a the vec to assign to `matrix4x3::a`
+     * @param b the vec to assign to `matrix4x3::b`
+     * @param c the vec to assign to `matrix4x3::c`
+     * @param d the vec to assign to `matrix4x3::d`
+     */
     matrix4x3(const vec &a, const vec &b, const vec &c, const vec &d);
+
+    /**
+     * @brief Creates a matrix4x3 from a rotation matrix and a translation vector.
+     *
+     * The rotation matrix is assigned to members `a` `b` `c` and the translation `d`.
+     * No transformations are made to the values of the passed parameters.
+     *
+     * @param rot the rotation matrix to assign to `a` `b` `c`
+     * @param trans the translation to assign to `d`
+     */
     matrix4x3(const matrix3 &rot, const vec &trans);
+
+    /**
+     * @brief Creates a matrix4x3 that represents a dual quaternion transformation.
+     *
+     * @param dq the dual quaternion to transform into a matrix4x3
+     */
     matrix4x3(const dualquat &dq);
+
+    /**
+     * @brief Creates a matrix4x3 by truncating `w` from a matrix4.
+     *
+     * The four vecs that make up the matrix4 are copied, omitting the `w` parameter.
+     *
+     * @param m the matrix4 to truncate into a matrix4x3
+     */
     explicit matrix4x3(const matrix4 &m);
 
+    /**
+     * @brief Multiplies all values inside the matrix by a scalar constant.
+     *
+     * @param k the scale factor to multiply by
+     */
     void mul(float k);
 
     /**
@@ -1553,6 +1598,8 @@ struct matrix4x3
      *
      * Sets the three first vectors to have a magnitude of 1. That is,
      * sqrt(x^2 + y^2 + z^2) = 1.
+     *
+     * Does not check for a divide-by-zero condition.
      */
     void normalize();
     void lerp(const matrix4x3 &to, float t);
