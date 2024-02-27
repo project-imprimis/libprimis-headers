@@ -1649,10 +1649,10 @@ struct matrix4x3
     void rotate_around_z(float angle);
     void rotate_around_z(const vec2 &sc);
 
-    vec transform(const vec &o) const;
     vec transposedtransform(const vec &o) const;
     vec transformnormal(const vec &o) const;
     vec transposedtransformnormal(const vec &o) const;
+    vec transform(const vec &o) const;
     vec transform(const vec2 &o) const;
 
     /**
