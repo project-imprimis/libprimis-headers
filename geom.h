@@ -1976,8 +1976,6 @@ struct matrix4
 
     void ortho(float left, float right, float bottom, float top, float znear, float zfar);
 
-    void clip(const plane &p, const matrix4 &m);
-
     void transform(const vec &in, vec &out) const;
     void transform(const vec4<float> &in, vec &out) const;
 
