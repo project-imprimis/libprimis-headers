@@ -1937,11 +1937,8 @@ struct matrix4
     void scale(float x, float y, float z);
     void scale(const vec &v);
     void scale(float n);
-    void scalexy(float x, float y);
 
     void scalez(float k);
-
-    void reflectz(float z);
 
     void jitter(float x, float y);
 
