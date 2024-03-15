@@ -2099,6 +2099,39 @@ struct GenericVec3
 
 extern bool raysphereintersect(const vec &center, float radius, const vec &o, const vec &ray, float &dist);
 extern bool rayboxintersect(const vec &b, const vec &s, const vec &o, const vec &ray, float &dist, int &orient);
+
+/**
+ * @brief Determines whether a line segment intersects a specified cylinder.
+ *
+ * Calculates whether a specified line segment intersects a cylinder, defined by
+ * a line segment and a radius around it. Segments which intersect along an edge,
+ * face, or tangent to the curved surface are considered to be intersecting. A
+ * successful intersection will cause the function to return `true`.
+ *
+ * Negative radii are handled the same as a positive radius of the same magnitude.
+ *
+ * If the line segment is entirely within the boundaries of the cylinder, the
+ * segment is considered to be intersecting, with the intersection starting
+ * at the `from` location.
+ *
+ * The distance along the line at which the segment intersects the cylinder is
+ * expressed as a value from 0 to 1 and returned through the reference parameter
+ * dist. If the segment is entirely within the cylinder, the segment's intersection
+ * distance is considered to be zero.
+ *
+ * If no intersection with the cylinder is found, the dist value will be returned
+ * unchanged, and the function will return false.
+ *
+ * @param from the start point of the intersecting line segment
+ * @param to the end point of the intersecting line segment
+ * @param start the start point of the cylinder's axial line segment
+ * @param end the endpoint of the cylinder's axial line segment
+ * @param radius the radius of the cylinder to be intersected
+ * @param dist the value to set to the distance along the segment where intersection occured
+ *
+ * @return true if the cylinder was intersected by the line segment
+ * @return false if the cylinder and line segment did not intersect
+ */
 extern bool linecylinderintersect(const vec &from, const vec &to, const vec &start, const vec &end, float radius, float &dist);
 extern int polyclip(const vec *in, int numin, const vec &dir, float below, float above, vec *out);
 
