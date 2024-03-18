@@ -105,6 +105,10 @@ struct Slot
     }
 
     virtual const char *name() const;
+
+    /**
+     * @brief The directory where textures are stored
+    */
     virtual const char *texturedir() const
     {
         return "media/texture";
