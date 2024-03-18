@@ -287,7 +287,20 @@ extern std::vector<Slot *> slots;
 extern std::vector<VSlot *> vslots;
 extern std::vector<int *> editingvslots;
 
+/**
+ * @brief Extract or replace the shader parameter name, inserting if it doesn't exist, in `shaderparams`.
+ * 
+ * Extracts the name from a global `shaderparams` whose type is `std::unordered_set<std::string>`.
+ * It performs the necessary "conversion" from `std::string` to `const char *`.
+ * 
+ * If the name doesn't exist yet, it is inserted, then returned
+ * 
+ * @param name The name to retrieve
+ * @param insert A bool value representing wether or not to replace it in the global shaderparams global; default true
+ * @return The corresponding shader name parameter in the `shaderparams` global set
+*/
 extern const char *getshaderparamname(const char *name, bool insert = true);
+
 extern void setldrnotexture();
 
 extern VSlot *findvslot(const Slot &slot, const VSlot &src, const VSlot &delta);
