@@ -1091,12 +1091,11 @@ class matrix3
          */
         explicit matrix3(float angle, const vec &axis);
 
-
         /**
-         * @brief Creates a 3d matrix given a quaternion object.
+         * @brief Creates a 3d rotation matrix given a quaternion object.
          *
          * Note that quaternions are an engine-specific construct and not part of the
-         * game API beyond prototyping.
+         * game API beyond the prototype defined in this header.
          *
          * @param q the quaternion to use
          */
@@ -1464,12 +1463,58 @@ struct matrix4x3
 {
     vec a, b, c, d;
 
+    /**
+     * @brief Creates an empty matrix4x3 object.
+     *
+     * Creates a matrix4x3 object, where all values within the matrix are set to
+     * zero.
+     */
     matrix4x3();
+
+    /**
+     * @brief Creates a matrix4x3 from four three-dimensional vec objects.
+     *
+     * The values of the passed vecs are copied to the new matrix4x3 object.
+     *
+     * @param a the vec to assign to `matrix4x3::a`
+     * @param b the vec to assign to `matrix4x3::b`
+     * @param c the vec to assign to `matrix4x3::c`
+     * @param d the vec to assign to `matrix4x3::d`
+     */
     matrix4x3(const vec &a, const vec &b, const vec &c, const vec &d);
+
+    /**
+     * @brief Creates a matrix4x3 from a rotation matrix and a translation vector.
+     *
+     * The rotation matrix is assigned to members `a` `b` `c` and the translation `d`.
+     * No transformations are made to the values of the passed parameters.
+     *
+     * @param rot the rotation matrix to assign to `a` `b` `c`
+     * @param trans the translation to assign to `d`
+     */
     matrix4x3(const matrix3 &rot, const vec &trans);
+
+    /**
+     * @brief Creates a matrix4x3 that represents a dual quaternion transformation.
+     *
+     * @param dq the dual quaternion to transform into a matrix4x3
+     */
     matrix4x3(const dualquat &dq);
+
+    /**
+     * @brief Creates a matrix4x3 by truncating `w` from a matrix4.
+     *
+     * The four vecs that make up the matrix4 are copied, omitting the `w` parameter.
+     *
+     * @param m the matrix4 to truncate into a matrix4x3
+     */
     explicit matrix4x3(const matrix4 &m);
 
+    /**
+     * @brief Multiplies all values inside the matrix by a scalar constant.
+     *
+     * @param k the scale factor to multiply by
+     */
     void mul(float k);
 
     /**
@@ -1553,6 +1598,8 @@ struct matrix4x3
      *
      * Sets the three first vectors to have a magnitude of 1. That is,
      * sqrt(x^2 + y^2 + z^2) = 1.
+     *
+     * Does not check for a divide-by-zero condition.
      */
     void normalize();
     void lerp(const matrix4x3 &to, float t);
@@ -1602,10 +1649,10 @@ struct matrix4x3
     void rotate_around_z(float angle);
     void rotate_around_z(const vec2 &sc);
 
-    vec transform(const vec &o) const;
     vec transposedtransform(const vec &o) const;
     vec transformnormal(const vec &o) const;
     vec transposedtransformnormal(const vec &o) const;
+    vec transform(const vec &o) const;
     vec transform(const vec2 &o) const;
 
     /**
@@ -1890,11 +1937,8 @@ struct matrix4
     void scale(float x, float y, float z);
     void scale(const vec &v);
     void scale(float n);
-    void scalexy(float x, float y);
 
     void scalez(float k);
-
-    void reflectz(float z);
 
     void jitter(float x, float y);
 
@@ -1928,8 +1972,6 @@ struct matrix4
     void perspective(float fovy, float aspect, float znear, float zfar);
 
     void ortho(float left, float right, float bottom, float top, float znear, float zfar);
-
-    void clip(const plane &p, const matrix4 &m);
 
     void transform(const vec &in, vec &out) const;
     void transform(const vec4<float> &in, vec &out) const;
@@ -2057,6 +2099,39 @@ struct GenericVec3
 
 extern bool raysphereintersect(const vec &center, float radius, const vec &o, const vec &ray, float &dist);
 extern bool rayboxintersect(const vec &b, const vec &s, const vec &o, const vec &ray, float &dist, int &orient);
+
+/**
+ * @brief Determines whether a line segment intersects a specified cylinder.
+ *
+ * Calculates whether a specified line segment intersects a cylinder, defined by
+ * a line segment and a radius around it. Segments which intersect along an edge,
+ * face, or tangent to the curved surface are considered to be intersecting. A
+ * successful intersection will cause the function to return `true`.
+ *
+ * Negative radii are handled the same as a positive radius of the same magnitude.
+ *
+ * If the line segment is entirely within the boundaries of the cylinder, the
+ * segment is considered to be intersecting, with the intersection starting
+ * at the `from` location.
+ *
+ * The distance along the line at which the segment intersects the cylinder is
+ * expressed as a value from 0 to 1 and returned through the reference parameter
+ * dist. If the segment is entirely within the cylinder, the segment's intersection
+ * distance is considered to be zero.
+ *
+ * If no intersection with the cylinder is found, the dist value will be returned
+ * unchanged, and the function will return false.
+ *
+ * @param from the start point of the intersecting line segment
+ * @param to the end point of the intersecting line segment
+ * @param start the start point of the cylinder's axial line segment
+ * @param end the endpoint of the cylinder's axial line segment
+ * @param radius the radius of the cylinder to be intersected
+ * @param dist the value to set to the distance along the segment where intersection occured
+ *
+ * @return true if the cylinder was intersected by the line segment
+ * @return false if the cylinder and line segment did not intersect
+ */
 extern bool linecylinderintersect(const vec &from, const vec &to, const vec &start, const vec &end, float radius, float &dist);
 extern int polyclip(const vec *in, int numin, const vec &dir, float below, float above, vec *out);
 

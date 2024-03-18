@@ -1289,69 +1289,17 @@ extern void clearshadowcache();
 
 // rendermodel
 
-
 /**
  * @brief Initializes rendermodel CubeScript commands
  *
- * `mdlcullface` *int* cullface
+ * Commands starting with `obj` or `md5` will only have an effect when called
+ * by files loaded by the following functions: `loadmodel` `rendermodel`
+ * `loadmapmodel(int)` `intersectmodel` `preloadusedmapmodels`
+ * `flushpreloadedmodels` `abovemodel`.
  *
- * `mdlcolor` *float* red *float* green *float* blue
- *
- * `mdlcollide` *bool* collide
- *
- * `mdlellipsecollide` *bool* collide
- *
- * `mdltricollide` *bool* collide
- *
- * `mdlspec` *float* scale
- *
- * `mdlgloss` *float* type
- *
- * `mdlalphatest` *float* cutoff
- *
- * `mdldepthoffset` *int* offset
- *
- * `mdlglow` *float* scale *float* delta *float* pulse
- *
- * `mdlfullbright` *float* scale
- *
- * `mdlshader` *string* shader
- *
- * `mdlspin` *float* yaw *float* pitch *float* roll
- *
- * `mdlscale` *float* scale
- *
- * `mdltrans` *float* x *float* y *float* z
- *
- * `mdlyaw` *float* angle
- *
- * `mdlpitch` *float* angle
- *
- * `mdlroll` *float* angle
- *
- * `mdlshadow` *bool* shadow
- *
- * `mdlalphashadow` *bool* shadow
- *
- * `mdlbb` *float* radius *float* height *float* eyeheight
- *
- * `mdlextendbb` *float* x *float* y *float* z
- *
- * `mdlname`
- *
- * `rdvert` *float* x *float* y *float* z *float* radius
- *
- * `rdeye` *int* level
- *
- * `rdtri` *int* vertex1 *int* vertex2 *int* vertex3
- *
- * `rdjoint` *int* num *int* tri *bool* vertex1 *bool* vertex2 *bool* vertex3
- *
- * `rdlimitdist`  *int* vertex1 *int* vertex2 *float* mindist *float* maxdist
- *
- * `rdlimitrot` *int* tri1 *int* tri2 *float* maxangle *float* quatx *float* quaty *float* quatz *float* quatw
- *
- * `rdanimjoints` *bool* on
+ * They define the parameters of the loaded model, and are not to be used when
+ * not loaded by the above functions. All `obj`/`md5` functions will return a
+ * "not loading an X" error if they are called outside of these special scopes.
  *
  * `mapmodelreset` *int* index
  *
@@ -1367,27 +1315,73 @@ extern void clearshadowcache();
  *
  * `findanims` *string* name
  *
+ * `objcullface` *int* cullface
+ *
+ * `objcolor` *float* red *float* green *float* blue
+ *
+ * `objcollide` *bool* collide
+ *
+ * `objellipsecollide` *bool* collide
+ *
+ * `objtricollide` *bool* collide
+ *
+ * `objspec` *float* scale
+ *
+ * `objgloss` *float* type
+ *
+ * `objalphatest` *float* cutoff
+ *
+ * `objdepthoffset` *int* offset
+ *
+ * `objglow` *float* scale *float* delta *float* pulse
+ *
+ * `objfullbright` *float* scale
+ *
+ * `objshader` *string* shader
+ *
+ * `objspin` *float* yaw *float* pitch *float* roll
+ *
+ * `objscale` *float* scale
+ *
+ * `objtrans` *float* x *float* y *float* z
+ *
+ * `objyaw` *float* angle
+ *
+ * `objpitch` *float* angle
+ *
+ * `objroll` *float* angle
+ *
+ * `objshadow` *bool* shadow
+ *
+ * `objalphashadow` *bool* shadow
+ *
+ * `objbb` *float* radius *float* height *float* eyeheight
+ *
+ * `objextendbb` *float* x *float* y *float* z
+ *
+ * `objname`
+ *
  * `objskin` *string* meshname *string* tex *string* masks
  *
- * `objspec` *string* tex *float* scale
+ * `objtexspec` *string* tex *float* scale
  *
- * `objgloss` *string* tex *int* type
+ * `objtexgloss` *string* tex *int* type
  *
- * `objglow` *string* tex *float* percent *float* delta *float* pulse
+ * `objtexglow` *string* tex *float* percent *float* delta *float* pulse
  *
- * `objalphatest` *string* meshname *float* cutoff
+ * `objmeshalphatest` *string* meshname *float* cutoff
  *
  * `objcullface` *string* meshname *int* cullface
  *
- * `objcolor` *string* meshname *float* red *float* green *float* blue
+ * `objmeshcolor` *string* meshname *float* red *float* green *float* blue
  *
  * `objbumpmap` *string* meshname *string* tex
  *
  * `objdecal` *string* meshname *string* tex
  *
- * `objfullbright` *string* meshname *string* brightness
+ * `objmeshfullbright` *string* meshname *string* brightness
  *
- * `objshader` *string* meshname *string* shader
+ * `objmeshshader` *string* meshname *string* shader
  *
  * `objscroll` *string* meshname *float* xscroll *float* yscroll
  *
@@ -1403,54 +1397,114 @@ extern void clearshadowcache();
  *
  * `objpitch` *string* meshname
  *
+ * `md5cullface` `gltfcullface` *int* cullface
  *
- * `md5skin` *string* meshname *string* tex *string* masks
+ * `md5color` `gltfcolor` *float* red *float* green *float* blue
  *
- * `md5spec` *string* tex *float* scale
+ * `md5collide` `gltfcollide` *bool* collide
  *
- * `md5gloss` *string* tex *int* type
+ * `md5ellipsecollide` `gltfellipsecollide` *bool* collide
  *
- * `md5glow` *string* tex *float* percent *float* delta *float* pulse
+ * `md5tricollide` `gltftricollide` *bool* collide
  *
- * `md5alphatest` *string* meshname *float* cutoff
+ * `md5spec` `gltfspec` *float* scale
  *
- * `md5cullface` *string* meshname *int* cullface
+ * `md5gloss` `gltfgloss` *float* type
  *
- * `md5color` *string* meshname *float* red *float* green *float* blue
+ * `md5alphatest` `gltfalphatest` *float* cutoff
  *
- * `md5bumpmap` *string* meshname *string* tex
+ * `md5depthoffset` `gltfdepthoffset` *int* offset
  *
- * `md5decal` *string* meshname *string* tex
+ * `md5glow` `gltfglow` *float* scale *float* delta *float* pulse
  *
- * `md5fullbright` *string* meshname *string* brightness
+ * `md5fullbright` `gltffullbright` *float* scale
  *
- * `md5shader` *string* meshname *string* shader
+ * `md5shader` `gltfshader` *string* shader
  *
- * `md5scroll` *string* meshname *float* xscroll *float* yscroll
+ * `md5spin` `gltfspin` *float* yaw *float* pitch *float* roll
  *
- * `md5noclip` *string* meshname *bool* clip
+ * `md5scale` `gltfscale` *float* scale
  *
- * `md5tricollide` *string* meshname *string* meshname
+ * `md5trans` `gltftrans` *float* x *float* y *float* z
  *
- * `md5link` *int* parent *int* child *string* tagname *float* x *float* y *float* z
+ * `md5yaw` `gltfyaw` *float* angle
  *
- * `md5load` *string* meshname *string* skel *float* smooth
+ * `md5pitch` `gltfpitch` *float* angle
  *
- * `md5tag` *string* tagname *float* tx *float* ty *float* tz *float* rx *float* ry *float* rz
+ * `md5roll` `gltfroll` *float* angle
  *
- * `md5pitch` *string* meshname *float* pitchscale *float* pitchoffset *float* pitchmin *float* pitchmax
+ * `md5shadow` `gltfshadow` *bool* shadow
  *
- * `md5pitchtarget` *string* meshname *string* animfile *int* frameoffset *float* pitchmin *float* pitchmax
+ * `md5alphashadow` `gltfalphashadow` *bool* shadow
  *
- * `md5pitchcorrect` *string* meshname *string* targetname *float* scale *float* pitchmin *float* pitchmax
+ * `md5bb` `gltfbb` *float* radius *float* height *float* eyeheight
  *
- * `md5hitzone` *int* hitzoneid *string* maskstring
+ * `md5extendbb` `gltfextendbb` *float* x *float* y *float* z
  *
- * `md5anim` *string* animname *string* animfile *float* speed *int* priority *int* startoffset *int* endoffset
+ * `md5name` `gltfname`
  *
- * `md5animpart` *string* maskstring
+ * `md5skin` `gltfskin` *string* meshname *string* tex *string* masks
  *
- * `md5adjust` *string* bonename *float* yaw *float* pitch *float* roll *float* translatex *float* translatey *float* translatez
+ * `md5texspec` `gltftexspec` *string* tex *float* scale
+ *
+ * `md5texgloss` `gltftexgloss` *string* tex *int* type
+ *
+ * `md5texglow` `gltftexglow` *string* tex *float* percent *float* delta *float* pulse
+ *
+ * `md5meshalphatest` `gltfmeshalphatest` *string* meshname *float* cutoff
+ *
+ * `md5meshcullface` `gltfmeshcullface` *string* meshname *int* cullface
+ *
+ * `md5meshcolor` `gltfmeshcolor` *string* meshname *float* red *float* green *float* blue
+ *
+ * `md5bumpmap` `gltfbumpmap` *string* meshname *string* tex
+ *
+ * `md5decal` `gltfdecal` *string* meshname *string* tex
+ *
+ * `md5meshfullbright` `gltfmeshfullbright` *string* meshname *string* brightness
+ *
+ * `md5meshshader` `gltfmeshshader` *string* meshname *string* shader
+ *
+ * `md5scroll` `gltfscroll` *string* meshname *float* xscroll *float* yscroll
+ *
+ * `md5noclip` `gltfnoclip` *string* meshname *bool* clip
+ *
+ * `md5tricollide` `gltftricollide` *string* meshname *string* meshname
+ *
+ * `md5link` `gltflink` *int* parent *int* child *string* tagname *float* x *float* y *float* z
+ *
+ * `md5load` `gltfload` *string* meshname *string* skel *float* smooth
+ *
+ * `md5tag` `gltftag` *string* tagname *float* tx *float* ty *float* tz *float* rx *float* ry *float* rz
+ *
+ * `md5pitch` `gltfpitch` *string* meshname *float* pitchscale *float* pitchoffset *float* pitchmin *float* pitchmax
+ *
+ * `md5pitchtarget` `gltfpitchtarget` *string* meshname *string* animfile *int* frameoffset *float* pitchmin *float* pitchmax
+ *
+ * `md5pitchcorrect` `gltfpitchcorrect` *string* meshname *string* targetname *float* scale *float* pitchmin *float* pitchmax
+ *
+ * `md5hitzone` `gltfhitzone` *int* hitzoneid *string* maskstring
+ *
+ * `md5anim` `gltfanim` *string* animname *string* animfile *float* speed *int* priority *int* startoffset *int* endoffset
+ *
+ * `md5animpart` `gltfanimpart` *string* maskstring
+ *
+ * `md5adjust` `gltfadjust` *string* bonename *float* yaw *float* pitch *float* roll *float* translatex *float* translatey *float* translatez
+ *
+ * `md5rdvert` `gltfrdvert` *float* x *float* y *float* z *float* radius
+ *
+ * `md5rdeye` `gltfrdeye` *int* level
+ *
+ * `md5rdtri` `gltfrdtri` *int* vertex1 *int* vertex2 *int* vertex3
+ *
+ * `md5rdjoint` `gltfrdjoint *int* num *int* tri *bool* vertex1 *bool* vertex2 *bool* vertex3
+ *
+ * `md5rdlimitdist` `gltfrdlimitdist`  *int* vertex1 *int* vertex2 *float* mindist *float* maxdist
+ *
+ * `md5rdlimitrot` `gltfrdlimitrot` *int* tri1 *int* tri2 *float* maxangle *float* quatx *float* quaty *float* quatz *float* quatw
+ *
+ * `md5rdanimjoints` `gltfrdanimjoints` *bool* on
+ *
  */
 extern void initrendermodelcmds();
 
@@ -1490,7 +1544,38 @@ extern void rendermodel(const char *mdl,
                         float size = 1,
                         const vec4<float> &color = vec4<float>(1, 1, 1, 1));
 
-extern int intersectmodel(const char *mdl, int anim, const vec &pos, float yaw, float pitch, float roll, const vec &o, const vec &ray, float &dist, int mode = 0, dynent *d = nullptr, modelattach *a = nullptr, int basetime = 0, int basetime2 = 0, float size = 1);
+/**
+ * @brief Returns the intersection status of a model.
+ *
+ * @param mdl name of the model to load
+ * @param anim animation status (Anim_ enum)
+ * @param pos position of the model
+ * @param yaw yaw of the model
+ * @param pitch pitch of the model
+ * @param roll roll of the model
+ * @param o origin of intersecting ray
+ * @param ray direction of intersecting ray
+ * @param dist length of the ray
+ * @param d dynent associated with this model
+ * @param a array of modelattach objects
+ * @param basetime animation basetime
+ * @param basetime2 if Anim_SetSpeed, speed factor
+ * @param size scale factor of model
+ */
+extern int intersectmodel(const char *mdl,
+                          int anim,
+                          const vec &pos,
+                          float yaw,
+                          float pitch,
+                          float roll,
+                          const vec &o,
+                          const vec &ray,
+                          float &dist,
+                          dynent *d = nullptr,
+                          modelattach *a = nullptr,
+                          int basetime = 0,
+                          int basetime2 = 0,
+                          float size = 1);
 
 /**
  * @brief Adds the z height of the model to the vector passed.

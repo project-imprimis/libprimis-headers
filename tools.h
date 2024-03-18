@@ -426,9 +426,6 @@ struct databuf
 typedef databuf<char> charbuf;
 typedef databuf<uchar> ucharbuf;
 
-inline const char *stringptr(const char *s) { return s; }
-inline int stringlen(const char *s) { return static_cast<int>(strlen(s)); }
-
 inline uint memhash(const void *ptr, int len)
 {
     const uchar *data = (const uchar *)ptr;
