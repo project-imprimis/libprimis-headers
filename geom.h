@@ -78,8 +78,40 @@ struct vec2
     vec2 &abs() { x = fabs(x); y = fabs(y); return *this; }
     vec2 &clamp(float l, float h) { x = ::std::clamp(x, l, h); y = ::std::clamp(y, l, h); return *this; }
     vec2 &reflect(const vec2 &n) { float k = 2*dot(n); x -= k*n.x; y -= k*n.y; return *this; }
-    vec2 &lerp(const vec2 &b, float t) { x += (b.x-x)*t; y += (b.y-y)*t; return *this; }
-    vec2 &lerp(const vec2 &a, const vec2 &b, float t) { x = a.x + (b.x-a.x)*t; y = a.y + (b.y-a.y)*t; return *this; }
+
+    /**
+     * @brief Linearly interpolates between another vec2 according to scale t
+     *
+     * If 0 < t < 1 then the matrix will be t% of the way between `this` and `to`.
+     * Values outside 0..1 imply a linear extrapolation.
+     *
+     * @param b the other vec2 to interpolate between
+     * @param t the interpolation factor
+     */
+    vec2 &lerp(const vec2 &b, float t)
+    {
+        x += (b.x-x)*t;
+        y += (b.y-y)*t;
+        return *this;
+    }
+
+    /**
+     * @brief Linearly interpolates between two other vec2s according to scale t
+     *
+     * If 0 < t < 1 then the matrix will be t% of the way between `this` and `to`.
+     * Values outside 0..1 imply a linear extrapolation.
+     *
+     * @param a the first vec2 to interpolate from
+     * @param b the other vec2 to interpolate between
+     * @param t the interpolation factor
+     */
+    vec2 &lerp(const vec2 &a, const vec2 &b, float t)
+    {
+        x = a.x + (b.x-a.x)*t;
+        y = a.y + (b.y-a.y)*t;
+        return *this;
+    }
+
     vec2 &avg(const vec2 &b) { add(b); mul(0.5f); return *this; }
 
     vec2 operator+(const vec2 &v2) const
@@ -297,8 +329,42 @@ struct vec
         rescale(sqrtf(::max(m - k*k, 0.0f)));
         return *this;
     } //used once
-    vec &lerp(const vec &b, float t) { x += (b.x-x)*t; y += (b.y-y)*t; z += (b.z-z)*t; return *this; }
-    vec &lerp(const vec &a, const vec &b, float t) { x = a.x + (b.x-a.x)*t; y = a.y + (b.y-a.y)*t; z = a.z + (b.z-a.z)*t; return *this; }
+
+    /**
+     * @brief Linearly interpolates between another vec2 according to scale t
+     *
+     * If 0 < t < 1 then the matrix will be t% of the way between `this` and `to`.
+     * Values outside 0..1 imply a linear extrapolation.
+     *
+     * @param b the other vec2 to interpolate between
+     * @param t the interpolation factor
+     */
+    vec &lerp(const vec &b, float t)
+    {
+        x += (b.x-x)*t;
+        y += (b.y-y)*t;
+        z += (b.z-z)*t;
+        return *this;
+    }
+
+    /**
+     * @brief Linearly interpolates between two other vecs according to scale t
+     *
+     * If 0 < t < 1 then the matrix will be t% of the way between `this` and `to`.
+     * Values outside 0..1 imply a linear extrapolation.
+     *
+     * @param a the first vec to interpolate from
+     * @param b the other vec to interpolate between
+     * @param t the interpolation factor
+     */
+    vec &lerp(const vec &a, const vec &b, float t)
+    {
+        x = a.x + (b.x-a.x)*t;
+        y = a.y + (b.y-a.y)*t;
+        z = a.z + (b.z-a.z)*t;
+        return *this;
+    }
+
     vec &avg(const vec &b) { add(b); mul(0.5f); return *this; }
 
     template<class B>
@@ -1602,7 +1668,28 @@ struct matrix4x3
      * Does not check for a divide-by-zero condition.
      */
     void normalize();
+
+    /**
+     * @brief Linearly interpolates between the two matrices according to scale t
+     *
+     * If 0 < t < 1 then the matrix will be t% of the way between `this` and `to`.
+     * Values outside 0..1 imply a linear extrapolation.
+     *
+     * @param to the other matrix to interpolate between
+     * @param t the interpolation factor
+     */
     void lerp(const matrix4x3 &to, float t);
+
+    /**
+     * @brief Linearly interpolates between two other matrices according to scale t
+     *
+     * If 0 < t < 1 then the matrix will be t% of the way between `this` and `to`.
+     * Values outside 0..1 imply a linear extrapolation.
+     *
+     * @param from the first matrix to interpolate from
+     * @param to the other matrix to interpolate between
+     * @param t the interpolation factor
+     */
     void lerp(const matrix4x3 &from, const matrix4x3 &to, float t);
 
     /**
