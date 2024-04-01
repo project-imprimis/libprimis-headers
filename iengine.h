@@ -2588,7 +2588,7 @@ extern bool insideworld(const vec &o);
 
 extern vec collidewall;
 extern int collideinside;
-extern physent *collideplayer;
+extern const physent *collideplayer;
 extern int numdynents;
 extern std::vector<dynent *> dynents;
 
