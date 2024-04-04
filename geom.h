@@ -296,8 +296,10 @@ struct vec
     float dist2(const vec &o) const { float dx = x-o.x, dy = y-o.y; return sqrtf(dx*dx + dy*dy); }
 
     //cross products
-    template<class T>
-    bool reject(const T &o, float r) const { return x>o.x+r || x<o.x-r || y>o.y+r || y<o.y-r; }
+    bool reject(const vec &o, float r) const
+    {
+        return x>o.x+r || x<o.x-r || y>o.y+r || y<o.y-r;
+    }
 
     template<class A, class B>
     vec &cross(const A &a, const B &b) { x = a.y*b.z-a.z*b.y; y = a.z*b.x-a.x*b.z; z = a.x*b.y-a.y*b.x; return *this; }
