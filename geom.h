@@ -427,50 +427,10 @@ struct vec
         return x >= bbmin.x-margin && x <= bbmax.x+margin && y >= bbmin.y-margin && y <= bbmax.y+margin && z >= bbmin.z-margin && z <= bbmax.z+margin;
     }
 
-    template<class T, class U>
-    bool insidebb(const T &o, U size) const
-    {
-        return x >= o.x && x <= o.x + size && y >= o.y && y <= o.y + size && z >= o.z && z <= o.z + size;
-    }
-
-    template<class T, class U>
-    bool insidebb(const T &o, U size, U margin) const
-    {
-        size += margin;
-        return x >= o.x-margin && x <= o.x + size && y >= o.y-margin && y <= o.y + size && z >= o.z-margin && z <= o.z + size;
-    }
-
-    template<class T>
-    float dist_to_bb(const T &min, const T &max) const
-    {
-        float sqrdist = 0;
-        for(int i = 0; i < 3; ++i)
-        {
-            if (v[i] < min[i])
-            {
-                float delta = v[i]-min[i];
-                sqrdist += delta*delta;
-            }
-            else if(v[i] > max[i])
-            {
-                float delta = max[i]-v[i];
-                sqrdist += delta*delta;
-            }
-        }
-        return sqrtf(sqrdist);
-    }
-
-    template<class T, class S>
-    float dist_to_bb(const T &o, S size) const
-    {
-        return dist_to_bb(o, T(o).add(size));
-    }
-
-    template<class T>
-    float project_bb(const T &min, const T &max) const
-    {
-        return x*(x < 0 ? max.x : min.x) + y*(y < 0 ? max.y : min.y) + z*(z < 0 ? max.z : min.z);
-    }
+    bool insidebb(const ivec &o, int size) const;
+    bool insidebb(const ivec &o, int size, int margin) const;
+    float dist_to_bb(const ivec &min, const ivec &max) const;
+    float project_bb(const ivec &min, const ivec &max) const;
 
     static vec hexcolor(int color)
     {
