@@ -441,6 +441,18 @@ struct vec
         return x >= bbmin.x-margin && x <= bbmax.x+margin && y >= bbmin.y-margin && y <= bbmax.y+margin && z >= bbmin.z-margin && z <= bbmax.z+margin;
     }
 
+    /**
+     * @brief Determines whether this vec is within the boundaries {o, o+size}.
+     *
+     * The conditions cannot be met if `size` is negative (will always return
+     * false). If `this` is on the boundary of the bounding box, returns true.
+     *
+     * @param o the position of the bounding box start
+     * @param size the projection in +x,+y,+z for the bounding box to occupy
+     *
+     * @return true if `this` is inside the bounding box
+     * @return false if size is negative, or `this` is not inside it
+     */
     bool insidebb(const ivec &o, int size) const;
     bool insidebb(const ivec &o, int size, int margin) const;
     float dist_to_bb(const ivec &min, const ivec &max) const;
