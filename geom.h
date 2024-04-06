@@ -296,6 +296,20 @@ struct vec
     float dist2(const vec &o) const { float dx = x-o.x, dy = y-o.y; return sqrtf(dx*dx + dy*dy); }
 
     //cross products
+
+    /**
+     * @brief Checks whether the x,y dimensions are outside a distance from a vec
+     *
+     * If this vector's `x` or `y` coordinates are within `r` of the passed vec `o`,
+     * the function returns false; otherwise return true. If the value is exactly
+     * `r` away from the vec `o` in either direction, the function returns false
+     *
+     * @param o the vec to check nearness
+     * @param r the distance at which to check
+     *
+     * @return true if `this` vec is close to `o`
+     * @return false if `this` vec is far away from `o`
+     */
     bool reject(const vec &o, float r) const
     {
         return x>o.x+r || x<o.x-r || y>o.y+r || y<o.y-r;
@@ -430,6 +444,20 @@ struct vec
     bool insidebb(const ivec &o, int size) const;
     bool insidebb(const ivec &o, int size, int margin) const;
     float dist_to_bb(const ivec &min, const ivec &max) const;
+
+    /**
+     * @brief Returns the dot product of this and min/max, depending on sign.
+     *
+     * Returns the dot product between `this` and an ivec generated from `min`
+     * and `max`. The generated vector to dot product is determined by `this`'s
+     * sign for each dimension; if the dimension is negative then `max` is used,
+     * and if it is zero or positive then `min` is used.
+     *
+     * @param min the `ivec` to use for positive/zero values
+     * @param max the `ivec` to use for negative values
+     *
+     * @return the dot product between `this` and `min`/`max`
+     */
     float project_bb(const ivec &min, const ivec &max) const;
 
     static vec hexcolor(int color)
