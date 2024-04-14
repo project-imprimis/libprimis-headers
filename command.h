@@ -580,9 +580,9 @@ extern int identflags; /**< The flags to automatically set on ident objects */
 /**
  * @brief Clears all aliases from the ident map.
  *
- * All aliases, aka objects created from within CubeScript, are deleted and their
- * memory freed. Does not apply to non-alias objects, such as bound variables and
- * functions. Generally used for cleaning up at the end of the program's lifetime.
+ * All aliases, aka objects created from within CubeScript, have their contents
+ * (the names and code values associated with them) freed. Does not remove the
+ * ident object itself from the global ident map.
  */
 extern void clear_command();
 
