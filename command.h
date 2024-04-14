@@ -28,19 +28,19 @@ enum
 
 enum
 {
-    Id_Var,     //1
+    Id_Var,     //0
     Id_FloatVar,
     Id_StringVar,
     Id_Command,
-    Id_Alias,   //5
-    Id_Local,
+    Id_Alias,
+    Id_Local,   //5
     Id_Do,
     Id_DoArgs,
     Id_If,
-    Id_Result,  //10
-    Id_Not,
+    Id_Result,
+    Id_Not,     //10
     Id_And,
-    Id_Or,      //13
+    Id_Or,      //12
 };
 
 enum
