@@ -24,9 +24,11 @@ struct matrix4;
 
 
 /**
- * @brief 2 dimensional vector object
+ * @brief two dimensional Cartesian vector object
  *
- * with relevant operators
+ * This object represents a two-dimensional location or vector in Cartesian space,
+ * consisting of the `x` and `y` axes. Many operators and utility functions
+ * corresponding to operations on the 2D plane are defined.
  */
 struct vec2
 {
@@ -166,10 +168,18 @@ struct ivec;
 struct svec;
 
 /**
- * @brief three dimensional vector object
+ * @brief three dimensional Cartesian vector object
  *
- * this object finds uses in nearly every part of the engine,
- * including world geometry, mapmodels, particles, projectiles, colors, etc
+ * This object represents a three-dimensional positiom or vector in Cartesian space,
+ * represented by the axes `x`,`y`,`z` (`r`,`g`,`b`). Many operators and utility
+ * functions corresponding to operations on the 2D plane are defined.
+ *
+ * The axis aliases `r``g``b` are provided for manipulation as a color,
+ * in which case the values for each dimension should be no greater than `1.f` for
+ * easy conversion to `bvec` byte representation.
+ *
+ * This object finds uses in nearly every part of the engine,
+ * including world geometry, mapmodels, particles, projectiles, colors, etc.
  */
 struct vec
 {
@@ -517,7 +527,15 @@ struct std::hash<vec>
 };
 
 /**
- * @brief color vector3 (r,g,b)
+ * @brief three dimensional Cartesian byte vector
+ *
+ * A three dimensional position in the Cartesian space consisting of values between
+ * 0 and 255 in the `x`,`y`,`z` (`r`,`g`,`b`) axes. Generally the vector space represented by this object is the HTML
+ * color space (0x000000 to 0xFFFFFF). This object contains several utility methods
+ * and operations corresponding to useful color transformations in this space.
+ *
+ * For general purpose integral-valued positions in Cartesian space, `ivec` is
+ * generally a more useful choice.
  */
 struct bvec
 {
