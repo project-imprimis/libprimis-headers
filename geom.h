@@ -668,7 +668,7 @@ struct vec4
     vec4() {}
     explicit vec4(const vec &p, T w = 0) : x(p.x), y(p.y), z(p.z), w(w) {}
     explicit vec4(const vec2 &p, T z = 0, T w = 0) : x(p.x), y(p.y), z(z), w(w) {}
-    vec4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
+    vec4(T x, T y = 0, T z = 0, T w = 0) : x(x), y(y), z(z), w(w) {}
     vec4(bvec v, uchar c)
     {
         x = v.x;
