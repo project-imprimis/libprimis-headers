@@ -255,8 +255,35 @@ struct vec
 
 
     //unary operators
-    bool iszero() const { return x==0 && y==0 && z==0; }
+    /**
+     * @brief Returns whether this `vec` is exactly zero in all axes.
+     *
+     * The values are compared to zero under the IEEE 754 equality condition, meaning
+     * that negative zero is treated as equal to positive zero.
+     *
+     * @return true if the vec is equal to (0,0,0)
+     * @return false if the vec has any axis value that is not +/-0
+     */
+    bool iszero() const
+    {
+        return x==0 && y==0 && z==0;
+    }
+    /**
+     * @brief Returns the square of this `vec`'s magnitude.
+     *
+     * This is equivalent to the dot product of this `vec` with itself.
+     *
+     * @return the square of the magnitude of the `vec`
+     */
     float squaredlen() const { return x*x + y*y + z*z; }
+
+    /**
+     * @brief Sets this `vec` to its elementwise square.
+     *
+     * Each axis is independently multiplied by itself and assigned to `this`.
+     *
+     * @return a reference to this vec
+     */
     vec &square()            { mul(*this); return *this; }
     vec &neg2()              { x = -x; y = -y; return *this; } //unused
     vec &neg()               { x = -x; y = -y; z = -z; return *this; } //overloaded by operator-()
@@ -334,6 +361,10 @@ struct vec
      * @brief scalar triple product A*(BxC)
      */
     float scalartriple(const vec &a, const vec &b) const { return x*(a.y*b.z-a.z*b.y) + y*(a.z*b.x-a.x*b.z) + z*(a.x*b.y-a.y*b.x); }
+
+    /**
+     * @brief z component only of scalar triple product (A*(BxC))
+     */
     float zscalartriple(const vec &a, const vec &b) const { return z*(a.x*b.y-a.y*b.x); } //unused
 
     //transformations
@@ -391,7 +422,19 @@ struct vec
         return *this;
     }
 
-    vec &avg(const vec &b) { add(b); mul(0.5f); return *this; }
+    /**
+     * @brief Sets this `vec` to the arithmetic mean of itself and another `vec`.
+     *
+     * Each axis has its arithmetic mean (average) set independently.
+     *
+     * @param b the other `vec` to average with
+     */
+    vec &avg(const vec &b)
+    {
+        add(b);
+        mul(0.5f);
+        return *this;
+    }
 
     template<class B>
     vec &madd(const vec &a, const B &b) { return add(vec(a).mul(b)); }
