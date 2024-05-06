@@ -342,6 +342,40 @@ extern std::string enginestr();
 
 /**
  * @brief Adds math commands to the cubescript interpreter
+ *
+ * `+` `+f`
+ *  - returns the sum of the passed (int, float) parameters
+ *
+ * `*` `*f`
+ *  - returns the product of the passed (int, float) parameters
+ *
+ * `-` `-f`
+ *  - returns the first (int, float) minus the remaining parameters
+ *  - if only one parameter is given, returns the unary negative of that value
+ *
+ * `=` `=f` `=s`
+ *  - returns whether the (int, float, string) compares equal
+ *
+ * `!=` `!=f` `!=f`
+ *  - returns whether the (int, float, string) compares not equal
+ *  - equality for strings is determined by std::strncmp()
+ *
+ * `<` `<f` `<s`
+ *  - returns whether the (int, float, string) parameters are ordered in strictly ascending order
+ *  - order for strings is determined by std::strncmp()
+ *
+ * `>` `>f` `>s`
+ *  - returns whether the (int, float, string) parameters are ordered in strictly descending order
+ *  - order for strings is determined by std::strncmp()
+ *
+ * `<=` `<=f` `<=s`
+ *  - returns whether the (int, float, string) parameters are ordered in non-descending order
+ *  - order for strings is determined by std::strncmp()
+ *
+ * `>=` `>=f` `>=s`
+ *  - returns whether the (int, float, string) parameters are ordered in non-ascending order
+ *  - order for strings is determined by std::strncmp()
+
  */
 extern void initmathcmds();
 
