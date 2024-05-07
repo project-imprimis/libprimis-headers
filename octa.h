@@ -384,7 +384,7 @@ struct editinfo
 
 struct undoent
 {
-    int i;
+    size_t i; /**< an index in entgroup*/
     entity e;
 };
 
