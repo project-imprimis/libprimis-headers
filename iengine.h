@@ -404,7 +404,9 @@ extern void initmathcmds();
  *
  * `strsplice`
  *
- * `strreplace`
+ * `strreplace` *string* str *string* oldval *string* newval *string* newval2
+ *  - replaces every instance of `oldval` with `newval`
+ *  - if `newval2` parameter exists, every other `oldval` will be `newval2` (starting with `newval`)
  *
  * `substr`
  *
@@ -412,9 +414,11 @@ extern void initmathcmds();
  *
  * `appendword`
  *
- * `concat` concatenates the strings passed, without inserting spaces between arguments
+ * `concat` (variadic) *string* param1, *string* param2...
+ *  - concatenates the strings passed, without inserting spaces between arguments
  *
- * `concatword` concatenates the strings passed, adding a space between each argument
+ * `concatword` (variadic) *string* param1, *string* param2...
+ *  - concatenates the strings passed, adding a space between each argument
  *
  * `format` nicely formats the string passed
  */
