@@ -402,7 +402,9 @@ extern void initmathcmds();
  *
  * `strupper` converts the string to uppercase
  *
- * `strsplice`
+ * `strsplice` *string* str *string* vals *int* skip *int* count
+ *  - replaces a substring between indices `skip` and `skip` + `count` with the passed `vals`
+ *  - if the size of `vals` is larger than `count` + 1, the resulting string will be lengthened instead of values overwritten
  *
  * `strreplace` *string* str *string* oldval *string* newval *string* newval2
  *  - replaces every instance of `oldval` with `newval`
