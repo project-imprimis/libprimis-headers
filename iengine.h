@@ -412,7 +412,8 @@ extern void initmathcmds();
  *
  * `substr`
  *
- * `stripcolors` strips any color formatting from the argument passed
+ * `stripcolors` *string* str
+ *  - strips any color formatting from the argument passed
  *
  * `appendword`
  *
@@ -451,7 +452,10 @@ extern void initstrcmds();
  *
  * `append`
  *
- * `result`
+ * `result` *tagval* v
+ *  - Sets the passed tagval as a the command result.
+ *  - If a string literal is passed, the command result is a tagval with that string as its stored value
+ *  - Attempting to get a float/int from a string literal returns 0.0 and 0 respectively
  *
  * `listlen`
  *
