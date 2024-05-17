@@ -375,7 +375,95 @@ extern std::string enginestr();
  * `>=` `>=f` `>=s`
  *  - returns whether the (int, float, string) parameters are ordered in non-ascending order
  *  - order for strings is determined by std::strncmp()
-
+ *
+ * `!`
+ *
+ * `&&`
+ *
+ * `||`
+ *
+ * `div` `divf`
+ *
+ * `mod` `modf`
+ *
+ * `pow`
+ *
+ * `sin`
+ * - returns the sine of the value passed
+ * - returns values denominated in degrees
+ *
+ * `cos`
+ *  - returns the cosine of the value passed
+ *  - returns values denominated in degrees
+ *
+ * `tan`
+ *  - returns the tangent (sine divided by cosine) of the value passed
+ *  - returns values denominated in degrees
+ *
+ * `asin`
+ *  - returns the arcsine of the value passed
+ *  - returns values denominated in degrees
+ *
+ * `acos`
+ * - returns the arccosine of the value passed
+ *  - returns values denominated in degrees
+ *
+ * `atan`
+ *  - returns the arctangent of the value passed
+ *  - returns values denominated in degrees
+ *
+ * `atan2`
+ *  - returns the two-parameter arctangent from the two values passed
+ *  - equal to atan(arg1/arg2)
+ *  - returns values denominated in degrees
+ *
+ * `sqrt`
+ *  - returns the square root of the value passed
+ *
+ * `loge`
+ *  - returns log base e (Euler's number) of the value passed
+ *
+ * `log2`
+ *  - returns log base 2 of the value passed
+ *
+ * `log10`
+ *  - returns log base 10 of the value passed
+ *
+ * `exp`
+ *  - returns e (Euler's number) to the power passed
+ *
+ * `min` `minf`
+ *  - returns the smallest of the list of (int, float) values passed
+ *
+ * `max` `maxf`
+ *  - returns the largest of the list of (int, float) values passed
+ *
+ * `bitscan`
+ *
+ * `abs` `absf`
+ *  - returns the absolute value of the (int, float) passed
+ *
+ * `floor`
+ *
+ * `ceil`
+ *
+ * `round`
+ *
+ * `cond`
+ *
+ * `case`
+ *
+ * `casef`
+ *
+ * `cases`
+ *
+ * `rnd`
+ *
+ * `rndstr`
+ *
+ * `tohex`
+ *
+ * `strcmp`
  */
 extern void initmathcmds();
 
