@@ -378,7 +378,13 @@ extern std::string enginestr();
  *
  * `!`
  *
- * `&&`
+ * `&&` (variadic) *expression* arg1, *expression* arg2...
+ *  - returns the logical AND of the collection of expressions passed
+ *  - AND condition applies to only expressions actually existing (no implied false parameters)
+ *  - if no parameters passed returns 1
+ *  - if one parameter returns the truthiness of that expression
+ *  - if multiple parameters passed returns 1 only if all expressions evaluate true
+ *  - returns false for all other cases
  *
  * `||`
  *
