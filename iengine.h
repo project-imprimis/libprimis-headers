@@ -386,7 +386,10 @@ extern std::string enginestr();
  *  - if multiple parameters passed returns 1 only if all expressions evaluate true
  *  - returns false for all other cases
  *
- * `||`
+ * `||` (variadic) *expression* arg1, *expression* arg2...
+ *  - returns the logical OR of the collection of expressions passed
+ *  - OR condition returns 1 if any expression passed evaluates true
+ *  - OR condition returns false if no parameters passed
  *
  * `div` `divf`
  *
@@ -394,57 +397,60 @@ extern std::string enginestr();
  *
  * `pow`
  *
- * `sin`
+ * `sin` *float* angle
  * - returns the sine of the value passed
- * - returns values denominated in degrees
+ * - takes values denominated in degrees
  *
- * `cos`
+ * `cos` *float* angle
  *  - returns the cosine of the value passed
- *  - returns values denominated in degrees
+ *  - takes values denominated in degrees
  *
- * `tan`
+ * `tan` *float* angle
  *  - returns the tangent (sine divided by cosine) of the value passed
- *  - returns values denominated in degrees
+ *  - takes values denominated in degrees
  *
- * `asin`
+ * `asin` *float* ratio
  *  - returns the arcsine of the value passed
  *  - returns values denominated in degrees
  *
- * `acos`
- * - returns the arccosine of the value passed
+ * `acos` *float* ratio
+ *  - returns the arccosine of the value passed
  *  - returns values denominated in degrees
  *
- * `atan`
+ * `atan` *float* ratio
  *  - returns the arctangent of the value passed
  *  - returns values denominated in degrees
  *
- * `atan2`
+ * `atan2` *float* y *float* x
  *  - returns the two-parameter arctangent from the two values passed
  *  - equal to atan(arg1/arg2)
  *  - returns values denominated in degrees
+ *  - uses Fortran (y,x) formalism
  *
- * `sqrt`
+ * `sqrt` *float* value
  *  - returns the square root of the value passed
  *
- * `loge`
+ * `loge` *float* value
  *  - returns log base e (Euler's number) of the value passed
  *
- * `log2`
+ * `log2` *float* value
  *  - returns log base 2 of the value passed
  *
- * `log10`
+ * `log10` *float* value
  *  - returns log base 10 of the value passed
  *
- * `exp`
+ * `exp` *float* value
  *  - returns e (Euler's number) to the power passed
  *
- * `min` `minf`
+ * `min` `minf` (variadic) *(int, float)* arg1, *(int, float)* arg2...
  *  - returns the smallest of the list of (int, float) values passed
  *
- * `max` `maxf`
+ * `max` `maxf` (variadic) *(int, float)* arg1, *(int, float)* arg2...
  *  - returns the largest of the list of (int, float) values passed
  *
- * `bitscan`
+ * `bitscan` *int* value
+ *  - returns the index of the least significant bit
+ *  - this is one less than the GCC builtin_ffs
  *
  * `abs` `absf`
  *  - returns the absolute value of the (int, float) passed
