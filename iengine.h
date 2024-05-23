@@ -461,7 +461,13 @@ extern std::string enginestr();
  *
  * `round`
  *
- * `cond`
+ * `cond` (variadic) *expression* arg1, *expression* arg2...
+ *  - Evaluates a series of conditions to determine an expression to evaluate and return
+ *  - Odd parameters are conditions and even parameters are consequent expressions to potentially evaluate
+ *  - The first odd parameter (arg1, arg3, etc) to have an expression that evaluates to 1 will have its consequent parameter executed/returned
+ *  - Execution stops with the first valid condition met
+ *  - The final expression is evaluated and returned regardless of antecedent clauses, if no other expression evaluated
+ *  - `cond` with one or zero parameters returns 0 regardless of parameter values
  *
  * `case`
  *
