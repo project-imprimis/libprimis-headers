@@ -483,7 +483,10 @@ extern std::string enginestr();
  *
  * `rndstr`
  *
- * `tohex`
+ * `tohex` *int* value *int* digits
+ *  - Returns a string containing the hexadecimal representation of the given value
+ *  - Number of digits of output is at least `digits` (more if necessary to represent value)
+ *  - Returned is a string beginning with "0x" followed by the hex representation
  *
  * `strcmp`
  */
