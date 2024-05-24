@@ -376,7 +376,11 @@ extern std::string enginestr();
  *  - returns whether the (int, float, string) parameters are ordered in non-ascending order
  *  - order for strings is determined by std::strncmp()
  *
- * `!`
+ * `!` *tagval* val
+ *  - returns whether the tagval passed evaluates to true (1)
+ *  - all nonzero floats and int values return true
+ *  - all nonnull strings return true
+ *  - null strings, and 0.f/0 return false
  *
  * `&&` (variadic) *expression* arg1, *expression* arg2...
  *  - returns the logical AND of the collection of expressions passed
