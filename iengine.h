@@ -578,12 +578,6 @@ extern void initstrcmds();
  *
  * `listcount`
  *
- * `at`
- *
- * `sublist`
- *
- * `listcount`
- *
  * `listfind`
  *
  * `listfind=`
