@@ -582,9 +582,13 @@ extern void initstrcmds();
  *
  * `listfind=`
  *
- * `loop`
+ * `loop` *ident* id *int* number *expression* body
+ *  - Loops the ident `id` between zero and `number`, executing `body` for each iteration looped
+ *  - `id` will become an int ident regardless of prior type
  *
- * `loop+`
+ * `loop+` *ident* id *int* offset *int* number *expression* body
+ *  - Loops the ident `id` between `offset` and `number+offset-1`, executing `body` for each iteration looped
+ *  - `id` will become an int ident regardless of prior type
  *
  * `loop*`
  *
