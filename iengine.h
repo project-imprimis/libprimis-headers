@@ -578,6 +578,12 @@ extern void initstrcmds();
  *
  * `listcount`
  *
+ * `at`
+ *
+ * `sublist`
+ *
+ * `listcount`
+ *
  * `listfind`
  *
  * `listfind=`
@@ -597,6 +603,43 @@ extern void initstrcmds();
  * `loopconcat`
  *
  * `loopconcat+`
+ *
+ * `looplist`
+ *
+ * `looplist2`
+ *
+ * `looplist3`
+ *
+ * `listassoc=`
+ *
+ * `looplistconcat`
+ *
+ * `looplistconcatword`
+ *
+ * `prettylist`
+ *
+ * `listdel`
+ *
+ * `listintersect`
+ *
+ * `listunion`
+ *
+ * `loopfiles`
+ *
+ * `listsplice`
+ *
+ * `findfile`
+ *
+ * `sortlist` *string* list *ident* lesser *ident* greater *expression* comparison *expression* unique
+ *
+ * `uniquelist` *string* list *ident* arg1 *ident* arg2 *expression* unique
+ *
+ * `getmillis`
+ *
+ * `sleep`
+ *
+ * `clearsleep`
+ *
  */
 extern void initcontrolcmds();
 
