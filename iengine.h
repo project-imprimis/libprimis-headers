@@ -631,8 +631,16 @@ extern void initstrcmds();
  * `findfile`
  *
  * `sortlist` *string* list *ident* lesser *ident* greater *expression* comparison *expression* unique
+ *  - Sorts the given list (space delimited string) given the provided idents and comparison expression
+ *  - If a unique expression is provided, removes all but one value that compares equal for each unique list element
+ *  - Comparison expression and unique expression take the `lesser` and `greater` parameters to evaluate
+ *  - For example, `sortlist $list lesser greater [<s $lesser $greater] will sort in ascending order
+ *  - An expression that asserts `$greater` < `$lesser`  can be used to sort in reverse (descending) order
  *
  * `uniquelist` *string* list *ident* arg1 *ident* arg2 *expression* unique
+ *  - Removes all redundent list elements that compare equal under the `unique` expression
+ *  - Unique expression takes `arg1` and `arg2` and returns if they compare equal
+ *  - For example `uniquelist $list a b [=s $a $b] will compare a list of strings for strcmp equality
  *
  * `getmillis`
  *
