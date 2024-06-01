@@ -588,13 +588,9 @@ extern void initstrcmds();
  *
  * `listfind=`
  *
- * `loop` *ident* id *int* number *expression* body
- *  - Loops the ident `id` between zero and `number`, executing `body` for each iteration looped
- *  - `id` will become an int ident regardless of prior type
+ * `loop`
  *
- * `loop+` *ident* id *int* offset *int* number *expression* body
- *  - Loops the ident `id` between `offset` and `number+offset-1`, executing `body` for each iteration looped
- *  - `id` will become an int ident regardless of prior type
+ * `loop+`
  *
  * `loop*`
  *
@@ -620,9 +616,20 @@ extern void initstrcmds();
  *
  * `listdel`
  *
- * `listintersect`
+ * `listintersect` *string* list *string* elems
+ *  - Returns the set intersection of `list` and `elems` (both space-delimited strings)
+ *  - All elements both in `list` and `elems` are included in the return set
+ *  - The return set is strictly a subset of both `list` and `elems`
+ *  - The return set is ordered in the same order as `list`
+ *  - Duplicate entries in `list` are preserved in the output set, if such a value is also in `elems`
+ *  - Duplicate entries in `elems` are never preserved in the output set
  *
- * `listunion`
+ * `listunion` *string* list *string* elems
+ *  - Returns the set union of `list` and `elems` (both space-delimited strings)
+ *  - All elements in `list` are in the return set
+ *  - Elements in `elems` that are not in `list` are appended (up to one per unique entry)
+ *  - Duplicate entries in `list` are preserved in the output set
+ *  - Duplicate entries in `elems` are not preserved in the output set
  *
  * `loopfiles`
  *
