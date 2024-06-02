@@ -612,7 +612,17 @@ extern void initstrcmds();
  *
  * `looplistconcatword`
  *
- * `prettylist`
+ * `prettylist` *string* list *string* conjunction
+ *  - Returns the list formatted with appropriate grammar for an English sentence
+ *  - If there are three or more list elements, or if no conjunction provided, returns a comma-delimited representation
+ *  - If there is exactly two list elements, and a conjunction argument provided, returns list delimited only by conjunction
+ *  - If there is only one list element, no delimiters or conjunctions will be added
+ *  - If there is three or more elements and a conjunction, returns a comma-delimited list with the last element preceded by the conjunction
+ *
+ * `indexof` *string* list *string* elem
+ *  - Returns the first index where `elem` is found within `list`
+ *  - All comparisons are done by string equality
+ *  - If nothing in `list` compares equal to `elem`, returns -1
  *
  * `listdel`
  *
@@ -633,7 +643,9 @@ extern void initstrcmds();
  *
  * `loopfiles`
  *
- * `listsplice`
+ * `listsplice` *string* list *string* list2 *int* skip *int* count
+ *  - Splices list2 into list1, optionally overwriting up to `count` elements with spliced-in list
+ *  - List splicing begins after `skip` number of elements (starting from zero)
  *
  * `findfile`
  *
