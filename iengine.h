@@ -588,15 +588,26 @@ extern void initstrcmds();
  *
  * `listfind=`
  *
- * `loop`
+ * `loop` *ident* id *int* num *expression* body
+ *  - Executes body `num` times with `id` set from 0 to `num`-1
+ *  - `id` will become an int regardless of prior type
+ *  - `id` retains its value set at the last loop iteration
  *
- * `loop+`
+ * `loop+` *ident* id *int* offset *int* num *expression* body
+ *  - Executes body `num` times with `id` set from `offset` to `offset`+`num`-1
+ *  - `id` will become an int regardless of prior type
+ *  - `id` retains its value set at hte last loop iteration
  *
  * `loop*`
  *
  * `loop+*`
  *
- * `loopconcat`
+ * `loopconcat` *ident* id *int* num *expression* body
+ *  - Executes body `num` times with `id` set from 0 to `num`-1
+ *  - Returns a list string containing the returns from the expression `body`
+ *  - Returns values from the `body` expression are delimited by single spaces
+ *  - `id` will become an int regardless of prior type
+ *  - `id` retains its value set at hte last loop iteration
  *
  * `loopconcat+`
  *
