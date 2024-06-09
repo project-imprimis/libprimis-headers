@@ -598,9 +598,13 @@ extern void initstrcmds();
  *  - `id` will become an int regardless of prior type
  *  - `id` retains its value set at hte last loop iteration
  *
- * `loop*`
+ * `loop* *ident* id *int* step *int* num *expression* body
+ *  - Executes body `num` times with `id` set from 0 to (`num`-1)*`step`
+ *  - If `step` is zero, `id` is zero for all iterations (`num` iterations)
  *
- * `loop+*`
+ * `loop+*`*ident* id *int* step *int* num *expression* body
+ *  - Executes body `num` times with `id` set from `offset` to (`offset`+`num`-1)*`step`
+ *  - If `step` is zero, `id` is `offset` for all iterations (`num` iterations)
  *
  * `loopconcat` *ident* id *int* num *expression* body
  *  - Executes body `num` times with `id` set from 0 to `num`-1
@@ -609,7 +613,9 @@ extern void initstrcmds();
  *  - `id` will become an int regardless of prior type
  *  - `id` retains its value set at hte last loop iteration
  *
- * `loopconcat+`
+ * `loopconcat+` *ident* id *int* offset *int* num *expression* body
+ *  - Executes body `num` times with `id` set from `offset` to `offset`+`num`-1
+ *  - Returns values from the `body` expression are delimited by single spaces
  *
  * `looplist`
  *
