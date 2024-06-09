@@ -570,22 +570,31 @@ extern void initstrcmds();
  *  - If a string literal is passed, the command result is a tagval with that string as its stored value
  *  - Attempting to get a float/int from a string literal returns 0.0 and 0 respectively
  *
- * `listlen`
+ * `listlen` *string* list
+ *  - Returns the length of the `list` given
+ *  - List length is not zero indexed, empty lists are the only length 0 list
  *
- * `at`
- *
- * `sublist`
- *
- * `listcount`
- *
- * `at`
+ * `at` *string* list *int* index
+ *  - Returns the value at `index` position in `list`
+ *  - List elements are zero-indexed
  *
  * `sublist`
+ *  - Returns a `count` length subset of the `list` given
+ *  - If no `count` is given then all elements from`skip` to the end of the list are returned
+ *  - If no `skip` is given then all elements will be returned
+ *  - Negative `skip` and `count` values are treated as zero
  *
- * `listcount`
+ * `listcount` *ident* id *string* list *expression* condition
+ * - Counts the number of elements in the list that satisfy the given condition
+ * - `id` is set to the value of each list element before running the condition
+ * - empty list returns zero
  *
- * `listfind`
- *
+ * `listfind` *ident* id *string* list *expression* condition
+ *  - Returns the index of the first element in `list` that satisfies the given condition
+ *  - Returned indices are zero-indexed
+ *  - `id` is set to the value of each list element before running the condition
+ *  - If no element found, returns -1
+
  * `listfind=`
  *
  * `loop` *ident* id *int* num *expression* body
@@ -641,7 +650,9 @@ extern void initstrcmds();
  *  - All comparisons are done by string equality
  *  - If nothing in `list` compares equal to `elem`, returns -1
  *
- * `listdel`
+ * `listdel` *string* list *string* elems
+ *  - Returns the `list` passed with all elements in `elems` removed from it
+ *  - All comparisons done by string equality
  *
  * `listintersect` *string* list *string* elems
  *  - Returns the set intersection of `list` and `elems` (both space-delimited strings)
