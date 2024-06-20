@@ -1135,7 +1135,7 @@ struct vec4
 
     vec4 operator-(const vec4 &v2) const
     {
-        return vec4(x-v2.x, y-v2.y, z-v2.z, w+v2.w);
+        return vec4(x-v2.x, y-v2.y, z-v2.z, w-v2.w);
     }
 
     vec4 operator-() const
