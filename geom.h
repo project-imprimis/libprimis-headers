@@ -1120,13 +1120,50 @@ struct vec4
      *
      * @return a return to `this` object following the operation
      */
-    vec4 &sub3(T f)      { x -= f; y -= f; z -= f; return *this; }
-    vec4 &sub(T f)       { sub3(f); w -= f; return *this; }
-    vec4 &subw(T f)      { w -= f; return *this; }
-    vec4 &neg3()             { x = -x; y = -y; z = -z; return *this; }
-    vec4 &neg()              { neg3(); w = -w; return *this; }
-    vec4 &clamp(T l, T h) { x = ::std::clamp(x, l, h); y = ::std::clamp(y, l, h); z = ::std::clamp(z, l, h); w = ::std::clamp(w, l, h); return *this; }
+    vec4 &sub3(T f)
+    {
+        x -= f;
+        y -= f;
+        z -= f;
+        return *this;
+    }
 
+    vec4 &sub(T f)
+    {
+        sub3(f);
+        w -= f;
+        return *this;
+    }
+
+    vec4 &subw(T f)
+    {
+        w -= f;
+        return *this;
+    }
+
+    vec4 &neg3()
+    {
+        x = -x;
+        y = -y;
+        z = -z;
+        return *this;
+    }
+
+    vec4 &neg()
+    {
+        neg3();
+        w = -w;
+        return *this;
+    }
+
+    vec4 &clamp(T l, T h)
+    {
+        x = ::std::clamp(x, l, h);
+        y = ::std::clamp(y, l, h);
+        z = ::std::clamp(z, l, h);
+        w = ::std::clamp(w, l, h);
+        return *this;
+    }
 
     vec4 operator+(const vec4 &v2) const
     {
@@ -1167,27 +1204,90 @@ struct vec4
 
 
     template<class A, class B>
-    vec4 &cross(const A &a, const B &b) { x = a.y*b.z-a.z*b.y; y = a.z*b.x-a.x*b.z; z = a.x*b.y-a.y*b.x; return *this; }
+    vec4 &cross(const A &a, const B &b)
+    {
+        x = a.y*b.z-a.z*b.y;
+        y = a.z*b.x-a.x*b.z;
+        z = a.x*b.y-a.y*b.x;
+        return *this;
+    }
 
-    vec4 &cross(const vec &o, const vec &a, const vec &b) { return cross(vec(a).sub(o), vec(b).sub(o)); }
+    vec4 &cross(const vec &o, const vec &a, const vec &b)
+    {
+        return cross(vec(a).sub(o), vec(b).sub(o));
+    }
 
-    void setxyz(const vec &v) { x = v.x; y = v.y; z = v.z; }
+    void setxyz(const vec &v)
+    {
+        x = v.x;
+        y = v.y;
+        z = v.z;
+    }
 
-    vec4 &rotate_around_z(T c, T s) { T rx = x, ry = y; x = c*rx-s*ry; y = c*ry+s*rx; return *this; }
-    vec4 &rotate_around_x(T c, T s) { T ry = y, rz = z; y = c*ry-s*rz; z = c*rz+s*ry; return *this; }
-    vec4 &rotate_around_y(T c, T s) { T rx = x, rz = z; x = c*rx-s*rz; z = c*rz+s*rx; return *this; }
+    vec4 &rotate_around_z(T c, T s)
+    {
+        T rx = x,
+          ry = y;
+        x = c*rx-s*ry;
+        y = c*ry+s*rx;
+        return *this;
+    }
 
-    vec4 &rotate_around_z(T angle) { return rotate_around_z(cosf(angle), std::sin(angle)); }
-    vec4 &rotate_around_x(T angle) { return rotate_around_x(cosf(angle), std::sin(angle)); }
-    vec4 &rotate_around_y(T angle) { return rotate_around_y(cosf(angle), std::sin(angle)); }
+    vec4 &rotate_around_x(T c, T s)
+    {
+        T ry = y,
+          rz = z;
+        y = c*ry-s*rz;
+        z = c*rz+s*ry;
+        return *this;
+    }
 
-    vec4 &rotate_around_z(const vec2 &sc) { return rotate_around_z(sc.x, sc.y); }
-    vec4 &rotate_around_x(const vec2 &sc) { return rotate_around_x(sc.x, sc.y); }
-    vec4 &rotate_around_y(const vec2 &sc) { return rotate_around_y(sc.x, sc.y); }
+    vec4 &rotate_around_y(T c, T s)
+    {
+        T rx = x,
+          rz = z;
+        x = c*rx-s*rz;
+        z = c*rz+s*rx;
+        return *this;
+    }
 
-    vec tonormal() const { return vec(x*(2.0f/255.0f)-1.0f, y*(2.0f/255.0f)-1.0f, z*(2.0f/255.0f)-1.0f); }
+    vec4 &rotate_around_z(T angle)
+    {
+        return rotate_around_z(cosf(angle), std::sin(angle));
+    }
+
+    vec4 &rotate_around_x(T angle)
+    {
+        return rotate_around_x(cosf(angle), std::sin(angle));
+    }
+
+    vec4 &rotate_around_y(T angle)
+    {
+        return rotate_around_y(cosf(angle), std::sin(angle));
+    }
+
+    vec4 &rotate_around_z(const vec2 &sc)
+    {
+        return rotate_around_z(sc.x, sc.y);
+    }
+
+    vec4 &rotate_around_x(const vec2 &sc)
+    {
+        return rotate_around_x(sc.x, sc.y);
+    }
+
+    vec4 &rotate_around_y(const vec2 &sc)
+    {
+        return rotate_around_y(sc.x, sc.y);
+    }
+
+    vec tonormal() const
+    {
+        return vec(x*(2.0f/255.0f)-1.0f, y*(2.0f/255.0f)-1.0f, z*(2.0f/255.0f)-1.0f);
+    }
 
 };
+
 inline vec2::vec2(const vec4<float> &v) : x(v.x), y(v.y) {}
 inline vec::vec(const vec4<float> &v) : x(v.x), y(v.y), z(v.z) {}
 
