@@ -472,8 +472,8 @@ struct vec
     {
         float rx = x,
               rz = z;
-        x = c*rx+s*rz;
-        z = c*rz-s*rx;
+        x = c*rx-s*rz;
+        z = c*rz+s*rx;
         return *this;
     }
 
