@@ -449,17 +449,63 @@ struct vec
         return *this;
     }
 
-    vec &rotate_around_z(float c, float s) { float rx = x, ry = y; x = c*rx-s*ry; y = c*ry+s*rx; return *this; }
-    vec &rotate_around_x(float c, float s) { float ry = y, rz = z; y = c*ry-s*rz; z = c*rz+s*ry; return *this; }
-    vec &rotate_around_y(float c, float s) { float rx = x, rz = z; x = c*rx+s*rz; z = c*rz-s*rx; return *this; }
+    //all rotate_around functions use RH coordinates (positive rotation in CCW direction)
+    vec &rotate_around_z(float c, float s)
+    {
+        float rx = x,
+              ry = y;
+        x = c*rx-s*ry;
+        y = c*ry+s*rx;
+        return *this;
+    }
 
-    vec &rotate_around_z(float angle) { return rotate_around_z(cosf(angle), std::sin(angle)); }
-    vec &rotate_around_x(float angle) { return rotate_around_x(cosf(angle), std::sin(angle)); }
-    vec &rotate_around_y(float angle) { return rotate_around_y(cosf(angle), std::sin(angle)); }
+    vec &rotate_around_x(float c, float s)
+    {
+        float ry = y,
+              rz = z;
+        y = c*ry-s*rz;
+        z = c*rz+s*ry;
+        return *this;
+    }
 
-    vec &rotate_around_z(const vec2 &sc) { return rotate_around_z(sc.x, sc.y); }
-    vec &rotate_around_x(const vec2 &sc) { return rotate_around_x(sc.x, sc.y); }
-    vec &rotate_around_y(const vec2 &sc) { return rotate_around_y(sc.x, sc.y); }
+    vec &rotate_around_y(float c, float s)
+    {
+        float rx = x,
+              rz = z;
+        x = c*rx+s*rz;
+        z = c*rz-s*rx;
+        return *this;
+    }
+
+    vec &rotate_around_z(float angle)
+    {
+        return rotate_around_z(cosf(angle), std::sin(angle));
+    }
+
+    vec &rotate_around_x(float angle)
+    {
+        return rotate_around_x(cosf(angle), std::sin(angle));
+    }
+
+    vec &rotate_around_y(float angle)
+    {
+        return rotate_around_y(cosf(angle), std::sin(angle));
+    }
+
+    vec &rotate_around_z(const vec2 &sc)
+    {
+        return rotate_around_z(sc.x, sc.y);
+    }
+
+    vec &rotate_around_x(const vec2 &sc)
+    {
+        return rotate_around_x(sc.x, sc.y);
+    }
+
+    vec &rotate_around_y(const vec2 &sc)
+    {
+        return rotate_around_y(sc.x, sc.y);
+    }
 
     vec &rotate(float c, float s, const vec &d)
     {
@@ -468,8 +514,15 @@ struct vec
                     x*(d.x*d.z*(1-c)-d.y*s) + y*(d.y*d.z*(1-c)+d.x*s) + z*(d.z*d.z*(1-c)+c));
         return *this;
     }
-    vec &rotate(float angle, const vec &d) { return rotate(cosf(angle), std::sin(angle), d); }
-    vec &rotate(const vec2 &sc, const vec &d) { return rotate(sc.x, sc.y, d); }
+    vec &rotate(float angle, const vec &d)
+    {
+        return rotate(cosf(angle), std::sin(angle), d);
+    }
+
+    vec &rotate(const vec2 &sc, const vec &d)
+    {
+        return rotate(sc.x, sc.y, d);
+    }
 
     void orthogonal(const vec &d)
     {
