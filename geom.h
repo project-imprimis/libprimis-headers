@@ -1277,6 +1277,15 @@ struct vec4
         z = v.z;
     }
 
+    /**
+     * @brief Rotates the given 3-vector around the z-axis
+     *
+     * The w parameter is ignored.
+     * The positive direction of rotation is counterclockwise.
+     *
+     * @param c the raw cosine value to rotate by
+     * @param s the raw sine value to rotate by
+     */
     vec4 &rotate_around_z(T c, T s)
     {
         T rx = x,
@@ -1286,6 +1295,15 @@ struct vec4
         return *this;
     }
 
+    /**
+     * @brief Rotates the given 3-vector around the x-axis
+     *
+     * The w parameter is ignored.
+     * The positive direction of rotation is counterclockwise.
+     *
+     * @param c the raw cosine value to rotate by
+     * @param s the raw sine value to rotate by
+     */
     vec4 &rotate_around_x(T c, T s)
     {
         T ry = y,
@@ -1295,6 +1313,15 @@ struct vec4
         return *this;
     }
 
+    /**
+     * @brief Rotates the given 3-vector around the y-axis
+     *
+     * The w parameter is ignored.
+     * The positive direction of rotation is counterclockwise.
+     *
+     * @param c the raw cosine value to rotate by
+     * @param s the raw sine value to rotate by
+     */
     vec4 &rotate_around_y(T c, T s)
     {
         T rx = x,
