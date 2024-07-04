@@ -2866,7 +2866,7 @@ extern dynent *iterdynents(int i);
  * @param insideplayercol tooggles collidign with players you share space with
  */
 extern bool collide(const physent *d, const vec &dir = vec(0, 0, 0), float cutoff = 0.0f, bool playercol = true, bool insideplayercol = false);
-extern void avoidcollision(physent *d, const vec &dir, physent *obstacle, float space);
+extern void avoidcollision(physent *d, const vec &dir, const physent *obstacle, float space);
 
 extern bool movecamera(physent *pl, const vec &dir, float dist, float stepdist);
 
