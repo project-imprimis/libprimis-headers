@@ -2082,7 +2082,14 @@ struct ivec
     bool operator==(const ivec &v) const { return x==v.x && y==v.y && z==v.z; }
     bool operator!=(const ivec &v) const { return x!=v.x || y!=v.y || z!=v.z; }
     ivec operator+(const ivec &v)  const { return ivec(x+v.x, y+v.y, z+v.z); }
-    bool iszero() const { return x==0 && y==0 && z==0; }
+    /**
+     * @brief Type conversion operator from ivec -> bool.
+     *
+     * If this ivec is identical to the origin (0,0,0), returns false; for any other
+     * values of (x,y,z) returns true. This is behavior analogous to int in three
+     * dimensions.
+     */
+    explicit operator bool() const { return !(x==0 && y==0 && z==0); }
     ivec &shl(int n) { x<<= n; y<<= n; z<<= n; return *this; }
     ivec &shr(int n) { x>>= n; y>>= n; z>>= n; return *this; }
     ivec &mul(int n) { x *= n; y *= n; z *= n; return *this; }
