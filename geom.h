@@ -1566,29 +1566,44 @@ class matrix3
         float trace() const;
 
         /**
-         * @brief Calculates ragdoll angle axis compliance.
+         * @brief Calculates the axis and angle from a rotation matrix.
          *
-         * Only used for some ragdoll calculations.
+         * Only used in certain ragdoll calculations.
+         *
+         * The axis vector represents the vector which is invariant under the
+         * rotation encoded in the rotation matrix.
+         *
+         * The angle represents the rotation magnitude around the axis vector.
+         *
+         * Both `angle` and `axis` are pure output parameters and their prior values
+         * are discarded.
+         *
+         * If the values encoding the axis result in a magnitude smaller than `threshhold`,
+         * returns false and does not set the angle nor the axis (except axis will
+         * be set if trace = 0..2); otherwise sets both angle and axis and returns true
          *
          * @param tr the trace of the matrix
-         * @param angle the angle to test
-         * @param axis the axis to use
-         * @param threshold the threshhold for a pass
+         * @param angle the angle to set
+         * @param axis the axis to set
+         * @param threshold the magnitude required not to reject the matrix
          *
-         * @return whether the angle is within the allowable range
+         * @return whether the axis and angle were both set
          */
         bool calcangleaxis(float tr, float &angle, vec &axis, float threshold = 1e-16f) const;
 
         /**
-         * @brief Calculates ragdoll angle axis compliance.
+         * @brief Calculates the axis and angle from a rotation matrix.
          *
-         * Ony used for some ragdoll calculations.
+         * Ony used in certain ragdoll calculations.
          *
-         * @param angle the angle to test
-         * @param axis the axis to use
-         * @param threshold the threshhold for a pass
+         * Same behavior as `calcangleaxis(float, float &, vec &, float)` except
+         * the `trace()` is automatically calculated.
          *
-         * @return whether the angle is within the allowable range
+         * @param angle the angle to set
+         * @param axis the axis to set
+         * @param threshold the magnitude required not to reject the matrix
+         *
+         * @return whether the axis and angle were both set
          */
         bool calcangleaxis(float &angle, vec &axis, float threshold = 1e-16f) const;
 
