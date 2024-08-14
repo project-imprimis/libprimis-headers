@@ -1410,8 +1410,11 @@ class matrix3
         /**
          * @brief Creates a new matrix as a rotation matrix.
          *
-         * @param angle
-         * @param axis
+         * If the axis passed is not normalized, the resulting rotation matrix
+         * will not encode a pure rotation.
+         *
+         * @param angle the rotation amount the rotation matrix encodes
+         * @param axis the direction which is invariant under the rotation encoded by angle
          */
         explicit matrix3(float angle, const vec &axis);
 
