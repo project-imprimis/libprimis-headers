@@ -1553,6 +1553,7 @@ class matrix3
          * -sinf(angle) cosf(angle) 0
          *  0           0           1
          * ```
+         * (This is a rotation matrix around the Z-axis.)
          *
          * @param angle the angle to rotate by (radians)
          */
@@ -1560,6 +1561,8 @@ class matrix3
 
         /**
          * @brief Returns the trace of the matrix.
+         *
+         * The trace is equal to the sum of the diagonal values of the matrix.
          *
          * @return a float representing the trace of the matrix
          */
