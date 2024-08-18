@@ -294,10 +294,11 @@ std::string Property<PropertyMetaT>::to_string() const
 template<typename PropertyMetaT>
 bool Property<PropertyMetaT>::set_check_type(PropertyType type) const
 {
-    static constexpr std::string_view typenames[] =
-    {
-        "int", "float", "color", "int vector", "float vector", "string"
-    };
+    // typename used in debug printout below
+    //static constexpr std::string_view typenames[] =
+    //{
+    //    "int", "float", "color", "int vector", "float vector", "string"
+    //};
 
     if(get_type() != type)
     {
