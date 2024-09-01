@@ -1783,7 +1783,7 @@ extern std::vector<std::string> animnames; /**< A list of anim names to be loade
  * @param size        scale factor for model
  * @param color       rgba color of the model
  */
-extern void rendermodel(const char *mdl,
+extern void rendermodel(std::string_view mdl,
                         int anim,
                         const vec &o,
                         float yaw = 0,
@@ -1815,7 +1815,7 @@ extern void rendermodel(const char *mdl,
  * @param basetime2 if Anim_SetSpeed, speed factor
  * @param size scale factor of model
  */
-extern int intersectmodel(const char *mdl,
+extern int intersectmodel(std::string_view mdl,
                           int anim,
                           const vec &pos,
                           float yaw,
