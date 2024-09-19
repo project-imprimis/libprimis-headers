@@ -2147,13 +2147,19 @@ extern void renderprogress(float bar, const char *text, bool background = false)
  *
  * `resetshaders`
  *
- * `variantshader_new`
+ * `variantshader_new` *int* *string* *int* *int* *code*
+ *  - Defines a new variant shader
+ *  - Allows shader manipulation commands to be used if passed to *code*
  *
  * `shader_new` *int* *string* *exec*
+ *  - Defines a new shader
+ *  - Allows shader manipulation commands to be used if passed to *code*
  *
  * `shader_define` *string* *string*
  *
- * `shader_source` *string* *string*
+ * `shader_source` *string* vs *string* fs
+ *  - Sets the paths to get vertex and fragment shaders
+ *  - Only works within context of `shader_new`
  *
  * `shader_include_vs` *string*
  *
