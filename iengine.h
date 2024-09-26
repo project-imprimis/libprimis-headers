@@ -2404,9 +2404,9 @@ extern int showmat; /**< treat as bool, determines whether material outlines are
  *
  * @param name a C string with the name of the material to look up
  *
- * @return an integer corresponding to the bitmask value of the material
+ * @return an integer corresponding to the bitmask value of the material or std::nullopt if it fails
  */
-extern int findmaterial(const char *name);
+extern std::optional<int> findmaterial(const char *name);
 
 // octaworld
 

@@ -52,6 +52,7 @@ class SoundEngine
 
         /**
          * @brief Plays a sound with the given attributes.
+         * 
          *
          * @param n index of the sound to play
          * @param loc world location to play at
@@ -62,8 +63,10 @@ class SoundEngine
          * @param chanid music channel index to use
          * @param radius distance over which sound is audible (in size 0 cubes)
          * @param expire maximum time before the sound stops playing
+         * 
+         * @return the channel id or std::nullopt in case of failure.
          */
-        int playsound(int n, const vec *loc = nullptr, extentity *ent = nullptr, int flags = 0, int loops = 0, int fade = 0, int chanid = -1, int radius = 0, int expire = -1);
+        std::optional<int> playsound(int n, const vec *loc = nullptr, extentity *ent = nullptr, int flags = 0, int loops = 0, int fade = 0, int chanid = -1, int radius = 0, int expire = -1);
 
         /**
          * @brief Stops playing a sound of index n in the specificied channel.
@@ -101,8 +104,10 @@ class SoundEngine
          * @param chanid music channel index to use
          * @param radius distance over which sound is audible (in size 0 cubes)
          * @param expire maximum time before the sound stops playing
+         * 
+         * @return the channel id where the song gets played or std::nullopt if it fails
          */
-        int playsoundname(const char *s, const vec *loc, int vol, int flags, int loops, int fade, int chanid, int radius, int expire);
+        std::optional<int> playsoundname(const char *s, const vec *loc, int vol, int flags, int loops, int fade, int chanid, int radius, int expire);
 
         /**
          * @brief Starts SDL_Mixer and initializes startup sound channels.
@@ -415,7 +420,7 @@ class SoundEngine
             std::vector<SoundConfig> configs;
             const char *dir;
             SoundType(const char *dir, SoundEngine& p);
-            int findsound(const char *name, int vol);
+            std::optional<int> findsound(const char *name, int vol);
             int addslot(const char *name, int vol);
             int addsound(const char *name, int vol, int maxuses = 0);
             void addalt(const char *name, int vol);
