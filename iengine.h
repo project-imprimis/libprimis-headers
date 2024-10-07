@@ -2690,7 +2690,6 @@ extern void freeundo(undoblock *u);
  * @param local whether the command was local
  */
 extern void pasteblock(const block3 &b, selinfo &sel, bool local);
-extern void pasteundo(undoblock *u);
 
 /**
  * @brief Creates an undoblock object given a cube selection.
