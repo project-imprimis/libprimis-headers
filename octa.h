@@ -168,11 +168,9 @@ class cube
          * the merge process are always lossless; therefore the previously
          * existing cubes must be coplanar prior to the merge request.
          *
-         * Applies to all children of the cube passed, usually the world root.
-         *
-         * @param root the cube object with which all children under will be merged
+         * Applies to all children of this cube.
          */
-        void calcmerges(cube * root);
+        void calcmerges();
 
         /**
          * @brief Returns whether the cube is valid.
