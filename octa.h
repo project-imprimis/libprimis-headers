@@ -168,7 +168,10 @@ class cube
          * the merge process are always lossless; therefore the previously
          * existing cubes must be coplanar prior to the merge request.
          *
-         * Applies to all children of this cube.
+         * Applies to all children of this cube, and also all adjacent cubes at
+         * the same level as this cube. This function is assumed to be called from
+         * the first element of an octree (eight element) array and will fail
+         * ungracefully if this condition is not satisfied.
          */
         void calcmerges();
 
