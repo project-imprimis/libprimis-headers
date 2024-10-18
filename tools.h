@@ -190,10 +190,9 @@ extern char *tempformatstring(const char *fmt, ...) PRINTFARGS(1, 2);
 #define DEF_FORMAT_STRING(d,...) string d; formatstring(d, __VA_ARGS__)
 #define DEFV_FORMAT_STRING(d,last,fmt) string d; { va_list ap; va_start(ap, last); vformatstring(d, fmt, ap); va_end(ap); }
 
-template<size_t N>
-inline bool matchstring(const char *s, size_t len, const char (&d)[N])
+inline bool matchstring(std::string_view s, size_t len, std::string_view d)
 {
-    return len == N-1 && !std::memcmp(s, d, N-1);
+    return len == d.size() && !std::memcmp(s.data(), d.data(), d.size());
 }
 
 inline char *newstring(size_t l)
