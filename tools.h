@@ -253,6 +253,15 @@ struct databuf
         maxlen = maxlen_;
     }
 
+    /**
+     * @brief Adds an existing value in the underlying buffer to the databuf
+     *
+     * Increases the length of the databuf by one and incorporates the value at
+     * the address after the end of the databuf's values.
+     *
+     * If the length is equal to or greater than the buffer's maximum length,
+     * applies the OVERREAD flag and returns a null value.
+     */
     const T &get()
     {
         static const T overreadval = 0;
