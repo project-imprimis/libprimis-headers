@@ -112,7 +112,7 @@ struct Slot
 
     virtual VSlot &emptyvslot();
 
-    virtual int cancombine(int type)const;
+    virtual int cancombine(int type) const;
     virtual bool shouldpremul(int) const
     {
         return false;
