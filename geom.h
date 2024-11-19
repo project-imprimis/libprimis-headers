@@ -1706,7 +1706,7 @@ class matrix3
          *
          * @return the transform of the matrix
          */
-        vec transform(const vec2 &o);
+        vec transform(const vec2 &o) const;
 
         /**
          * @brief Returns the transposed transform of the matrix.
