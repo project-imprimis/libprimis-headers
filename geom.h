@@ -783,6 +783,9 @@ struct vec4
     explicit vec4(const T *v) : x(v[0]), y(v[1]), z(v[2]), w(v[3]) {}
 
     template<class U>
+    vec4(const vec4<U> &p) : x(p.x), y(p.y), z(p.z), w(p.w) {}
+
+    template<class U>
     operator vec4<U>()
     {
         return vec4<U>(static_cast<U>(this->x),
