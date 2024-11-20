@@ -2266,9 +2266,47 @@ struct matrix4
     matrix4(const matrix3 &rot, const vec &trans);
     void mul(const matrix4 &x, const matrix3 &y);
     void mul(const matrix3 &y);
+
+    /**
+     * @brief Sets this matrix to the product of the two matrices provided
+     *
+     * The original contents of the matrix are disregarded.
+     * All calculations at single precision (float).
+     *
+     * @param x the first matrix to multiply
+     * @param y the second matrix to multiply
+     */
     void mul(const matrix4 &x, const matrix4 &y);
+
+    /**
+     * @brief Sets this matrix to the product of this and another matrix
+     *
+     * The original contents of the matrix are the left element in the product.
+     * All calculations at single precision (float).
+     *
+     * @param y the second matrix to multiply
+     */
     void mul(const matrix4 &y);
+
+    /**
+     * @brief Sets this matrix to the product of the two matrices provided
+     *
+     * The original contents of the matrix are disregarded.
+     * Uses double precision to perform calculations, and is narrowed at the end to float.
+     *
+     * @param x the first matrix to multiply
+     * @param y the second matrix to multiply
+     */
     void muld(const matrix4 &x, const matrix4 &y);
+
+    /**
+     * @brief Sets this matrix to the product of this and another matrix
+     *
+     * The original contents of the matrix are the left element in the product.
+     * Uses double precision to perform calculations, and is narrowed at the end to float.
+     *
+     * @param y the second matrix to multiply
+     */
     void muld(const matrix4 &y);
     void rotate_around_x(float ck, float sk);
     void rotate_around_x(float angle);
