@@ -797,7 +797,30 @@ struct vec4
     T &operator[](int i)       { return v[i]; }
     T  operator[](int i) const { return v[i]; }
 
+    /**
+     * @brief Returns whether two vec objects exactly match
+     *
+     * The two values must be exactly equal (by floating point math rules), and
+     * no tolerance is provided.
+     *
+     * @param o the value to compare
+     *
+     * @return true if all values in the vec4s exactly match
+     * @return false if any value does not match
+     */
     bool operator==(const vec4 &o) const { return x == o.x && y == o.y && z == o.z && w == o.w; }
+
+    /**
+     * @brief Returns whether two vec objects do not match
+     *
+     * If any value compares not equal (by floating point math rules),
+     * then the vec4s are considered not equal
+     *
+     * @param o the value to compare
+     *
+     * @return true if any value does not match
+     * @return false if all values in the vec4s exactly match
+     */
     bool operator!=(const vec4 &o) const { return x != o.x || y != o.y || z != o.z || w != o.w; }
 
     /**
