@@ -17,7 +17,7 @@ struct Mix_Chunk;
 
 /**
  * @brief The wrapper around SDL_Mixer that plays sounds ingame.
- * 
+ *
  * This class stores and plays sounds on command into either positionally (as a
  * point in the world) or nonpositionally (such as background music).
  */
@@ -48,7 +48,7 @@ class SoundEngine
          *
          * Loads the related sound file for every valid map sound index (map entity sounds).
          */
-        void preloadmapsounds(); 
+        void preloadmapsounds();
 
         /**
          * @brief Plays a sound with the given attributes.
@@ -79,7 +79,7 @@ class SoundEngine
          *
          * Halts all sound channels in use and frees them.
          */
-        void stopsounds(); 
+        void stopsounds();
 
         /**
          * @brief Restarts and updates all sound indices.
@@ -87,7 +87,7 @@ class SoundEngine
          * Pauses, reloads, and resumes playback of all active sounds. Does not play
          * sounds if on the main menu.
          */
-        void updatesounds(); 
+        void updatesounds();
 
         /**
          * @brief Plays a sound with the given attributes.
@@ -110,15 +110,15 @@ class SoundEngine
          * Fails and disables sound output if SDL is v2.0.6.
          */
         void initsound();
-        
+
         /**
          * @brief Starts a nonpositional music track.
-         * 
+         *
          * @param name (inc. path) of the track to play
          * @param cmd the command to run (in CubeScript) at the end of the track
          */
         void startmusic(char *name, char *cmd);
-        
+
         /**
          * @brief Resets the sound subsystem.
          */
@@ -126,129 +126,129 @@ class SoundEngine
 
         /**
          * @brief Sets whether stereo audio is enabled.
-         * 
+         *
          * @param on if true, enables stereo; if false, disables it
          */
         void setstereo(const int * const on);
-        
+
         /**
          * @brief Returns whether stereo or mono is enabled.
-         * 
+         *
          * The return is in CubeScript friendly `int` form.
-         * 
+         *
          * @return 1 if stereo enabled, 0 if mono enabled
          */
         int getstereo();
 
         /**
          * @brief Sets the maximum radius to play sounds from.
-         * 
+         *
          * The distance is in cube units ( =12.5cm).
-         * 
+         *
          * @param dist the distance to render from
          */
         void setmaxradius(const int * const dist);
-        
+
         /**
          * @brief Returns the maximum sound play radius.
-         * 
+         *
          * The distance is in cube units ( =12.5cm).
-         * 
+         *
          * @return the maximum distance at which sounds will be played
          */
         int getmaxradius();
 
         /**
          * @brief Sets the number of sound channels to use.
-         * 
+         *
          * Default value is 32; bounds limited to 1..128.
-         * 
+         *
          * @param val the number of channels to use
          */
         void setsoundchans(const int * const val);
-        
+
         /**
          * @brief Returns the number of sound channels in use.
-         * 
+         *
          * @return the number of sound channels in use (1..128)
          */
         int getsoundchans();
 
         /**
          * @brief Sets the map sound volume.
-         * 
+         *
          * Bounds limited to 0..255.
-         * 
+         *
          * @param vol the volume level for map sounds
          */
         void setsoundvol(const int * const vol);
-        
+
         /**
          * @brief Returns the current sound volume.
-         * 
+         *
          * @return the current volume for map sounds (0..255)
          */
         int getsoundvol();
 
         /**
          * @brief Sets the music sound volume.
-         * 
+         *
          * Bounds limited to 0..255.
-         * 
+         *
          * @param vol the volume level for music tracks
          */
         void setmusicvol(const int * const musicvol);
 
         /**
          * @brief Returns the current music volume.
-         * 
+         *
          * @return the current volume for music (0..255)
          */
         int getmusicvol();
 
         /**
          * @brief Sends a list of audio subsystems for SDL to bind to.
-         * 
+         *
          * By default, the standard Linux and Windows audio systems are set.
-         * 
+         *
          * @param f a list of space-separated names for SDL to attempt to bind
          */
         void setaudiodriver(char * f);
 
         /**
          * @brief Sets whether the sound engine is enabled.
-         * 
+         *
          * @param on whether sound is enabled or not
          */
         void setsound(const int * const on);
-        
+
         /**
          * @brief Returns whether sound is on.
-         * 
+         *
          * @return 1 if sound is on, 0 otherwise
          */
         int getsound();
 
         /**
          * @brief Adds a sound to the sound list at a given volume
-         * 
+         *
          * @param name the path to the sound
          * @param vol the volume of the sound (0..255)
          */
         void registersound(char *name, int *vol);
-        
+
         /**
          * @brief Adds a sound to the list of map sounds
-         * 
+         *
          * @param name the path to the sound
          * @param vol the volume of the sound (0..255)
          * @param maxuses the number of uses before the sound won't play
          */
         void mapsound(char *name, int *vol, int *maxuses);
-        
+
         /**
          * @brief Adds an alternative game sound.
-         * 
+         *
          * @param the name of the sound to add
          * @param vol the volume of the sound (0..255)
          */
@@ -256,37 +256,37 @@ class SoundEngine
 
         /**
          * @brief Adds an alternative map sound.
-         * 
+         *
          * @param the name of the sound to add
          * @param vol the volume of the sound (0..255)
          */
         void altmapsound(char *name, int *vol);
-        
+
         /**
          * @brief Returns to the console the number of game sounds loaded
-         * 
+         *
          * @return (to console) the number of game sounds
          */
         void numsounds();
-        
+
         /**
          * @brief Returns to the console the number of map sounds loaded.
-         * 
+         *
          * @return (to console) the number of map sounds
          */
         void nummapsounds();
-        
+
         /**
          * @brief Resets the loaded game sounds.
-         * 
+         *
          * This clears the list of game (e.g. hud weapon) sounds loaded into the
          * sound engine.
          */
         void soundreset();
-        
+
         /**
          * @brief Resets the loaded map sounds.
-         * 
+         *
          * This clears the list of map environment sounds loaded into the
          * sound engine.
          */
