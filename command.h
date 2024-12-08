@@ -138,29 +138,29 @@ struct ident
             {
                 struct
                 {
-                    int minval, /**< if an int variable, its min allowed value*/
-                        maxval; /**< if an int variable, its max allowed value*/
-                };     // Id_Var
+                    int min, /**< if an int variable, its min allowed value*/
+                        max; /**< if an int variable, its max allowed value*/
+                } i;     // Id_Var
                 struct
                 {
-                    float minvalf, /**< if a float variable, its min allowed value*/
-                          maxvalf; /**< if a float variable, its max allowed value*/
-                }; // Id_FloatVar
+                    float min, /**< if a float variable, its min allowed value*/
+                          max; /**< if a float variable, its max allowed value*/
+                } f; // Id_FloatVar
             };
             identvalptr storage;
             identval overrideval;
-        };
+        } val;
         struct // Id_Alias
         {
             uint *code;
             identval val;
             identstack *stack;
-        };
+        } alias;
         struct // Id_Command
         {
             const char *args;
             uint argmask;
-        };
+        } cmd;
     };
     identfun fun; /**< the pointer a command or variable points to (the on-change command for a var)*/
 
@@ -169,49 +169,82 @@ struct ident
      * @brief Constructor for an ident for an int variable.
      */
     ident(int t, const char *n, int m, int x, int *s, void *f = nullptr, int flags = 0)
-        : type(t), flags(flags | (m > x ? Idf_ReadOnly : 0)), name(n), minval(m), maxval(x), fun((identfun)f)
-    { storage.i = s; }
+        : type(t), flags(flags | (m > x ? Idf_ReadOnly : 0)), name(n), fun((identfun)f)
+    {
+        val.storage.i = s;
+        val.i.min = m;
+        val.i.max = x;
+    }
 
     /**
      * @brief Constructor for an ident for a float variable.
      */
     ident(int t, const char *n, float m, float x, float *s, void *f = nullptr, int flags = 0)
-        : type(t), flags(flags | (m > x ? Idf_ReadOnly : 0)), name(n), minvalf(m), maxvalf(x), fun((identfun)f)
-    { storage.f = s; }
+        : type(t), flags(flags | (m > x ? Idf_ReadOnly : 0)), name(n), fun((identfun)f)
+    {
+        val.storage.f = s;
+        val.f.min = m;
+        val.f.max = x;
+    }
 
     /**
      * @brief Constructor for an ident for a string variable.
      */
     ident(int t, const char *n, char **s, void *f = nullptr, int flags = 0)
         : type(t), flags(flags), name(n), fun((identfun)f)
-    { storage.s = s; }
+    {
+        val.storage.s = s;
+    }
 
     // Id_Alias
     ident(int t, const char *n, char *a, int flags)
-        : type(t), valtype(Value_String), flags(flags), name(n), code(nullptr), stack(nullptr)
-    { val.s = a; }
+        : type(t), valtype(Value_String), flags(flags), name(n)
+    {
+        alias.code = nullptr;
+        alias.stack = nullptr;
+        alias.val.s = a;
+    }
 
     ident(int t, const char *n, int a, int flags)
-        : type(t), valtype(Value_Integer), flags(flags), name(n), code(nullptr), stack(nullptr)
-    { val.i = a; }
+        : type(t), valtype(Value_Integer), flags(flags), name(n)
+    {
+        alias.code = nullptr;
+        alias.stack = nullptr;
+        alias.val.i = a;
+    }
 
     ident(int t, const char *n, float a, int flags)
-        : type(t), valtype(Value_Float), flags(flags), name(n), code(nullptr), stack(nullptr)
-    { val.f = a; }
+        : type(t), valtype(Value_Float), flags(flags), name(n)
+    {
+        alias.code = nullptr;
+        alias.stack = nullptr;
+        alias.val.f = a;
+    }
 
     ident(int t, const char *n, int flags)
-        : type(t), valtype(Value_Null), flags(flags), name(n), code(nullptr), stack(nullptr)
-    {}
+        : type(t), valtype(Value_Null), flags(flags), name(n)
+    {
+        alias.code = nullptr;
+        alias.stack = nullptr;
+    }
+
     ident(int t, const char *n, const tagval &v, int flags)
-        : type(t), valtype(v.type), flags(flags), name(n), code(nullptr), stack(nullptr)
-    { val = v; }
+        : type(t), valtype(v.type), flags(flags), name(n)
+    {
+        alias.code = nullptr;
+        alias.stack = nullptr;
+        alias.val = v;
+    }
 
     /**
      * @brief Constructor for an ident for a C++ bound command.
      */
     ident(int t, const char *n, const char *args, uint argmask, int numargs, void *f = nullptr, int flags = 0)
-        : type(t), numargs(numargs), flags(flags), name(n), args(args), argmask(argmask), fun((identfun)f)
-    {}
+        : type(t), numargs(numargs), flags(flags), name(n), fun((identfun)f)
+    {
+        cmd.args = args;
+        cmd.argmask = argmask;
+    }
 
     /**
      * @brief Calls a change effect for this ident, if one exists.
@@ -238,7 +271,7 @@ struct ident
     void setval(const tagval &v)
     {
         valtype = v.type;
-        val = v;
+        alias.val = v;
     }
 
     /**
@@ -252,7 +285,7 @@ struct ident
     void setval(const identstack &v)
     {
         valtype = v.valtype;
-        val = v.val;
+        alias.val = v.val;
     }
 
     /**
@@ -264,7 +297,7 @@ struct ident
     {
         if(valtype==Value_String)
         {
-            delete[] val.s;
+            delete[] alias.val.s;
         }
         valtype = Value_Null;
     }
