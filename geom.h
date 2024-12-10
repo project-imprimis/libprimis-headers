@@ -2229,20 +2229,41 @@ struct svec
 {
     union
     {
-        struct { short x, y, z; };
+        struct { short x, y, z; } coord;
         short v[3];
     };
 
     svec() {}
-    svec(short x, short y, short z) : x(x), y(y), z(z) {}
-    explicit svec(const ivec &v) : x(v.x), y(v.y), z(v.z) {}
+    svec(short x, short y, short z)
+    {
+        coord.x = x;
+        coord.y = y;
+        coord.z = z;
+    }
+    explicit svec(const ivec &v)
+    {
+        coord.x = v.x;
+        coord.y = v.y;
+        coord.z = v.z;
+    }
 
     short &operator[](int i) { return v[i]; }
     short operator[](int i) const { return v[i]; }
 };
 
-inline vec::vec(const svec &v) : x(v.x), y(v.y), z(v.z) {}
-inline ivec::ivec(const svec &v) : x(v.x), y(v.y), z(v.z) {}
+inline vec::vec(const svec &v)
+{
+    x = v.coord.x;
+    y = v.coord.y;
+    z = v.coord.z;
+}
+
+inline ivec::ivec(const svec &v)
+{
+    x = v.coord.x;
+    y = v.coord.y;
+    z = v.coord.z;
+}
 
 /**
  * @brief floating point 4x4 array object
