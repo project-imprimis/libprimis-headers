@@ -2181,44 +2181,63 @@ struct ivec2
 {
     union
     {
-        struct { int x, y; };
+        struct { int x, y; } coord;
         int v[2];
     };
 
     ivec2() {}
-    ivec2(int x, int y) : x(x), y(y) {}
-    explicit ivec2(const vec2 &v) : x(static_cast<int>(v.x)), y(static_cast<int>(v.y)) {}
-    explicit ivec2(const ivec &v) : x(v.x), y(v.y) {}
+    ivec2(int x, int y)
+    {
+        coord.x = x;
+        coord.y = y;
+    }
+
+    explicit ivec2(const vec2 &v)
+    {
+        coord.x = static_cast<int>(v.x);
+        coord.y = static_cast<int>(v.y);
+    }
+
+    explicit ivec2(const ivec &v)
+    {
+        coord.x = v.v[0];
+        coord.y = v.v[1];
+    }
 
     int &operator[](int i)       { return v[i]; }
     int  operator[](int i) const { return v[i]; }
 
-    bool operator==(const ivec2 &o) const { return x == o.x && y == o.y; }
-    bool operator!=(const ivec2 &o) const { return x != o.x || y != o.y; }
+    bool operator==(const ivec2 &o) const { return coord.x == o.coord.x && coord.y == o.coord.y; }
+    bool operator!=(const ivec2 &o) const { return coord.x != o.coord.x || coord.y != o.coord.y; }
 
-    bool iszero() const { return x==0 && y==0; }
-    ivec2 &shl(int n) { x<<= n; y<<= n; return *this; }
-    ivec2 &shr(int n) { x>>= n; y>>= n; return *this; }
-    ivec2 &mul(int n) { x *= n; y *= n; return *this; }
-    ivec2 &div(int n) { x /= n; y /= n; return *this; }
-    ivec2 &add(int n) { x += n; y += n; return *this; }
-    ivec2 &sub(int n) { x -= n; y -= n; return *this; }
-    ivec2 &mul(const ivec2 &v) { x *= v.x; y *= v.y; return *this; }
-    ivec2 &div(const ivec2 &v) { x /= v.x; y /= v.y; return *this; }
-    ivec2 &add(const ivec2 &v) { x += v.x; y += v.y; return *this; }
-    ivec2 &sub(const ivec2 &v) { x -= v.x; y -= v.y; return *this; }
-    ivec2 &mask(int n) { x &= n; y &= n; return *this; }
-    ivec2 &neg() { x = -x; y = -y; return *this; }
-    ivec2 &min(const ivec2 &o) { x = ::min(x, o.x); y = ::min(y, o.y); return *this; }
-    ivec2 &max(const ivec2 &o) { x = ::max(x, o.x); y = ::max(y, o.y); return *this; }
-    ivec2 &min(int n) { x = ::min(x, n); y = ::min(y, n); return *this; }
-    ivec2 &max(int n) { x = ::max(x, n); y = ::max(y, n); return *this; }
-    ivec2 &abs() { x = ::abs(x); y = ::abs(y); return *this; }
-    int dot(const ivec2 &o) const { return x*o.x + y*o.y; }
-    int cross(const ivec2 &o) const { return x*o.y - y*o.x; }
+    int &x() { return coord.x; }
+    int &y() { return coord.y; }
+    int x() const { return coord.x; }
+    int y() const { return coord.y; }
+
+    bool iszero() const { return coord.x==0 && coord.y==0; }
+    ivec2 &shl(int n) { coord.x<<= n; coord.y<<= n; return *this; }
+    ivec2 &shr(int n) { coord.x>>= n; coord.y>>= n; return *this; }
+    ivec2 &mul(int n) { coord.x *= n; coord.y *= n; return *this; }
+    ivec2 &div(int n) { coord.x /= n; coord.y /= n; return *this; }
+    ivec2 &add(int n) { coord.x += n; coord.y += n; return *this; }
+    ivec2 &sub(int n) { coord.x -= n; coord.y -= n; return *this; }
+    ivec2 &mul(const ivec2 &v) { coord.x *= v.coord.x; coord.y *= v.coord.y; return *this; }
+    ivec2 &div(const ivec2 &v) { coord.x /= v.coord.x; coord.y /= v.coord.y; return *this; }
+    ivec2 &add(const ivec2 &v) { coord.x += v.coord.x; coord.y += v.coord.y; return *this; }
+    ivec2 &sub(const ivec2 &v) { coord.x -= v.coord.x; coord.y -= v.coord.y; return *this; }
+    ivec2 &mask(int n) { coord.x &= n; coord.y &= n; return *this; }
+    ivec2 &neg() { coord.x = -coord.x; coord.y = -coord.y; return *this; }
+    ivec2 &min(const ivec2 &o) { coord.x = ::min(coord.x, o.coord.x); coord.y = ::min(coord.y, o.coord.y); return *this; }
+    ivec2 &max(const ivec2 &o) { coord.x = ::max(coord.x, o.coord.x); coord.y = ::max(coord.y, o.coord.y); return *this; }
+    ivec2 &min(int n) { coord.x = ::min(coord.x, n); coord.y = ::min(coord.y, n); return *this; }
+    ivec2 &max(int n) { coord.x = ::max(coord.x, n); coord.y = ::max(coord.y, n); return *this; }
+    ivec2 &abs() { coord.x = ::abs(coord.x); coord.y = ::abs(coord.y); return *this; }
+    int dot(const ivec2 &o) const { return coord.x*o.coord.x + coord.y*o.coord.y; }
+    int cross(const ivec2 &o) const { return coord.x*o.coord.y - coord.y*o.coord.x; }
 };
 
-inline ivec::ivec(const ivec2 &v, int z) : x(v.x), y(v.y), z(z) {}
+inline ivec::ivec(const ivec2 &v, int z) : x(v.x()), y(v.y()), z(z) {}
 
 inline bvec::bvec(const vec4<uchar> &v) : x(v.x), y(v.y), z(v.z) {}
 
