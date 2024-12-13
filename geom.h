@@ -2102,10 +2102,6 @@ struct ivec
         {
             int x, y, z;
         };
-        struct
-        {
-            int r, g, b;
-        };
         int v[3];
     };
 
