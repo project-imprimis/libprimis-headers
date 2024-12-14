@@ -183,18 +183,7 @@ struct svec;
  */
 struct vec
 {
-    union
-    {
-        struct
-        {
-            float x, y, z;
-        };
-        struct
-        {
-            float r, g, b;
-        };
-        float v[3];
-    };
+    float x, y, z;
 
     vec() {}
     explicit vec(int a) : x(a), y(a), z(a) {}
@@ -208,11 +197,59 @@ struct vec
     explicit vec(const svec &v);
 
     vec(float yaw, float pitch) : x(-std::sin(yaw)*cosf(pitch)), y(cosf(yaw)*cosf(pitch)), z(std::sin(pitch)) {}
-    vec &set(int i, float f) { v[i] = f; return *this; }
+    vec &set(int i, float f)
+    {
+        (*this)[i] = f; return *this;
+    }
+
+    float &r() {return x;}
+    float &g() {return y;}
+    float &b() {return z;}
+    float r() const {return x;}
+    float g() const {return y;}
+    float b() const {return z;}
+
+    const float *data() const {return &x;}
 
     //operator overloads
-    float &operator[](int i)       { return v[i]; }
-    float  operator[](int i) const { return v[i]; }
+    float &operator[](int i)
+    {
+        switch(i)
+        {
+            case 1:
+            {
+                return y;
+            }
+            case 2:
+            {
+                return z;
+            }
+            default:
+            {
+                return x;
+            }
+        }
+    }
+
+    float operator[](int i) const
+    {
+        switch(i)
+        {
+            case 1:
+            {
+                return y;
+            }
+            case 2:
+            {
+                return z;
+            }
+            default:
+            {
+                return x;
+            }
+        }
+    }
+
     bool operator==(const vec &o) const { return x == o.x && y == o.y && z == o.z; }
     bool operator!=(const vec &o) const { return x != o.x || y != o.y || z != o.z; }
 
@@ -600,9 +637,9 @@ struct vec
 
     int tohexcolor() const
     {
-        return (static_cast<int>(::std::clamp(r, 0.0f, 1.0f)*255)<<16) |
-               (static_cast<int>(::std::clamp(g, 0.0f, 1.0f)*255)<<8)  |
-                static_cast<int>(::std::clamp(b, 0.0f, 1.0f)*255);
+        return (static_cast<int>(::std::clamp(r(), 0.0f, 1.0f)*255)<<16) |
+               (static_cast<int>(::std::clamp(g(), 0.0f, 1.0f)*255)<<8)  |
+                static_cast<int>(::std::clamp(b(), 0.0f, 1.0f)*255);
     }
 };
 
