@@ -635,26 +635,56 @@ struct std::hash<vec>
  */
 struct bvec
 {
-    union
-    {
-        struct
-        {
-            uchar x, y, z;
-        };
-        struct
-        {
-            uchar r, g, b;
-        };
-        uchar v[3];
-    };
+    uchar x, y, z;
 
     bvec() {}
     bvec(uchar x, uchar y, uchar z) : x(x), y(y), z(z) {}
     explicit bvec(const vec &v) : x(static_cast<uchar>((v.x+1)*(255.0f/2.0f))), y(static_cast<uchar>((v.y+1)*(255.0f/2.0f))), z(static_cast<uchar>((v.z+1)*(255.0f/2.0f))) {}
     explicit bvec(const vec4<uchar> &v);
 
-    uchar &operator[](int i)       { return v[i]; }
-    uchar  operator[](int i) const { return v[i]; }
+    uchar &r() {return x;}
+    uchar &g() {return y;}
+    uchar &b() {return z;}
+    uchar r() const {return x;}
+    uchar g() const {return y;}
+    uchar b() const {return z;}
+
+    uchar &operator[](int i)
+    {
+        switch(i)
+        {
+            case 1:
+            {
+                return y;
+            }
+            case 2:
+            {
+                return z;
+            }
+            default:
+            {
+                return x;
+            }
+        }
+    }
+    uchar operator[](int i) const
+    {
+        switch(i)
+        {
+            case 1:
+            {
+                return y;
+            }
+            case 2:
+            {
+                return z;
+            }
+            default:
+            {
+                return x;
+            }
+        }
+    }
 
     bool operator==(const bvec &v) const { return x==v.x && y==v.y && z==v.z; }
     bool operator!=(const bvec &v) const { return x!=v.x || y!=v.y || z!=v.z; }
@@ -738,7 +768,7 @@ struct bvec
 
     int tohexcolor() const
     {
-        return (static_cast<int>(r)<<16)|(static_cast<int>(g)<<8)|static_cast<int>(b);
+        return (static_cast<int>(x)<<16)|(static_cast<int>(y)<<8)|static_cast<int>(z);
     }
 };
 

@@ -275,7 +275,7 @@ std::string Property<PropertyMetaT>::to_string() const
         return std::to_string(get_float());
 
     case PropertyType::Color:
-        return std::to_string(get_color().r) + " " + std::to_string(get_color().g) + " " + std::to_string(get_color().b);
+        return std::to_string(get_color().r()) + " " + std::to_string(get_color().g()) + " " + std::to_string(get_color().b());
 
     case PropertyType::IntVec:
         return std::to_string(get_ivec().x) + " " + std::to_string(get_ivec().y) + " " + std::to_string(get_ivec().z);
