@@ -32,25 +32,47 @@ struct matrix4;
  */
 struct vec2
 {
-    union
-    {
-        struct
-        {
-            float x, y;
-        };
-        float v[2];
-    };
+    float x, y;
 
     vec2() {}
     vec2(float x, float y) : x(x), y(y) {}
     explicit vec2(const vec &v);
     explicit vec2(const vec4<float> &v);
 
-    float &operator[](int i)       { return v[i]; }
-    float  operator[](int i) const { return v[i]; }
+    float &operator[](int i)
+    {
+        switch(i)
+        {
+            case 1:
+            {
+                return y;
+            }
+            default:
+            {
+                return x;
+            }
+        }
+    }
+
+    float  operator[](int i) const
+    {
+        switch(i)
+        {
+            case 1:
+            {
+                return y;
+            }
+            default:
+            {
+                return x;
+            }
+        }
+    }
 
     bool operator==(const vec2 &o) const { return x == o.x && y == o.y; }
     bool operator!=(const vec2 &o) const { return x != o.x || y != o.y; }
+
+    const float *data() const { return &x; }
 
     bool iszero() const { return x==0 && y==0; }
     float dot(const vec2 &o) const  { return x*o.x + y*o.y; }
