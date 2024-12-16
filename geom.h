@@ -842,13 +842,8 @@ struct bvec
 template<typename T>
 struct vec4
 {
-    union
-    {
-        struct { T x, y, z, w; }; /** geometric space representation */
-        struct { T r, g, b, a; }; /** color space representation (red, green, blue, alpha)*/
-        T v[4]; /** four-entry array representation*/
-        uint mask; /** used for uchar (color) specific operations*/
-    };
+
+    T x, y, z, w; /** geometric space representation */
 
     vec4() {}
     explicit vec4(const vec &p, T w = 0) : x(p.x), y(p.y), z(p.z), w(w) {}
@@ -883,8 +878,68 @@ struct vec4
                        static_cast<U>(this->w));
     }
 
-    T &operator[](int i)       { return v[i]; }
-    T  operator[](int i) const { return v[i]; }
+    T &operator[](int i)
+    {
+        switch(i)
+        {
+            case 1:
+            {
+                return y;
+            }
+            case 2:
+            {
+                return z;
+            }
+            case 3:
+            {
+                return w;
+            }
+            default:
+            {
+                return x;
+            }
+        }
+    }
+
+    T  operator[](int i) const
+    {
+        switch(i)
+        {
+            case 1:
+            {
+                return y;
+            }
+            case 2:
+            {
+                return z;
+            }
+            case 3:
+            {
+                return w;
+            }
+            default:
+            {
+                return x;
+            }
+        }
+    }
+
+
+    T &r() { return x; }
+    T &g() { return y; }
+    T &b() { return z; }
+    T &a() { return w; }
+    T r() const { return x; }
+    T g() const { return y; }
+    T b() const { return z; }
+    T a() const { return w; }
+
+    const T *data() const { return &x; }
+
+    uint *mask()
+    {
+        return reinterpret_cast<uint *>(&x);
+    }
 
     /**
      * @brief Returns whether two vec objects exactly match
@@ -1036,7 +1091,7 @@ struct vec4
      *
      * Not for use with non-char vec4<> objects.
      */
-    void flip() { mask ^= 0x80808080; }
+    void flip() { *mask() ^= 0x80808080; }
 
     vec4 &lerp(const vec4 &b, T t)
     {
