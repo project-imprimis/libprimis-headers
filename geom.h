@@ -2185,30 +2185,58 @@ struct ivec2;
 //integer vector3
 struct ivec
 {
-    union
-    {
-        struct
-        {
-            int x, y, z;
-        };
-        int v[3];
-    };
+    int x, y, z;
 
     ivec() {}
     explicit ivec(const vec &v) : x(static_cast<int>(v.x)), y(static_cast<int>(v.y)), z(static_cast<int>(v.z)) {}
     ivec(int a, int b, int c) : x(a), y(b), z(c) {}
     ivec(int d, int row, int col, int depth)
     {
-        v[R[d]] = row;
-        v[C[d]] = col;
-        v[D[d]] = depth;
+        (*this)[R[d]] = row;
+        (*this)[C[d]] = col;
+        (*this)[D[d]] = depth;
     }
     ivec(int i, const ivec &co, int size) : x(co.x+((i&1)>>0)*size), y(co.y+((i&2)>>1)*size), z(co.z +((i&4)>>2)*size) {}
     explicit ivec(const ivec2 &v, int z = 0);
     explicit ivec(const svec &v);
 
-    int &operator[](int i)       { return v[i]; }
-    int  operator[](int i) const { return v[i]; }
+    int &operator[](int i)
+    {
+        switch(i)
+        {
+            case 1:
+            {
+                return y;
+            }
+            case 2:
+            {
+                return z;
+            }
+            default:
+            {
+                return x;
+            }
+        }
+    }
+
+    int  operator[](int i) const
+    {
+        switch(i)
+        {
+            case 1:
+            {
+                return y;
+            }
+            case 2:
+            {
+                return z;
+            }
+            default:
+            {
+                return x;
+            }
+        }
+    }
 
     //int idx(int i) { return v[i]; }
     bool operator==(const ivec &v) const { return x==v.x && y==v.y && z==v.z; }
@@ -2285,8 +2313,8 @@ struct ivec2
 
     explicit ivec2(const ivec &v)
     {
-        coord.x = v.v[0];
-        coord.y = v.v[1];
+        coord.x = v.x;
+        coord.y = v.y;
     }
 
     int &operator[](int i)       { return v[i]; }
