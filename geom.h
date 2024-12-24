@@ -925,13 +925,60 @@ struct vec4
     }
 
 
+    /**
+     * @brief References the x coordinate of this vec4
+     *
+     * @return a reference to x
+     */
     T &r() { return x; }
+
+    /**
+     * @brief References the y coordinate of this vec4
+     *
+     * @return a reference to y
+     */
     T &g() { return y; }
+
+    /**
+     * @brief References the z coordinate of this vec4
+     *
+     * @return a reference to z
+     */
     T &b() { return z; }
+
+    /**
+     * @brief References the w coordinate of this vec4
+     *
+     * @return a reference to w
+     */
     T &a() { return w; }
+
+    /**
+     * @brief Returns the x coordinate of this vec4
+     *
+     * @return the value of x
+     */
     T r() const { return x; }
+
+    /**
+     * @brief Returns the y coordinate of this vec4
+     *
+     * @return the value of y
+     */
     T g() const { return y; }
+
+    /**
+     * @brief Returns the z coordinate of this vec4
+     *
+     * @return the value of z
+     */
     T b() const { return z; }
+
+    /**
+     * @brief Returns the w coordinate of this vec4
+     *
+     * @return the value of w
+     */
     T a() const { return w; }
 
     const T *data() const { return &x; }
