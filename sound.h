@@ -181,7 +181,7 @@ class SoundEngine
          *
          * @param vol the volume level for map sounds
          */
-        void setsoundvol(const int * const vol);
+        void setsoundvol(const int * vol);
 
         /**
          * @brief Returns the current sound volume.
@@ -197,7 +197,7 @@ class SoundEngine
          *
          * @param vol the volume level for music tracks
          */
-        void setmusicvol(const int * const musicvol);
+        void setmusicvol(const int * musicvol);
 
         /**
          * @brief Returns the current music volume.
@@ -220,7 +220,7 @@ class SoundEngine
          *
          * @param on whether sound is enabled or not
          */
-        void setsound(const int * const on);
+        void setsound(const int * on);
 
         /**
          * @brief Returns whether sound is on.
@@ -314,7 +314,7 @@ class SoundEngine
         //set to 0 to disable checking (0 does not set no sounds to be playable)
         int maxsoundsatonce = 7;
         int getmaxsoundsatonce();
-        void setmaxsoundsatonce(const int * const num);
+        void setmaxsoundsatonce(const int *num);
         int debugsound = 0;
 
         bool nosound = true;
