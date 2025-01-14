@@ -558,17 +558,6 @@ class cubeworld
         float raycube   (const vec &o, const vec &ray, float radius = 0, int mode = 3, int size = 0, const extentity *t = 0) const;
 
         /**
-         * @brief Returns whether the entity passed has collided with this octaworld.
-         *
-         * @param d the physent to check
-         * @param dir the direction at which to check for a collision
-         * @param cutoff the model cutoff factor
-         * @param bo the vector for the minimum position of the model
-         * @param bs the vector for the maximum position of the model
-         */
-        bool octacollide(const physent *d, const vec &dir, float cutoff, const ivec &bo, const ivec &bs) const;
-
-        /**
          * @brief Returns a reference to the cube at the specified world coordinates
          *
          * @param to the location to look in
