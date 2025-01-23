@@ -326,7 +326,6 @@ class SoundEngine
             Mix_Chunk *chunk;
 
             SoundSample(SoundEngine& p);
-            ~SoundSample();
 
             void cleanup();
 
