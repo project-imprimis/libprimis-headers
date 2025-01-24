@@ -169,7 +169,7 @@ struct ident
      * @brief Constructor for an ident for an int variable.
      */
     ident(int t, const char *n, int m, int x, int *s, void *f = nullptr, int flags = 0)
-        : type(t), flags(flags | (m > x ? Idf_ReadOnly : 0)), name(n), fun((identfun)f)
+        : type(t), flags(flags | (m > x ? Idf_ReadOnly : 0)), name(n), fun(reinterpret_cast<identfun>(f))
     {
         val.storage.i = s;
         val.i.min = m;
@@ -180,7 +180,7 @@ struct ident
      * @brief Constructor for an ident for a float variable.
      */
     ident(int t, const char *n, float m, float x, float *s, void *f = nullptr, int flags = 0)
-        : type(t), flags(flags | (m > x ? Idf_ReadOnly : 0)), name(n), fun((identfun)f)
+        : type(t), flags(flags | (m > x ? Idf_ReadOnly : 0)), name(n), fun(reinterpret_cast<identfun>(f))
     {
         val.storage.f = s;
         val.f.min = m;
@@ -191,7 +191,7 @@ struct ident
      * @brief Constructor for an ident for a string variable.
      */
     ident(int t, const char *n, char **s, void *f = nullptr, int flags = 0)
-        : type(t), flags(flags), name(n), fun((identfun)f)
+        : type(t), flags(flags), name(n), fun(reinterpret_cast<identfun>(f))
     {
         val.storage.s = s;
     }
@@ -240,7 +240,7 @@ struct ident
      * @brief Constructor for an ident for a C++ bound command.
      */
     ident(int t, const char *n, const char *args, uint argmask, int numargs, void *f = nullptr, int flags = 0)
-        : type(t), numargs(numargs), flags(flags), name(n), fun((identfun)f)
+        : type(t), numargs(numargs), flags(flags), name(n), fun(reinterpret_cast<identfun>(f))
     {
         cmd.args = args;
         cmd.argmask = argmask;
