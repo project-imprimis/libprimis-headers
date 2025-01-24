@@ -238,7 +238,7 @@ struct databuf
     databuf() : buf(nullptr), len(0), maxlen(0), flags(0) {}
 
     template<class U>
-    databuf(T *buf, U maxlen) : buf(buf), len(0), maxlen((int)maxlen), flags(0) {}
+    databuf(T *buf, U maxlen) : buf(buf), len(0), maxlen(static_cast<int>(maxlen)), flags(0) {}
 
     void reset()
     {
@@ -336,7 +336,7 @@ struct databuf
             numvals = maxlen - len;
             flags |= OVERWROTE;
         }
-        std::memcpy(&buf[len], (const void *)vals, numvals*sizeof(T));
+        std::memcpy(&buf[len], static_cast<const void *>(vals), numvals*sizeof(T));
         len += numvals;
     }
 
@@ -347,7 +347,7 @@ struct databuf
             numvals = maxlen - len;
             flags |= OVERREAD;
         }
-        std::memcpy(vals, (void *)&buf[len], numvals*sizeof(T));
+        std::memcpy(vals, static_cast<void *>(&buf[len]), numvals*sizeof(T));
         len += numvals;
         return numvals;
     }
@@ -436,7 +436,7 @@ typedef databuf<uchar> ucharbuf;
 
 inline uint memhash(const void *ptr, int len)
 {
-    const uchar *data = (const uchar *)ptr;
+    const uchar *data = static_cast<const uchar *>(ptr);
     uint h = 5381;
     for(int i = 0; i < static_cast<int>(len); ++i)
     {
@@ -610,7 +610,7 @@ inline void sendstring_(const char *t, T &p)
 template<class T>
 inline void putfloat_(T &p, float f)
 {
-    p.put((uchar *)&f, sizeof(float));
+    p.put(reinterpret_cast<uchar *>(&f), sizeof(float));
 }
 
 extern void putint(ucharbuf &p, int n);
