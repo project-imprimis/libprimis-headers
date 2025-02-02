@@ -363,7 +363,7 @@ class SoundEngine
 
                 bool updatechannel();
                 void syncchannel();
-                void setupchannel(int n, const soundslot *slot, const vec *loc, extentity *ent, int flags, int radius);
+                void setupchannel(const soundslot *slot, const vec *loc, extentity *ent, int radius);
 
                 void setloc(const vec& newloc);
 
@@ -436,7 +436,7 @@ class SoundEngine
         Mix_Chunk *loadwav(const char *name);
 
         //creates a new SoundChannel object with passed properties
-        SoundChannel &newchannel(int n, const soundslot *slot, const vec *loc = nullptr, extentity *ent = nullptr, int flags = 0, int radius = 0);
+        SoundChannel &newchannel(int n, const soundslot *slot, const vec *loc = nullptr, extentity *ent = nullptr, int radius = 0);
 
         //sets a channel as not being in use
         void freechannel(int n);
