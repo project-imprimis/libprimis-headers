@@ -878,6 +878,20 @@ struct vec4
                        static_cast<U>(this->w));
     }
 
+    /**
+     * @brief Returns the i-th dimension of this vec4.
+     *
+     * 0 = x
+     * 1 = y
+     * 2 = z
+     * 3 = w
+     *
+     * All values other than these will return a reference to x.
+     *
+     * @param i the index to access
+     *
+     * @return reference to the value along the specified dimension
+     */
     T &operator[](int i)
     {
         switch(i)
@@ -901,6 +915,20 @@ struct vec4
         }
     }
 
+    /**
+     * @brief Returns the i-th dimension of this vec4.
+     *
+     * 0 = x
+     * 1 = y
+     * 2 = z
+     * 3 = w
+     *
+     * All values other than these will return the value of x.
+     *
+     * @param i the index to access
+     *
+     * @return the value along the specified dimension
+     */
     T  operator[](int i) const
     {
         switch(i)
@@ -981,8 +1009,18 @@ struct vec4
      */
     T a() const { return w; }
 
+    /**
+     * @brief Returns a raw pointer to the data of this vec4.
+     *
+     * @return a pointer to the lowest dimension (x) of this object
+     */
     const T *data() const { return &x; }
 
+    /**
+     * @brief Returns a raw unsigned int pointer to the data in this vec4.
+     *
+     * @return a unsigned int pointer to the lowest dimension (x) of this object
+     */
     uint *mask()
     {
         return reinterpret_cast<uint *>(&x);
@@ -1170,9 +1208,29 @@ struct vec4
      */
     vec4 &avg(const vec4 &b) { add(b); mul(0.5f); return *this; }
 
+    /**
+     * @brief Sets this vec4 to the result of the multiply add of `this` with `a`,`b`
+     *
+     * Returns `a`*`b` (elementwise multiplication) added with `this` (elementwise addition).
+     *
+     * @param a value to multiply
+     * @param b value to multiply
+     *
+     * @return a reference to `this` following the operation
+     */
     template<class B>
     vec4 &madd(const vec4 &a, const B &b) { return add(vec4(a).mul(b)); }
 
+    /**
+     * @brief Sets this vec4 to the result of the multiply subtract of `this` with `a`,`b`
+     *
+     * Returns `a`*`b` (elementwise multiplication) subtracted from `this` (elementwise subtraction).
+     *
+     * @param a value to multiply
+     * @param b value to multiply
+     *
+     * @return a reference to `this` following the operation
+     */
     template<class B>
     vec4 &msub(const vec4 &a, const B &b) { return sub(vec4(a).mul(b)); }
 
@@ -1381,14 +1439,14 @@ struct vec4
     vec4 &sub(const vec &o)  { x -= o.x; y -= o.y; z -= o.z; return *this; }
 
     /**
-     * @brief Subtracts from the first three entries `this` the svalue passed.
+     * @brief Subtracts from the first three entries `this` the value passed.
      *
      * Calculates the difference between the first three elements in `this` and
      * the value passed, modifying the original vector to equal this difference.
      *
      * @param f the value to subtract
      *
-     * @return a return to `this` object following the operation
+     * @return a reference to `this` object following the operation
      */
     vec4 &sub3(T f)
     {
@@ -1398,6 +1456,16 @@ struct vec4
         return *this;
     }
 
+    /**
+     * @brief Subtracts from the entries `this` the value passed.
+     *
+     * Calculates the difference between the elements in `this` and
+     * the value passed, modifying the original vector to equal this difference.
+     *
+     * @param f the value to subtract
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &sub(T f)
     {
         sub3(f);
@@ -1405,12 +1473,29 @@ struct vec4
         return *this;
     }
 
+    /**
+     * @brief Subtracts from the last element only.
+     *
+     * Calculates the difference between the last 'w' element in `this` and
+     * the value passed, modifying the original vector to equal this difference.
+     *
+     * @param f the value to subtract
+     *
+     * @return a reference to `this` object following the operation
+     */
     vec4 &subw(T f)
     {
         w -= f;
         return *this;
     }
 
+    /**
+     * @brief Negates the first three elements.
+     *
+     * `w` is left unchanged.
+     *
+     * @return a reference to `this`
+     */
     vec4 &neg3()
     {
         x = -x;
@@ -1419,6 +1504,11 @@ struct vec4
         return *this;
     }
 
+    /**
+     * @brief Negates all of the elements.
+     *
+     * @return a reference to `this`
+     */
     vec4 &neg()
     {
         neg3();
@@ -1426,6 +1516,14 @@ struct vec4
         return *this;
     }
 
+    /**
+     * @brief Clamps the elements individualy to the specified bounds.
+     *
+     * Clamps each element such that none of them exceeds the bounds specified.
+     *
+     * @param l the low value to clamp to
+     * @param h the high value to clamp to
+     */
     vec4 &clamp(T l, T h)
     {
         x = ::std::clamp(x, l, h);
@@ -1435,44 +1533,106 @@ struct vec4
         return *this;
     }
 
+    /**
+     * @brief Returns a new vec4 object equal to the sum of the passed object and `this`
+     *
+     * @param v2 the other vec to add
+     *
+     * @return a new vec4 containing their sum
+     */
     vec4 operator+(const vec4 &v2) const
     {
         return vec4(x+v2.x, y+v2.y, z+v2.z, w+v2.w);
     }
 
+    /**
+     * @brief Returns a new vec4 object equal to `this` minus the passed object.
+     *
+     * @param v2 the other vec to subtract with
+     *
+     * @return a new vec4 containing their difference
+     */
     vec4 operator-(const vec4 &v2) const
     {
         return vec4(x-v2.x, y-v2.y, z-v2.z, w-v2.w);
     }
 
+    /**
+     * @brief Returns a new vec4 object equal to the arithmetic inverse of `this`
+     *
+     * @return a new vec4 equal to the arithmetic inverse
+     */
     vec4 operator-() const
     {
         return vec4(-x, -y, -z, -w);
     }
 
+    /**
+     * @brief Returns a new vec4 object equal to the scalar multiplication by a value.
+     *
+     * @tparam u scalar type to multiply with
+     * @param n scalar value to multiply with
+     *
+     * @return a new vec4 equal to `this` * n
+     */
     template<typename U>
     vec4 operator*(const U &n) const
     {
         return vec4(n*x, n*y, n*z, n*w);
     }
 
+    /**
+     * @brief Returns a new vec4 equal to the elementwise product of `this` and the passed vec4.
+     *
+     * @param v2 the vec4 to multiply with
+     *
+     * @return a new vec4 equal to `this` * `v2`
+     */
     vec4 operator*(const vec4 &v2) const
     {
         return vec4(x*v2.x, y*v2.y, z*v2.z, w*v2.w);
     }
 
+    /**
+     * @brief Returns a new vec4 object equal to the scalar division by a value.
+     *
+     * @tparam u scalar type to divide with
+     * @param n scalar value to divide with
+     *
+     * @return a new vec4 equal to `this` / `n`
+     */
     template<typename U>
     vec4 operator/(const U &n) const
     {
         return vec4(x/n, y/n, z/n, w/n);
     }
 
+
+    /**
+     * @brief Returns a new vec4 equal to the elementwise division of `this` and the passed vec4.
+     *
+     * @param v2 the vec4 to divide with
+     *
+     * @return a new vec4 equal to `this` / `v2`
+     */
     vec4 operator/(const vec4 &v2) const
     {
         return vec4(x/v2.x, y/v2.y, z/v2.z, w/v2.w);
     }
 
 
+    /**
+     * @brief Sets this vec to the cross product of two passed objects
+     *
+     * The `w` field is unmodified.
+     * Only valid for vec-type objects with x,y,z scalar members.
+     *
+     * @tparam A the type of the first cross product operand
+     * @tparam B the type of the second cross product operand
+     * @param a the first cross product operand
+     * @param b the second cross product operand
+     *
+     */
     template<class A, class B>
     vec4 &cross(const A &a, const B &b)
     {
@@ -1482,11 +1642,25 @@ struct vec4
         return *this;
     }
 
+    /**
+     * @brief Sets this vec4 to the cross product of a,b relative to an offset c
+     *
+     * The `w` field is unmodified.
+     *
+     * @param o the origin to calculate offsets from
+     * @param a the first vec to use
+     * @param b the second vec to use
+     */
     vec4 &cross(const vec &o, const vec &a, const vec &b)
     {
         return cross(vec(a).sub(o), vec(b).sub(o));
     }
 
+    /**
+     * @brief Replaces the first three values of `this` with the passed vec
+     *
+     * @param v the vec to replace x,y,z of `this`with
+     */
     void setxyz(const vec &v)
     {
         x = v.x;
@@ -1548,36 +1722,103 @@ struct vec4
         return *this;
     }
 
+    /**
+     * @brief Conducts a rotation around the z-axis
+     *
+     * The `w` parameter is ignored.
+     * The positive direction of rotation is counterclockwise.
+     *
+     * @param angle the angle (in radians) to rotate by
+     *
+     * @return a reference to `this` following the operation
+     */
     vec4 &rotate_around_z(T angle)
     {
         return rotate_around_z(cosf(angle), std::sin(angle));
     }
 
+    /**
+     * @brief Conducts a rotation around the x-axis
+     *
+     * The `w` parameter is ignored.
+     * The positive direction of rotation is counterclockwise.
+     *
+     * @param angle the angle (in radians) to rotate by
+     *
+     * @return a reference to `this` following the operation
+     */
     vec4 &rotate_around_x(T angle)
     {
         return rotate_around_x(cosf(angle), std::sin(angle));
     }
 
+    /**
+     * @brief Conducts a rotation around the y-axis
+     *
+     * The `w` parameter is ignored.
+     * The positive direction of rotation is counterclockwise.
+     *
+     * @param angle the angle (in radians) to rotate by
+     *
+     * @return a reference to `this` following the operation
+     */
     vec4 &rotate_around_y(T angle)
     {
         return rotate_around_y(cosf(angle), std::sin(angle));
     }
 
+    /**
+     * @brief Conducts a rotation around the z-axis
+     *
+     * The `w` parameter is ignored.
+     * The positive direction of rotation is counterclockwise.
+     *
+     * @param sc a vec2 containing the {cosine, sine} values to rotate with
+     *
+     * @return a reference to `this` following the operation
+     */
     vec4 &rotate_around_z(const vec2 &sc)
     {
         return rotate_around_z(sc.x, sc.y);
     }
 
+    /**
+     * @brief Conducts a rotation around the x-axis
+     *
+     * The `w` parameter is ignored.
+     * The positive direction of rotation is counterclockwise.
+     *
+     * @param sc a vec2 containing the {cosine, sine} values to rotate with
+     *
+     * @return a reference to `this` following the operation
+     */
     vec4 &rotate_around_x(const vec2 &sc)
     {
         return rotate_around_x(sc.x, sc.y);
     }
 
+    /**
+     * @brief Conducts a rotation around the y-axis
+     *
+     * The `w` parameter is ignored.
+     * The positive direction of rotation is counterclockwise.
+     *
+     * @param sc a vec2 containing the {cosine, sine} values to rotate with
+     *
+     * @return a reference to `this` following the operation
+     */
     vec4 &rotate_around_y(const vec2 &sc)
     {
         return rotate_around_y(sc.x, sc.y);
     }
 
+    /**
+     * @brief Returns a new vec containing values normalized to 0...255 (e.g. colors).
+     *
+     * `w` is not used in this calculation.
+     *
+     * @return a vec containing the normalized values of x,y,z
+     */
     vec tonormal() const
     {
         return vec(x*(2.0f/255.0f)-1.0f, y*(2.0f/255.0f)-1.0f, z*(2.0f/255.0f)-1.0f);
