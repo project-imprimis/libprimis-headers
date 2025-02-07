@@ -490,7 +490,7 @@ class cubeworld
          *
          * This moves the worldroot cube to the new parent cube of the old map.
          */
-        bool enlargemap(bool force);
+        bool enlargemap();
         bool modifyoctaent(int flags, int id, extentity &e);
 
         /**
