@@ -2793,7 +2793,7 @@ extern void multiplayerwarn();
  *
  * @return An unsigned short integer corresponding to the material bitmask
  */
-extern ushort getmaterial(cube &c);
+extern ushort getmaterial(const cube &c);
 
 /**
  * @brief Pushes cubes linked with the passed cube.
