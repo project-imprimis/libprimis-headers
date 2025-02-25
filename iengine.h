@@ -2100,7 +2100,7 @@ extern void updatefpshistory(int millis);
  */
 extern void cleargamma();
 
-extern void renderbackground(const char *caption = nullptr, Texture *mapshot = nullptr, const char *mapname = nullptr, const char *mapinfo = nullptr, bool force = false);
+extern void renderbackground(const char *caption = nullptr, const Texture *mapshot = nullptr, const char *mapname = nullptr, const char *mapinfo = nullptr, bool force = false);
 
 /**
  * @brief Renders a loading progress bar at the bottom center of the window.
