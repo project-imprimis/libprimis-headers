@@ -477,8 +477,8 @@ struct stream
     virtual ~stream() {}
     virtual void close() = 0;
     virtual bool end() = 0;
-    virtual offset tell() { return -1; }
-    virtual offset rawtell() { return tell(); }
+    virtual offset tell() const { return -1; }
+    virtual offset rawtell() const { return tell(); }
     virtual bool seek(offset, int) { return false; }
     virtual offset size();
     virtual offset rawsize() { return size(); }
