@@ -511,7 +511,7 @@ struct stream
     SDL_RWops *rwops();
 };
 
-extern string homedir;
+extern std::string homedir;
 
 extern char *path(char *s);
 extern std::string path(std::string s);
