@@ -414,7 +414,7 @@ class SoundEngine
             std::vector<SoundConfig> configs;
             const char *dir;
             SoundType(const char *dir, SoundEngine& p);
-            int findsound(const char *name, int vol);
+            int findsound(const char *name, int vol) const;
             int addslot(const char *name, int vol);
             int addsound(const char *name, int vol, int maxuses = 0);
             void addalt(const char *name, int vol);
