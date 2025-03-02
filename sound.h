@@ -432,7 +432,7 @@ class SoundEngine
         void resetchannels();
 
         void musicdone();
-        Mix_Music *loadmusic(const char *name);
+        const Mix_Music *loadmusic(const char *name);
         Mix_Chunk *loadwav(const char *name);
 
         //creates a new SoundChannel object with passed properties
