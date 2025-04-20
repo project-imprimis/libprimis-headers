@@ -117,7 +117,7 @@ class SoundEngine
          * @param name (inc. path) of the track to play
          * @param cmd the command to run (in CubeScript) at the end of the track
          */
-        void startmusic(char *name, char *cmd);
+        void startmusic(const char *name, const char *cmd);
 
         /**
          * @brief Resets the sound subsystem.
@@ -213,7 +213,7 @@ class SoundEngine
          *
          * @param f a list of space-separated names for SDL to attempt to bind
          */
-        void setaudiodriver(char * f);
+        void setaudiodriver(const char * f);
 
         /**
          * @brief Sets whether the sound engine is enabled.
@@ -235,7 +235,7 @@ class SoundEngine
          * @param name the path to the sound
          * @param vol the volume of the sound (0..255)
          */
-        void registersound(char *name, int *vol);
+        void registersound(const char *name, const int *vol);
 
         /**
          * @brief Adds a sound to the list of map sounds
@@ -244,7 +244,7 @@ class SoundEngine
          * @param vol the volume of the sound (0..255)
          * @param maxuses the number of uses before the sound won't play
          */
-        void mapsound(char *name, int *vol, int *maxuses);
+        void mapsound(const char *name, const int *vol, const int *maxuses);
 
         /**
          * @brief Adds an alternative game sound.
@@ -252,7 +252,7 @@ class SoundEngine
          * @param the name of the sound to add
          * @param vol the volume of the sound (0..255)
          */
-        void altsound(char *name, int *vol);
+        void altsound(const char *name, const int *vol);
 
         /**
          * @brief Adds an alternative map sound.
@@ -260,7 +260,7 @@ class SoundEngine
          * @param the name of the sound to add
          * @param vol the volume of the sound (0..255)
          */
-        void altmapsound(char *name, int *vol);
+        void altmapsound(const char *name, const int *vol);
 
         /**
          * @brief Returns to the console the number of game sounds loaded
