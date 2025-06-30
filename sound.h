@@ -21,7 +21,7 @@ struct Mix_Chunk;
  * This class stores and plays sounds on command into either positionally (as a
  * point in the world) or nonpositionally (such as background music).
  */
-class SoundEngine
+class SoundEngine final
 {
     public:
         SoundEngine();
@@ -319,7 +319,7 @@ class SoundEngine
 
         bool nosound = true;
 
-        struct SoundSample
+        struct SoundSample final
         {
             SoundEngine * const parent;
             std::string name;
@@ -332,13 +332,13 @@ class SoundEngine
             bool load(const char *dir);
         };
 
-        struct soundslot
+        struct soundslot final
         {
             SoundSample *sample;
             int volume;
         };
 
-        struct SoundConfig
+        struct SoundConfig final
         {
             int slots, numslots;
             int maxuses;
@@ -351,7 +351,7 @@ class SoundEngine
         //sound channel object that is allocated to every sound emitter in use
         //(entities, players, weapons, etc.)
         //defined in world coordinates, and position mixing is done for the player dynamically
-        class SoundChannel
+        class SoundChannel final
         {
             public:
                 bool inuse;
@@ -406,7 +406,7 @@ class SoundEngine
 
         bool initaudio();
 
-        struct SoundType
+        struct SoundType final
         {
             SoundEngine * const parent;
             std::map<std::string, SoundSample> samples;
