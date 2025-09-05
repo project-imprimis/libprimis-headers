@@ -1320,7 +1320,7 @@ extern vec worldpos;
 extern float fovy; /**< Field of view in degrees in the vertical direction (normal fov is X dimension). */
 extern bool detachedcamera; /**< read only variable corresponding to camera at ent location (1p) or away from it (3p) */
 extern int xtraverts;
-extern int fog /**< distance at which fog begins (in cubits) */
+extern int fog; /**< distance at which fog begins (in cubits) */
 
 /**
  * @brief returns whether the player is in third person mode
