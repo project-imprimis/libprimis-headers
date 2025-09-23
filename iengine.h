@@ -2002,8 +2002,6 @@ extern void initparticles();
  *
  * `fontscale`
  *
- * `fonttex`
- *
  * `fontchar`
  *
  * `fontskip`
