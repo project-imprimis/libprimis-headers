@@ -2220,6 +2220,17 @@ extern void loadshaders();
  * Fails to do anything if initing is set (early game loading time).
  */
 extern void initstains();
+
+/**
+ * @brief Adds a new stain at the specified location and with specified properties.
+ *
+ * @param type of stain, e.g. 0 = blood
+ * @param center the location to draw the center of the stain
+ * @param surface the surface normal orientation of the stain
+ * @param radius the size of the stain effect
+ * @param color color of the stain
+ * @param info data for rnd4 flag
+ */
 extern void addstain(int type, const vec &center, const vec &surface, float radius, const bvec &color = bvec(0xFF, 0xFF, 0xFF), int info = 0);
 
 inline void addstain(int type, const vec &center, const vec &surface, float radius, int color, int info = 0)
