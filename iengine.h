@@ -2233,6 +2233,16 @@ extern void initstains();
  */
 extern void addstain(int type, const vec &center, const vec &surface, float radius, const bvec &color = bvec(0xFF, 0xFF, 0xFF), int info = 0);
 
+/**
+ * @brief Adds a new stain at the specified location and with specified properties.
+ *
+ * @param type of stain, e.g. 0 = blood
+ * @param center the location to draw the center of the stain
+ * @param surface the surface normal orientation of the stain
+ * @param radius the size of the stain effect
+ * @param color integer color of the stain
+ * @param info data for rnd4 flag
+ */
 inline void addstain(int type, const vec &center, const vec &surface, float radius, int color, int info = 0)
 {
     addstain(type, center, surface, radius, bvec::hexcolor(color), info);
