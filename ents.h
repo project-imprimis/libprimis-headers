@@ -173,7 +173,30 @@ struct animinfo final
     uint varseed;
 
     animinfo();
+
+    /**
+     * @brief Checks equality between two animinfo objects.
+     *
+     * Does not check for equality between varseed fields.
+     * Only checks for equality for Anim_SetTime and Anim_Dir bits in anim field.
+     *
+     * All other fields must be equal to compare equal.
+     *
+     * @param o animinfo to compare against
+     *
+     * @return true if animinfos compare equal, false otherwise
+     */
     bool operator==(const animinfo &o) const;
+
+    /**
+     * @brief Checks for inequality between two animinfo objects.
+     *
+     * Behavior is the negation of animinfo::operator==.
+     *
+     * @param o animinfo to compare against
+     *
+     * @return true if animinfos compare unequal, false otherwise
+     */
     bool operator!=(const animinfo &o) const;
 };
 
