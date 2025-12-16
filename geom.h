@@ -776,6 +776,12 @@ struct bvec
         z = static_cast<uchar>((a.z*ka + b.z*kb)/d);
     }
 
+    /**
+     * @brief Flips this byte vec by using the mask type pun.
+     *
+     * Adds 128 to the values in the vec4. If this causes the value to exceed 255,
+     * underflows and assigns value modulo 255.
+     */
     void flip()
     {
         x ^= 0x80;
@@ -1173,6 +1179,9 @@ struct vec4
 
     /**
      * @brief Flips a vec4<uchar> by using the mask type pun.
+     *
+     * Adds 128 to the values in the vec4. If this causes the value to exceed 255,
+     * underflows and assigns value modulo 255.
      *
      * Not for use with non-char vec4<> objects.
      */
