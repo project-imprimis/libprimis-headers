@@ -3079,11 +3079,15 @@ namespace entities
 
 /**
  * @brief Returns the name of the map currently loaded.
+ *
+ * @return C string containing current map name
  */
 const char *getclientmap();
 
 /**
  * @brief Sets the client map string to the provided value.
+ *
+ * @param the C string to set the map name to
  */
 void setmapname(const char * newname);
 
