@@ -342,6 +342,16 @@ struct ident
  */
 extern void intret(int v);
 
+/**
+ * @brief Writes the passed float to a formatted string
+ *
+ * Increments the return buffer retbuf by one (looping if it has reached the end)
+ * and saves the formatted form of the float passed to that array element.
+ *
+ * @param v the float to convert to a string
+ *
+ * @return pointer to a string which is stored in retbuf
+ */
 extern const char *floatstr(float v);
 
 /**
