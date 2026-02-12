@@ -188,7 +188,8 @@ struct VSlot
 {
     Slot *slot;
     VSlot *next;
-    int index, changed;
+    int index;
+    int changed; /// bitmask containing zero or more bits defined above in the `VSlot` enum values.
     std::vector<SlotShaderParam> params;
     bool linked;
     float scale;
