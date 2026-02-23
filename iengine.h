@@ -3020,7 +3020,9 @@ extern void entcancel();
  * to, as long as it is within the attach radius.
  *
  * Fails silently if the given entity has no close by entities to link to or the
- * entity type is ineligible to be linked
+ * entity type is ineligible to be linked. Only Spotlight entities are eligible
+ * as the parameter `e` to link, and the only valid targets for it to link to are
+ * Light objects.
  *
  * @param e the extentity to attempt to link
  */
