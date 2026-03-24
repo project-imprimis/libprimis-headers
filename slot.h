@@ -96,7 +96,7 @@ struct Slot
     char *grass;
     Texture *grasstex, *thumbnail;
 
-    Slot(int index = -1) : index(index), variants(nullptr), grass(nullptr) { reset(); }
+    Slot(int newindex = -1) : index(newindex), variants(nullptr), grass(nullptr) { reset(); }
     virtual ~Slot() {}
 
     virtual int type() const
@@ -204,7 +204,7 @@ struct VSlot
     float refractscale;
     vec refractcolor;
 
-    VSlot(Slot *slot = nullptr, int index = -1) : slot(slot), next(nullptr), index(index), changed(0)
+    VSlot(Slot *newslot = nullptr, int newindex = -1) : slot(newslot), next(nullptr), index(newindex), changed(0)
     {
         reset();
         if(slot)
