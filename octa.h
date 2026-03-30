@@ -199,7 +199,7 @@ class cube
             ushort x, y;
 
             pvert() {}
-            pvert(ushort x, ushort y) : x(x), y(y) {}
+            pvert(ushort x0, ushort y0) : x(x0), y(y0) {}
 
             bool operator==(const pvert &o) const
             {
