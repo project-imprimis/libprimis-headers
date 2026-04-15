@@ -3003,7 +3003,7 @@ extern block3 *blockcopy(const block3 &s, int rgrid);
 
 // world
 
-extern std::vector<int> entgroup;
+extern std::vector<size_t> entgroup;
 
 /**
  * @brief Cancels selection of selected entities.
