@@ -1412,7 +1412,8 @@ extern void disablepolygonoffset(GLenum type);
  * @brief Returns 2 Euler angles for a given vector.
  *
  * Given a vector v, yaw and pitch are assigned to the orientation of the vector
- * in 3D space. Roll is not assigned, as it is ambiguous for a vector.
+ * in 3D space. Roll is not assigned, as it is ambiguous for a vector. Returns zero
+ * if the vector has no length (all dimensions are zero).
  *
  * @param v     vector to be used to calc yaw & pitch
  * @param yaw   output parameter v's yaw is assigned to
